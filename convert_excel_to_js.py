@@ -129,14 +129,16 @@ try:
                 comments.append({
                     "user": user,
                     "text": f"코스 중간에 들른 '{food_item}' 식당은 {rec_types[idx_f % len(rec_types)]}",
-                    "date": f"2026-06-{random.randint(10, 26)}"
+                    "date": f"2026-06-{random.randint(10, 26)}",
+                    "ratings": {"scenery": 4, "path": 4, "parking": 3}
                 })
         else:
             timeline.append({"spot": "근교 쉼터", "desc": "경치가 좋은 전망 쉼터 휴식 및 하산 코스.", "time": "14:00"})
             comments.append({
                 "user": "산들바람",
                 "text": "한적하고 숲길 냄새가 정말 좋은 코스입니다. 적극 추천해 드립니다.",
-                "date": "2026-06-24"
+                "date": "2026-06-24",
+                "ratings": {"scenery": 5, "path": 5, "parking": 4}
             })
 
         pattern_idx = (course_id % 4) + 1
@@ -170,7 +172,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 개별 카드에서 이미지 제거 및 콤팩트 카드 HTML 변경
+    # JS 코드 갱신: 방문자 참여 및 시니어 설정 동기화 장치 이식
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -186,6 +188,18 @@ let currentSeasonFilter = "all";
 let currentThemeFilter = "all";
 let currentHeadTab = "all"; 
 let searchKeyword = "";
+
+// [신설] 다차원 별점 상태 및 파일 업로드 저장소
+let activeRatings = {{ scenery: 0, path: 0, parking: 0 }};
+let uploadedPhotoBase64 = null;
+
+// [신설] 방문자 중심 맞춤 설정값
+let visitorSettings = {{
+  companion: "none",
+  transport: "car",
+  fontSize: "medium",
+  highContrast: false
+}};
 
 document.addEventListener("DOMContentLoaded", () => {{
   const savedCourses = localStorage.getItem("gongacourse_data");
@@ -209,6 +223,9 @@ document.addEventListener("DOMContentLoaded", () => {{
     saveToLocalStorage();
   }}
 
+  // 방문자 맞춤 설정 및 시니어 모드 로드
+  loadVisitorSettings();
+
   renderCourseList();
   
   if (courses.length > 0) {{
@@ -218,6 +235,98 @@ document.addEventListener("DOMContentLoaded", () => {{
 
 function saveToLocalStorage() {{
   localStorage.setItem("gongacourse_data", JSON.stringify(courses));
+}}
+
+// [신설] 다차원 별점 지정 이벤트
+function setRating(metric, value) {{
+  activeRatings[metric] = value;
+  const starsGroup = document.querySelector(`.stars[data-metric="${{metric}}"]`);
+  if (starsGroup) {{
+    const stars = starsGroup.querySelectorAll(".star-btn");
+    stars.forEach((star, idx) => {{
+      if (idx < value) {{
+        star.classList.add("active");
+      }} else {{
+        star.classList.remove("active");
+      }}
+    }});
+  }}
+}}
+
+// [신설] 별점 그룹 리셋
+function resetRatingStars() {{
+  activeRatings = {{ scenery: 0, path: 0, parking: 0 }};
+  document.querySelectorAll(".stars").forEach(starsGroup => {{
+    const stars = starsGroup.querySelectorAll(".star-btn");
+    stars.forEach(star => star.classList.remove("active"));
+  }});
+}}
+
+// [신설] 방문자 사진 파일 선택 및 브라우저 Canvas 리사이징 압축
+function triggerPhotoUpload() {{
+  const input = document.getElementById("photo-upload-input");
+  if (input) input.click();
+}}
+
+function handlePhotoSelected(event) {{
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {{
+    const img = new Image();
+    img.onload = function() {{
+      // 용량 압축용 가상 캔버스 크기 조정 (최대 300px)
+      const canvas = document.createElement("canvas");
+      const MAX_WIDTH = 300;
+      const MAX_HEIGHT = 300;
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {{
+        if (width > MAX_WIDTH) {{
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }}
+      }} else {{
+        if (height > MAX_HEIGHT) {{
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }}
+      }}
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // 압축률 0.7 적용
+      uploadedPhotoBase64 = canvas.toDataURL("image/jpeg", 0.7);
+
+      // 업로드 프리뷰 영역 활성화
+      const previewBox = document.getElementById("upload-preview-box");
+      const previewImg = document.getElementById("selected-photo-preview");
+      if (previewBox && previewImg) {{
+        previewImg.src = uploadedPhotoBase64;
+        previewBox.style.display = "block";
+      }}
+    }};
+    img.src = e.target.result;
+  }};
+  reader.readAsDataURL(file);
+}}
+
+// 사진 프리뷰 해제
+function clearSelectedPhoto() {{
+  uploadedPhotoBase64 = null;
+  const previewBox = document.getElementById("upload-preview-box");
+  const previewImg = document.getElementById("selected-photo-preview");
+  if (previewBox && previewImg) {{
+    previewImg.src = "";
+    previewBox.style.display = "none";
+  }}
+  const fileInput = document.getElementById("photo-upload-input");
+  if (fileInput) fileInput.value = "";
 }}
 
 // 코스 상세 렌더링
@@ -251,7 +360,7 @@ function showCourseDetail(courseId) {{
   renderVoteButtonsState();
   updateSatisfactionUI();
 
-  // A. 박스형 일정표 렌더링
+  // A. 일정표 렌더링
   const timelineContainer = document.getElementById("detail-timeline-container");
   if (timelineContainer) {{
     timelineContainer.innerHTML = "";
@@ -279,7 +388,7 @@ function showCourseDetail(courseId) {{
     }});
   }}
 
-  // B. 우측 맛집 리스트 렌더링
+  // B. 맛집 리스트 렌더링
   const restContainer = document.getElementById("detail-restaurant-container");
   if (restContainer) {{
     restContainer.innerHTML = "";
@@ -303,7 +412,7 @@ function showCourseDetail(courseId) {{
         restContainer.appendChild(restCard);
       }});
     }} else {{
-      restContainer.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px 0;">주변 등록된 식당 정보가 없습니다. 도시락 준비를 추천합니다.</p>`;
+      restContainer.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 11px; padding: 10px 0;">주변 등록된 식당 정보가 없습니다. 도시락 준비를 추천합니다.</p>`;
     }}
   }}
 
@@ -317,12 +426,22 @@ function showCourseDetail(courseId) {{
     document.querySelector(".product-desc").textContent = course.product.desc;
   }}
 
+  // C. 실시간 업로드 사진 & 기정 사진 합성 렌더링
   const gallery = document.getElementById("detail-photo-gallery");
   if (gallery) {{
     gallery.innerHTML = "";
     course.photos.forEach(photoPattern => {{
       const photoDiv = document.createElement("div");
-      photoDiv.className = `gallery-img ${{photoPattern}}`;
+      if (photoPattern.startsWith("data:image")) {{
+        // 업로드된 실제 이미지 렌더링
+        photoDiv.className = `gallery-img`;
+        photoDiv.style.backgroundImage = `url("${{photoPattern}}")`;
+        photoDiv.style.backgroundSize = "cover";
+        photoDiv.style.backgroundPosition = "center";
+      }} else {{
+        // 기본 그라디언트 패턴 렌더링
+        photoDiv.className = `gallery-img ${{photoPattern}}`;
+      }}
       gallery.appendChild(photoDiv);
     }});
   }}
@@ -378,6 +497,7 @@ function toggleMyPage(show) {{
       }});
     }});
 
+    // 회원 등급 동기화
     let myCommentCount = 0;
     courses.forEach(c => {{
       if (c.comments) {{
@@ -388,10 +508,21 @@ function toggleMyPage(show) {{
     }});
     const badge = document.getElementById("my-comment-count");
     if (badge) badge.textContent = `${{myCommentCount}}개`;
+
+    const gradeBadge = document.getElementById("my-user-grade");
+    if (gradeBadge) {{
+      if (myCommentCount >= 5) {{
+        gradeBadge.textContent = "산책 명인 (후기 " + myCommentCount + "개)";
+      }} else if (myCommentCount >= 2) {{
+        gradeBadge.textContent = "나들이 매니아 (후기 " + myCommentCount + "개)";
+      }} else {{
+        gradeBadge.textContent = "초보 걷기꾼 (후기 " + myCommentCount + "개)";
+      }}
+    }}
   }}
 }}
 
-// 상단 밑줄 텍스트형 헤드 탭 연동
+// 상단 헤드 탭 연동
 function selectHeadTab(tabId, element) {{
   currentHeadTab = tabId;
   
@@ -517,6 +648,32 @@ function renderCourseList() {{
     return matchesSearch && matchesRegion && matchesSeason && matchesTheme && matchesHeadTab;
   }});
 
+  // [신설] 나들이 동반자 선호도 가중치 정렬 (none 이외의 선택 시 해당 조건을 갖춘 코스가 상위로 오도록 정렬 조율)
+  if (visitorSettings.companion !== "none") {{
+    filtered.sort((a, b) => {{
+      let scoreA = 0;
+      let scoreB = 0;
+      
+      if (visitorSettings.companion === "pet") {{
+        // 반려동물 동반: 코스 타이틀이나 설명에 '애견', '반려', '공원', '숲길' 등이 있는지 확인
+        if (a.title.includes("숲길") || a.title.includes("공원") || a.location.includes("제주")) scoreA += 5;
+        if (b.title.includes("숲길") || b.title.includes("공원") || b.location.includes("제주")) scoreB += 5;
+      }} else if (visitorSettings.companion === "parent") {{
+        // 부모님 동반: 난이도가 '쉬움'이거나 경사가 완만한 코스
+        if (a.difficulty.includes("쉬움")) scoreA += 10;
+        if (b.difficulty.includes("쉬움")) scoreB += 10;
+      }} else if (visitorSettings.companion === "child") {{
+        // 어린아이 동반: 소요 시간이 2시간 이하인 짧은 코스
+        const hrA = parseFloat(a.duration) || 2.0;
+        const hrB = parseFloat(b.duration) || 2.0;
+        if (hrA <= 2.0) scoreA += 5;
+        if (hrB <= 2.0) scoreB += 5;
+      }}
+      
+      return scoreB - scoreA;
+    }});
+  }}
+
   const countEl = document.getElementById("course-count");
   if (countEl) {{
     countEl.textContent = `총 ${{filtered.length}}개 코스`;
@@ -535,7 +692,6 @@ function renderCourseList() {{
 
   filtered.forEach(course => {{
     const card = document.createElement("div");
-    // 계절별 좌측 테두리 색상 분기용 클래스 동적 부여 (이미지 삭제 후 포인트 시각화)
     card.className = `course-card accent-${{course.season}}`;
     card.setAttribute("data-id", course.id);
     card.onclick = () => showCourseDetail(course.id);
@@ -557,7 +713,21 @@ function renderCourseList() {{
       `;
     }}
 
-    // [대수술] 불필요한 이미지 박스를 완전히 걷어내고, 계절 컬러 닷 뱃지를 한 줄로 병합하여 세로폭 최적화
+    // [신설] 설정 기반의 맞춤형 추천 마크 뱃지(동반자 유형, 대중교통) 동적 노출
+    let companionBadgeHtml = "";
+    if (visitorSettings.companion === "pet" && (course.title.includes("숲길") || course.title.includes("공원") || course.location.includes("제주"))) {{
+      companionBadgeHtml = `<span class="badge" style="background:#e8f5e9; color:#2e7d32; font-size:8px; margin-left:4px; font-weight:800;">🐕 반려견가능</span>`;
+    }} else if (visitorSettings.companion === "parent" && course.difficulty.includes("쉬움")) {{
+      companionBadgeHtml = `<span class="badge" style="background:#fff3e0; color:#e65100; font-size:8px; margin-left:4px; font-weight:800;">👴 효도추천</span>`;
+    }} else if (visitorSettings.companion === "child" && parseFloat(course.duration) <= 2.0) {{
+      companionBadgeHtml = `<span class="badge" style="background:#e1f5fe; color:#0288d1; font-size:8px; margin-left:4px; font-weight:800;">👶 유아동반</span>`;
+    }}
+
+    let transitBadgeHtml = "";
+    if (visitorSettings.transport === "transit" && (course.location.includes("서울") || course.location.includes("인천"))) {{
+      transitBadgeHtml = `<span class="badge" style="background:#e8eaf6; color:#3f51b5; font-size:8px; margin-left:4px; font-weight:800;">🚌 지하철접근</span>`;
+    }}
+
     card.innerHTML = `
       <div class="card-info">
         <div class="card-meta">
@@ -567,7 +737,11 @@ function renderCourseList() {{
           </span>
           <span>${{course.location}}</span>
         </div>
-        <h3 class="card-title-text">${{course.title}}</h3>
+        <h3 class="card-title-text">
+          ${{course.title}}
+          ${{companionBadgeHtml}}
+          ${{transitBadgeHtml}}
+        </h3>
         
         ${{foodTagsHtml}} 
 
@@ -647,23 +821,37 @@ function castVote(type) {{
   renderCourseList();
 }}
 
+// [개선] 다차원 별점을 포함한 상세 리뷰 목록 렌더링
 function renderComments() {{
   const container = document.getElementById("detail-comments-list");
   if (!container) return;
   container.innerHTML = "";
   
   if (!currentCourse.comments || currentCourse.comments.length === 0) {{
-    container.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 12px 0;">댓글이 없습니다.</p>`;
+    container.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 11px; padding: 12px 0;">작성된 후기가 없습니다. 첫 후기를 남겨보세요!</p>`;
     return;
   }}
 
   currentCourse.comments.forEach(comment => {{
     const node = document.createElement("div");
     node.className = "comment-node";
+
+    let ratingBadgesHtml = "";
+    if (comment.ratings) {{
+      ratingBadgesHtml = `
+        <div class="comment-ratings">
+          <span class="comment-rate-badge">⛰️ 경치 ${{comment.ratings.scenery}}점</span>
+          <span class="comment-rate-badge">🥾 길 ${{comment.ratings.path}}점</span>
+          <span class="comment-rate-badge">🚗 주차 ${{comment.ratings.parking}}점</span>
+        </div>
+      `;
+    }}
+
     node.innerHTML = `
       <div class="comment-avatar"><i class="fa-solid fa-comment-dots"></i></div>
       <div class="comment-body">
         <div class="comment-user">${{comment.user}}</div>
+        ${{ratingBadgesHtml}}
         <div class="comment-text">${{comment.text}}</div>
         <div class="comment-date">${{comment.date}}</div>
       </div>
@@ -672,51 +860,117 @@ function renderComments() {{
   }});
 }}
 
+// [개선] 별점 평가 데이터 및 리사이징 사진을 포함한 후기 등록 장치
 function submitComment() {{
   const textarea = document.getElementById("comment-textarea");
   if (!textarea) return;
   const text = textarea.value.trim();
   if (!text) {{
-    alert("댓글을 입력하세요.");
+    alert("댓글 내용을 입력하세요.");
+    return;
+  }}
+
+  // 다차원 별점 유효성 체크
+  if (activeRatings.scenery === 0 || activeRatings.path === 0 || activeRatings.parking === 0) {{
+    alert("경치, 길편의, 주차 만족도 별점을 모두 평가해 주세요!");
     return;
   }}
 
   const newComment = {{
     user: "나들이 대장님",
     text: text,
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
+    ratings: {{ ...activeRatings }}
   }};
 
   if (!currentCourse.comments) currentCourse.comments = [];
   currentCourse.comments.unshift(newComment);
+
+  // 실시간 갤러리에 Base64 사진 데이터 동적 주입
+  if (uploadedPhotoBase64) {{
+    if (!currentCourse.photos) currentCourse.photos = [];
+    currentCourse.photos.unshift(uploadedPhotoBase64);
+  }}
+
+  // 입력란 및 상태 값 초기화
   textarea.value = "";
+  resetRatingStars();
+  clearSelectedPhoto();
   
   saveToLocalStorage();
   renderComments();
-  alert("댓글이 등록되었습니다!");
+
+  // 갤러리 슬라이더 리플래시
+  showCourseDetail(currentCourse.id);
+
+  alert("나들이 평점과 소중한 사진 후기가 정상 등록되었습니다!");
 }}
 
-function triggerPhotoUpload() {{
-  const input = document.getElementById("photo-upload-input");
-  if (input) input.click();
+// [개선] 방문자 맞춤 설정 제어 및 로컬스토리지 보존 연동
+function saveVisitorSettings() {{
+  const companionSelect = document.getElementById("setting-companion");
+  const transportSelect = document.getElementById("setting-transport");
+  
+  if (companionSelect) visitorSettings.companion = companionSelect.value;
+  if (transportSelect) visitorSettings.transport = transportSelect.value;
+
+  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  
+  // 리스트 카드 뱃지 및 우선순위 필터 실시간 재정렬
+  renderCourseList();
 }}
 
-function handlePhotoSelected(event) {{
-  if (!currentCourse) return;
-  const file = event.target.files[0];
-  if (file) {{
-    const randomPatterns = ["pattern1", "pattern2", "pattern3"];
-    const randomSelected = randomPatterns[Math.floor(Math.random() * randomPatterns.length)];
-    if (!currentCourse.photos) currentCourse.photos = [];
-    currentCourse.photos.unshift(randomSelected);
-    saveToLocalStorage();
-    const gallery = document.getElementById("detail-photo-gallery");
-    if (gallery) {{
-      const photoDiv = document.createElement("div");
-      photoDiv.className = `gallery-img ${{randomSelected}}`;
-      gallery.insertBefore(photoDiv, gallery.firstChild);
-    }}
-    alert("사진이 추가되었습니다!");
+function loadVisitorSettings() {{
+  const saved = localStorage.getItem("gongacourse_visitor_settings");
+  if (saved) {{
+    try {{
+      visitorSettings = JSON.parse(saved);
+      
+      const companionSelect = document.getElementById("setting-companion");
+      const transportSelect = document.getElementById("setting-transport");
+      
+      if (companionSelect) companionSelect.value = visitorSettings.companion;
+      if (transportSelect) transportSelect.value = visitorSettings.transport;
+
+      // 접근성 설정 로드
+      changeFontSizeSettings(visitorSettings.fontSize);
+      toggleHighContrastSettings(visitorSettings.highContrast);
+
+      const contrastChk = document.getElementById("setting-contrast");
+      if (contrastChk) contrastChk.checked = visitorSettings.highContrast;
+
+      const radios = document.getElementsByName("font-size-option");
+      radios.forEach(radio => {{
+        if (radio.value === visitorSettings.fontSize) {{
+          radio.checked = true;
+        }}
+      }});
+    }} catch (e) {{}}
+  }}
+}}
+
+// 접근성: 글자 크기 3단계 조절
+function changeFontSizeSettings(size) {{
+  visitorSettings.fontSize = size;
+  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+
+  document.body.classList.remove("font-size-large", "font-size-xlarge");
+  if (size === "large") {{
+    document.body.classList.add("font-size-large");
+  }} else if (size === "xlarge") {{
+    document.body.classList.add("font-size-xlarge");
+  }}
+}}
+
+// 접근성: 시력보호 고대비 토글
+function toggleHighContrastSettings(enabled) {{
+  visitorSettings.highContrast = enabled;
+  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+
+  if (enabled) {{
+    document.body.classList.add("contrast-high-mode");
+  }} else {{
+    document.body.classList.remove("contrast-high-mode");
   }}
 }}
 
