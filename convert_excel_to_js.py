@@ -172,7 +172,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 모바일 첫화면을 '목록/검색탭'으로 기본 노출, 대시보드는 선택 시 팝업 전환
+    # JS 코드 갱신: popstate 가로채기 앱 종료 확인 컨펌 다이얼로그 추가
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -229,10 +229,24 @@ document.addEventListener("DOMContentLoaded", () => {{
   renderCourseList();
   
   if (courses.length > 0) {{
-    // 최초 구동 시 첫번째 코스 데이터 바인딩만 해두되, 
-    // 모바일 뷰의 화면 전환을 강제 기동하지 않으므로 사용자는 꽁아코스 로고와 검색 탭이 있는 목록 첫화면을 자연스럽게 마주하게 됩니다.
     showCourseDetail(courses[0].id, false); 
   }}
+
+  // [신설] 브라우저/모바일 물리 뒤로가기(Back) 버튼 감지 및 앱 종료 확인 컨펌 다이얼로그 이식
+  // 세션 히스토리에 가상 엔트리 하나를 밀어둡니다.
+  history.pushState({{ page: "gongacourse_main" }}, "", "");
+  
+  window.addEventListener("popstate", (event) => {{
+    // 사용자가 이전 페이지(앱 나가기)로 튕기려고 할 때 다이얼로그 개입
+    if (confirm("꽁아코스 앱을 나갈까요?")) {{
+      // 확인 시: 윈도우 창 닫기 시도 또는 2단계 히스토리 뒤로가기로 진짜 나가기
+      window.close();
+      history.go(-2);
+    }} else {{
+      // 취소 시: 현재 가상 엔트리를 히스토리에 재유지하여 앱 내에 가둬둠
+      history.pushState({{ page: "gongacourse_main" }}, "", "");
+    }}
+  }});
 }});
 
 function saveToLocalStorage() {{
@@ -387,17 +401,23 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {{
   renderVoteButtonsState();
   updateSatisfactionUI();
 
-  // A. [대수술] 가로 횡스크롤 일정표 카드 렌더링
+  // A. 가로 횡스크롤 일정표 카드 렌더링
   const timelineContainer = document.getElementById("detail-timeline-container");
   if (timelineContainer) {{
     timelineContainer.innerHTML = "";
     course.timeline.forEach((node, nodeIdx) => {{
       let stepIcon = "👣";
-      if (nodeIdx === 0) stepIcon = "🚩"; 
-      else if (nodeIdx === course.timeline.length - 1) stepIcon = "🏁"; 
-      else if (node.spot.includes("식사") || node.spot.includes("맛집") || node.spot.includes("식당")) stepIcon = "🍴";
-      else if (node.spot.includes("카페") || node.spot.includes("커피") || node.spot.includes("쉼터")) stepIcon = "☕";
-      else if (node.spot.includes("사찰") || node.spot.includes("사") || node.spot.includes("암")) stepIcon = "⛩️";
+      if (nodeIdx === 0) {{
+        stepIcon = "🚩"; 
+      }} else if (nodeIdx === course.timeline.length - 1) {{
+        stepIcon = "🏁"; 
+      }} else if (node.spot.includes("식사") || node.spot.includes("맛집") || node.spot.includes("식당")) {{
+        stepIcon = "🍴";
+      }} else if (node.spot.includes("카페") || node.spot.includes("커피") || node.spot.includes("쉼터")) {{
+        stepIcon = "☕";
+      }} else if (node.spot.includes("사찰") || node.spot.includes("사") || node.spot.includes("암")) {{
+        stepIcon = "⛩️";
+      }}
 
       const boxNode = document.createElement("div");
       boxNode.className = "box-timeline-item";
@@ -405,8 +425,8 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {{
         <div class="box-timeline-icon">${{stepIcon}}</div>
         <div class="box-timeline-body">
           <div class="box-timeline-meta">
-            <span class="box-timeline-spot">${{node.spot}}</span>
             <span class="box-timeline-time">${{node.time}}</span>
+            <span class="box-timeline-spot">${{node.spot}}</span>
           </div>
           <p class="box-timeline-desc">${{node.desc}}</p>
         </div>
@@ -473,7 +493,7 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {{
 
   renderComments();
 
-  // 모바일 사용자가 '수동으로 코스 목록의 카드를 탭하여 상세를 볼 때만' 대시보드로 화면 전환을 트리거합니다.
+  // 모바일 사용자가 직접 카드를 클릭해서 상세를 볼 때만 화면을 슥 밀어줍니다.
   if (triggerMobileScroll) {{
     scrollToDashboard();
   }}
@@ -710,7 +730,7 @@ function renderCourseList() {{
     const card = document.createElement("div");
     card.className = `course-card accent-${{course.season}}`;
     card.setAttribute("data-id", course.id);
-    card.onclick = () => showCourseDetail(course.id, true); // 목록 카드를 직접 클릭할 때만 스크롤 기동
+    card.onclick = () => showCourseDetail(course.id, true);
 
     if (currentCourse && currentCourse.id === course.id) {{
       card.classList.add("active");
@@ -912,7 +932,7 @@ function submitComment() {{
   saveToLocalStorage();
   renderComments();
 
-  showCourseDetail(currentCourse.id, false); // 본인 후기 제출 시 스크롤 포커스는 고정
+  showCourseDetail(currentCourse.id, false); 
 
   alert("나들이 평점과 소중한 사진 후기가 정상 등록되었습니다!");
 }}
