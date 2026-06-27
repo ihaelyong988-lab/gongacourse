@@ -14,7 +14,7 @@
   --border-color: #e6eae7;      /* 정밀한 연한 경계선 */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 3px 10px rgba(0, 0, 0, 0.04);
-  --border-radius: 10px;
+  --border-radius: 8px;
   
   --font-base: 12.5px;
   --font-h1: 17px;
@@ -24,7 +24,7 @@
   --icon-size: 15px;
 }
 
-/* 방문자 맞춤 접근성: 시니어 3단계 폰트 지원 */
+/* 접근성: 시니어 3단계 폰트 지원 */
 body.font-size-large {
   --font-base: 14.5px;
   --font-h1: 19px;
@@ -43,7 +43,7 @@ body.font-size-xlarge {
   --icon-size: 19px;
 }
 
-/* 방문자 맞춤 접근성: 고대비 모드 정의 */
+/* 접근성: 고대비 모드 정의 */
 body.contrast-high-mode {
   --bg-color: #ffffff !important;
   --card-bg: #ffffff !important;
@@ -78,7 +78,7 @@ body {
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* 2. 대시보드 전체 컨테이너 */
+/* 대시보드 전체 컨테이너 */
 .dashboard-container {
   display: flex;
   width: 100vw;
@@ -86,7 +86,7 @@ body {
   overflow: hidden;
 }
 
-/* 3. 좌측 컨트롤 및 목록 패널 */
+/* 좌측 컨트롤 및 목록 패널 */
 .left-panel {
   width: 380px; 
   background: var(--card-bg);
@@ -265,7 +265,7 @@ body {
   gap: 8px; 
 }
 
-/* 추천 코스 목록의 각각의 박스 세로폭 다이어트 */
+/* 추천 코스 목록 카드 세로폭 최적화 */
 .course-card {
   background: var(--card-bg);
   border-radius: 8px;
@@ -279,7 +279,6 @@ body {
   position: relative;
 }
 
-/* 계절별 포인트 세로 컬러 띠 적용 */
 .course-card.accent-spring { border-left: 3.5px solid #ff8a80; }
 .course-card.accent-summer { border-left: 3.5px solid #4caf50; }
 .course-card.accent-autumn { border-left: 3.5px solid #ff9800; }
@@ -315,7 +314,6 @@ body {
   align-items: center;
 }
 
-/* 계절 동그라미 컬러 닷 표시기 */
 .season-dot-tag {
   display: flex;
   align-items: center;
@@ -347,7 +345,6 @@ body {
   -webkit-box-orient: vertical;
 }
 
-/* 카드 맛집 요약 노출 영역 */
 .card-food-tags {
   display: flex;
   align-items: center;
@@ -407,7 +404,7 @@ body {
   font-weight: 700;
 }
 
-/* 빌트인 네비게이션 좌측 하단 고정 */
+/* 빌트인 네비게이션 */
 .bottom-nav-builtin {
   height: 46px; 
   border-top: 1.5px solid var(--border-color);
@@ -432,29 +429,20 @@ body {
   flex: 1;
 }
 
-.bottom-nav-builtin .nav-item i {
-  font-size: 13.5px;
-}
+.bottom-nav-builtin .nav-item i { font-size: 13.5px; }
+.bottom-nav-builtin .nav-item span { font-size: 8.5px; font-weight: 800; }
+.bottom-nav-builtin .nav-item.active { color: var(--primary-color); }
 
-.bottom-nav-builtin .nav-item span {
-  font-size: 8.5px;
-  font-weight: 800;
-}
-
-.bottom-nav-builtin .nav-item.active {
-  color: var(--primary-color);
-}
-
-/* 4. 우측 패널: 상세 대시보드 화면 */
+/* 우측 패널: 상세 대시보드 화면 */
 .right-panel {
   flex: 1;
   background: var(--bg-color);
   height: 100%;
   overflow-y: auto;
   position: relative;
+  box-sizing: border-box;
 }
 
-/* 플레이스홀더 */
 .detail-placeholder {
   display: flex;
   justify-content: center;
@@ -482,19 +470,20 @@ body {
   line-height: 1.5;
 }
 
-/* 우측 추천 대시보드 내용 */
+/* 우측 추천 대시보드 컨테이너 (자동 맞춤 및 모바일 오버헤드 완벽 방어) */
 .detail-dashboard-view {
   padding: 16px 20px; 
   max-width: 920px;
   margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-/* 모바일 뷰 대시보드에서 이전 코스 목록으로 돌아가는 뒤로가기 버튼 영역 */
 .mobile-back-panel {
   display: none; 
 }
 
-/* [대수술] 히어로 영역 초슬림 가로 배치형 헤더 디자인 */
+/* 히어로 슬림 배너 */
 .detail-hero-dashboard-compact {
   border-radius: 8px;
   height: 46px; 
@@ -507,9 +496,10 @@ body {
   box-shadow: var(--shadow-sm);
   margin-bottom: 8px;
   border: 1px solid rgba(255,255,255,0.1);
+  box-sizing: border-box;
+  width: 100%;
 }
 
-/* 계절별 슬림 헤더 배경 커스터마이징 */
 .detail-hero-dashboard-compact.accent-spring { background: linear-gradient(135deg, #d32f2f 0%, #ff5252 100%); }
 .detail-hero-dashboard-compact.accent-summer { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%); }
 .detail-hero-dashboard-compact.accent-autumn { background: linear-gradient(135deg, #e65100 0%, #ff9800 100%); }
@@ -521,6 +511,7 @@ body {
   align-items: center;
   width: 100%;
   padding: 0 16px;
+  box-sizing: border-box;
 }
 
 #detail-title {
@@ -548,7 +539,6 @@ body {
   font-size: 9px;
   font-weight: 800;
   border: 1px solid rgba(255,255,255,0.25);
-  margin-bottom: 0; 
 }
 
 #detail-subtitle {
@@ -558,24 +548,30 @@ body {
   white-space: nowrap;
 }
 
-/* 대시보드 그리드 배치 갭 축소 */
+/* 대시보드 그리드 배치 */
 .dashboard-grid-layout {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: 12px; 
   margin-top: 8px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .dashboard-col {
   display: flex;
   flex-direction: column;
   gap: 12px; 
+  box-sizing: border-box;
+  width: 100%;
 }
 
-/* 3대 정보 카드 슬림화 */
+/* [대수술] 3대 핵심 수치 스탯 카드 가로형 일렬 정돈 */
 .detail-info-cards {
   display: flex;
   gap: 6px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .info-card-item {
@@ -583,38 +579,49 @@ body {
   background: white;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 8px 4px; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
+  padding: 8px 10px; 
   box-shadow: var(--shadow-sm);
-  text-align: center;
+  display: flex;
+  flex-direction: row; /* [개선] 내부를 가로 방향으로 배치 */
+  align-items: center;
+  justify-content: center;
+  gap: 6px; /* 아이콘과 텍스트 간격 */
+  box-sizing: border-box;
 }
 
 .info-card-item i {
-  font-size: 14px;
+  font-size: 12px;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+.card-like i {
+  color: var(--secondary-color);
 }
 
 .info-card-label {
-  font-size: 8.5px;
+  font-size: 9px;
   color: var(--text-muted);
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .info-card-val {
-  font-size: 11.5px;
-  font-weight: 800;
+  font-size: 10.5px;
+  font-weight: 900;
   color: var(--text-main);
+  white-space: nowrap;
 }
 
-/* 개별 카드 여백 좁히기 */
+/* 개별 카드 */
 .detail-card {
   background: white;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 10px 12px; 
   box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
 }
 
 .card-section-title {
@@ -627,7 +634,7 @@ body {
   gap: 5px;
 }
 
-/* 지도 시뮬레이션 높이 축소 */
+/* 지도 시뮬레이션 */
 .map-mockup {
   height: 110px; 
   background: #edf2f7;
@@ -635,10 +642,14 @@ body {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border-color);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .map-svg {
   display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .path-line {
@@ -668,13 +679,16 @@ body {
   border-radius: 2px;
 }
 
-/* [대수술] 일정표 가로 플로우(Horizontal Scroll Timeline) 스타일 */
+/* 일정표 가로 횡스크롤 컨테이너 */
 .horizontal-timeline-container {
   display: flex;
   gap: 8px;
   overflow-x: auto;
   padding-bottom: 6px;
   scrollbar-width: thin;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
 }
 
 .horizontal-timeline-container::-webkit-scrollbar {
@@ -687,7 +701,7 @@ body {
 
 .box-timeline-item {
   flex-shrink: 0;
-  width: 140px; 
+  width: 130px; 
   background: #f8faf9;
   border-radius: 6px;
   padding: 8px;
@@ -697,19 +711,20 @@ body {
   align-items: center;
   text-align: center;
   gap: 4px;
+  box-sizing: border-box;
 }
 
 .box-timeline-icon {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: white;
   border: 1.5px solid var(--primary-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 11.5px;
-  margin-bottom: 2px;
+  font-size: 11px;
+  margin-bottom: 1px;
 }
 
 .box-timeline-item:nth-child(even) .box-timeline-icon {
@@ -728,20 +743,20 @@ body {
 }
 
 .box-timeline-spot {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 800;
   color: var(--text-main);
   word-break: keep-all;
 }
 
 .box-timeline-time {
-  font-size: 8px;
+  font-size: 7.5px;
   color: var(--primary-color);
   font-weight: 800;
 }
 
 .box-timeline-desc {
-  font-size: 8px;
+  font-size: 7.5px;
   color: var(--text-muted);
   line-height: 1.25;
   margin-top: 3px;
@@ -752,64 +767,83 @@ body {
   height: 20px; 
 }
 
-/* 맛집 카드 목록 세로폭 압축 */
+/* [대수술] 주변 식당 리스트 가로 3열 배치 그리드 */
 .detail-restaurant-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* [개선] 한 줄에 가로로 3개 꽉 채워 배치 */
+  gap: 6px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .restaurant-item-card {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  gap: 4px;
   background: white;
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  padding: 5px 8px; 
+  padding: 4px 6px; 
   box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
 }
 
 .rest-icon-box {
-  width: 26px;
-  height: 26px;
+  width: 20px;
+  height: 20px;
   border-radius: 4px;
   background: #fff3e0;
   color: var(--secondary-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 11px;
+  font-size: 9px;
   flex-shrink: 0;
 }
 
+.rest-info-box {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
 .rest-info-box h4 {
-  font-size: 10.5px;
+  font-size: 9px;
   font-weight: 800;
   color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 말줄임 처리로 화면 이탈 차단 */
 }
 
 .rest-badge-rating {
-  font-size: 8px;
+  font-size: 7.5px;
   background: var(--primary-light);
   color: var(--primary-color);
-  padding: 0.5px 2.5px;
-  border-radius: 3px;
-  font-weight: 700;
+  padding: 0.5px 1.5px;
+  border-radius: 2px;
+  font-weight: 800;
+  white-space: nowrap;
+  align-self: flex-start;
 }
 
 .rest-phone-btn {
-  width: 26px;
-  height: 26px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--secondary-color);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 10px;
+  font-size: 8px;
   text-decoration: none;
   box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
 }
 
 /* 만족도 투표 */
@@ -856,7 +890,7 @@ body {
 }
 .vote-down.voted i, .vote-down.voted strong { color: #c62828; }
 
-/* 커머스 배너 세로 콤팩트화 */
+/* 커머스 배너 */
 .commerce-banner {
   background: linear-gradient(135deg, #fffde7 0%, #fff8e1 100%);
   border: 1px solid #ffe082;
@@ -866,6 +900,8 @@ body {
   align-items: center;
   gap: 6px;
   cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .commerce-badge {
@@ -890,7 +926,7 @@ body {
 
 .arrow-icon { color: var(--secondary-color); font-size: 10px; }
 
-/* [대수술] 방문자 리뷰 폼 가로 2분할 레이아웃 스타일 */
+/* 리뷰 폼 가로 2분할 레이아웃 */
 .comment-form-horizontal {
   display: flex;
   gap: 12px;
@@ -900,6 +936,9 @@ body {
   border: 1px solid var(--border-color);
   padding: 10px;
   border-radius: 8px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
 }
 
 .comment-form-left-box {
@@ -908,6 +947,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  box-sizing: border-box;
 }
 
 .comment-form-right-box {
@@ -915,6 +955,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .rating-stars-container-compact {
@@ -964,7 +1006,6 @@ body {
   color: #f1c40f !important;
 }
 
-/* 로컬 업로드 파일 미리보기 박스 */
 .upload-preview-area {
   position: relative;
   width: 100%;
@@ -1008,13 +1049,14 @@ body {
   outline: none;
   background: white;
   height: 64px; 
+  box-sizing: border-box;
 }
 
 .comment-form-right-box textarea:focus {
   border-color: var(--primary-color);
 }
 
-/* 후기 댓글 내 다차원 별점 뱃지 목록 */
+/* 후기 댓글 */
 .comment-ratings {
   display: flex;
   gap: 5px;
@@ -1030,7 +1072,7 @@ body {
   font-weight: 800;
 }
 
-/* 설정 모달 섹션별 스타일 */
+/* 설정 모달 */
 .setting-section {
   padding: 12px;
   background: #f8faf8;
@@ -1078,7 +1120,6 @@ body {
   cursor: pointer;
 }
 
-/* 글자 크기 3단계 라디오 버튼 그룹 */
 .font-size-radios {
   display: flex;
   justify-content: space-between;
@@ -1150,7 +1191,7 @@ body {
   outline: none;
 }
 
-/* 회원 등급 뱃지 */
+/* 회원 등급 */
 .user-grade-badge {
   font-size: 9.5px;
   background: var(--primary-light);
@@ -1161,7 +1202,7 @@ body {
   margin-top: 3px;
 }
 
-/* 하단 댓글 영역 */
+/* 댓글 */
 .dashboard-bottom-comments {
   margin-top: 12px;
 }
@@ -1171,6 +1212,8 @@ body {
   gap: 5px;
   overflow-x: auto;
   margin-bottom: 8px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .gallery-img {
@@ -1190,6 +1233,8 @@ body {
   margin-top: 8px;
   border-top: 1px solid var(--border-color);
   padding-top: 8px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .comment-node { display: flex; gap: 5px; }
@@ -1203,11 +1248,12 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 8px;
+  flex-shrink: 0;
 }
 
-.comment-body { flex: 1; }
+.comment-body { flex: 1; min-width: 0; }
 .comment-user { font-size: 9.5px; font-weight: 700; }
-.comment-text { font-size: 10.5px; line-height: 1.35; }
+.comment-text { font-size: 10.5px; line-height: 1.35; word-break: break-all; }
 .comment-date { font-size: 7.5px; color: var(--text-muted); }
 
 /* 하단 플로팅 탭바 */
@@ -1215,7 +1261,7 @@ body {
   display: none;
 }
 
-/* 5. 내 정보 뷰 */
+/* 내 정보 */
 .my-page-view {
   position: fixed;
   top: 48px;
@@ -1481,10 +1527,9 @@ body {
     flex-direction: column;
     height: auto;
     width: 100%;
+    overflow: visible; /* 강제 오버플로우 제어 */
   }
   
-  /* [복구] 사용자 말씀: "내가 원하는 첫 화면 대시보드는 꽁아코스와 검색 탭이 있는 첫화면인데"
-   * 모바일 최초 진입 시, 꽁아코스 로고와 검색창이 있는 좌측 목록 패널(.left-panel)을 default로 켜둡니다! */
   .left-panel {
     display: flex; 
     width: 100%;
@@ -1492,38 +1537,52 @@ body {
     border-right: none;
     border-bottom: 1.5px solid var(--border-color);
     padding-bottom: 10px;
+    box-sizing: border-box;
   }
   .course-list-panel {
     max-height: 480px; 
   }
   
-  /* [복구] 모바일 최초 진입 시 상세 대시보드 패널(.right-panel)은 기본적으로 닫아둡니다. */
   .right-panel {
     display: none; 
     width: 100%;
     height: auto;
+    box-sizing: border-box;
+    overflow-x: hidden; /* 가로 스크롤 완전 차단 */
   }
   
   .detail-placeholder {
     display: none;
   }
+  
+  /* [확인] 모바일 대시보드 뷰 가로폭 100% 자동 맞춤 및 오버플로우 철저 방어 */
   .detail-dashboard-view {
-    padding: 10px 6px;
+    padding: 8px 6px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
   }
+  
   .dashboard-grid-layout {
     grid-template-columns: 1fr;
     gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  /* 모바일 뷰 전용 양방향 스위칭 네비게이션 노출 */
   .mobile-back-panel {
     display: block !important;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .mobile-forward-panel {
     display: block !important;
     padding: 4px 12px;
     background: #fafbfa;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .mobile-back-btn {
@@ -1547,9 +1606,11 @@ body {
     font-weight: 800;
   }
 
-  /* 모바일 필터 터치 간격 및 여백 확장 */
+  /* 모바일 필터 터치 여백 확장 */
   .filter-selects-row {
     gap: 8px !important;
+    width: 100%;
+    box-sizing: border-box;
   }
   .filter-selects-row select {
     padding: 10px 8px !important;
@@ -1560,9 +1621,22 @@ body {
   .comment-form-horizontal {
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .comment-form-left-box {
     width: 100%;
+  }
+  .comment-form-right-box {
+    width: 100%;
+  }
+
+  /* 주변 식당 리스트 모바일 뷰 최적화 (2열 또는 1열 변경하여 좁은 폭 오버 오버플로우 방어) */
+  .detail-restaurant-list {
+    grid-template-columns: repeat(2, 1fr); /* 모바일에서는 가로 2열 배치로 텍스트 짤림 방지 */
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   /* 모바일 하단 플로팅 탭바 */
