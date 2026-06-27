@@ -102,23 +102,11 @@ body {
   overflow: hidden;
 }
 
-/* 3. 상태 표시줄 (Status Bar) */
-.status-bar {
-  height: 44px;
-  padding: 14px 20px 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: #333;
-  background: transparent;
-  z-index: 999;
-  user-select: none;
-}
-
-.status-icons i {
-  margin-left: 5px;
+/* [개선] 불필요한 상태표시줄을 제거하고, 노치를 피하기 위한 안전 여백 확보 */
+.header-safe-area {
+  height: 32px;
+  background: var(--card-bg);
+  flex-shrink: 0;
 }
 
 /* 4. 앱 헤더 (App Header) */
@@ -131,6 +119,7 @@ body {
   align-items: center;
   padding: 0 16px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  flex-shrink: 0;
 }
 
 .app-logo {
@@ -215,7 +204,7 @@ body.large-text-mode .text-mode-btn {
 
 /* 6. 홈 화면 컴포넌트 */
 .search-section {
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
 }
 
 .search-bar {
@@ -247,6 +236,51 @@ body.large-text-mode .text-mode-btn {
   font-size: var(--font-base);
   color: var(--text-main);
   background: transparent;
+}
+
+/* [신설] 꽁아코스 상단 헤드 탭 스타일링 */
+.head-tabs-container {
+  padding: 4px 16px 12px 16px;
+  overflow-x: auto;
+}
+
+.head-tabs-container::-webkit-scrollbar {
+  display: none; /* 가로 스크롤바 숨김 */
+}
+
+.head-tabs {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+}
+
+.head-tab {
+  background: white;
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.1, 0.8, 0.3, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+body.large-text-mode .head-tab {
+  font-size: 15px;
+  padding: 10px 18px;
+}
+
+.head-tab:hover {
+  background: #fafafa;
+}
+
+.head-tab.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
 }
 
 .section-title-container {
@@ -328,12 +362,12 @@ body.large-text-mode .filter-select-wrapper select {
   box-shadow: 0 0 0 2px var(--primary-light);
 }
 
-/* 코스 카드 디자인 */
-.course-list {
+/* [개선] 2열 대시보드 뷰어 그리드 레이아웃 구조 */
+.course-list.grid-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   padding: 8px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
 
 .course-card {
@@ -344,6 +378,8 @@ body.large-text-mode .filter-select-wrapper select {
   border: 1px solid var(--border-color);
   cursor: pointer;
   transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
 }
 
 .course-card:hover {
@@ -351,14 +387,15 @@ body.large-text-mode .filter-select-wrapper select {
   box-shadow: var(--shadow-md);
 }
 
+/* 2열 레이아웃을 위한 이미지 크기 축소 조율 */
 .card-img-wrapper {
-  height: 110px;
+  height: 90px;
   background-size: cover;
   background-position: center;
   position: relative;
+  flex-shrink: 0;
 }
 
-/* 이미지 그라디언트 패턴 */
 .card-img-wrapper.bg-pattern1 {
   background: linear-gradient(135deg, #2e7d32, #81c784);
 }
@@ -374,73 +411,77 @@ body.large-text-mode .filter-select-wrapper select {
 
 .card-badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 8px;
+  left: 8px;
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
   color: white;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-size: 9px;
   font-weight: 700;
 }
 
+body.large-text-mode .card-badge {
+  font-size: 12px;
+}
+
 .card-info {
-  padding: 12px 14px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
 }
 
 .card-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
   margin-bottom: 4px;
-  font-weight: 600;
-}
-
-.card-title-text {
-  font-size: var(--font-h2);
   font-weight: 700;
-  color: var(--text-main);
-  margin-bottom: 6px;
-  line-height: 1.4;
 }
 
-/* 홈 화면 카드 내 맛집 요약 노출 태그 (추가됨) */
+body.large-text-mode .card-meta {
+  font-size: 12px;
+}
+
+/* 2열 구조 대시보드 내 맛집 콤팩트 태그 디자인 */
 .card-food-tags {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   background: #fff8f1;
   border: 1px dashed #ffe0b2;
-  padding: 6px 10px;
-  border-radius: 8px;
-  margin: 6px 0 10px 0;
+  padding: 4px 6px;
+  border-radius: 6px;
+  margin: 4px 0 6px 0;
 }
 
 .card-food-tags i {
   color: var(--secondary-color);
-  font-size: 11px;
+  font-size: 9px;
 }
 
 .tags-container {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   overflow: hidden;
   white-space: nowrap;
 }
 
 .tags-container span {
-  font-size: 10px;
+  font-size: 9px;
   background: #ffe0b2;
   color: #e65100;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 1px 4px;
+  border-radius: 3px;
   font-weight: 700;
 }
 
 body.large-text-mode .tags-container span {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .card-footer {
@@ -448,15 +489,15 @@ body.large-text-mode .tags-container span {
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--border-color);
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
 .ratio-badge {
   background: var(--primary-light);
   color: var(--primary-color);
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-size: 10px;
   font-weight: 700;
 }
 
@@ -466,7 +507,7 @@ body.large-text-mode .tags-container span {
 }
 
 .card-duration {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
   font-weight: 700;
 }
@@ -511,7 +552,7 @@ body.large-text-mode .tags-container span {
   opacity: 0.9;
 }
 
-/* 8. 직관적으로 대폭 개선된 3열 그리드 정보 카드 (개선됨) */
+/* 직관적으로 개선된 3열 그리드 정보 카드 */
 .detail-info-cards {
   display: flex;
   gap: 10px;
@@ -630,7 +671,7 @@ body.large-text-mode .info-card-val {
   border-radius: 4px;
 }
 
-/* 9. 직관적인 박스형 타임라인 디자인 (추가됨) */
+/* 직관적인 박스형 타임라인 디자인 */
 .box-timeline {
   display: flex;
   flex-direction: column;
@@ -698,7 +739,7 @@ body.large-text-mode .box-timeline-desc {
   font-size: 14px;
 }
 
-/* 10. 주변 맛집 전용 카드 리스트 스타일 (추가됨) */
+/* 주변 맛집 전용 카드 리스트 스타일 */
 .detail-restaurant-list {
   display: flex;
   flex-direction: column;
@@ -1039,6 +1080,7 @@ body.large-text-mode .rest-badge-rating {
   align-items: center;
   padding-bottom: 8px;
   user-select: none;
+  flex-shrink: 0;
 }
 
 .nav-item {
@@ -1054,11 +1096,11 @@ body.large-text-mode .rest-badge-rating {
 }
 
 .nav-item i {
-  font-size: 19px;
+  font-size: 18px;
 }
 
 .nav-item span {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
 }
 
@@ -1286,7 +1328,7 @@ body.large-text-mode .rest-badge-rating {
   color: #1f7244;
 }
 
-/* 10. 특산물 상세 커머스 스타일 */
+/* 특산물 상세 커머스 스타일 */
 .commerce-modal-content {
   border-radius: 24px;
 }
@@ -1358,7 +1400,7 @@ body.large-text-mode .rest-badge-rating {
   opacity: 0.9;
 }
 
-/* 11. PC 가이드 패널 스타일 */
+/* PC 가이드 패널 스타일 */
 .demo-guide-panel {
   width: 480px;
   height: 780px;
@@ -1463,7 +1505,7 @@ body.large-text-mode .rest-badge-rating {
   font-family: Consolas, monospace;
 }
 
-/* 12. 모바일 반응형 처리 (화면 폭이 작으면 가이드 패널 숨기기) */
+/* 모바일 반응형 처리 */
 @media (max-width: 900px) {
   body {
     overflow-y: auto;

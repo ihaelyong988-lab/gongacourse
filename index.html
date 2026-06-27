@@ -20,20 +20,12 @@
     <div class="device-frame">
       <div class="device-screen">
         
-        <!-- 상태 표시줄 (Status Bar) -->
-        <div class="status-bar">
-          <span class="time">14:30</span>
-          <div class="status-icons">
-            <i class="fa-solid fa-signal"></i>
-            <i class="fa-solid fa-wifi"></i>
-            <i class="fa-solid fa-battery-three-quarters"></i>
-          </div>
-        </div>
+        <!-- [개선] 불필요한 상태 표시줄(상단 시간, 와이파이, 아테나 등) 삭제 및 여백 처리 -->
+        <div class="header-safe-area"></div>
 
         <!-- 앱 헤더 (App Header) -->
         <header class="app-header">
           <div class="header-left" id="header-back-btn" style="display: none;">
-            <!-- 완벽한 이전 페이지 뒤로가기 연동 -->
             <button class="icon-btn" onclick="goBack()" title="이전 화면으로">
               <i class="fa-solid fa-chevron-left"></i>
             </button>
@@ -63,6 +55,17 @@
               <div class="search-bar">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 <input type="text" id="search-input" placeholder="산책로명, 지역, 사찰, 맛집 검색" oninput="filterCourses()">
+              </div>
+            </div>
+
+            <!-- [신설] 꽁아코스 상단 퀵 헤드 탭바 (오늘코스, 당일코스 등) -->
+            <div class="head-tabs-container">
+              <div class="head-tabs">
+                <button class="head-tab active" onclick="selectHeadTab('all', this)">전체코스</button>
+                <button class="head-tab" onclick="selectHeadTab('today', this)">오늘코스</button>
+                <button class="head-tab" onclick="selectHeadTab('day', this)">당일코스</button>
+                <button class="head-tab" onclick="selectHeadTab('hot', this)">인기코스</button>
+                <button class="head-tab" onclick="selectHeadTab('new', this)">신규코스</button>
               </div>
             </div>
 
@@ -115,8 +118,9 @@
               <h2 class="section-title">인기 추천 코스</h2>
               <span class="view-all" id="course-count">총 3개 코스</span>
             </div>
-            <div class="course-list" id="course-list-container">
-              <!-- JS에서 동적 렌더링 (코스 카드 하단에 주변 맛집 요약 노출) -->
+            <!-- [개선] 1열 세로 레이아웃에서 좌우 2열 대시보드 그리드 레이아웃으로 변경 -->
+            <div class="course-list grid-dashboard" id="course-list-container">
+              <!-- JS에서 좌우 2열 대시보드 형태로 동적 렌더링 -->
             </div>
           </section>
 
@@ -253,15 +257,23 @@
           </section>
         </main>
 
-        <!-- 하단 네비게이션 바 (Bottom Navigation) -->
+        <!-- [개선] 하단 탭바의 기능별 아이템 5개로 보강 (홈, 탐색, 등록, 장터, 마이) -->
         <nav class="bottom-nav">
           <button class="nav-item active" onclick="navigateTo('home', this)">
             <i class="fa-solid fa-house"></i>
             <span>홈</span>
           </button>
-          <button class="nav-item" onclick="alert('코스 등록 기능은 데모 준비 중입니다. 우측 상단의 톱니바퀴 버튼을 이용해 엑셀 데이터를 추가해 보세요!')">
-            <i class="fa-solid fa-circle-plus"></i>
-            <span>코스등록</span>
+          <button class="nav-item" onclick="alert('상단의 주제별 압축 검색을 이용하여 242개 코스를 자유롭게 탐색하실 수 있습니다!')">
+            <i class="fa-solid fa-compass"></i>
+            <span>코스탐색</span>
+          </button>
+          <button class="nav-item" onclick="toggleAdminModal(true)">
+            <i class="fa-solid fa-square-plus"></i>
+            <span>엑셀등록</span>
+          </button>
+          <button class="nav-item" onclick="openCommerceModal()">
+            <i class="fa-solid fa-store"></i>
+            <span>지역장터</span>
           </button>
           <button class="nav-item" onclick="navigateTo('my-page')">
             <i class="fa-solid fa-user"></i>
@@ -286,7 +298,7 @@
               <div class="menu-item"><i class="fa-regular fa-bookmark"></i> 저장한 꽁아코스 <span class="badge">4개</span></div>
               <div class="menu-item"><i class="fa-regular fa-comment-dots"></i> 내가 쓴 나들이 후기 <span class="badge" id="my-comment-count">2개</span></div>
               <div class="menu-item" onclick="toggleTextSize()"><i class="fa-solid fa-font"></i> 글자 크기 크게 모드</div>
-              <div class="menu-item" onclick="alert('꽁아코스 v1.1.0 데모 버전입니다.')"><i class="fa-solid fa-circle-info"></i> 앱 정보</div>
+              <div class="menu-item" onclick="alert('꽁아코스 v1.2.0 데모 버전입니다.')"><i class="fa-solid fa-circle-info"></i> 앱 정보</div>
             </div>
           </div>
         </div>
@@ -354,7 +366,7 @@
     <div class="demo-guide-panel">
       <div class="guide-header">
         <h2 class="guide-main-title"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> 꽁아코스 개발 데모 안내</h2>
-        <span class="guide-badge">Prototype v1.2.0</span>
+        <span class="guide-badge">Prototype v1.3.0</span>
       </div>
       
       <p class="guide-intro">
@@ -365,16 +377,20 @@
         <h3>💡 주요 테스트 시나리오</h3>
         <ul class="guide-steps">
           <li>
-            <strong>1. 초고속 통합 검색 & 주변 맛집 즉시 노출</strong>
-            <span>검색 시 코스 카드 하단에 해당 코스의 <strong>맛집 리스트가 바로 요약 태그</strong>로 큼직하게 표시되어 상세를 들어가지 않고도 확인이 쉽습니다.</span>
+            <strong>1. 양측 좌/우 2열 대시보드 리스트</strong>
+            <span>기존 1열 세로 레이아웃 대신, 좌우에 균등하게 1개씩 노출되는 <strong>2열 대시보드 그리드 구조</strong>로 변경되어 더 많은 코스를 한눈에 직관적으로 비교할 수 있습니다. 카드를 탭하면 즉시 상세 화면으로 부드럽게 연동됩니다.</span>
           </li>
           <li>
-            <strong>2. 직관적인 UI/UX 개편 (일정 및 정보)</strong>
-            <span>상세 화면에서 난이도/시간 등의 수치 정보가 박스 카드로 크게 부각되고, 이동 경로가 [🚩출발 ➔ 🍴식사 ➔ ☕카페 ➔ 🏁도착] 형태의 <strong>아이콘 기반 직관 박스형 타임라인</strong>으로 개편되었습니다.</span>
+            <strong>2. 꽁아코스 상단 퀵 헤드탭 신설</strong>
+            <span>헤더 바로 밑에 <strong>오늘코스 · 당일코스 · 인기코스 · 신규코스</strong> 탭이 생성되었습니다. 탭을 선택하면 조건에 맞는 코스로 즉시 필터링(압축 검색)됩니다.</span>
           </li>
           <li>
-            <strong>3. 완벽한 [뒤로가기] 버튼 작동</strong>
-            <span>앱 상단 좌측의 뒤로가기 버튼은 브라우저 히스토리 스택을 추적하여 **사용자가 바로 이전에 보던 뷰**로 명확하게 복원해 줍니다.</span>
+            <strong>3. 불필요한 스마트폰 상단바 요소 삭제</strong>
+            <span>상단 헤더 위의 불필요한 시계 배터리바 영역을 없애고 <strong>전문적 코스 추천 웹앱</strong> 스펙에 최적화된 심플 헤더로 전면 개편했습니다.</span>
+          </li>
+          <li>
+            <strong>4. 보강된 5탭 하단바</strong>
+            <span>하단 탭을 [홈 · 코스탐색 · 엑셀등록 · 지역장터 · 내정보]의 <strong>5개 기능형 탭</strong>으로 확장하여, 모바일 환경의 완결성 높은 앱 흐름을 완성했습니다.</span>
           </li>
         </ul>
       </div>

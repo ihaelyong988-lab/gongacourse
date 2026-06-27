@@ -115,8 +115,7 @@ try:
         if add_food_raw:
             food_list.extend([f.strip() for f in add_food_raw.split(",") if f.strip()])
             
-        # 엑셀 데이터의 고정 덤프와 중복 항목 제거
-        food_list = list(dict.fromkeys(food_list)) # 순서 보존하며 중복 제거
+        food_list = list(dict.fromkeys(food_list))
             
         comments = []
         if food_list:
@@ -163,7 +162,7 @@ try:
             "comments": comments,
             "photos": [f"pattern{random.randint(1,3)}", f"pattern{random.randint(1,3)}"],
             "product": get_product(region),
-            "foods": food_list # JS에서 맛집 리스트 렌더링에 직접 쓰일 정제 필드 추가
+            "foods": food_list
         }
         
         parsed_courses.append(course_obj)
@@ -172,7 +171,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 스택 뒤로가기 로직, 맛집 태그 렌더링, 박스형 타임라인 렌더링 전면 이식
+    # JS 코드 갱신: 헤드 탭(currentHeadTab) 필터링, 대시보드 2열 탭 상세 진입
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -182,13 +181,14 @@ const defaultCourses = {js_courses_str};
 let courses = [];
 let currentCourse = null;
 
-// 네비게이션용 히스토리 스택 변수 (뒤로가기 버튼 완벽 연동)
+// 네비게이션용 히스토리 스택
 let viewHistory = ["home"];
 
 // 주제별 압축 다중 필터 전역 변수
 let currentRegionFilter = "all";
 let currentSeasonFilter = "all";
 let currentThemeFilter = "all";
+let currentHeadTab = "all"; // 오늘코스, 당일코스 등 상단 헤드 탭 상태 변수
 let searchKeyword = "";
 
 document.addEventListener("DOMContentLoaded", () => {{
@@ -241,9 +241,7 @@ function navigateTo(viewId, element, isBack = false) {{
     return;
   }}
 
-  // 뒤로가기 버튼이 아닐 경우에만 스택에 등록
   if (!isBack) {{
-    // 동일한 뷰로 연속 진입할 경우 스택 꼬임 방지
     if (viewHistory[viewHistory.length - 1] !== viewId) {{
       viewHistory.push(viewId);
     }}
@@ -260,7 +258,6 @@ function navigateTo(viewId, element, isBack = false) {{
     targetView.classList.add("active");
   }}
 
-  // 상세 뷰이거나, 홈이 아닌 다른 이전 뷰가 있으면 뒤로가기 노출
   const backBtn = document.getElementById("header-back-btn");
   if (viewHistory.length > 1) {{
     backBtn.style.display = "flex";
@@ -283,10 +280,9 @@ function navigateTo(viewId, element, isBack = false) {{
   document.querySelector(".app-content").scrollTop = 0;
 }}
 
-// 수동 뒤로가기 함수 (Header Chevron 클릭 시 호출)
 function goBack() {{
   if (viewHistory.length > 1) {{
-    viewHistory.pop(); // 현재 화면 스택 팝
+    viewHistory.pop();
     const previousView = viewHistory[viewHistory.length - 1];
     navigateTo(previousView, null, true);
   }}
@@ -299,14 +295,13 @@ function toggleMyPage(show) {{
   myPage.style.display = show ? "flex" : "none";
   
   if (show) {{
-    // 스택에 등록
     if (viewHistory[viewHistory.length - 1] !== "my-page") {{
       viewHistory.push("my-page");
     }}
     document.getElementById("header-back-btn").style.display = "flex";
 
     document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
-      if (idx === 2) item.classList.add("active");
+      if (idx === 4) item.classList.add("active");
       else item.classList.remove("active");
     }});
 
@@ -323,7 +318,20 @@ function toggleMyPage(show) {{
   }}
 }}
 
-// 4. 주제별 압축 다중 필터 & 고성능 검색 엔진
+// 4. 상단 헤드 탭 연동 기능 (오늘코스, 당일코스 등)
+function selectHeadTab(tabId, element) {{
+  currentHeadTab = tabId;
+  
+  if (element) {{
+    const tabs = element.parentElement.querySelectorAll(".head-tab");
+    tabs.forEach(tab => tab.classList.remove("active"));
+    element.classList.add("active");
+  }}
+  
+  renderCourseList();
+}}
+
+// 5. 주제별 압축 다중 필터 & 고성능 검색 엔진
 function applyFilters() {{
   const regionSelect = document.getElementById("filter-region");
   const seasonSelect = document.getElementById("filter-season");
@@ -414,7 +422,30 @@ function renderCourseList() {{
       }}
     }}
 
-    return matchesSearch && matchesRegion && matchesSeason && matchesTheme;
+    // E. 상단 헤드 탭 필터 (오늘코스, 당일코스 등)
+    let matchesHeadTab = true;
+    if (currentHeadTab !== "all") {{
+      if (currentHeadTab === "today") {{
+        // 오늘코스: 난이도가 쉬운 코스 중에서 무작위 추천 (평점 96% 이상)
+        matchesHeadTab = (course.satisfaction >= 96 && ["쉬움", "매우 쉬움", "매우쉬움"].includes(course.difficulty));
+      }} else if (currentHeadTab === "day") {{
+        // 당일코스: 소요 시간이 2시간 이하인 코스
+        if (course.duration) {{
+          const matchHours = parseFloat(course.duration);
+          matchesHeadTab = (!isNaN(matchHours) && matchHours <= 2.0);
+        }} else {{
+          matchesHeadTab = true;
+        }}
+      }} else if (currentHeadTab === "hot") {{
+        // 인기코스: 추천 공감 추천 수가 120회 이상인 인기 대세 코스
+        matchesHeadTab = (course.votesUp >= 120);
+      }} else if (currentHeadTab === "new") {{
+        // 신규코스: 최근 업로드된 코스 (ID가 큰 최신 30% 범위)
+        matchesHeadTab = (course.id >= 160);
+      }}
+    }}
+
+    return matchesSearch && matchesRegion && matchesSeason && matchesTheme && matchesHeadTab;
   }});
 
   const countEl = document.getElementById("course-count");
@@ -424,7 +455,7 @@ function renderCourseList() {{
 
   if (filtered.length === 0) {{
     container.innerHTML = `
-      <div class="empty-list" style="text-align:center; padding: 40px 16px; color: var(--text-muted);">
+      <div class="empty-list" style="text-align:center; padding: 40px 16px; color: var(--text-muted); grid-column: span 2;">
         <i class="fa-solid fa-filter-circle-xmark" style="font-size: 36px; color: #ccc; margin-bottom: 12px; display: block;"></i>
         <p style="font-size: var(--font-base); font-weight: 700;">조건에 맞는 코스가 없습니다.</p>
         <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">검색 조건을 변경해 보세요.</p>
@@ -440,11 +471,10 @@ function renderCourseList() {{
 
     const ratioClass = course.satisfaction >= 95 ? "high-satisfaction" : "";
 
-    // 주변 맛집 목록을 카드 전면에 태그 형식으로 추출 (UI/UX 직관성 대폭 상승)
+    // 2열 대시보드용으로 더 정갈하고 콤팩트하게 다듬은 주변 맛집 배지 리스트
     let foodTagsHtml = "";
     if (course.foods && course.foods.length > 0) {{
-      // 최대 3개 맛집만 카드에 태그로 노출
-      const foodTags = course.foods.slice(0, 3).map(f => `<span>${{f}}</span>`).join("");
+      const foodTags = course.foods.slice(0, 2).map(f => `<span>${{f}}</span>`).join("");
       foodTagsHtml = `
         <div class="card-food-tags">
           <i class="fa-solid fa-utensils"></i>
@@ -459,16 +489,15 @@ function renderCourseList() {{
       </div>
       <div class="card-info">
         <div class="card-meta">
-          <span><i class="fa-solid fa-location-dot"></i> ${{course.location}}</span>
-          <span>${{course.type}}</span>
+          <span>${{course.location}}</span>
         </div>
-        <h3 class="card-title-text">${{course.title}}</h3>
+        <h3 class="card-title-text" style="font-size: 13px; line-height: 1.3; height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${{course.title}}</h3>
         
-        ${{foodTagsHtml}} <!-- 주변 맛집 즉시 노출 영역 -->
+        ${{foodTagsHtml}} 
 
-        <div class="card-footer">
-          <span class="ratio-badge ${{ratioClass}}"><i class="fa-solid fa-thumbs-up"></i> 만족도 ${{course.satisfaction}}%</span>
-          <span class="card-duration"><i class="fa-regular fa-clock"></i> ${{course.duration}}</span>
+        <div class="card-footer" style="padding-top: 8px; margin-top: 6px;">
+          <span class="ratio-badge ${{ratioClass}}" style="font-size: 10px; padding: 2px 6px;"><i class="fa-solid fa-thumbs-up"></i> ${{course.satisfaction}}%</span>
+          <span class="card-duration" style="font-size: 10px;"><i class="fa-regular fa-clock"></i> ${{course.duration}}</span>
         </div>
       </div>
     `;
@@ -476,7 +505,7 @@ function renderCourseList() {{
   }});
 }}
 
-// 5. 상세 화면 로드 & 시각화
+// 6. 상세 화면 로드 & 시각화
 function showCourseDetail(courseId) {{
   const course = courses.find(c => c.id === courseId);
   if (!course) return;
@@ -501,10 +530,9 @@ function showCourseDetail(courseId) {{
   if (timelineContainer) {{
     timelineContainer.innerHTML = "";
     course.timeline.forEach((node, nodeIdx) => {{
-      // 아이콘 분기 설정
       let stepIcon = "👣";
-      if (nodeIdx === 0) stepIcon = "🚩"; // 출발지
-      else if (nodeIdx === course.timeline.length - 1) stepIcon = "🏁"; // 도착지
+      if (nodeIdx === 0) stepIcon = "🚩"; 
+      else if (nodeIdx === course.timeline.length - 1) stepIcon = "🏁"; 
       else if (node.spot.includes("식사") || node.spot.includes("맛집") || node.spot.includes("식당")) stepIcon = "🍴";
       else if (node.spot.includes("카페") || node.spot.includes("커피") || node.spot.includes("쉼터")) stepIcon = "☕";
       else if (node.spot.includes("사찰") || node.spot.includes("사") || node.spot.includes("암")) stepIcon = "⛩️";
@@ -525,7 +553,7 @@ function showCourseDetail(courseId) {{
     }});
   }}
 
-  // B. 상세 페이지 맛집 카드 리스트 렌더링 (UI/UX 직관화)
+  // B. 상세 페이지 맛집 카드 리스트 렌더링
   const restContainer = document.getElementById("detail-restaurant-container");
   if (restContainer) {{
     restContainer.innerHTML = "";
@@ -675,7 +703,6 @@ function renderComments() {{
   }});
 }}
 
-// 한 줄 평 추가 시 로컬 스토리지 자동 반영
 function submitComment() {{
   const textarea = document.getElementById("comment-textarea");
   if (!textarea) return;
@@ -738,7 +765,20 @@ function toggleAdminModal(show) {{
   const modal = document.getElementById("admin-modal");
   if (modal) {{
     modal.style.display = show ? "flex" : "none";
-    if (show) loadExcelPreset(1);
+    if (show) {{
+      loadExcelPreset(1);
+      // 엑셀 등록 탭에서도 탭바 3번째 탭(엑셀등록) 활성화 표시
+      document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
+        if (idx === 2) item.classList.add("active");
+        else item.classList.remove("active");
+      }});
+    }} else {{
+      // 닫힐 때 홈 탭 활성화로 초기화
+      document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
+        if (idx === 0) item.classList.add("active");
+        else item.classList.remove("active");
+      }});
+    }}
   }}
 }}
 
@@ -772,6 +812,7 @@ function parseCSVLine(line) {{
   return result;
 }}
 
+// 엑셀 추가 기능 보완 (foods 연동 구조 탑재)
 function importExcelData() {{
   const input = document.getElementById("excel-data-input");
   if (!input) return;
@@ -818,7 +859,7 @@ function importExcelData() {{
         comments: [],
         photos: ["pattern1"],
         product: {{ title: productTitle, price: 20000, salePrice: 15000, desc: "추가 특산물" }},
-        foods: []
+        foods: ["현지 추천 식당"]
       }};
       courses.push(newCourse);
       addedCount++;
@@ -834,22 +875,35 @@ function importExcelData() {{
   }}
 }}
 
-// 6. 특산물 상세 커머스 오버레이
 function openCommerceModal() {{
   const modal = document.getElementById("commerce-modal");
-  if (modal) modal.style.display = "flex";
+  if (modal) {{
+    modal.style.display = "flex";
+    document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
+      if (idx === 3) item.classList.add("active");
+      else item.classList.remove("active");
+    }});
+  }}
 }}
 
 function toggleCommerceModal(show) {{
   const modal = document.getElementById("commerce-modal");
-  if (modal) modal.style.display = show ? "flex" : "none";
+  if (modal) {{
+    modal.style.display = show ? "flex" : "none";
+    if (!show) {{
+      document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
+        if (idx === 0) item.classList.add("active");
+        else item.classList.remove("active");
+      }});
+    }}
+  }}
 }}
 """
 
     with open(js_file, "w", encoding="utf-8") as f:
         f.write(js_logic)
         
-    print("app.js with routing stack, card tags and visual details has been updated.")
+    print("app.js with 5 tab bottom nav, head-tabs filter and grid items successfully generated.")
 
 except Exception as e:
     import traceback
