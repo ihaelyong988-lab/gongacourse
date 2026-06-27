@@ -136,7 +136,7 @@ try:
             "votesDown": votes_down,
             "timeline": timeline,
             "comments": comments,
-            "photos": [], # [리디자인] 다녀온 회원마당 사진갤러리에서 파란색/더미 그라디언트 도형을 완전 제거하기 위해 빈 배열로 마이그레이션
+            "photos": [],
             "foods": food_list
         }
         
@@ -146,7 +146,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 장터 광고 삭제, 빈 갤러리 숨김 및 popstate 백버튼 다이얼로그 결합
+    # JS 코드 갱신: 코스탐색 탭 기능 구현 (알럿 제거 -> 전체리스트 출력 및 맞춤검색 포커싱)
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -433,12 +433,12 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {{
     }}
   }}
 
-  // C. [리디자인] 실시간 업로드 사진 갤러리: 사용자가 등록한 base64 이미지 데이터가 1장이라도 존재할 때만 갤러리 영역 노출
+  // C. 실시간 업로드 사진 갤러리
   const gallery = document.getElementById("detail-photo-gallery");
   if (gallery) {{
     gallery.innerHTML = "";
     if (course.photos && course.photos.length > 0) {{
-      gallery.style.display = "flex"; // 노출
+      gallery.style.display = "flex"; 
       course.photos.forEach(photoPattern => {{
         const photoDiv = document.createElement("div");
         photoDiv.className = `gallery-img`;
@@ -448,7 +448,7 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {{
         gallery.appendChild(photoDiv);
       }});
     }} else {{
-      gallery.style.display = "none"; // 더미 파란도형 소멸을 위해 평소엔 갤러리 전체 숨김
+      gallery.style.display = "none"; 
     }}
   }}
 
@@ -466,11 +466,58 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {{
   }}
 }}
 
-// 네비게이션 동기화
+// 네비게이션 동기화 및 탭 클릭 액션 제어
 function navigateTo(viewId, element) {{
   if (viewId === 'home') {{
     toggleMyPage(false);
+    toggleAdminModal(false);
+    document.querySelector(".left-panel").style.display = "flex";
+    if (window.innerWidth <= 900) {{
+      document.querySelector(".right-panel").style.display = "none";
+    }}
     document.querySelector(".left-panel").scrollIntoView({{ behavior: "smooth" }});
+  }} else if (viewId === 'explore') {{
+    // [신설] 코스탐색 탭 클릭 시: 전체 코스 리스트 초기화 및 상단 맞춤검색창 포커스 리다이렉트
+    toggleMyPage(false);
+    toggleAdminModal(false);
+    
+    // 모바일 상세창이 열려있다면 즉시 닫고 목록 홈 화면 활성화
+    scrollToCourseList();
+
+    // 모든 검색어 및 필터 조건 올셋 리셋 실행 -> 등록된 모든 리스트 일괄 표출
+    searchKeyword = "";
+    currentRegionFilter = "all";
+    currentSeasonFilter = "all";
+    currentThemeFilter = "all";
+    currentHeadTab = "all";
+
+    const searchInput = document.getElementById("search-input");
+    if (searchInput) searchInput.value = "";
+    
+    const regionSelect = document.getElementById("filter-region");
+    if (regionSelect) regionSelect.value = "all";
+    
+    const seasonSelect = document.getElementById("filter-season");
+    if (seasonSelect) seasonSelect.value = "all";
+    
+    const themeSelect = document.getElementById("filter-theme");
+    if (themeSelect) themeSelect.value = "all";
+
+    document.querySelectorAll(".head-tab").forEach((tab, idx) => {{
+      if (idx === 0) tab.classList.add("active");
+      else tab.classList.remove("active");
+    }});
+
+    renderCourseList();
+
+    // 100ms 지연 후 상단 검색 필드로 쾌적하게 자동 포커싱
+    setTimeout(() => {{
+      if (searchInput) {{
+        searchInput.focus();
+        searchInput.scrollIntoView({{ behavior: "smooth", block: "center" }});
+      }}
+    }}, 100);
+
   }} else if (viewId === 'my-page') {{
     toggleMyPage(true);
   }}
@@ -553,6 +600,7 @@ function applyFilters() {{
   renderCourseList();
 }}
 
+// 텍스트 검색 처리
 function filterCourses() {{
   const searchInput = document.getElementById("search-input");
   if (searchInput) {{

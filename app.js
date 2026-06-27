@@ -13,9 +13,9 @@ const defaultCourses = [
     "difficulty": "비순환",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 119,
-    "votesDown": 2,
+    "satisfaction": 98,
+    "votesUp": 54,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "정수사매표소",
@@ -47,7 +47,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '희소식' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -57,7 +57,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '블랙펄커피' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -67,7 +67,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '그린홀리' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -98,9 +98,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 160,
-    "votesDown": 1,
+    "satisfaction": 99,
+    "votesUp": 71,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -122,7 +122,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '가보고싶은집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -132,7 +132,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '유가네칼국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -142,7 +142,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '동환네조개' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -171,8 +171,8 @@ const defaultCourses = [
     "difficulty": "비순환",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 66,
+    "satisfaction": 96,
+    "votesUp": 126,
     "votesDown": 7,
     "timeline": [
       {
@@ -200,7 +200,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '이백분 조개구이' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -210,7 +210,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '영흥일번지' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -220,7 +220,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '바닷길식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -251,9 +251,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 145,
-    "votesDown": 5,
+    "satisfaction": 93,
+    "votesUp": 91,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -275,7 +275,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '고집131' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -285,7 +285,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '고기원칙' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -295,7 +295,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '스시사쿠' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -326,9 +326,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 123,
-    "votesDown": 2,
+    "satisfaction": 99,
+    "votesUp": 68,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "호불사입구",
@@ -355,7 +355,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '백란' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -365,7 +365,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '긴자' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -375,7 +375,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '우판등심' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -404,9 +404,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 99,
-    "votesUp": 133,
-    "votesDown": 2,
+    "satisfaction": 96,
+    "votesUp": 136,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "무의도 광명항 주차장",
@@ -433,7 +433,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '황해해물칼국수A' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -443,7 +443,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '거해짬뽕순부두' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -453,7 +453,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '용현털보아구찜' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -478,9 +478,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 115,
-    "votesDown": 7,
+    "satisfaction": 94,
+    "votesUp": 86,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -502,7 +502,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '육통형' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-12",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -512,7 +512,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '통큰해물손칼' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -551,9 +551,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 138,
-    "votesDown": 2,
+    "satisfaction": 95,
+    "votesUp": 71,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -591,9 +591,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 94,
-    "votesUp": 178,
-    "votesDown": 3,
+    "satisfaction": 96,
+    "votesUp": 134,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -636,9 +636,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 60,
-    "votesDown": 1,
+    "satisfaction": 93,
+    "votesUp": 111,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "19구간 무수골",
@@ -681,8 +681,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 156,
+    "satisfaction": 96,
+    "votesUp": 153,
     "votesDown": 5,
     "timeline": [
       {
@@ -721,9 +721,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 97,
-    "votesUp": 74,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 136,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -771,9 +771,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 134,
-    "votesDown": 5,
+    "satisfaction": 94,
+    "votesUp": 146,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -811,9 +811,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 97,
-    "votesUp": 111,
-    "votesDown": 1,
+    "satisfaction": 98,
+    "votesUp": 156,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -851,9 +851,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 97,
-    "votesUp": 112,
-    "votesDown": 1,
+    "satisfaction": 99,
+    "votesUp": 51,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "동굴주차장",
@@ -875,7 +875,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '구름산추어' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -885,7 +885,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '콩두철산' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -895,7 +895,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '보릿골' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -924,9 +924,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 75,
-    "votesDown": 5,
+    "satisfaction": 97,
+    "votesUp": 178,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -948,7 +948,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '정정아식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -958,7 +958,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '카츠오모이' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -968,7 +968,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '전라도맛있는' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-23",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1000,7 +1000,7 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
     "satisfaction": 94,
-    "votesUp": 83,
+    "votesUp": 170,
     "votesDown": 2,
     "timeline": [
       {
@@ -1023,7 +1023,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '흙과사람들' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-21",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1033,7 +1033,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '쿠우쿠우' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1074,9 +1074,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 97,
-    "votesUp": 98,
-    "votesDown": 4,
+    "satisfaction": 98,
+    "votesUp": 176,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1123,7 +1123,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '방일해장국' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1149,9 +1149,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 111,
-    "votesDown": 4,
+    "satisfaction": 94,
+    "votesUp": 173,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1178,7 +1178,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '초월보리밥' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1188,7 +1188,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '부영장어' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1198,7 +1198,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '농가보쌈(훈제요리)' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1228,9 +1228,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 94,
-    "votesUp": 94,
-    "votesDown": 2,
+    "satisfaction": 97,
+    "votesUp": 66,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1257,7 +1257,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '서울감자탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1267,7 +1267,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '미방 정자점' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1277,7 +1277,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '초원의집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-22",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1306,9 +1306,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 97,
-    "votesUp": 65,
-    "votesDown": 7,
+    "satisfaction": 96,
+    "votesUp": 120,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "사기막골 도예촌,예스파크,돼지박물관",
@@ -1340,7 +1340,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '석촌골' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1350,7 +1350,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '안옥화음식' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-21",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1360,7 +1360,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '설악막국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-23",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1391,9 +1391,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 91,
-    "votesDown": 7,
+    "satisfaction": 95,
+    "votesUp": 129,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1420,7 +1420,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '락원(만두국)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1430,7 +1430,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '엄마의봄날' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1440,7 +1440,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '인생화로' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1470,9 +1470,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 152,
-    "votesDown": 4,
+    "satisfaction": 94,
+    "votesUp": 67,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "한강 다목적운동장 주차장",
@@ -1499,7 +1499,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '밍차이' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1509,7 +1509,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '장어사냥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1548,9 +1548,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 55,
-    "votesDown": 3,
+    "satisfaction": 98,
+    "votesUp": 112,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1572,7 +1572,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '제주하영' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1582,7 +1582,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '갤러리카페' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1606,9 +1606,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 97,
-    "votesUp": 174,
-    "votesDown": 6,
+    "satisfaction": 95,
+    "votesUp": 179,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1630,7 +1630,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '농부의뜰' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1653,9 +1653,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 162,
-    "votesDown": 7,
+    "satisfaction": 98,
+    "votesUp": 77,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1693,9 +1693,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 93,
-    "votesUp": 55,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 89,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1734,8 +1734,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
     "satisfaction": 99,
-    "votesUp": 116,
-    "votesDown": 4,
+    "votesUp": 147,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1767,7 +1767,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '광이원' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1777,7 +1777,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '풍년목장가든' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1787,7 +1787,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '농가집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-14",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1812,9 +1812,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 94,
-    "votesUp": 145,
-    "votesDown": 4,
+    "satisfaction": 96,
+    "votesUp": 157,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1857,9 +1857,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 173,
-    "votesDown": 3,
+    "satisfaction": 94,
+    "votesUp": 115,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "파사성 주차장",
@@ -1886,7 +1886,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '감성식탁' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1906,7 +1906,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '명인왕갈비' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1940,9 +1940,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 144,
-    "votesDown": 1,
+    "satisfaction": 93,
+    "votesUp": 95,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -1969,7 +1969,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '통나무집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1979,7 +1979,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '수미수작' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -1989,7 +1989,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '서해숯불민물장어' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2019,9 +2019,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 99,
-    "votesUp": 56,
-    "votesDown": 4,
+    "satisfaction": 93,
+    "votesUp": 149,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2053,7 +2053,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '더티트렁크' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2063,7 +2063,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '심학산뜨락' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2073,7 +2073,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '옛날시골밥상' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2104,9 +2104,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 97,
-    "votesUp": 119,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 128,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2144,9 +2144,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 129,
-    "votesDown": 6,
+    "satisfaction": 93,
+    "votesUp": 168,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2184,9 +2184,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 99,
-    "votesUp": 84,
-    "votesDown": 3,
+    "satisfaction": 95,
+    "votesUp": 89,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "광릉숲,물안개길,산정호수길",
@@ -2213,7 +2213,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '쌍용해장국' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2223,7 +2223,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '바위섬가든' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2233,7 +2233,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '숲속의제빵' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-14",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2261,9 +2261,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 169,
-    "votesDown": 3,
+    "satisfaction": 93,
+    "votesUp": 153,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2301,9 +2301,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 95,
-    "votesUp": 122,
-    "votesDown": 1,
+    "satisfaction": 93,
+    "votesUp": 52,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2325,7 +2325,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '북극해고등어' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2335,7 +2335,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '행복한콩박사' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2345,7 +2345,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '송강커피' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2370,9 +2370,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 83,
-    "votesDown": 5,
+    "satisfaction": 99,
+    "votesUp": 157,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2394,7 +2394,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '먹쇠민물장어' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2404,7 +2404,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '포크너 본점' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2414,7 +2414,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '영월애곤드레' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2441,9 +2441,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 95,
-    "votesUp": 62,
-    "votesDown": 2,
+    "satisfaction": 96,
+    "votesUp": 125,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2470,7 +2470,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '청운누룽지백숙' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2480,7 +2480,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '청계누룽지백숙' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2490,7 +2490,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '열두대문계절쌈밥' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2519,8 +2519,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 98,
-    "votesUp": 107,
+    "satisfaction": 97,
+    "votesUp": 79,
     "votesDown": 2,
     "timeline": [
       {
@@ -2548,7 +2548,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '산이내린밥상' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2558,7 +2558,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '왕골남서문' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2568,7 +2568,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '산골추어탕' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-22",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2594,9 +2594,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 74,
-    "votesDown": 4,
+    "satisfaction": 98,
+    "votesUp": 180,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2618,7 +2618,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '북극해고등어' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2628,7 +2628,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '크래버대게' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2638,7 +2638,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '승도리네곱' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2666,8 +2666,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 75,
+    "satisfaction": 95,
+    "votesUp": 118,
     "votesDown": 6,
     "timeline": [
       {
@@ -2695,7 +2695,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '밥보다국시' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-21",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2705,7 +2705,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '나귀당귀' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2715,7 +2715,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '경복궁한정식' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2746,8 +2746,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
     "satisfaction": 93,
-    "votesUp": 129,
-    "votesDown": 7,
+    "votesUp": 68,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "용인랜드숯가마",
@@ -2774,7 +2774,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '짬뽕지존' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2784,7 +2784,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '세영이네' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2794,7 +2794,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '안성장터국밥' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2824,9 +2824,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 99,
-    "votesUp": 126,
-    "votesDown": 1,
+    "satisfaction": 95,
+    "votesUp": 98,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2848,7 +2848,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '스시율' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2858,7 +2858,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '고반식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2868,7 +2868,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '강원도막국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-22",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2897,9 +2897,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 97,
-    "votesUp": 168,
-    "votesDown": 1,
+    "satisfaction": 95,
+    "votesUp": 166,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -2926,7 +2926,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '고기굽는교실' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2936,7 +2936,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '신림춘천집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2946,7 +2946,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '도쿄등심' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -2975,9 +2975,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 97,
-    "votesUp": 121,
-    "votesDown": 7,
+    "satisfaction": 99,
+    "votesUp": 105,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -3004,7 +3004,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '목향원' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3014,7 +3014,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '덕소숯불고기' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-15",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3024,7 +3024,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '북한강막국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3051,9 +3051,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 97,
-    "votesUp": 161,
-    "votesDown": 5,
+    "satisfaction": 99,
+    "votesUp": 124,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -3075,7 +3075,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '260도' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-12",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3095,7 +3095,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '절대갈비' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3124,8 +3124,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 95,
-    "votesUp": 93,
+    "satisfaction": 99,
+    "votesUp": 168,
     "votesDown": 5,
     "timeline": [
       {
@@ -3153,7 +3153,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '양구재래식손두부' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3163,7 +3163,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '시래원' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3173,7 +3173,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '광치막국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3199,9 +3199,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 95,
-    "votesUp": 132,
-    "votesDown": 6,
+    "satisfaction": 99,
+    "votesUp": 85,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "상원사탐방지원센터",
@@ -3233,7 +3233,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '산들산채식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3253,7 +3253,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '오대산 민속식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3280,9 +3280,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 93,
-    "votesUp": 57,
-    "votesDown": 7,
+    "satisfaction": 94,
+    "votesUp": 116,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "대관령쉼터",
@@ -3325,9 +3325,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 77,
-    "votesDown": 6,
+    "satisfaction": 95,
+    "votesUp": 78,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -3354,7 +3354,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '준이네 통나무집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3364,7 +3364,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '금수강산막국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3374,7 +3374,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '팔봉산메밀촌막국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3399,9 +3399,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 71,
-    "votesDown": 6,
+    "satisfaction": 96,
+    "votesUp": 141,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "공작산생태숲교육관",
@@ -3433,7 +3433,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '오대산내고향' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3443,7 +3443,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '신토불이' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-15",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3453,7 +3453,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '큰집가마솥설렁탕' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3478,9 +3478,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 103,
-    "votesDown": 4,
+    "satisfaction": 95,
+    "votesUp": 55,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "개인약수 주차장",
@@ -3507,7 +3507,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '송희식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-26",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3517,7 +3517,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '자작자작식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3527,7 +3527,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '자작나무숲' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3556,8 +3556,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
     "satisfaction": 94,
-    "votesUp": 96,
-    "votesDown": 3,
+    "votesUp": 136,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -3584,7 +3584,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '옛날원대막국수' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3594,7 +3594,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '인제막국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3604,7 +3604,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '남북면옥' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3632,8 +3632,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 99,
-    "votesUp": 174,
+    "satisfaction": 95,
+    "votesUp": 169,
     "votesDown": 3,
     "timeline": [
       {
@@ -3666,7 +3666,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '산마을' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3676,7 +3676,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '백담순두부' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3686,7 +3686,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '산채촌' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-23",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3716,9 +3716,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 172,
-    "votesDown": 4,
+    "satisfaction": 97,
+    "votesUp": 120,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -3745,7 +3745,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '백촌막국수' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3755,7 +3755,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '교동막국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3765,7 +3765,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '봉포맛집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3795,9 +3795,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 69,
-    "votesDown": 7,
+    "satisfaction": 98,
+    "votesUp": 135,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "설악주차장",
@@ -3824,7 +3824,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '너도대게' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3834,7 +3834,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '솔밭가든막국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-21",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3844,7 +3844,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '신토불이감자' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3874,8 +3874,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
     "satisfaction": 99,
-    "votesUp": 79,
-    "votesDown": 3,
+    "votesUp": 53,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "설악주차장",
@@ -3902,7 +3902,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '앤커피스토리' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3912,7 +3912,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '단천식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3922,7 +3922,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '속초대게' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -3954,9 +3954,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 72,
-    "votesDown": 7,
+    "satisfaction": 94,
+    "votesUp": 83,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "설악주차장",
@@ -3978,7 +3978,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '김영애할머니순두부' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4001,9 +4001,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 98,
-    "votesUp": 144,
-    "votesDown": 2,
+    "satisfaction": 95,
+    "votesUp": 130,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -4041,9 +4041,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 98,
-    "votesUp": 93,
-    "votesDown": 2,
+    "satisfaction": 97,
+    "votesUp": 109,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -4070,7 +4070,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '농가맛집 달래촌<한식>' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4093,9 +4093,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 110,
-    "votesDown": 1,
+    "satisfaction": 93,
+    "votesUp": 155,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "오색약수터 주차장",
@@ -4117,7 +4117,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '영광정 메밀국수' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4137,7 +4137,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '입암메밀타운' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4163,8 +4163,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
     "satisfaction": 96,
-    "votesUp": 124,
-    "votesDown": 3,
+    "votesUp": 161,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "해안선 산책길 유료",
@@ -4191,7 +4191,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '강변식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4201,7 +4201,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '동화가든' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4211,7 +4211,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '엄지네포장마차' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4237,9 +4237,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 125,
-    "votesDown": 3,
+    "satisfaction": 98,
+    "votesUp": 51,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "소금강 주차장",
@@ -4287,9 +4287,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 97,
-    "votesUp": 117,
-    "votesDown": 3,
+    "satisfaction": 94,
+    "votesUp": 89,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "근접 해변주차장",
@@ -4316,7 +4316,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '한우설렁탕(연말끝)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4326,7 +4326,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '홍대포(해천탕)' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-15",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4336,7 +4336,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '냉면권가' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4364,9 +4364,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 95,
-    "votesUp": 87,
-    "votesDown": 4,
+    "satisfaction": 94,
+    "votesUp": 68,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "탐방 주차장",
@@ -4398,7 +4398,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '수림' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4408,7 +4408,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '추암횟집대게' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4445,9 +4445,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 144,
-    "votesDown": 7,
+    "satisfaction": 99,
+    "votesUp": 168,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -4474,7 +4474,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '삼척보스대게' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4484,7 +4484,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '삼척전복해물뚝배기' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4494,7 +4494,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '두레박고을' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4521,9 +4521,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 131,
-    "votesDown": 2,
+    "satisfaction": 93,
+    "votesUp": 137,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "마룡소,물소리길,용소폭포",
@@ -4560,7 +4560,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '도하문어' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4570,7 +4570,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '감나무(한식)' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4598,9 +4598,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 167,
-    "votesDown": 7,
+    "satisfaction": 97,
+    "votesUp": 170,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -4632,7 +4632,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '삼정육계장' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4642,7 +4642,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '만남의식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4672,9 +4672,9 @@ const defaultCourses = [
     "difficulty": "중상",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 97,
-    "votesUp": 154,
-    "votesDown": 1,
+    "satisfaction": 95,
+    "votesUp": 81,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "증산 초등 주차장,안내소",
@@ -4701,7 +4701,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '메일촌 막국수' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4711,7 +4711,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '군언송어횟집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4721,7 +4721,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '동박골식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4749,9 +4749,9 @@ const defaultCourses = [
     "difficulty": "비순환",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 70,
-    "votesDown": 5,
+    "satisfaction": 94,
+    "votesUp": 97,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -4778,7 +4778,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '옥산장' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-21",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4788,7 +4788,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '번영식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4798,7 +4798,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '산마실' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4828,9 +4828,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 69,
-    "votesDown": 4,
+    "satisfaction": 94,
+    "votesUp": 144,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "함백산 하늘숲",
@@ -4862,7 +4862,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '너와집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4872,7 +4872,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '오투정' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4882,7 +4882,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '한서방칼국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4913,9 +4913,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 99,
-    "votesUp": 103,
-    "votesDown": 5,
+    "satisfaction": 97,
+    "votesUp": 127,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -4942,7 +4942,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '산속의 친구' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4952,7 +4952,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '상동막국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4962,7 +4962,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '동강다슬기' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -4990,8 +4990,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 127,
+    "satisfaction": 97,
+    "votesUp": 109,
     "votesDown": 3,
     "timeline": [
       {
@@ -5019,7 +5019,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '샘밭막국수' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5029,7 +5029,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '명가막국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5039,7 +5039,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '부안막국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5067,9 +5067,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 147,
-    "votesDown": 4,
+    "satisfaction": 99,
+    "votesUp": 107,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -5107,9 +5107,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 97,
-    "votesUp": 171,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 70,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "횡성호수길 주차장",
@@ -5136,7 +5136,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '오음산 산야초밥상' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5146,7 +5146,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '윤가이가' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5156,7 +5156,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '농가맛집산촌' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5181,9 +5181,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 94,
-    "votesUp": 94,
-    "votesDown": 2,
+    "satisfaction": 99,
+    "votesUp": 115,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -5205,7 +5205,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '자연을 담은두부' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5215,7 +5215,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '제주킬로그램' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5225,7 +5225,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '한끼밥상' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5254,9 +5254,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 135,
-    "votesDown": 6,
+    "satisfaction": 99,
+    "votesUp": 115,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "간현관광지주차장",
@@ -5283,7 +5283,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '부론보리밥집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5293,7 +5293,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '부귀막국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5303,7 +5303,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '옛맛시골집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-22",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5331,9 +5331,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 155,
-    "votesDown": 6,
+    "satisfaction": 99,
+    "votesUp": 168,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "감악산쉼터주차장",
@@ -5370,7 +5370,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '산장가든' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5380,7 +5380,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '몽그리즈' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5407,9 +5407,9 @@ const defaultCourses = [
     "difficulty": "어려움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 170,
-    "votesDown": 7,
+    "satisfaction": 93,
+    "votesUp": 141,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "구룡사 주차장",
@@ -5431,7 +5431,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '성남로457소롯길(나물밥상)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5441,7 +5441,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '손말이고기산정집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5465,9 +5465,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 99,
-    "votesUp": 83,
-    "votesDown": 2,
+    "satisfaction": 95,
+    "votesUp": 96,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "한가터주차장",
@@ -5499,7 +5499,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '토정추어탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5509,7 +5509,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '원주복추어탕' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5519,7 +5519,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '쌍동통닭' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5549,8 +5549,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
     "satisfaction": 94,
-    "votesUp": 158,
-    "votesDown": 7,
+    "votesUp": 68,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "구룡사 주차장",
@@ -5577,7 +5577,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '장가네보리밥' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-21",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5587,7 +5587,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '황골장어' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5597,7 +5597,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '오가네손두부' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-11",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5625,8 +5625,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
     "satisfaction": 95,
-    "votesUp": 158,
-    "votesDown": 7,
+    "votesUp": 137,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -5648,7 +5648,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '뚝배기가든' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5658,7 +5658,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '홍도식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5668,7 +5668,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '연꽃인연' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5693,8 +5693,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 97,
-    "votesUp": 143,
+    "satisfaction": 93,
+    "votesUp": 78,
     "votesDown": 7,
     "timeline": [
       {
@@ -5727,7 +5727,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '참숯골' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5737,7 +5737,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '삼성식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5747,7 +5747,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '순할머니' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5776,9 +5776,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 89,
-    "votesDown": 2,
+    "satisfaction": 99,
+    "votesUp": 147,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "죽전마을",
@@ -5805,7 +5805,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '단골집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5815,7 +5815,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '설봉돼지국밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5825,7 +5825,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '어셈블커피로스터즈' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5852,9 +5852,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 102,
-    "votesDown": 7,
+    "satisfaction": 99,
+    "votesUp": 148,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -5881,7 +5881,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '원조본가가야밀면' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5891,7 +5891,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '입소문맷돌순두부' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5901,7 +5901,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '동부식육식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-23",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5929,9 +5929,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 68,
-    "votesDown": 6,
+    "satisfaction": 99,
+    "votesUp": 127,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "복합웰컴센터, 2코스",
@@ -5958,7 +5958,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '언양원조불고기' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5968,7 +5968,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '하와이새우트럭' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -5978,7 +5978,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '언양향토불고기' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6006,9 +6006,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 95,
-    "votesUp": 148,
-    "votesDown": 4,
+    "satisfaction": 96,
+    "votesUp": 57,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -6030,7 +6030,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '한들채' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6040,7 +6040,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '해밀' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6050,7 +6050,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '의령망개떡' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6077,8 +6077,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
     "satisfaction": 99,
-    "votesUp": 167,
-    "votesDown": 7,
+    "votesUp": 56,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -6105,7 +6105,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '고메갈비' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6115,7 +6115,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '예향정' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6125,7 +6125,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '명가부산밀면' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6154,9 +6154,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 93,
-    "votesUp": 153,
-    "votesDown": 4,
+    "satisfaction": 98,
+    "votesUp": 140,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -6178,7 +6178,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '청호재' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6188,7 +6188,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '언덕집(추어탕)' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-15",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6198,7 +6198,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '해양산국밥' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6227,9 +6227,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 99,
-    "votesUp": 179,
-    "votesDown": 3,
+    "satisfaction": 96,
+    "votesUp": 63,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "수철마을~성심원",
@@ -6256,7 +6256,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '열매랑뿌리랑' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-12",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6266,7 +6266,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '아름누리' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6276,7 +6276,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '산청약초식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-22",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6306,9 +6306,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 94,
-    "votesUp": 60,
-    "votesDown": 4,
+    "satisfaction": 99,
+    "votesUp": 160,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -6335,7 +6335,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '나무달 쉼터' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6345,7 +6345,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '예담원' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6355,7 +6355,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '삼봉산 금강소나무숲' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-14",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6381,9 +6381,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 52,
-    "votesDown": 1,
+    "satisfaction": 98,
+    "votesUp": 150,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -6410,7 +6410,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '바래기암소한마리' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6420,7 +6420,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '함양집어탕' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6461,8 +6461,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
     "satisfaction": 93,
-    "votesUp": 55,
-    "votesDown": 5,
+    "votesUp": 179,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -6484,7 +6484,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '아라애연잎장어' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6494,7 +6494,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '아라곰탕' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6504,7 +6504,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '구가네' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-14",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6532,8 +6532,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
     "satisfaction": 98,
-    "votesUp": 130,
-    "votesDown": 3,
+    "votesUp": 145,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -6565,7 +6565,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '남지철교돼지국밥' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-12",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6575,7 +6575,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '남다른집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6585,7 +6585,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '현풍닭칼국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6611,9 +6611,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 98,
-    "votesUp": 93,
-    "votesDown": 5,
+    "satisfaction": 99,
+    "votesUp": 120,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "하포공영주차장",
@@ -6640,7 +6640,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '청춘키친' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6650,7 +6650,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '외갓집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6660,7 +6660,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '레스트125' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6688,9 +6688,9 @@ const defaultCourses = [
     "difficulty": "비순환",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 92,
-    "votesDown": 3,
+    "satisfaction": 95,
+    "votesUp": 112,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "원천마믈 앵강다숲(바래길센터)",
@@ -6717,7 +6717,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '화전별고' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6727,7 +6727,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '팔복정' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6766,9 +6766,9 @@ const defaultCourses = [
     "difficulty": "비순환",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 52,
-    "votesDown": 2,
+    "satisfaction": 97,
+    "votesUp": 149,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "창선파출소~적량해비치 마을",
@@ -6795,7 +6795,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '당케슈니첼' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6805,7 +6805,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '호원정' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6845,8 +6845,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 93,
-    "votesUp": 74,
+    "satisfaction": 97,
+    "votesUp": 66,
     "votesDown": 4,
     "timeline": [
       {
@@ -6869,7 +6869,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '항아리수제비' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6879,7 +6879,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '할매추어탕' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -6915,9 +6915,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 94,
-    "votesUp": 158,
-    "votesDown": 2,
+    "satisfaction": 98,
+    "votesUp": 54,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -6960,8 +6960,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 99,
-    "votesUp": 69,
+    "satisfaction": 94,
+    "votesUp": 130,
     "votesDown": 7,
     "timeline": [
       {
@@ -6994,7 +6994,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '좋은세상식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7004,7 +7004,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '쉬어가기좋은날식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-21",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7014,7 +7014,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '향미가든' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7044,9 +7044,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 93,
-    "votesUp": 99,
-    "votesDown": 2,
+    "satisfaction": 94,
+    "votesUp": 131,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7068,7 +7068,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '구구추어탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-12",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7078,7 +7078,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '바래기암소한마리' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7088,7 +7088,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '베지나랑키친' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7116,9 +7116,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 126,
-    "votesDown": 5,
+    "satisfaction": 93,
+    "votesUp": 127,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7145,7 +7145,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '동피랑전복마을' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7155,7 +7155,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '대가돌솥밥한정식' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7165,7 +7165,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '수라한정식' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7193,9 +7193,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 95,
-    "votesUp": 130,
-    "votesDown": 5,
+    "satisfaction": 93,
+    "votesUp": 115,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7222,7 +7222,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '박서방식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-21",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7232,7 +7232,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '우도전복죽' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-21",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7271,9 +7271,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 94,
-    "votesUp": 55,
-    "votesDown": 6,
+    "satisfaction": 96,
+    "votesUp": 73,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7300,7 +7300,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '어촌싱싱해물탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7310,7 +7310,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '동광식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7320,7 +7320,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '분소식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-11",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7347,9 +7347,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 95,
-    "votesUp": 121,
-    "votesDown": 5,
+    "satisfaction": 97,
+    "votesUp": 107,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7392,9 +7392,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 142,
-    "votesDown": 7,
+    "satisfaction": 98,
+    "votesUp": 109,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7432,9 +7432,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 149,
-    "votesDown": 1,
+    "satisfaction": 96,
+    "votesUp": 117,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7461,7 +7461,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '영진돼지국밥' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7471,7 +7471,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '남해달인횟집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7481,7 +7481,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '재성밀면' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7509,9 +7509,9 @@ const defaultCourses = [
     "difficulty": "쉬움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 165,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 93,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "주차장",
@@ -7538,7 +7538,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '산중에 자연밥상' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7548,7 +7548,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '조령산묵밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7558,7 +7558,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '온천약돌한우돼지' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-14",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7583,9 +7583,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 95,
-    "votesUp": 147,
-    "votesDown": 3,
+    "satisfaction": 98,
+    "votesUp": 66,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7612,7 +7612,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '인서니얼키친' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7622,7 +7622,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '가은식탁' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7632,7 +7632,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '문경약돌 한우정육' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7657,8 +7657,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 128,
+    "satisfaction": 93,
+    "votesUp": 124,
     "votesDown": 6,
     "timeline": [
       {
@@ -7681,7 +7681,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '채가네들깨국수' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7691,7 +7691,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '조령산묵밥청국장' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7701,7 +7701,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '대흥숯불' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7727,9 +7727,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 99,
-    "votesUp": 106,
-    "votesDown": 4,
+    "satisfaction": 94,
+    "votesUp": 82,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7761,7 +7761,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '안동화련' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7771,7 +7771,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '뜰' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-21",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7812,9 +7812,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 99,
-    "votesUp": 175,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 123,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7836,7 +7836,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '봉양 한우마실작목회' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7846,7 +7846,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '논산손칼국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7856,7 +7856,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '의성흑마늘삼계탕오리' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7881,9 +7881,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 58,
-    "votesDown": 5,
+    "satisfaction": 99,
+    "votesUp": 162,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "성주호 둘레길",
@@ -7910,7 +7910,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '성주왕가한정식' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7920,7 +7920,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '왜관식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7944,9 +7944,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 95,
-    "votesUp": 114,
-    "votesDown": 5,
+    "satisfaction": 94,
+    "votesUp": 103,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -7973,7 +7973,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '종달이와 보릿단' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-21",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -7983,7 +7983,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '두락' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8007,9 +8007,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 97,
-    "votesUp": 127,
-    "votesDown": 6,
+    "satisfaction": 96,
+    "votesUp": 167,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "주상절리 조망타워",
@@ -8041,7 +8041,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '고두반' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8051,7 +8051,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '수정소반' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8075,9 +8075,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 95,
-    "votesUp": 116,
-    "votesDown": 2,
+    "satisfaction": 98,
+    "votesUp": 61,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -8104,7 +8104,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '소옥' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8127,9 +8127,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 105,
-    "votesDown": 4,
+    "satisfaction": 96,
+    "votesUp": 59,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -8177,9 +8177,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 116,
-    "votesDown": 6,
+    "satisfaction": 95,
+    "votesUp": 68,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -8206,7 +8206,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '호애담' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8216,7 +8216,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '동화연' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-21",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8226,7 +8226,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '해밥달밥' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8255,9 +8255,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 97,
-    "votesUp": 79,
-    "votesDown": 7,
+    "satisfaction": 95,
+    "votesUp": 158,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "제1뿅뿅다리 주차장",
@@ -8284,7 +8284,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '용궁순대' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8294,7 +8294,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '박달식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8304,7 +8304,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '예천참우마을' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8333,9 +8333,9 @@ const defaultCourses = [
     "difficulty": "어려움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 152,
-    "votesDown": 2,
+    "satisfaction": 95,
+    "votesUp": 61,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "달밭골 갓길 9시이전가능",
@@ -8367,7 +8367,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '풍기삼계탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8377,7 +8377,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '죽령주막' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8387,7 +8387,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '카페 선비꽃' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8412,9 +8412,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 166,
-    "votesDown": 4,
+    "satisfaction": 97,
+    "votesUp": 70,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "희방사역 주차장",
@@ -8446,7 +8446,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '원조서부냉면' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8456,7 +8456,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '창신고기마트' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8480,9 +8480,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 97,
-    "votesUp": 106,
-    "votesDown": 6,
+    "satisfaction": 98,
+    "votesUp": 151,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -8514,7 +8514,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '숲속안골길' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8524,7 +8524,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '서산옥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8534,7 +8534,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '정코다리' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8566,8 +8566,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
     "satisfaction": 97,
-    "votesUp": 91,
-    "votesDown": 6,
+    "votesUp": 110,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -8594,7 +8594,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '선바위가든' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8604,7 +8604,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '사랑채' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8628,9 +8628,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 94,
-    "votesUp": 145,
-    "votesDown": 7,
+    "satisfaction": 96,
+    "votesUp": 126,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "동광어시장(대게),강구항",
@@ -8662,7 +8662,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '태백호' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8682,7 +8682,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '영덕물가자미' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-23",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8712,8 +8712,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 97,
-    "votesUp": 95,
+    "satisfaction": 93,
+    "votesUp": 88,
     "votesDown": 5,
     "timeline": [
       {
@@ -8741,7 +8741,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '월산복어' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-26",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8751,7 +8751,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '현풍닭칼국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8761,7 +8761,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '신가네식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8788,9 +8788,9 @@ const defaultCourses = [
     "difficulty": "인터넷 예약",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 93,
-    "votesUp": 132,
-    "votesDown": 5,
+    "satisfaction": 95,
+    "votesUp": 112,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "절골 탐방지원센터",
@@ -8817,7 +8817,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '작은하늘농가' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8827,7 +8827,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '팔팔식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8837,7 +8837,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '가든세계평화' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8866,8 +8866,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 98,
-    "votesUp": 60,
+    "satisfaction": 97,
+    "votesUp": 98,
     "votesDown": 7,
     "timeline": [
       {
@@ -8895,7 +8895,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '삼보식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8905,7 +8905,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '명일여관식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8915,7 +8915,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '사과밭에돈돈' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8941,8 +8941,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 98,
-    "votesUp": 117,
+    "satisfaction": 99,
+    "votesUp": 100,
     "votesDown": 1,
     "timeline": [
       {
@@ -8975,7 +8975,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '동궁' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8985,7 +8985,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '고향집식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -8995,7 +8995,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '산촌식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-11",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9023,7 +9023,7 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
     "satisfaction": 98,
-    "votesUp": 129,
+    "votesUp": 142,
     "votesDown": 2,
     "timeline": [
       {
@@ -9061,7 +9061,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '자연속으로' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9071,7 +9071,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '농소밥심' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9098,9 +9098,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 97,
-    "votesUp": 156,
-    "votesDown": 7,
+    "satisfaction": 96,
+    "votesUp": 178,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -9132,7 +9132,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '단산가든' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9142,7 +9142,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '고향돼지국밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9152,7 +9152,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '카페자산' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9178,8 +9178,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 99,
-    "votesUp": 87,
+    "satisfaction": 96,
+    "votesUp": 76,
     "votesDown": 4,
     "timeline": [
       {
@@ -9207,7 +9207,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '선산곱창' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9217,7 +9217,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '낭만쭈꾸미' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9227,7 +9227,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '밥을짓다' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9256,8 +9256,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 97,
-    "votesUp": 54,
+    "satisfaction": 94,
+    "votesUp": 115,
     "votesDown": 4,
     "timeline": [
       {
@@ -9285,7 +9285,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '효령매운탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9305,7 +9305,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '두향' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9333,9 +9333,9 @@ const defaultCourses = [
     "difficulty": "쉬움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 66,
-    "votesDown": 5,
+    "satisfaction": 99,
+    "votesUp": 121,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "내연산 주차장",
@@ -9367,7 +9367,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '흑돈' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9377,7 +9377,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '평남식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9387,7 +9387,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '영해회식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9418,9 +9418,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 74,
-    "votesDown": 6,
+    "satisfaction": 95,
+    "votesUp": 157,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "연오랑세오녀 테마공원~흥환",
@@ -9452,7 +9452,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '포갈집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9462,7 +9462,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '샤브20' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9498,9 +9498,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 50,
-    "votesDown": 2,
+    "satisfaction": 99,
+    "votesUp": 60,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -9532,7 +9532,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '운문산가든' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9542,7 +9542,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '탐복미나리가든' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9552,7 +9552,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '시골집(웅치기)' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9584,9 +9584,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 151,
-    "votesDown": 5,
+    "satisfaction": 99,
+    "votesUp": 95,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -9613,7 +9613,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '금곡삼계탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9623,7 +9623,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '신마산식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9633,7 +9633,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '옛집식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9658,9 +9658,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 148,
-    "votesDown": 2,
+    "satisfaction": 97,
+    "votesUp": 114,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "달성습지 생태학습관",
@@ -9687,7 +9687,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '팔공막창' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-26",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9697,7 +9697,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '삼송빵집 본점' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9721,8 +9721,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 99,
-    "votesUp": 68,
+    "satisfaction": 97,
+    "votesUp": 60,
     "votesDown": 4,
     "timeline": [
       {
@@ -9755,7 +9755,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '장모씨암탉' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9765,7 +9765,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '동심식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9789,9 +9789,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 99,
-    "votesUp": 82,
-    "votesDown": 1,
+    "satisfaction": 97,
+    "votesUp": 137,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -9818,7 +9818,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '팔곡밀면' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9828,7 +9828,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '언양기와집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-20",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9838,7 +9838,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '울산언양불고기' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9866,9 +9866,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 58,
-    "votesDown": 7,
+    "satisfaction": 98,
+    "votesUp": 148,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -9890,7 +9890,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '시래담(한식)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9900,7 +9900,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '카몬시카페' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9924,9 +9924,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 148,
-    "votesDown": 5,
+    "satisfaction": 99,
+    "votesUp": 82,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -9953,7 +9953,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '산마을 식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9963,7 +9963,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '신비섬횟집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -9973,7 +9973,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '전주식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10005,8 +10005,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
     "satisfaction": 95,
-    "votesUp": 106,
-    "votesDown": 7,
+    "votesUp": 104,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -10028,7 +10028,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '꽃피는 무화가' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10051,9 +10051,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 98,
-    "votesUp": 57,
-    "votesDown": 7,
+    "satisfaction": 93,
+    "votesUp": 167,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "구목리교 서쪽~도암 농협",
@@ -10080,7 +10080,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '설성식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10090,7 +10090,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '벙커(카페)' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10100,7 +10100,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '느루갤러리' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10131,9 +10131,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 145,
-    "votesDown": 1,
+    "satisfaction": 96,
+    "votesUp": 168,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "아산 조방원미술관",
@@ -10165,7 +10165,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '현식당(추어탕)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10175,7 +10175,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '밥카페 반하다' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10185,7 +10185,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '흥남면옥' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-14",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10217,8 +10217,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 165,
+    "satisfaction": 93,
+    "votesUp": 143,
     "votesDown": 3,
     "timeline": [
       {
@@ -10251,7 +10251,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '벽오동' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10261,7 +10261,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '화순집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10271,7 +10271,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '백년가든' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-14",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10300,9 +10300,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 53,
-    "votesDown": 5,
+    "satisfaction": 93,
+    "votesUp": 141,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -10329,7 +10329,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '청자연' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-12",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10339,7 +10339,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '축령산사랑가득국밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-21",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10349,7 +10349,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '동창식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10377,7 +10377,7 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
     "satisfaction": 98,
-    "votesUp": 121,
+    "votesUp": 69,
     "votesDown": 7,
     "timeline": [
       {
@@ -10405,7 +10405,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '고돈상회(등심까스)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10415,7 +10415,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '석정가든' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10425,7 +10425,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '백련동시골밥상' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10451,9 +10451,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 95,
-    "votesUp": 128,
-    "votesDown": 1,
+    "satisfaction": 96,
+    "votesUp": 55,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -10480,7 +10480,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '매화랑 매실이랑' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10503,9 +10503,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 179,
-    "votesDown": 6,
+    "satisfaction": 97,
+    "votesUp": 159,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -10537,7 +10537,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '밀향기' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10547,7 +10547,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '국일관' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10557,7 +10557,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '골목식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10584,9 +10584,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 93,
-    "votesUp": 160,
-    "votesDown": 5,
+    "satisfaction": 97,
+    "votesUp": 77,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "케이블카 주차장",
@@ -10613,7 +10613,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '중앙횟집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10623,7 +10623,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '유성횟집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10633,7 +10633,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '연잎향' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10665,8 +10665,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
     "satisfaction": 95,
-    "votesUp": 102,
-    "votesDown": 2,
+    "votesUp": 175,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -10698,7 +10698,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '더자반' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10708,7 +10708,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '순덕이네' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10718,7 +10718,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '엄마쌈밥' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10748,9 +10748,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 98,
-    "votesUp": 173,
-    "votesDown": 2,
+    "satisfaction": 97,
+    "votesUp": 156,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "순천전통야생차체험관",
@@ -10782,7 +10782,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '벽오동' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10792,7 +10792,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '건봉국밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10802,7 +10802,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '남녘들밥상' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10834,9 +10834,9 @@ const defaultCourses = [
     "difficulty": "순환형",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 99,
-    "votesDown": 5,
+    "satisfaction": 96,
+    "votesUp": 56,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "율림치주차장 - 금오산 - 금오산 삼거리 - 금오봉 - 향일암",
@@ -10868,7 +10868,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '비렁길 자연밥상' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10878,7 +10878,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '청정게장촌' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10888,7 +10888,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '여정식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10918,9 +10918,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 93,
-    "votesUp": 134,
-    "votesDown": 5,
+    "satisfaction": 94,
+    "votesUp": 122,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -10952,7 +10952,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '갯마을횟집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10962,7 +10962,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '한라네국밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -10972,7 +10972,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '영천민물장어' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-14",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11003,9 +11003,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 94,
-    "votesUp": 160,
-    "votesDown": 7,
+    "satisfaction": 93,
+    "votesUp": 101,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -11027,7 +11027,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '관산식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11037,7 +11037,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '녹동식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11047,7 +11047,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '보성식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11076,9 +11076,9 @@ const defaultCourses = [
     "difficulty": "순환형",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 99,
-    "votesUp": 73,
-    "votesDown": 7,
+    "satisfaction": 96,
+    "votesUp": 161,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "연기암 가는 길",
@@ -11110,7 +11110,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '지리산수라간' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11120,7 +11120,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '양미한옥가든' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11130,7 +11130,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '강남가든' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11160,9 +11160,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 97,
-    "votesUp": 169,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 158,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -11184,7 +11184,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '서성식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-12",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11194,7 +11194,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '산마루터' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11204,7 +11204,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '우수영문화마을(팥칼국수)' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11230,9 +11230,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 166,
-    "votesDown": 7,
+    "satisfaction": 95,
+    "votesUp": 119,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -11259,7 +11259,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '아이집(옻닭)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-26",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11269,7 +11269,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '맴섬횟집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-15",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11293,8 +11293,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 99,
-    "votesUp": 74,
+    "satisfaction": 95,
+    "votesUp": 155,
     "votesDown": 4,
     "timeline": [
       {
@@ -11322,7 +11322,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '신호등회관' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11332,7 +11332,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '해담' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11369,9 +11369,9 @@ const defaultCourses = [
     "difficulty": "쉬움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 98,
-    "votesUp": 60,
-    "votesDown": 6,
+    "satisfaction": 93,
+    "votesUp": 57,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "금성산성 주차장",
@@ -11403,7 +11403,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '보자기' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11413,7 +11413,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '옥빈관' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11423,7 +11423,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '미소댓잎국수' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-11",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11456,8 +11456,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 93,
-    "votesUp": 172,
+    "satisfaction": 95,
+    "votesUp": 77,
     "votesDown": 7,
     "timeline": [
       {
@@ -11490,7 +11490,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '초록잎이펼치는세상' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11500,7 +11500,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '수복식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11510,7 +11510,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '외서댁꼬막나라' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11537,9 +11537,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 95,
-    "votesUp": 79,
-    "votesDown": 5,
+    "satisfaction": 93,
+    "votesUp": 56,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -11566,7 +11566,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '황솔촌' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11576,7 +11576,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '쌍교숯불갈비' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-21",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11586,7 +11586,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '나주식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11616,9 +11616,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 110,
-    "votesDown": 5,
+    "satisfaction": 97,
+    "votesUp": 86,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -11645,7 +11645,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '향토음식관아리랑' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11665,7 +11665,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '이성당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11694,9 +11694,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 99,
-    "votesUp": 75,
-    "votesDown": 2,
+    "satisfaction": 95,
+    "votesUp": 162,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -11728,7 +11728,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '청담옥24시' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11738,7 +11738,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '동서네낙지본점' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11748,7 +11748,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '시장비빔밥' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-22",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11778,9 +11778,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 97,
-    "votesUp": 108,
-    "votesDown": 2,
+    "satisfaction": 94,
+    "votesUp": 164,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "쌍화차거리,태인_平沙落雁",
@@ -11812,7 +11812,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '전복돌솥밥' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11822,7 +11822,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '밥보씨아전복' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11832,7 +11832,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '두승산콩마을' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11862,9 +11862,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 93,
-    "votesUp": 105,
-    "votesDown": 4,
+    "satisfaction": 94,
+    "votesUp": 55,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -11891,7 +11891,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '남도뻘낙지' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11901,7 +11901,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '하늘꿈식탁' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11940,8 +11940,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
     "satisfaction": 95,
-    "votesUp": 176,
-    "votesDown": 4,
+    "votesUp": 133,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "내소사 주차장,내변산 탐방",
@@ -11973,7 +11973,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '팔도명가' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11983,7 +11983,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '고향맛횟집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -11993,7 +11993,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '향토바지락죽' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12021,9 +12021,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 161,
-    "votesDown": 6,
+    "satisfaction": 93,
+    "votesUp": 151,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "용담호",
@@ -12055,7 +12055,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '초가정담' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12065,7 +12065,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '시골순대' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-15",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12075,7 +12075,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '동몽원' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12104,9 +12104,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 173,
-    "votesDown": 3,
+    "satisfaction": 93,
+    "votesUp": 89,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -12133,7 +12133,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '초가정담' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12143,7 +12143,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '홍연농가맛집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12153,7 +12153,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '대박가든' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12180,9 +12180,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 132,
-    "votesDown": 3,
+    "satisfaction": 95,
+    "votesUp": 93,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -12209,7 +12209,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '마이담' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-12",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12219,7 +12219,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '동몽원' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12229,7 +12229,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '진미가든' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12257,9 +12257,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 94,
-    "votesUp": 91,
-    "votesDown": 3,
+    "satisfaction": 93,
+    "votesUp": 57,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -12286,7 +12286,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '달오름 마을' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12296,7 +12296,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '지리산 나물밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12306,7 +12306,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '현식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12332,9 +12332,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 98,
-    "votesUp": 91,
-    "votesDown": 1,
+    "satisfaction": 96,
+    "votesUp": 88,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "매동마을의 소나무 숲",
@@ -12377,9 +12377,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 97,
-    "votesUp": 111,
-    "votesDown": 4,
+    "satisfaction": 95,
+    "votesUp": 135,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -12401,7 +12401,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '장수밥상' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12411,7 +12411,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '산마을' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-19",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12450,9 +12450,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 96,
-    "votesUp": 173,
-    "votesDown": 5,
+    "satisfaction": 94,
+    "votesUp": 112,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -12479,7 +12479,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '옥정호산장' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12489,7 +12489,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '천담집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12499,7 +12499,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '섬진강다슬기마을' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12526,9 +12526,9 @@ const defaultCourses = [
     "difficulty": "쉬움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 95,
-    "votesUp": 70,
-    "votesDown": 1,
+    "satisfaction": 96,
+    "votesUp": 179,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "위봉사 주차장,오성한옥마을",
@@ -12560,7 +12560,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '유성식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12570,7 +12570,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '현대옥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12580,7 +12580,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '원조화심두부' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-23",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12605,8 +12605,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 87,
+    "satisfaction": 97,
+    "votesUp": 179,
     "votesDown": 6,
     "timeline": [
       {
@@ -12634,7 +12634,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '대왕가든' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12644,7 +12644,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '통집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12654,7 +12654,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '갑기회관' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12682,8 +12682,8 @@ const defaultCourses = [
     "difficulty": "쉬움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 156,
+    "satisfaction": 95,
+    "votesUp": 180,
     "votesDown": 6,
     "timeline": [
       {
@@ -12711,7 +12711,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '예촌본가' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12721,7 +12721,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '고구려가든' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12731,7 +12731,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '구천동맛집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12761,9 +12761,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 133,
-    "votesDown": 5,
+    "satisfaction": 93,
+    "votesUp": 100,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "무주 아일랜드 생태체험공원",
@@ -12790,7 +12790,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '수작부리는카페' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12800,7 +12800,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '무주어죽' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12810,7 +12810,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '전북제사1970' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12840,8 +12840,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 146,
+    "satisfaction": 94,
+    "votesUp": 119,
     "votesDown": 7,
     "timeline": [
       {
@@ -12874,7 +12874,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '장구목' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12894,7 +12894,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '청림정금자' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12925,9 +12925,9 @@ const defaultCourses = [
     "difficulty": "비순환",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 136,
-    "votesDown": 5,
+    "satisfaction": 97,
+    "votesUp": 165,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "금평저수지",
@@ -12969,7 +12969,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '원평지평선' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -12979,7 +12979,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '밥도둑게장' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13007,9 +13007,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 87,
-    "votesDown": 5,
+    "satisfaction": 93,
+    "votesUp": 122,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "용궐산 치유의숲",
@@ -13041,7 +13041,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '미소식당' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13051,7 +13051,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '창림동두부' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13061,7 +13061,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '늘' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13091,9 +13091,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 155,
-    "votesDown": 6,
+    "satisfaction": 99,
+    "votesUp": 170,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "한옥마을",
@@ -13120,7 +13120,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '외할머니솜씨' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13140,7 +13140,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '메르밀진미집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-11",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13165,9 +13165,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 176,
-    "votesDown": 2,
+    "satisfaction": 99,
+    "votesUp": 141,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "비학산 2주차장",
@@ -13194,7 +13194,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '송하한정식' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13204,7 +13204,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '봉피양 세종시점' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13214,7 +13214,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '콩대박' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13239,9 +13239,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 94,
-    "votesUp": 102,
-    "votesDown": 6,
+    "satisfaction": 93,
+    "votesUp": 105,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -13280,7 +13280,7 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
     "satisfaction": 95,
-    "votesUp": 66,
+    "votesUp": 167,
     "votesDown": 3,
     "timeline": [
       {
@@ -13313,7 +13313,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '종가냉면' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13323,7 +13323,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '추억의꽁당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13333,7 +13333,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '쌍둥이네' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13363,9 +13363,9 @@ const defaultCourses = [
     "difficulty": "비순환",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 174,
-    "votesDown": 2,
+    "satisfaction": 97,
+    "votesUp": 75,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "백사장항,신두리,만리포,백사장항",
@@ -13392,7 +13392,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '산장가든' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13402,7 +13402,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '정산포바닷가' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13412,7 +13412,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '청학동' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13444,9 +13444,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 97,
-    "votesUp": 152,
-    "votesDown": 2,
+    "satisfaction": 96,
+    "votesUp": 66,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -13473,7 +13473,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '대양횟집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13483,7 +13483,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '진미정' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13493,7 +13493,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '바다야해물아' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13523,9 +13523,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 111,
-    "votesDown": 5,
+    "satisfaction": 95,
+    "votesUp": 158,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "국립예산치유의숲,봉수산 휴양림",
@@ -13557,7 +13557,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '산마루가든' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13567,7 +13567,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '여기서행복할것' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13577,7 +13577,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '한일식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13608,9 +13608,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 99,
-    "votesUp": 170,
-    "votesDown": 7,
+    "satisfaction": 93,
+    "votesUp": 90,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -13637,7 +13637,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '칠갑산골' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13647,7 +13647,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '농부밥상' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13657,7 +13657,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '칠갑산추어탕' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13687,7 +13687,7 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
     "satisfaction": 94,
-    "votesUp": 60,
+    "votesUp": 85,
     "votesDown": 2,
     "timeline": [
       {
@@ -13715,7 +13715,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '콩밭가인' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13725,7 +13725,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '원조태평소국밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13735,7 +13735,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '샤브마름' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13762,8 +13762,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 79,
+    "satisfaction": 95,
+    "votesUp": 164,
     "votesDown": 6,
     "timeline": [
       {
@@ -13796,7 +13796,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '진악산뜰' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13816,7 +13816,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '원골식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-26",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13842,9 +13842,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 93,
-    "votesUp": 156,
-    "votesDown": 6,
+    "satisfaction": 95,
+    "votesUp": 134,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -13871,7 +13871,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '고구락' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13881,7 +13881,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '외갓집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13891,7 +13891,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '나경버섯농가' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13916,9 +13916,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 142,
-    "votesDown": 2,
+    "satisfaction": 95,
+    "votesUp": 110,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "황금산,해미읍성",
@@ -13950,7 +13950,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '소박한 밥상' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13960,7 +13960,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '큰마을영양굴밥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13970,7 +13970,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '강미루' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-23",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -13999,9 +13999,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 93,
-    "votesUp": 76,
-    "votesDown": 1,
+    "satisfaction": 99,
+    "votesUp": 180,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -14033,7 +14033,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '셋집매 농가맛집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14043,7 +14043,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '보은집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14053,7 +14053,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '햇잎갈비' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14082,8 +14082,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
     "satisfaction": 95,
-    "votesUp": 72,
-    "votesDown": 7,
+    "votesUp": 124,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "치유센터 주차장",
@@ -14115,7 +14115,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '오씨칼국수' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14125,7 +14125,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '원미면옥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14135,7 +14135,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '성심당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-26",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14162,8 +14162,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 97,
+    "satisfaction": 98,
+    "votesUp": 172,
     "votesDown": 3,
     "timeline": [
       {
@@ -14191,7 +14191,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '화양연화' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14201,7 +14201,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '금강식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14211,7 +14211,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '섬마을횟집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14239,9 +14239,9 @@ const defaultCourses = [
     "difficulty": "어려움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 99,
-    "votesUp": 82,
-    "votesDown": 2,
+    "satisfaction": 95,
+    "votesUp": 172,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -14273,7 +14273,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '곰선생 동태씨' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14283,7 +14283,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '통천포솥뚜껑' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-15",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14319,8 +14319,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 94,
+    "satisfaction": 96,
+    "votesUp": 83,
     "votesDown": 2,
     "timeline": [
       {
@@ -14353,7 +14353,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '매향냉면' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14363,7 +14363,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '루치아의뜰' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14373,7 +14373,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '고마나루' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-23",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14399,9 +14399,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 93,
-    "votesUp": 164,
-    "votesDown": 7,
+    "satisfaction": 96,
+    "votesUp": 176,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -14423,7 +14423,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '하늘맛' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14433,7 +14433,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '벽오동 천안점' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14443,7 +14443,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '통삼국 본점' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14472,9 +14472,9 @@ const defaultCourses = [
     "difficulty": "비순환",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 98,
-    "votesUp": 74,
-    "votesDown": 6,
+    "satisfaction": 96,
+    "votesUp": 151,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -14501,7 +14501,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '석화촌' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14511,7 +14511,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '대천가자조개' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14521,7 +14521,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '깐돌네굴' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14553,9 +14553,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 61,
-    "votesDown": 6,
+    "satisfaction": 93,
+    "votesUp": 123,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "그림같은 수목원,궁리포구",
@@ -14582,7 +14582,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '꽃동산횟집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14592,7 +14592,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '홍흥집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-10",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14602,7 +14602,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '온누리회수산' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14630,9 +14630,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 99,
-    "votesUp": 166,
-    "votesDown": 6,
+    "satisfaction": 98,
+    "votesUp": 176,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "솔뫼성지,삼선산수목원",
@@ -14659,7 +14659,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '우렁이박사' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14669,7 +14669,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '빙빙반점' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14679,7 +14679,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '옛날우렁이식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14712,8 +14712,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
     "satisfaction": 98,
-    "votesUp": 155,
-    "votesDown": 3,
+    "votesUp": 101,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "복상골 낚시터 임도공터",
@@ -14740,7 +14740,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '하누연' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-16",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14750,7 +14750,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '고등어명품이되다' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-23",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14760,7 +14760,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '금강산민물매운탕' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14787,9 +14787,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 97,
-    "votesUp": 90,
-    "votesDown": 6,
+    "satisfaction": 93,
+    "votesUp": 75,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "좌구산휴양림",
@@ -14811,7 +14811,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '남도예담인벨포레' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-22",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14821,7 +14821,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '소보양본가' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14831,7 +14831,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '율리손두부' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-20",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14859,9 +14859,9 @@ const defaultCourses = [
     "difficulty": "쉬움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 157,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 165,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "농다리 주차장",
@@ -14893,7 +14893,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '쌀밥집 곰가내' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14903,7 +14903,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '이레막국수 ‘한방감자탕’' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14913,7 +14913,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '곤드레밥집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14940,9 +14940,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 67,
-    "votesDown": 4,
+    "satisfaction": 95,
+    "votesUp": 115,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "옥천 황룡사<부소담악>,화인삼림욕장",
@@ -14974,7 +14974,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '진달래가든 2호점(염소)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14984,7 +14984,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '부추서리태콩국수(전원가든)' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -14994,7 +14994,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '옻메기탕' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-17",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15020,9 +15020,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 99,
-    "votesUp": 140,
-    "votesDown": 6,
+    "satisfaction": 93,
+    "votesUp": 51,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -15054,7 +15054,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '강남면옥' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15064,7 +15064,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '정가네생선' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15092,9 +15092,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 94,
-    "votesUp": 74,
-    "votesDown": 3,
+    "satisfaction": 97,
+    "votesUp": 91,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "법주사 주차장",
@@ -15126,7 +15126,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '배영숙 산야 초밥상' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-14",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15136,7 +15136,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '온제향가' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15146,7 +15146,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '석정' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15178,8 +15178,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
     "satisfaction": 98,
-    "votesUp": 109,
-    "votesDown": 2,
+    "votesUp": 68,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "민주지산자연휴양림",
@@ -15221,7 +15221,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '원조동해식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15231,7 +15231,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '해송식당' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-13",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15258,9 +15258,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 95,
-    "votesUp": 59,
-    "votesDown": 2,
+    "satisfaction": 97,
+    "votesUp": 141,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "송호관광지 주차장",
@@ -15287,7 +15287,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '삼대쭈꾸미해신탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15297,7 +15297,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '청산식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-14",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15322,8 +15322,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
     "satisfaction": 98,
-    "votesUp": 147,
-    "votesDown": 3,
+    "votesUp": 95,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -15366,9 +15366,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 98,
-    "votesUp": 87,
-    "votesDown": 4,
+    "satisfaction": 96,
+    "votesUp": 147,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "하늘재 문경주차장",
@@ -15395,7 +15395,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '게으른악어 라면먹기 좋음' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15418,9 +15418,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 121,
-    "votesDown": 4,
+    "satisfaction": 98,
+    "votesUp": 69,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "다릿골가든,로드캠프 빌리지",
@@ -15442,7 +15442,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '청담물갈비' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-15",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15465,9 +15465,9 @@ const defaultCourses = [
     "difficulty": "보통상",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 175,
-    "votesDown": 1,
+    "satisfaction": 93,
+    "votesUp": 143,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "만수휴게소",
@@ -15494,7 +15494,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '가마솥추어탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15504,7 +15504,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '장수골해천탕' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15514,7 +15514,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '벨라루나(이탈리)' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15540,9 +15540,9 @@ const defaultCourses = [
     "difficulty": "어려움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 95,
-    "votesUp": 76,
-    "votesDown": 3,
+    "satisfaction": 96,
+    "votesUp": 161,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "마즈막재 주차장",
@@ -15569,7 +15569,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '남한강' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-10",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15579,7 +15579,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '충주호매운탕' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15589,7 +15589,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '안토누찌' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-11",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15614,9 +15614,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 99,
-    "votesUp": 62,
-    "votesDown": 3,
+    "satisfaction": 93,
+    "votesUp": 108,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "종댕이 주차장",
@@ -15643,7 +15643,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '아그집들깨칼국수' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15688,9 +15688,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 50,
-    "votesDown": 4,
+    "satisfaction": 96,
+    "votesUp": 175,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "수룡 산림욕장 주차장",
@@ -15717,7 +15717,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '정가네 명태집' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15727,7 +15727,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '카페 라브리' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15751,9 +15751,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 101,
-    "votesDown": 2,
+    "satisfaction": 99,
+    "votesUp": 156,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "수주팔봉",
@@ -15780,7 +15780,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '정반(화덕생선구이)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-21",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15790,7 +15790,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '들림횟집송어' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15814,8 +15814,8 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 96,
-    "votesUp": 80,
+    "satisfaction": 98,
+    "votesUp": 83,
     "votesDown": 1,
     "timeline": [
       {
@@ -15843,7 +15843,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '권고집만두' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15853,7 +15853,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '함지박(닭뽁음)' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15888,9 +15888,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 97,
-    "votesUp": 128,
-    "votesDown": 6,
+    "satisfaction": 96,
+    "votesUp": 174,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "덕주사 주차장",
@@ -15917,7 +15917,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '고기박사냉면' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15927,7 +15927,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '초계막국수' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -15963,9 +15963,9 @@ const defaultCourses = [
     "difficulty": "쉬움",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 95,
-    "votesUp": 164,
-    "votesDown": 3,
+    "satisfaction": 99,
+    "votesUp": 107,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "능암탄산온천",
@@ -15992,7 +15992,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '메일면묵밥리' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16002,7 +16002,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '온천식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-13",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16012,7 +16012,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '충주시골묵집' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16039,8 +16039,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
     "satisfaction": 94,
-    "votesUp": 108,
-    "votesDown": 2,
+    "votesUp": 92,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "마즈막재 주차장,범바위약수터",
@@ -16072,7 +16072,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '신양자강(안림)해물짬뽕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16082,7 +16082,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '만남의바다(참치)' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-12",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16092,7 +16092,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '다담뜰한식뷔페 충주점(직동입구)' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-21",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16118,9 +16118,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 95,
-    "votesUp": 137,
-    "votesDown": 2,
+    "satisfaction": 96,
+    "votesUp": 113,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -16147,7 +16147,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '복서울해장' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-20",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16157,7 +16157,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '삼정면목(3.5)' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-25",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16167,7 +16167,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '커피단월A' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16193,9 +16193,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 99,
-    "votesUp": 77,
-    "votesDown": 3,
+    "satisfaction": 94,
+    "votesUp": 54,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "소금강솔밭주차장",
@@ -16222,7 +16222,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '조령산묵밥청국장' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16245,9 +16245,9 @@ const defaultCourses = [
     "difficulty": "도로근접",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 143,
-    "votesDown": 7,
+    "satisfaction": 96,
+    "votesUp": 166,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "쌍곡휴게소",
@@ -16269,7 +16269,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '소금강휴게소 (차 한잔만)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16292,9 +16292,9 @@ const defaultCourses = [
     "difficulty": "도로근접",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 75,
-    "votesDown": 5,
+    "satisfaction": 98,
+    "votesUp": 179,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -16311,7 +16311,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '우리 매운탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16334,9 +16334,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 94,
-    "votesUp": 112,
-    "votesDown": 5,
+    "satisfaction": 97,
+    "votesUp": 121,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "선유입구 주차장",
@@ -16353,7 +16353,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '두천매운탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-11",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16376,9 +16376,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 95,
-    "votesUp": 101,
-    "votesDown": 3,
+    "satisfaction": 93,
+    "votesUp": 91,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "탐방 주차장",
@@ -16400,7 +16400,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '얼음골봄(백숙)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16423,9 +16423,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 99,
-    "votesUp": 161,
-    "votesDown": 7,
+    "satisfaction": 95,
+    "votesUp": 157,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "팜바라기카페+성불산휴양림",
@@ -16452,7 +16452,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '괴산산막이매운탕' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16462,7 +16462,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '오십년할머니' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16472,7 +16472,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '신가네칼국수(휴양림입구)' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16497,9 +16497,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 94,
-    "votesUp": 169,
-    "votesDown": 7,
+    "satisfaction": 97,
+    "votesUp": 62,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -16542,9 +16542,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 94,
-    "votesUp": 175,
-    "votesDown": 2,
+    "satisfaction": 98,
+    "votesUp": 115,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "옥순대교 주차장",
@@ -16566,7 +16566,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '꽃댕이 묵마을(덕동계곡)' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16576,7 +16576,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '다담뜰한식뷔페' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16586,7 +16586,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '의림지 오디향(오색꽃비빔밥)' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-16",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16611,9 +16611,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 96,
-    "votesUp": 101,
-    "votesDown": 2,
+    "satisfaction": 99,
+    "votesUp": 56,
+    "votesDown": 1,
     "timeline": [
       {
         "spot": "장회나루 휴게소 주차장",
@@ -16640,7 +16640,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '청풍황금떡갈비' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-19",
+        "date": "2026-06-24",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16650,7 +16650,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '장가네해장국' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-24",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16660,7 +16660,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '청풍명월' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-10",
+        "date": "2026-06-11",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16686,9 +16686,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 96,
-    "votesUp": 180,
-    "votesDown": 6,
+    "satisfaction": 94,
+    "votesUp": 147,
+    "votesDown": 2,
     "timeline": [
       {
         "spot": "능강교 주차장",
@@ -16730,7 +16730,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '물태리빵집' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16740,7 +16740,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '카페슬로비' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-24",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16766,9 +16766,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 93,
-    "votesUp": 68,
-    "votesDown": 1,
+    "satisfaction": 99,
+    "votesUp": 140,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "계란재공원 주차장",
@@ -16795,7 +16795,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '제천시락국' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-24",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16805,7 +16805,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '오디향' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-26",
+        "date": "2026-06-22",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16815,7 +16815,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '청풍명월' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-14",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16840,9 +16840,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 97,
-    "votesUp": 152,
-    "votesDown": 4,
+    "satisfaction": 98,
+    "votesUp": 113,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -16869,7 +16869,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '가연A' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-17",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16879,7 +16879,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '영남식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-22",
+        "date": "2026-06-26",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16889,7 +16889,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '청풍황금떡' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-12",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16915,9 +16915,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
-    "satisfaction": 94,
-    "votesUp": 130,
-    "votesDown": 1,
+    "satisfaction": 98,
+    "votesUp": 59,
+    "votesDown": 3,
     "timeline": [
       {
         "spot": "단성 체육공원",
@@ -16944,7 +16944,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '그집쏘가리' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-23",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16954,7 +16954,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '만천하스카이' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-16",
+        "date": "2026-06-18",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16964,7 +16964,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '카페인단양' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-15",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -16990,9 +16990,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 98,
-    "votesUp": 130,
-    "votesDown": 5,
+    "satisfaction": 93,
+    "votesUp": 132,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "구인사 주차장",
@@ -17024,7 +17024,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '장회나루 휴게소<한식>' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-18",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17034,7 +17034,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '대성식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-15",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17044,7 +17044,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '단양민물매운탕' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-18",
+        "date": "2026-06-20",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17069,9 +17069,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern4",
-    "satisfaction": 98,
-    "votesUp": 152,
-    "votesDown": 2,
+    "satisfaction": 93,
+    "votesUp": 149,
+    "votesDown": 5,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -17098,7 +17098,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '가마골쉼터' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-25",
+        "date": "2026-06-16",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17108,7 +17108,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '어부네매운탕' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-17",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17118,7 +17118,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '보리곳간' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-19",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17144,9 +17144,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern1",
-    "satisfaction": 95,
-    "votesUp": 58,
-    "votesDown": 6,
+    "satisfaction": 94,
+    "votesUp": 164,
+    "votesDown": 7,
     "timeline": [
       {
         "spot": "보리김치",
@@ -17173,7 +17173,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '명도암 수다뜰' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-10",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17183,7 +17183,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '고집돌우럭' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-11",
+        "date": "2026-06-19",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17193,7 +17193,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '카페나모' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-11",
+        "date": "2026-06-13",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17225,8 +17225,8 @@ const defaultCourses = [
     "type": "트레킹 코스",
     "patternClass": "bg-pattern2",
     "satisfaction": 98,
-    "votesUp": 107,
-    "votesDown": 6,
+    "votesUp": 56,
+    "votesDown": 4,
     "timeline": [
       {
         "spot": "송악산주차장",
@@ -17253,7 +17253,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '원앤온리' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-25",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17273,7 +17273,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '색달식당.별돈별' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-22",
+        "date": "2026-06-12",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17302,9 +17302,9 @@ const defaultCourses = [
     "difficulty": "보통",
     "type": "트레킹 코스",
     "patternClass": "bg-pattern3",
-    "satisfaction": 94,
-    "votesUp": 138,
-    "votesDown": 3,
+    "satisfaction": 95,
+    "votesUp": 165,
+    "votesDown": 6,
     "timeline": [
       {
         "spot": "들머리 입구",
@@ -17326,7 +17326,7 @@ const defaultCourses = [
       {
         "user": "산책매니아",
         "text": "코스 중간에 들른 '백년손님' 식당은 재방문 의사 100%인 찐맛집입니다!",
-        "date": "2026-06-13",
+        "date": "2026-06-21",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17336,7 +17336,7 @@ const defaultCourses = [
       {
         "user": "맛집사냥꾼",
         "text": "코스 중간에 들른 '맛나식당' 식당은 꼭 한번 들러볼 만한 훌륭한 장소예요.",
-        "date": "2026-06-18",
+        "date": "2026-06-17",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17346,7 +17346,7 @@ const defaultCourses = [
       {
         "user": "들꽃길",
         "text": "코스 중간에 들른 '드르F4:G235쿰다' 식당은 부모님 모시고 가기 딱 좋은 아늑한 곳입니다.",
-        "date": "2026-06-25",
+        "date": "2026-06-23",
         "ratings": {
           "scenery": 4,
           "path": 4,
@@ -17651,12 +17651,12 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {
     }
   }
 
-  // C. [리디자인] 실시간 업로드 사진 갤러리: 사용자가 등록한 base64 이미지 데이터가 1장이라도 존재할 때만 갤러리 영역 노출
+  // C. 실시간 업로드 사진 갤러리
   const gallery = document.getElementById("detail-photo-gallery");
   if (gallery) {
     gallery.innerHTML = "";
     if (course.photos && course.photos.length > 0) {
-      gallery.style.display = "flex"; // 노출
+      gallery.style.display = "flex"; 
       course.photos.forEach(photoPattern => {
         const photoDiv = document.createElement("div");
         photoDiv.className = `gallery-img`;
@@ -17666,7 +17666,7 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {
         gallery.appendChild(photoDiv);
       });
     } else {
-      gallery.style.display = "none"; // 더미 파란도형 소멸을 위해 평소엔 갤러리 전체 숨김
+      gallery.style.display = "none"; 
     }
   }
 
@@ -17684,11 +17684,58 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {
   }
 }
 
-// 네비게이션 동기화
+// 네비게이션 동기화 및 탭 클릭 액션 제어
 function navigateTo(viewId, element) {
   if (viewId === 'home') {
     toggleMyPage(false);
+    toggleAdminModal(false);
+    document.querySelector(".left-panel").style.display = "flex";
+    if (window.innerWidth <= 900) {
+      document.querySelector(".right-panel").style.display = "none";
+    }
     document.querySelector(".left-panel").scrollIntoView({ behavior: "smooth" });
+  } else if (viewId === 'explore') {
+    // [신설] 코스탐색 탭 클릭 시: 전체 코스 리스트 초기화 및 상단 맞춤검색창 포커스 리다이렉트
+    toggleMyPage(false);
+    toggleAdminModal(false);
+    
+    // 모바일 상세창이 열려있다면 즉시 닫고 목록 홈 화면 활성화
+    scrollToCourseList();
+
+    // 모든 검색어 및 필터 조건 올셋 리셋 실행 -> 등록된 모든 리스트 일괄 표출
+    searchKeyword = "";
+    currentRegionFilter = "all";
+    currentSeasonFilter = "all";
+    currentThemeFilter = "all";
+    currentHeadTab = "all";
+
+    const searchInput = document.getElementById("search-input");
+    if (searchInput) searchInput.value = "";
+    
+    const regionSelect = document.getElementById("filter-region");
+    if (regionSelect) regionSelect.value = "all";
+    
+    const seasonSelect = document.getElementById("filter-season");
+    if (seasonSelect) seasonSelect.value = "all";
+    
+    const themeSelect = document.getElementById("filter-theme");
+    if (themeSelect) themeSelect.value = "all";
+
+    document.querySelectorAll(".head-tab").forEach((tab, idx) => {
+      if (idx === 0) tab.classList.add("active");
+      else tab.classList.remove("active");
+    });
+
+    renderCourseList();
+
+    // 100ms 지연 후 상단 검색 필드로 쾌적하게 자동 포커싱
+    setTimeout(() => {
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
+
   } else if (viewId === 'my-page') {
     toggleMyPage(true);
   }
@@ -17771,6 +17818,7 @@ function applyFilters() {
   renderCourseList();
 }
 
+// 텍스트 검색 처리
 function filterCourses() {
   const searchInput = document.getElementById("search-input");
   if (searchInput) {
