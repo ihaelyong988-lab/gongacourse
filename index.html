@@ -33,7 +33,8 @@
         <!-- 앱 헤더 (App Header) -->
         <header class="app-header">
           <div class="header-left" id="header-back-btn" style="display: none;">
-            <button class="icon-btn" onclick="navigateTo('home')">
+            <!-- 완벽한 이전 페이지 뒤로가기 연동 -->
+            <button class="icon-btn" onclick="goBack()" title="이전 화면으로">
               <i class="fa-solid fa-chevron-left"></i>
             </button>
           </div>
@@ -115,7 +116,7 @@
               <span class="view-all" id="course-count">총 3개 코스</span>
             </div>
             <div class="course-list" id="course-list-container">
-              <!-- JS에서 동적 렌더링 -->
+              <!-- JS에서 동적 렌더링 (코스 카드 하단에 주변 맛집 요약 노출) -->
             </div>
           </section>
 
@@ -130,21 +131,22 @@
               </div>
             </div>
 
-            <!-- 코스 빠른 요약 정보 -->
-            <div class="quick-stats">
-              <div class="stat-item">
-                <span class="stat-label">난이도</span>
-                <span class="stat-value" id="detail-difficulty">쉬움</span>
+            <!-- 직관적으로 개선된 코스 요약 스탯 -->
+            <div class="detail-info-cards">
+              <div class="info-card-item card-diff">
+                <i class="fa-solid fa-mountain"></i>
+                <span class="info-card-label">코스 난이도</span>
+                <span class="info-card-val" id="detail-difficulty">쉬움</span>
               </div>
-              <div class="stat-divider"></div>
-              <div class="stat-item">
-                <span class="stat-label">소요시간</span>
-                <span class="stat-value" id="detail-duration">2시간</span>
+              <div class="info-card-item card-time">
+                <i class="fa-solid fa-clock"></i>
+                <span class="info-card-label">예상 소요시간</span>
+                <span class="info-card-val" id="detail-duration">2시간</span>
               </div>
-              <div class="stat-divider"></div>
-              <div class="stat-item">
-                <span class="stat-label">공감도</span>
-                <span class="stat-value text-primary" id="detail-like-ratio">98% 만족</span>
+              <div class="info-card-item card-like">
+                <i class="fa-solid fa-thumbs-up"></i>
+                <span class="info-card-label">추천 공감도</span>
+                <span class="info-card-val text-primary" id="detail-like-ratio">98% 만족</span>
               </div>
             </div>
 
@@ -152,14 +154,10 @@
             <div class="detail-card">
               <h3 class="card-title"><i class="fa-solid fa-map-location-dot text-primary"></i> 코스 지도 미리보기</h3>
               <div class="map-mockup">
-                <!-- SVG를 이용한 동적 산책로 라인 애니메이션 -->
                 <svg width="100%" height="100%" viewBox="0 0 300 150" class="map-svg" id="map-path-svg">
-                  <!-- 점선 경로 -->
                   <path d="M 30,110 Q 90,30 150,100 T 270,40" fill="none" stroke="#ddd" stroke-width="4" stroke-linecap="round" stroke-dasharray="6,6" />
-                  <!-- 활성화된 애니메이션 경로 -->
                   <path d="M 30,110 Q 90,30 150,100 T 270,40" class="path-line" fill="none" stroke="var(--primary-color)" stroke-width="4" stroke-linecap="round" />
                   
-                  <!-- 지점 마커들 -->
                   <g class="marker" transform="translate(30,110)">
                     <circle r="7" fill="var(--primary-color)" />
                     <circle r="4" fill="#fff" />
@@ -167,7 +165,7 @@
                   </g>
                   <g class="marker" transform="translate(110,62)">
                     <circle r="6" fill="#f39c12" />
-                    <text y="-12" class="marker-label" text-anchor="middle">점심식사</text>
+                    <text y="-12" class="marker-label" text-anchor="middle">식사처</text>
                   </g>
                   <g class="marker" transform="translate(195,84)">
                     <circle r="6" fill="#9b59b6" />
@@ -183,11 +181,19 @@
               </div>
             </div>
 
-            <!-- 코스 타임라인 상세 경로 -->
+            <!-- 직관적 박스형 디자인으로 개선된 타임라인 일정표 -->
             <div class="detail-card">
-              <h3 class="card-title"><i class="fa-solid fa-route text-primary"></i> 상세 일정표</h3>
-              <div class="timeline" id="detail-timeline-container">
-                <!-- 동적 타임라인 노드 생성 -->
+              <h3 class="card-title"><i class="fa-solid fa-route text-primary"></i> 꽁아추천 나들이 일정표</h3>
+              <div class="box-timeline" id="detail-timeline-container">
+                <!-- JS에서 동적 박스형 타임라인 노드 생성 -->
+              </div>
+            </div>
+
+            <!-- 상세 뷰 주변 맛집/카페 전용 리스트 섹션 -->
+            <div class="detail-card">
+              <h3 class="card-title"><i class="fa-solid fa-utensils text-primary"></i> 코스 주변 맛집 · 카페 정보</h3>
+              <div class="detail-restaurant-list" id="detail-restaurant-container">
+                <!-- JS에서 맛집 리스트 렌더링 -->
               </div>
             </div>
 
@@ -280,7 +286,7 @@
               <div class="menu-item"><i class="fa-regular fa-bookmark"></i> 저장한 꽁아코스 <span class="badge">4개</span></div>
               <div class="menu-item"><i class="fa-regular fa-comment-dots"></i> 내가 쓴 나들이 후기 <span class="badge" id="my-comment-count">2개</span></div>
               <div class="menu-item" onclick="toggleTextSize()"><i class="fa-solid fa-font"></i> 글자 크기 크게 모드</div>
-              <div class="menu-item" onclick="alert('꽁아코스 v1.0.0 데모 버전입니다.')"><i class="fa-solid fa-circle-info"></i> 앱 정보</div>
+              <div class="menu-item" onclick="alert('꽁아코스 v1.1.0 데모 버전입니다.')"><i class="fa-solid fa-circle-info"></i> 앱 정보</div>
             </div>
           </div>
         </div>
@@ -348,7 +354,7 @@
     <div class="demo-guide-panel">
       <div class="guide-header">
         <h2 class="guide-main-title"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> 꽁아코스 개발 데모 안내</h2>
-        <span class="guide-badge">Prototype v1.1.0</span>
+        <span class="guide-badge">Prototype v1.2.0</span>
       </div>
       
       <p class="guide-intro">
@@ -359,20 +365,16 @@
         <h3>💡 주요 테스트 시나리오</h3>
         <ul class="guide-steps">
           <li>
-            <strong>1. 초고속 통합 검색</strong>
-            <span>최상단 검색창에 '마니산', '수목원' 등의 코스 이름뿐만 아니라 '순두부'(맛집), '사찰'(주변 명소), '양평'(지역)을 입력해도 관련 코스가 즉시 추출됩니다.</span>
+            <strong>1. 초고속 통합 검색 & 주변 맛집 즉시 노출</strong>
+            <span>검색 시 코스 카드 하단에 해당 코스의 <strong>맛집 리스트가 바로 요약 태그</strong>로 큼직하게 표시되어 상세를 들어가지 않고도 확인이 쉽습니다.</span>
           </li>
           <li>
-            <strong>2. 주제별 압축 검색 (다중 필터)</strong>
-            <span>지역별(인천/서울/경기 등) + 계절별(봄/여름/가을/겨울) + 테마별(사찰 탐방, 맛집 투어 등) 조건을 <strong>동시에 자유롭게 조합</strong>하여 원하는 산책로를 정밀 압축 조율할 수 있습니다.</span>
+            <strong>2. 직관적인 UI/UX 개편 (일정 및 정보)</strong>
+            <span>상세 화면에서 난이도/시간 등의 수치 정보가 박스 카드로 크게 부각되고, 이동 경로가 [🚩출발 ➔ 🍴식사 ➔ ☕카페 ➔ 🏁도착] 형태의 <strong>아이콘 기반 직관 박스형 타임라인</strong>으로 개편되었습니다.</span>
           </li>
           <li>
-            <strong>3. 중장년 접근성 (큰 글씨 전환)</strong>
-            <span>폰 상단 우측의 <strong>'가↕'</strong> 버튼을 클릭하면 저시력 고령층을 위해 레이아웃이 무너지지 않고 글자가 큼직하게 확대됩니다.</span>
-          </li>
-          <li>
-            <strong>4. 실시간 공감 및 모의 커뮤니티</strong>
-            <span>추천/비추천 클릭 시 로컬 스토리지에 결과가 저장되고 평점이 재연산됩니다. 실제 엑셀 맛집 명칭들이 후기 글에 자동 매핑되어 생동감이 넘칩니다.</span>
+            <strong>3. 완벽한 [뒤로가기] 버튼 작동</strong>
+            <span>앱 상단 좌측의 뒤로가기 버튼은 브라우저 히스토리 스택을 추적하여 **사용자가 바로 이전에 보던 뷰**로 명확하게 복원해 줍니다.</span>
           </li>
         </ul>
       </div>

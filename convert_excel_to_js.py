@@ -41,7 +41,6 @@ def parse_season(season_str, title_str):
     elif "겨울" in season_str or "12월" in season_str or "1월" in season_str or "2월" in season_str or "설경" in title_str:
         return "winter", "겨울 추천"
     
-    # 기본값은 사계절 랜덤 배정
     seasons = [("spring", "봄 추천"), ("summer", "여름 추천"), ("autumn", "가을 추천"), ("winter", "겨울 추천")]
     return random.choice(seasons)
 
@@ -116,6 +115,9 @@ try:
         if add_food_raw:
             food_list.extend([f.strip() for f in add_food_raw.split(",") if f.strip()])
             
+        # 엑셀 데이터의 고정 덤프와 중복 항목 제거
+        food_list = list(dict.fromkeys(food_list)) # 순서 보존하며 중복 제거
+            
         comments = []
         if food_list:
             timeline.append({"spot": f"{food_list[0]} (식사)", "desc": "현지 방문자들이 극찬한 강추 맛집 방문.", "time": "13:30"})
@@ -160,18 +162,17 @@ try:
             "timeline": timeline,
             "comments": comments,
             "photos": [f"pattern{random.randint(1,3)}", f"pattern{random.randint(1,3)}"],
-            "product": get_product(region)
+            "product": get_product(region),
+            "foods": food_list # JS에서 맛집 리스트 렌더링에 직접 쓰일 정제 필드 추가
         }
         
         parsed_courses.append(course_obj)
         course_id += 1
         
     print(f"Processed {len(parsed_courses)} courses.")
-    
-    # 242개 JSON 데이터 변환
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # 대규모 로직 자바스크립트 템플릿 정의 (localStorage 캐시 불일치 시 리셋하도록 로직 긴급 수정)
+    # JS 스택 뒤로가기 로직, 맛집 태그 렌더링, 박스형 타임라인 렌더링 전면 이식
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -180,6 +181,9 @@ const defaultCourses = {js_courses_str};
 
 let courses = [];
 let currentCourse = null;
+
+// 네비게이션용 히스토리 스택 변수 (뒤로가기 버튼 완벽 연동)
+let viewHistory = ["home"];
 
 // 주제별 압축 다중 필터 전역 변수
 let currentRegionFilter = "all";
@@ -194,8 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {{
   if (savedCourses) {{
     try {{
       courses = JSON.parse(savedCourses);
-      // 만약 저장된 데이터 개수가 242개(defaultCourses)와 다르면, 
-      // 이전 3개짜리 구버전 데이터가 캐싱되어 있는 것이므로 최신 242개 데이터로 강제 초기화(갱신)함.
       if (courses.length !== defaultCourses.length) {{
         needReset = true;
       }}
@@ -232,11 +234,19 @@ function updateMockTime() {{
   }}
 }}
 
-// 3. 내비게이션 (SPA)
-function navigateTo(viewId, element) {{
+// 3. 내비게이션 및 이전 화면 뒤로가기 (SPA Navigation Stack)
+function navigateTo(viewId, element, isBack = false) {{
   if (viewId === 'my-page') {{
     toggleMyPage(true);
     return;
+  }}
+
+  // 뒤로가기 버튼이 아닐 경우에만 스택에 등록
+  if (!isBack) {{
+    // 동일한 뷰로 연속 진입할 경우 스택 꼬임 방지
+    if (viewHistory[viewHistory.length - 1] !== viewId) {{
+      viewHistory.push(viewId);
+    }}
   }}
 
   document.querySelectorAll(".app-view").forEach(view => {{
@@ -250,8 +260,9 @@ function navigateTo(viewId, element) {{
     targetView.classList.add("active");
   }}
 
+  // 상세 뷰이거나, 홈이 아닌 다른 이전 뷰가 있으면 뒤로가기 노출
   const backBtn = document.getElementById("header-back-btn");
-  if (viewId === "detail") {{
+  if (viewHistory.length > 1) {{
     backBtn.style.display = "flex";
   }} else {{
     backBtn.style.display = "none";
@@ -272,6 +283,15 @@ function navigateTo(viewId, element) {{
   document.querySelector(".app-content").scrollTop = 0;
 }}
 
+// 수동 뒤로가기 함수 (Header Chevron 클릭 시 호출)
+function goBack() {{
+  if (viewHistory.length > 1) {{
+    viewHistory.pop(); // 현재 화면 스택 팝
+    const previousView = viewHistory[viewHistory.length - 1];
+    navigateTo(previousView, null, true);
+  }}
+}}
+
 function toggleMyPage(show) {{
   const myPage = document.getElementById("view-my-page");
   if (!myPage) return;
@@ -279,6 +299,12 @@ function toggleMyPage(show) {{
   myPage.style.display = show ? "flex" : "none";
   
   if (show) {{
+    // 스택에 등록
+    if (viewHistory[viewHistory.length - 1] !== "my-page") {{
+      viewHistory.push("my-page");
+    }}
+    document.getElementById("header-back-btn").style.display = "flex";
+
     document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
       if (idx === 2) item.classList.add("active");
       else item.classList.remove("active");
@@ -325,7 +351,7 @@ function renderCourseList() {{
   container.innerHTML = "";
 
   const filtered = courses.filter(course => {{
-    // A. 검색어 필터 (공백 제거 매칭하여 검색 유연성 확보)
+    // A. 검색어 필터
     const normSearch = searchKeyword.toLowerCase().replace(/\\s+/g, "");
     let matchesSearch = true;
     if (normSearch) {{
@@ -414,6 +440,19 @@ function renderCourseList() {{
 
     const ratioClass = course.satisfaction >= 95 ? "high-satisfaction" : "";
 
+    // 주변 맛집 목록을 카드 전면에 태그 형식으로 추출 (UI/UX 직관성 대폭 상승)
+    let foodTagsHtml = "";
+    if (course.foods && course.foods.length > 0) {{
+      // 최대 3개 맛집만 카드에 태그로 노출
+      const foodTags = course.foods.slice(0, 3).map(f => `<span>${{f}}</span>`).join("");
+      foodTagsHtml = `
+        <div class="card-food-tags">
+          <i class="fa-solid fa-utensils"></i>
+          <div class="tags-container">${{foodTags}}</div>
+        </div>
+      `;
+    }}
+
     card.innerHTML = `
       <div class="card-img-wrapper ${{course.patternClass}}">
         <span class="card-badge">${{course.seasonName}}</span>
@@ -424,6 +463,9 @@ function renderCourseList() {{
           <span>${{course.type}}</span>
         </div>
         <h3 class="card-title-text">${{course.title}}</h3>
+        
+        ${{foodTagsHtml}} <!-- 주변 맛집 즉시 노출 영역 -->
+
         <div class="card-footer">
           <span class="ratio-badge ${{ratioClass}}"><i class="fa-solid fa-thumbs-up"></i> 만족도 ${{course.satisfaction}}%</span>
           <span class="card-duration"><i class="fa-regular fa-clock"></i> ${{course.duration}}</span>
@@ -454,24 +496,61 @@ function showCourseDetail(courseId) {{
   renderVoteButtonsState();
   updateSatisfactionUI();
 
+  // A. 직관성이 크게 보완된 박스형 타임라인 렌더링
   const timelineContainer = document.getElementById("detail-timeline-container");
   if (timelineContainer) {{
     timelineContainer.innerHTML = "";
-    course.timeline.forEach(node => {{
-      const timelineNode = document.createElement("div");
-      timelineNode.className = "timeline-node";
-      timelineNode.innerHTML = `
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <div class="timeline-title">
-            <span>${{node.spot}}</span>
-            <span class="timeline-time">${{node.time}}</span>
+    course.timeline.forEach((node, nodeIdx) => {{
+      // 아이콘 분기 설정
+      let stepIcon = "👣";
+      if (nodeIdx === 0) stepIcon = "🚩"; // 출발지
+      else if (nodeIdx === course.timeline.length - 1) stepIcon = "🏁"; // 도착지
+      else if (node.spot.includes("식사") || node.spot.includes("맛집") || node.spot.includes("식당")) stepIcon = "🍴";
+      else if (node.spot.includes("카페") || node.spot.includes("커피") || node.spot.includes("쉼터")) stepIcon = "☕";
+      else if (node.spot.includes("사찰") || node.spot.includes("사") || node.spot.includes("암")) stepIcon = "⛩️";
+
+      const boxNode = document.createElement("div");
+      boxNode.className = "box-timeline-item";
+      boxNode.innerHTML = `
+        <div class="box-timeline-icon">${{stepIcon}}</div>
+        <div class="box-timeline-body">
+          <div class="box-timeline-meta">
+            <span class="box-timeline-spot">${{node.spot}}</span>
+            <span class="box-timeline-time">${{node.time}}</span>
           </div>
-          <div class="timeline-desc">${{node.desc}}</div>
+          <p class="box-timeline-desc">${{node.desc}}</p>
         </div>
       `;
-      timelineContainer.appendChild(timelineNode);
+      timelineContainer.appendChild(boxNode);
     }});
+  }}
+
+  // B. 상세 페이지 맛집 카드 리스트 렌더링 (UI/UX 직관화)
+  const restContainer = document.getElementById("detail-restaurant-container");
+  if (restContainer) {{
+    restContainer.innerHTML = "";
+    if (course.foods && course.foods.length > 0) {{
+      course.foods.forEach((food, fIdx) => {{
+        const ratings = ["★4.9 (방문자 극찬)", "★4.7 (추천 다수)", "★4.5 (찾아갈만함)"];
+        const ratingText = ratings[fIdx % ratings.length];
+        
+        const restCard = document.createElement("div");
+        restCard.className = "restaurant-item-card";
+        restCard.innerHTML = `
+          <div class="rest-icon-box"><i class="fa-solid fa-store"></i></div>
+          <div class="rest-info-box">
+            <h4>${{food}}</h4>
+            <span class="rest-badge-rating">${{ratingText}}</span>
+          </div>
+          <a href="tel:010-1234-5678" class="rest-phone-btn" title="식당 전화 연결">
+            <i class="fa-solid fa-phone"></i>
+          </a>
+        `;
+        restContainer.appendChild(restCard);
+      }});
+    }} else {{
+      restContainer.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px 0;">주변 등록된 식당 정보가 없습니다. 도시락 준비를 추천합니다.</p>`;
+    }}
   }}
 
   if (course.product) {{
@@ -596,6 +675,7 @@ function renderComments() {{
   }});
 }}
 
+// 한 줄 평 추가 시 로컬 스토리지 자동 반영
 function submitComment() {{
   const textarea = document.getElementById("comment-textarea");
   if (!textarea) return;
@@ -737,7 +817,8 @@ function importExcelData() {{
         timeline: timeline,
         comments: [],
         photos: ["pattern1"],
-        product: {{ title: productTitle, price: 20000, salePrice: 15000, desc: "추가 특산물" }}
+        product: {{ title: productTitle, price: 20000, salePrice: 15000, desc: "추가 특산물" }},
+        foods: []
       }};
       courses.push(newCourse);
       addedCount++;
@@ -753,6 +834,7 @@ function importExcelData() {{
   }}
 }}
 
+// 6. 특산물 상세 커머스 오버레이
 function openCommerceModal() {{
   const modal = document.getElementById("commerce-modal");
   if (modal) modal.style.display = "flex";
@@ -767,7 +849,7 @@ function toggleCommerceModal(show) {{
     with open(js_file, "w", encoding="utf-8") as f:
         f.write(js_logic)
         
-    print("app.js with cache check has been successfully written.")
+    print("app.js with routing stack, card tags and visual details has been updated.")
 
 except Exception as e:
     import traceback
