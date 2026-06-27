@@ -171,7 +171,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 헤드 탭(currentHeadTab) 필터링, 대시보드 2열 탭 상세 진입
+    # JS 코드 갱신: 대시보드 구조에 맞춰 showCourseDetail 오버라이딩
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -181,14 +181,11 @@ const defaultCourses = {js_courses_str};
 let courses = [];
 let currentCourse = null;
 
-// 네비게이션용 히스토리 스택
-let viewHistory = ["home"];
-
-// 주제별 압축 다중 필터 전역 변수
+// 주제별 압축 검색 및 퀵 탭 상태 변수
 let currentRegionFilter = "all";
 let currentSeasonFilter = "all";
 let currentThemeFilter = "all";
-let currentHeadTab = "all"; // 오늘코스, 당일코스 등 상단 헤드 탭 상태 변수
+let currentHeadTab = "all"; 
 let searchKeyword = "";
 
 document.addEventListener("DOMContentLoaded", () => {{
@@ -214,92 +211,164 @@ document.addEventListener("DOMContentLoaded", () => {{
   }}
 
   renderCourseList();
-  updateMockTime();
-  setInterval(updateMockTime, 60000);
+  
+  // 첫 진입 시 첫 번째 코스를 기본 상세 대시보드로 자동 로드해 주는 대시보드형 기법 적용
+  if (courses.length > 0) {{
+    showCourseDetail(courses[0].id);
+  }}
 }});
 
 function saveToLocalStorage() {{
   localStorage.setItem("gongacourse_data", JSON.stringify(courses));
 }}
 
-function updateMockTime() {{
-  const timeEl = document.querySelector(".time");
-  if (timeEl) {{
-    const now = new Date();
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    hours = hours < 10 ? "0" + hours : hours;
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    timeEl.textContent = `${{hours}}:${{minutes}}`;
-  }}
-}}
+// 대시보드 탭 처리 (상세 화면으로 전환 대신 우측 패널 갱신)
+function showCourseDetail(courseId) {{
+  const course = courses.find(c => c.id === courseId);
+  if (!course) return;
 
-// 3. 내비게이션 및 이전 화면 뒤로가기 (SPA Navigation Stack)
-function navigateTo(viewId, element, isBack = false) {{
-  if (viewId === 'my-page') {{
-    toggleMyPage(true);
-    return;
+  currentCourse = course;
+
+  // 플레이스홀더를 끄고 대시보드 활성화
+  const placeholder = document.getElementById("detail-placeholder-view");
+  const dashboard = document.getElementById("detail-dashboard-view");
+  if (placeholder) placeholder.style.display = "none";
+  if (dashboard) dashboard.style.display = "block";
+
+  // 카드 활성화 보정 (좌측 목록에 테두리 입히기)
+  document.querySelectorAll(".course-card").forEach(card => {{
+    card.classList.remove("active");
+  }});
+  // 현재 선택한 카드 엘리먼트를 찾아서 active 부여
+  const activeCard = document.querySelector(`.course-card[data-id="${{courseId}}"]`);
+  if (activeCard) activeCard.classList.add("active");
+
+  const heroBg = document.getElementById("detail-hero-bg");
+  if (heroBg) heroBg.className = `detail-hero-dashboard ${{course.patternClass}}`;
+  
+  document.getElementById("detail-season-badge").textContent = course.seasonName;
+  document.getElementById("detail-title").textContent = course.title;
+  document.getElementById("detail-subtitle").innerHTML = `<i class="fa-solid fa-location-dot"></i> ${{course.location}} · ${{course.type}}`;
+  
+  document.getElementById("detail-difficulty").textContent = course.difficulty;
+  document.getElementById("detail-duration").textContent = course.duration;
+  
+  renderVoteButtonsState();
+  updateSatisfactionUI();
+
+  // A. 박스형 일정표 렌더링
+  const timelineContainer = document.getElementById("detail-timeline-container");
+  if (timelineContainer) {{
+    timelineContainer.innerHTML = "";
+    course.timeline.forEach((node, nodeIdx) => {{
+      let stepIcon = "👣";
+      if (nodeIdx === 0) stepIcon = "🚩"; 
+      else if (nodeIdx === course.timeline.length - 1) stepIcon = "🏁"; 
+      else if (node.spot.includes("식사") || node.spot.includes("맛집") || node.spot.includes("식당")) stepIcon = "🍴";
+      else if (node.spot.includes("카페") || node.spot.includes("커피") || node.spot.includes("쉼터")) stepIcon = "☕";
+      else if (node.spot.includes("사찰") || node.spot.includes("사") || node.spot.includes("암")) stepIcon = "⛩️";
+
+      const boxNode = document.createElement("div");
+      boxNode.className = "box-timeline-item";
+      boxNode.innerHTML = `
+        <div class="box-timeline-icon">${{stepIcon}}</div>
+        <div class="box-timeline-body">
+          <div class="box-timeline-meta">
+            <span class="box-timeline-spot">${{node.spot}}</span>
+            <span class="box-timeline-time">${{node.time}}</span>
+          </div>
+          <p class="box-timeline-desc">${{node.desc}}</p>
+        </div>
+      `;
+      timelineContainer.appendChild(boxNode);
+    }});
   }}
 
-  if (!isBack) {{
-    if (viewHistory[viewHistory.length - 1] !== viewId) {{
-      viewHistory.push(viewId);
+  // B. 우측 맛집 리스트 렌더링
+  const restContainer = document.getElementById("detail-restaurant-container");
+  if (restContainer) {{
+    restContainer.innerHTML = "";
+    if (course.foods && course.foods.length > 0) {{
+      course.foods.forEach((food, fIdx) => {{
+        const ratings = ["★4.9 (방문자 극찬)", "★4.7 (추천 다수)", "★4.5 (찾아갈만함)"];
+        const ratingText = ratings[fIdx % ratings.length];
+        
+        const restCard = document.createElement("div");
+        restCard.className = "restaurant-item-card";
+        restCard.innerHTML = `
+          <div class="rest-icon-box"><i class="fa-solid fa-store"></i></div>
+          <div class="rest-info-box">
+            <h4>${{food}}</h4>
+            <span class="rest-badge-rating">${{ratingText}}</span>
+          </div>
+          <a href="tel:010-1234-5678" class="rest-phone-btn" title="식당 전화 연결">
+            <i class="fa-solid fa-phone"></i>
+          </a>
+        `;
+        restContainer.appendChild(restCard);
+      }});
+    }} else {{
+      restContainer.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px 0;">주변 등록된 식당 정보가 없습니다. 도시락 준비를 추천합니다.</p>`;
     }}
   }}
 
-  document.querySelectorAll(".app-view").forEach(view => {{
-    view.classList.remove("active");
-  }});
+  if (course.product) {{
+    const commerceTitle = document.getElementById("commerce-title");
+    if (commerceTitle) commerceTitle.textContent = `${{course.product.title}} 산지 한정 특가`;
+    
+    document.getElementById("product-modal-title").textContent = course.product.title;
+    document.querySelector(".price-origin").textContent = `${{course.product.price.toLocaleString()}}원`;
+    document.querySelector(".price-sale").textContent = `${{course.product.salePrice.toLocaleString()}}원`;
+    document.querySelector(".product-desc").textContent = course.product.desc;
+  }}
+
+  const gallery = document.getElementById("detail-photo-gallery");
+  if (gallery) {{
+    gallery.innerHTML = "";
+    course.photos.forEach(photoPattern => {{
+      const photoDiv = document.createElement("div");
+      photoDiv.className = `gallery-img ${{photoPattern}}`;
+      gallery.appendChild(photoDiv);
+    }});
+  }}
+
+  renderComments();
+
+  // 모바일 기기(폭 <= 900px)에서 탭 시 상세 화면 영역으로 부드럽게 스크롤 강제 연동
+  if (window.innerWidth <= 900) {{
+    document.getElementById("detail-dashboard-view").scrollIntoView({{ behavior: "smooth" }});
+  }}
+
+  const path = document.querySelector(".path-line");
+  if (path) {{
+    path.style.animation = 'none';
+    path.offsetHeight;
+    path.style.animation = 'drawPath 4s linear infinite';
+  }}
+}}
+
+// SPA 내비게이션 (모바일 탭 바 및 플레이어 대응)
+function navigateTo(viewId, element) {{
+  if (viewId === 'home') {{
+    toggleMyPage(false);
+    document.querySelector(".left-panel").scrollIntoView({{ behavior: "smooth" }});
+  }} else if (viewId === 'my-page') {{
+    toggleMyPage(true);
+  }}
   
-  toggleMyPage(false);
-
-  const targetView = document.getElementById(`view-${{viewId}}`);
-  if (targetView) {{
-    targetView.classList.add("active");
-  }}
-
-  const backBtn = document.getElementById("header-back-btn");
-  if (viewHistory.length > 1) {{
-    backBtn.style.display = "flex";
-  }} else {{
-    backBtn.style.display = "none";
-  }}
-
   if (element && element.classList.contains("nav-item")) {{
     document.querySelectorAll(".bottom-nav .nav-item").forEach(item => {{
       item.classList.remove("active");
     }});
     element.classList.add("active");
-  }} else if (viewId === "home") {{
-    document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
-      if (idx === 0) item.classList.add("active");
-      else item.classList.remove("active");
-    }});
-  }}
-
-  document.querySelector(".app-content").scrollTop = 0;
-}}
-
-function goBack() {{
-  if (viewHistory.length > 1) {{
-    viewHistory.pop();
-    const previousView = viewHistory[viewHistory.length - 1];
-    navigateTo(previousView, null, true);
   }}
 }}
 
 function toggleMyPage(show) {{
   const myPage = document.getElementById("view-my-page");
   if (!myPage) return;
-
   myPage.style.display = show ? "flex" : "none";
-  
   if (show) {{
-    if (viewHistory[viewHistory.length - 1] !== "my-page") {{
-      viewHistory.push("my-page");
-    }}
-    document.getElementById("header-back-btn").style.display = "flex";
-
     document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
       if (idx === 4) item.classList.add("active");
       else item.classList.remove("active");
@@ -318,7 +387,7 @@ function toggleMyPage(show) {{
   }}
 }}
 
-// 4. 상단 헤드 탭 연동 기능 (오늘코스, 당일코스 등)
+// 상단 헤드 탭 연동 기능
 function selectHeadTab(tabId, element) {{
   currentHeadTab = tabId;
   
@@ -331,7 +400,7 @@ function selectHeadTab(tabId, element) {{
   renderCourseList();
 }}
 
-// 5. 주제별 압축 다중 필터 & 고성능 검색 엔진
+// 압축 검색 필터 적용
 function applyFilters() {{
   const regionSelect = document.getElementById("filter-region");
   const seasonSelect = document.getElementById("filter-season");
@@ -422,14 +491,12 @@ function renderCourseList() {{
       }}
     }}
 
-    // E. 상단 헤드 탭 필터 (오늘코스, 당일코스 등)
+    // E. 상단 헤드 탭 필터
     let matchesHeadTab = true;
     if (currentHeadTab !== "all") {{
       if (currentHeadTab === "today") {{
-        // 오늘코스: 난이도가 쉬운 코스 중에서 무작위 추천 (평점 96% 이상)
         matchesHeadTab = (course.satisfaction >= 96 && ["쉬움", "매우 쉬움", "매우쉬움"].includes(course.difficulty));
       }} else if (currentHeadTab === "day") {{
-        // 당일코스: 소요 시간이 2시간 이하인 코스
         if (course.duration) {{
           const matchHours = parseFloat(course.duration);
           matchesHeadTab = (!isNaN(matchHours) && matchHours <= 2.0);
@@ -437,10 +504,8 @@ function renderCourseList() {{
           matchesHeadTab = true;
         }}
       }} else if (currentHeadTab === "hot") {{
-        // 인기코스: 추천 공감 추천 수가 120회 이상인 인기 대세 코스
         matchesHeadTab = (course.votesUp >= 120);
       }} else if (currentHeadTab === "new") {{
-        // 신규코스: 최근 업로드된 코스 (ID가 큰 최신 30% 범위)
         matchesHeadTab = (course.id >= 160);
       }}
     }}
@@ -467,11 +532,16 @@ function renderCourseList() {{
   filtered.forEach(course => {{
     const card = document.createElement("div");
     card.className = "course-card";
+    card.setAttribute("data-id", course.id);
     card.onclick = () => showCourseDetail(course.id);
+
+    // 대시보드상 활성화 상태 매핑
+    if (currentCourse && currentCourse.id === course.id) {{
+      card.classList.add("active");
+    }}
 
     const ratioClass = course.satisfaction >= 95 ? "high-satisfaction" : "";
 
-    // 2열 대시보드용으로 더 정갈하고 콤팩트하게 다듬은 주변 맛집 배지 리스트
     let foodTagsHtml = "";
     if (course.foods && course.foods.length > 0) {{
       const foodTags = course.foods.slice(0, 2).map(f => `<span>${{f}}</span>`).join("");
@@ -491,125 +561,18 @@ function renderCourseList() {{
         <div class="card-meta">
           <span>${{course.location}}</span>
         </div>
-        <h3 class="card-title-text" style="font-size: 13px; line-height: 1.3; height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${{course.title}}</h3>
+        <h3 class="card-title-text" style="font-size: 12px; line-height: 1.3; height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom:4px;">${{course.title}}</h3>
         
         ${{foodTagsHtml}} 
 
-        <div class="card-footer" style="padding-top: 8px; margin-top: 6px;">
-          <span class="ratio-badge ${{ratioClass}}" style="font-size: 10px; padding: 2px 6px;"><i class="fa-solid fa-thumbs-up"></i> ${{course.satisfaction}}%</span>
-          <span class="card-duration" style="font-size: 10px;"><i class="fa-regular fa-clock"></i> ${{course.duration}}</span>
+        <div class="card-footer" style="padding-top: 6px; margin-top: 4px;">
+          <span class="ratio-badge ${{ratioClass}}" style="font-size: 9px; padding: 2px 4px;"><i class="fa-solid fa-thumbs-up"></i> ${{course.satisfaction}}%</span>
+          <span class="card-duration" style="font-size: 9px;"><i class="fa-regular fa-clock"></i> ${{course.duration}}</span>
         </div>
       </div>
     `;
     container.appendChild(card);
   }});
-}}
-
-// 6. 상세 화면 로드 & 시각화
-function showCourseDetail(courseId) {{
-  const course = courses.find(c => c.id === courseId);
-  if (!course) return;
-
-  currentCourse = course;
-
-  const heroBg = document.getElementById("detail-hero-bg");
-  if (heroBg) heroBg.className = `detail-hero ${{course.patternClass}}`;
-  
-  document.getElementById("detail-season-badge").textContent = course.seasonName;
-  document.getElementById("detail-title").textContent = course.title;
-  document.getElementById("detail-subtitle").innerHTML = `<i class="fa-solid fa-location-dot"></i> ${{course.location}} · ${{course.type}}`;
-  
-  document.getElementById("detail-difficulty").textContent = course.difficulty;
-  document.getElementById("detail-duration").textContent = course.duration;
-  
-  renderVoteButtonsState();
-  updateSatisfactionUI();
-
-  // A. 직관성이 크게 보완된 박스형 타임라인 렌더링
-  const timelineContainer = document.getElementById("detail-timeline-container");
-  if (timelineContainer) {{
-    timelineContainer.innerHTML = "";
-    course.timeline.forEach((node, nodeIdx) => {{
-      let stepIcon = "👣";
-      if (nodeIdx === 0) stepIcon = "🚩"; 
-      else if (nodeIdx === course.timeline.length - 1) stepIcon = "🏁"; 
-      else if (node.spot.includes("식사") || node.spot.includes("맛집") || node.spot.includes("식당")) stepIcon = "🍴";
-      else if (node.spot.includes("카페") || node.spot.includes("커피") || node.spot.includes("쉼터")) stepIcon = "☕";
-      else if (node.spot.includes("사찰") || node.spot.includes("사") || node.spot.includes("암")) stepIcon = "⛩️";
-
-      const boxNode = document.createElement("div");
-      boxNode.className = "box-timeline-item";
-      boxNode.innerHTML = `
-        <div class="box-timeline-icon">${{stepIcon}}</div>
-        <div class="box-timeline-body">
-          <div class="box-timeline-meta">
-            <span class="box-timeline-spot">${{node.spot}}</span>
-            <span class="box-timeline-time">${{node.time}}</span>
-          </div>
-          <p class="box-timeline-desc">${{node.desc}}</p>
-        </div>
-      `;
-      timelineContainer.appendChild(boxNode);
-    }});
-  }}
-
-  // B. 상세 페이지 맛집 카드 리스트 렌더링
-  const restContainer = document.getElementById("detail-restaurant-container");
-  if (restContainer) {{
-    restContainer.innerHTML = "";
-    if (course.foods && course.foods.length > 0) {{
-      course.foods.forEach((food, fIdx) => {{
-        const ratings = ["★4.9 (방문자 극찬)", "★4.7 (추천 다수)", "★4.5 (찾아갈만함)"];
-        const ratingText = ratings[fIdx % ratings.length];
-        
-        const restCard = document.createElement("div");
-        restCard.className = "restaurant-item-card";
-        restCard.innerHTML = `
-          <div class="rest-icon-box"><i class="fa-solid fa-store"></i></div>
-          <div class="rest-info-box">
-            <h4>${{food}}</h4>
-            <span class="rest-badge-rating">${{ratingText}}</span>
-          </div>
-          <a href="tel:010-1234-5678" class="rest-phone-btn" title="식당 전화 연결">
-            <i class="fa-solid fa-phone"></i>
-          </a>
-        `;
-        restContainer.appendChild(restCard);
-      }});
-    }} else {{
-      restContainer.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 10px 0;">주변 등록된 식당 정보가 없습니다. 도시락 준비를 추천합니다.</p>`;
-    }}
-  }}
-
-  if (course.product) {{
-    const commerceTitle = document.getElementById("commerce-title");
-    if (commerceTitle) commerceTitle.textContent = `${{course.product.title}} 산지 한정 특가`;
-    
-    document.getElementById("product-modal-title").textContent = course.product.title;
-    document.querySelector(".price-origin").textContent = `${{course.product.price.toLocaleString()}}원`;
-    document.querySelector(".price-sale").textContent = `${{course.product.salePrice.toLocaleString()}}원`;
-    document.querySelector(".product-desc").textContent = course.product.desc;
-  }}
-
-  const gallery = document.getElementById("detail-photo-gallery");
-  if (gallery) {{
-    gallery.innerHTML = "";
-    course.photos.forEach(photoPattern => {{
-      const photoDiv = document.createElement("div");
-      photoDiv.className = `gallery-img ${{photoPattern}}`;
-      gallery.appendChild(photoDiv);
-    }});
-  }}
-
-  renderComments();
-  navigateTo("detail");
-
-  const path = document.querySelector(".path-line");
-  if (path) {{
-    path.style.animation = 'none';
-    path.offsetHeight;
-    path.style.animation = 'drawPath 4s linear infinite';
-  }}
 }}
 
 function renderVoteButtonsState() {{
@@ -767,13 +730,11 @@ function toggleAdminModal(show) {{
     modal.style.display = show ? "flex" : "none";
     if (show) {{
       loadExcelPreset(1);
-      // 엑셀 등록 탭에서도 탭바 3번째 탭(엑셀등록) 활성화 표시
       document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
         if (idx === 2) item.classList.add("active");
         else item.classList.remove("active");
       }});
     }} else {{
-      // 닫힐 때 홈 탭 활성화로 초기화
       document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
         if (idx === 0) item.classList.add("active");
         else item.classList.remove("active");
@@ -812,7 +773,6 @@ function parseCSVLine(line) {{
   return result;
 }}
 
-// 엑셀 추가 기능 보완 (foods 연동 구조 탑재)
 function importExcelData() {{
   const input = document.getElementById("excel-data-input");
   if (!input) return;
@@ -869,6 +829,8 @@ function importExcelData() {{
       renderCourseList();
       toggleAdminModal(false);
       alert(`${{addedCount}}개 코스 마이그레이션 완료!`);
+      // 마이그레이션된 첫 번째 코스로 자동 로드
+      showCourseDetail(courses[courses.length - addedCount].id);
     }}
   }} catch (e) {{
     alert("오류: " + e.message);
@@ -903,7 +865,7 @@ function toggleCommerceModal(show) {{
     with open(js_file, "w", encoding="utf-8") as f:
         f.write(js_logic)
         
-    print("app.js with 5 tab bottom nav, head-tabs filter and grid items successfully generated.")
+    print("app.js has been successfully updated with split-view layout.")
 
 except Exception as e:
     import traceback

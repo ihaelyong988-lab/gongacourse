@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>꽁아코스 - 나들이 & 산책 코스 추천 앱</title>
+  <title>꽁아코스 - 전문 나들이 & 트레킹 대시보드</title>
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,129 +13,130 @@
 </head>
 <body>
 
-  <!-- 전체 레이아웃 컨테이너 (모바일 목업 데모용) -->
-  <div class="demo-container">
+  <!-- [개선] 좁은 모바일 목업 프레임을 폐기하고 넓고 세련된 양측 좌우 듀얼 패널 대시보드로 격상 -->
+  <div class="dashboard-container">
     
-    <!-- 1. 좌측/중앙: 모바일 디바이스 프레임 -->
-    <div class="device-frame">
-      <div class="device-screen">
-        
-        <!-- [개선] 불필요한 상태 표시줄(상단 시간, 와이파이, 아테나 등) 삭제 및 여백 처리 -->
-        <div class="header-safe-area"></div>
+    <!-- 1. 좌측 패널: 검색 및 2열 대시보드 코스 목록 영역 (Left Panel - 420px) -->
+    <aside class="left-panel">
+      <!-- 로고 및 조작 헤더 -->
+      <header class="panel-header">
+        <h1 class="app-logo" onclick="location.reload()">꽁아코스</h1>
+        <div class="header-controls">
+          <button class="text-mode-btn" onclick="toggleTextSize()" title="글자 크기 조절">
+            <span class="mode-label">가</span><i class="fa-solid fa-arrows-up-down"></i>
+          </button>
+          <button class="icon-btn" onclick="toggleAdminModal(true)" title="관리자 데이터 등록">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        </div>
+      </header>
 
-        <!-- 앱 헤더 (App Header) -->
-        <header class="app-header">
-          <div class="header-left" id="header-back-btn" style="display: none;">
-            <button class="icon-btn" onclick="goBack()" title="이전 화면으로">
-              <i class="fa-solid fa-chevron-left"></i>
-            </button>
+      <!-- 검색창 및 통합 필터 -->
+      <div class="search-section">
+        <div class="search-bar">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="search-input" placeholder="산책로명, 지역, 사찰, 맛집 검색" oninput="filterCourses()">
+        </div>
+      </div>
+
+      <!-- 상단 퀵 헤드 탭 -->
+      <div class="head-tabs-container">
+        <div class="head-tabs">
+          <button class="head-tab active" onclick="selectHeadTab('all', this)">전체코스</button>
+          <button class="head-tab" onclick="selectHeadTab('today', this)">오늘코스</button>
+          <button class="head-tab" onclick="selectHeadTab('day', this)">당일코스</button>
+          <button class="head-tab" onclick="selectHeadTab('hot', this)">인기코스</button>
+          <button class="head-tab" onclick="selectHeadTab('new', this)">신규코스</button>
+        </div>
+      </div>
+
+      <!-- 주제별 압축 검색 필터 -->
+      <div class="filter-section-card">
+        <h3 class="filter-card-title"><i class="fa-solid fa-sliders text-primary"></i> 주제별 압축 검색</h3>
+        <div class="filter-selects-container">
+          <div class="filter-select-wrapper">
+            <label for="filter-region">지역별</label>
+            <select id="filter-region" onchange="applyFilters()">
+              <option value="all">전체 지역</option>
+              <option value="서울">서울</option>
+              <option value="인천">인천</option>
+              <option value="경기">경기</option>
+              <option value="강원">강원</option>
+              <option value="충청">충청</option>
+              <option value="경북">경북/경남</option>
+              <option value="전남">전남/전북</option>
+              <option value="제주">제주도</option>
+            </select>
           </div>
-          <div class="header-center">
-            <h1 class="app-logo" onclick="navigateTo('home')">꽁아코스</h1>
+          
+          <div class="filter-select-wrapper">
+            <label for="filter-season">계절별</label>
+            <select id="filter-season" onchange="applyFilters()">
+              <option value="all">전체 계절</option>
+              <option value="spring">봄 추천</option>
+              <option value="summer">여름 추천</option>
+              <option value="autumn">가을 추천</option>
+              <option value="winter">겨울 추천</option>
+            </select>
           </div>
-          <div class="header-right">
-            <!-- 큰글씨 모드 토글 스위치 (중장년 접근성) -->
-            <button class="text-mode-btn" onclick="toggleTextSize()" title="글자 크기 조절">
-              <span class="mode-label">가</span><i class="fa-solid fa-arrows-up-down"></i>
-            </button>
-            <!-- 관리자 모달 열기 -->
-            <button class="icon-btn" onclick="toggleAdminModal(true)" title="관리자 데이터 등록">
-              <i class="fa-solid fa-gear"></i>
-            </button>
+
+          <div class="filter-select-wrapper">
+            <label for="filter-theme">테마별</label>
+            <select id="filter-theme" onchange="applyFilters()">
+              <option value="all">전체 테마</option>
+              <option value="easy">쉬운 산책</option>
+              <option value="temple">사찰 탐방</option>
+              <option value="food">맛집 연계</option>
+              <option value="long">장거리 코스</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 코스 개수 및 목록 컨테이너 -->
+      <div class="list-meta-header">
+        <span class="meta-title">코스 추천 리스트</span>
+        <span class="meta-count" id="course-count">총 242개 코스</span>
+      </div>
+
+      <!-- 좌우 2열 대시보드 배치형 코스 리스트 -->
+      <div class="course-list-panel">
+        <div class="course-grid" id="course-list-container">
+          <!-- JS에서 동적 바둑판식 카드 렌더링 -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- 2. 우측 패널: 선택된 코스의 상세 대시보드 화면 (Right Panel - Flex 1) -->
+    <main class="right-panel">
+      
+      <!-- 초기 플레이스홀더 (코스 미선택 시 노출) -->
+      <div class="detail-placeholder" id="detail-placeholder-view">
+        <div class="placeholder-content">
+          <i class="fa-solid fa-map-location-dot placeholder-icon"></i>
+          <h2>나들이 코스 상세 대시보드</h2>
+          <p>좌측 코스 목록에서 마음에 드는 나들이길을 탭해 보세요.<br>지선 정보, 일정표, 주변 추천 식당 및 특산물이 실시간으로 펼쳐집니다.</p>
+        </div>
+      </div>
+
+      <!-- 실제 코스 상세 내용 대시보드 뷰 (코스 탭 시 활성화) -->
+      <div class="detail-dashboard-view" id="detail-dashboard-view" style="display: none;">
+        
+        <!-- 대시보드 상단 히어로 헤더 -->
+        <header class="detail-hero-dashboard" id="detail-hero-bg">
+          <div class="hero-content">
+            <span class="detail-badge" id="detail-season-badge">가을 추천</span>
+            <h2 id="detail-title">북한산 우이령 단풍 둘레길</h2>
+            <p id="detail-subtitle"><i class="fa-solid fa-location-dot"></i> 서울 강북구 · 트레킹 코스</p>
           </div>
         </header>
 
-        <!-- 메인 콘텐츠 영역 (화면 전환 대상) -->
-        <main class="app-content">
-
-          <!-- 1. 홈 화면 (Home View) -->
-          <section id="view-home" class="app-view active">
-            <!-- 검색창 -->
-            <div class="search-section">
-              <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="search-input" placeholder="산책로명, 지역, 사찰, 맛집 검색" oninput="filterCourses()">
-              </div>
-            </div>
-
-            <!-- [신설] 꽁아코스 상단 퀵 헤드 탭바 (오늘코스, 당일코스 등) -->
-            <div class="head-tabs-container">
-              <div class="head-tabs">
-                <button class="head-tab active" onclick="selectHeadTab('all', this)">전체코스</button>
-                <button class="head-tab" onclick="selectHeadTab('today', this)">오늘코스</button>
-                <button class="head-tab" onclick="selectHeadTab('day', this)">당일코스</button>
-                <button class="head-tab" onclick="selectHeadTab('hot', this)">인기코스</button>
-                <button class="head-tab" onclick="selectHeadTab('new', this)">신규코스</button>
-              </div>
-            </div>
-
-            <!-- 주제별 압축 검색 선택 필터 탭 -->
-            <div class="section-title-container">
-              <h2 class="section-title"><i class="fa-solid fa-sliders text-primary"></i> 주제별 압축 검색</h2>
-            </div>
-            
-            <div class="filter-selects-container">
-              <div class="filter-select-wrapper">
-                <label for="filter-region"><i class="fa-solid fa-map"></i> 지역별</label>
-                <select id="filter-region" onchange="applyFilters()">
-                  <option value="all">전체 지역</option>
-                  <option value="서울">서울</option>
-                  <option value="인천">인천</option>
-                  <option value="경기">경기</option>
-                  <option value="강원">강원</option>
-                  <option value="충청">충청</option>
-                  <option value="경북">경북/경남</option>
-                  <option value="전남">전남/전북</option>
-                  <option value="제주">제주도</option>
-                </select>
-              </div>
-              
-              <div class="filter-select-wrapper">
-                <label for="filter-season"><i class="fa-solid fa-calendar-days"></i> 계절별</label>
-                <select id="filter-season" onchange="applyFilters()">
-                  <option value="all">전체 계절</option>
-                  <option value="spring">봄 추천</option>
-                  <option value="summer">여름 추천</option>
-                  <option value="autumn">가을 추천</option>
-                  <option value="winter">겨울 추천</option>
-                </select>
-              </div>
-
-              <div class="filter-select-wrapper">
-                <label for="filter-theme"><i class="fa-solid fa-compass"></i> 테마별</label>
-                <select id="filter-theme" onchange="applyFilters()">
-                  <option value="all">전체 테마</option>
-                  <option value="easy">쉬운 산책 (2시간내)</option>
-                  <option value="temple">천년사찰 탐방</option>
-                  <option value="food">맛집/카페 연계</option>
-                  <option value="long">도전! 장거리 코스</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- 코스 리스트 -->
-            <div class="section-title-container">
-              <h2 class="section-title">인기 추천 코스</h2>
-              <span class="view-all" id="course-count">총 3개 코스</span>
-            </div>
-            <!-- [개선] 1열 세로 레이아웃에서 좌우 2열 대시보드 그리드 레이아웃으로 변경 -->
-            <div class="course-list grid-dashboard" id="course-list-container">
-              <!-- JS에서 좌우 2열 대시보드 형태로 동적 렌더링 -->
-            </div>
-          </section>
-
-          <!-- 2. 상세 화면 (Detail View) -->
-          <section id="view-detail" class="app-view">
-            <!-- 상단 커버 이미지 영역 -->
-            <div class="detail-hero" id="detail-hero-bg">
-              <div class="detail-badge" id="detail-season-badge">가을 추천</div>
-              <div class="detail-hero-overlay">
-                <h2 id="detail-title">북한산 우이령 단풍 둘레길</h2>
-                <p id="detail-subtitle"><i class="fa-solid fa-location-dot"></i> 서울 강북구 · 당일 나들이</p>
-              </div>
-            </div>
-
-            <!-- 직관적으로 개선된 코스 요약 스탯 -->
+        <!-- 대시보드 스탯 & 정보 카드들 -->
+        <section class="dashboard-grid-layout">
+          
+          <!-- 좌측 칼럼: 코스 핵심 스탯 & 가상 경로 지도 -->
+          <div class="dashboard-col left-col">
+            <!-- 3대 직관 핵심 수치 스탯 -->
             <div class="detail-info-cards">
               <div class="info-card-item card-diff">
                 <i class="fa-solid fa-mountain"></i>
@@ -150,13 +151,13 @@
               <div class="info-card-item card-like">
                 <i class="fa-solid fa-thumbs-up"></i>
                 <span class="info-card-label">추천 공감도</span>
-                <span class="info-card-val text-primary" id="detail-like-ratio">98% 만족</span>
+                <span class="info-card-val" id="detail-like-ratio">98% 만족</span>
               </div>
             </div>
 
-            <!-- 가상 코스 지도 (경로 시각화) -->
+            <!-- 지도 요약 카드 -->
             <div class="detail-card">
-              <h3 class="card-title"><i class="fa-solid fa-map-location-dot text-primary"></i> 코스 지도 미리보기</h3>
+              <h4 class="card-section-title"><i class="fa-solid fa-map-location-dot text-primary"></i> 코스 경로 지도 시뮬레이션</h4>
               <div class="map-mockup">
                 <svg width="100%" height="100%" viewBox="0 0 300 150" class="map-svg" id="map-path-svg">
                   <path d="M 30,110 Q 90,30 150,100 T 270,40" fill="none" stroke="#ddd" stroke-width="4" stroke-linecap="round" stroke-dasharray="6,6" />
@@ -181,226 +182,188 @@
                     <text y="-12" class="marker-label" text-anchor="middle">도착지</text>
                   </g>
                 </svg>
-                <div class="map-zoom-tips"><i class="fa-solid fa-circle-info"></i> 터치하여 상세 카카오맵 연결 가능</div>
+                <div class="map-zoom-tips"><i class="fa-solid fa-circle-info"></i> 클릭 시 카카오맵 연동</div>
               </div>
             </div>
 
-            <!-- 직관적 박스형 디자인으로 개선된 타임라인 일정표 -->
-            <div class="detail-card">
-              <h3 class="card-title"><i class="fa-solid fa-route text-primary"></i> 꽁아추천 나들이 일정표</h3>
-              <div class="box-timeline" id="detail-timeline-container">
-                <!-- JS에서 동적 박스형 타임라인 노드 생성 -->
-              </div>
-            </div>
-
-            <!-- 상세 뷰 주변 맛집/카페 전용 리스트 섹션 -->
-            <div class="detail-card">
-              <h3 class="card-title"><i class="fa-solid fa-utensils text-primary"></i> 코스 주변 맛집 · 카페 정보</h3>
-              <div class="detail-restaurant-list" id="detail-restaurant-container">
-                <!-- JS에서 맛집 리스트 렌더링 -->
-              </div>
-            </div>
-
-            <!-- 만족도 추천 및 투표 섹션 -->
+            <!-- 만족도 조율 투표 -->
             <div class="detail-card satisfaction-card">
-              <h3 class="card-title text-center">이 코스 방문 결과에 공감하시나요?</h3>
-              <p class="card-desc text-center">처음 방문하시는 분들을 위해 솔직한 의견을 표해 주세요!</p>
-              
+              <h4 class="card-section-title text-center">코스 만족 공감 투표</h4>
               <div class="vote-buttons">
                 <button class="vote-btn vote-up" onclick="castVote('up')">
                   <i class="fa-regular fa-thumbs-up"></i>
                   <span>추천해요</span>
-                  <strong id="detail-votes-up">128</strong>
+                  <strong id="detail-votes-up">0</strong>
                 </button>
                 <button class="vote-btn vote-down" onclick="castVote('down')">
                   <i class="fa-regular fa-thumbs-down"></i>
                   <span>아쉬워요</span>
-                  <strong id="detail-votes-down">3</strong>
+                  <strong id="detail-votes-down">0</strong>
                 </button>
               </div>
             </div>
+          </div>
 
-            <!-- 지역 농수산물 추천 배너 (수익화 연결) -->
+          <!-- 우측 칼럼: 나들이 경로일정 & 주변 연계 맛집/카페 리스트 -->
+          <div class="dashboard-col right-col">
+            <!-- 일정표 카드 -->
+            <div class="detail-card">
+              <h4 class="card-section-title"><i class="fa-solid fa-route text-primary"></i> 꽁아 추천 나들이 일정표</h4>
+              <div class="box-timeline" id="detail-timeline-container">
+                <!-- 일정 노드 -->
+              </div>
+            </div>
+
+            <!-- [중요] 주변 맛집 및 카페 카드 목록 -->
+            <div class="detail-card">
+              <h4 class="card-section-title"><i class="fa-solid fa-utensils text-primary"></i> 코스 주변 맛집 · 카페 정보</h4>
+              <div class="detail-restaurant-list" id="detail-restaurant-container">
+                <!-- 맛집 카드 목록 -->
+              </div>
+            </div>
+
+            <!-- 지역 직송 농수산물 특산품 추천 배너 -->
             <div class="commerce-banner" onclick="openCommerceModal()">
-              <div class="commerce-badge"><i class="fa-solid fa-gift"></i> 지역 농수산 추천</div>
+              <div class="commerce-badge"><i class="fa-solid fa-gift"></i> 산지 직배송</div>
               <div class="commerce-content">
-                <h4 id="commerce-title">산지직송 무농약 토마토 특가 판매</h4>
-                <p>생산자 보증 직거래로 저렴하게 만나보세요!</p>
+                <h4 id="commerce-title">산지 한정 특산품 판매</h4>
+                <p>현지 영농조합에서 보증하는 친환경 신선 제품 특가</p>
               </div>
               <i class="fa-solid fa-chevron-right arrow-icon"></i>
             </div>
-
-            <!-- 커뮤니티 및 댓글 섹션 -->
-            <div class="detail-card">
-              <h3 class="card-title"><i class="fa-solid fa-comments text-primary"></i> 다녀온 분들의 이야기</h3>
-              
-              <!-- 인증샷 슬라이더 -->
-              <div class="photo-gallery" id="detail-photo-gallery">
-                <!-- 이미지 동적 추가 -->
-              </div>
-
-              <!-- 댓글 입력 폼 -->
-              <div class="comment-form">
-                <textarea id="comment-textarea" placeholder="방문 후기나 주차 꿀팁 등을 남겨주세요." rows="2"></textarea>
-                <div class="comment-form-actions">
-                  <button class="btn btn-secondary" onclick="triggerPhotoUpload()"><i class="fa-solid fa-camera"></i> 사진 추가</button>
-                  <button class="btn btn-primary" onclick="submitComment()">등록하기</button>
-                </div>
-                <input type="file" id="photo-upload-input" style="display: none;" accept="image/*" onchange="handlePhotoSelected(event)">
-              </div>
-
-              <!-- 댓글 목록 -->
-              <div class="comment-list" id="detail-comments-list">
-                <!-- 동적 댓글 리스트 -->
-              </div>
-            </div>
-          </section>
-        </main>
-
-        <!-- [개선] 하단 탭바의 기능별 아이템 5개로 보강 (홈, 탐색, 등록, 장터, 마이) -->
-        <nav class="bottom-nav">
-          <button class="nav-item active" onclick="navigateTo('home', this)">
-            <i class="fa-solid fa-house"></i>
-            <span>홈</span>
-          </button>
-          <button class="nav-item" onclick="alert('상단의 주제별 압축 검색을 이용하여 242개 코스를 자유롭게 탐색하실 수 있습니다!')">
-            <i class="fa-solid fa-compass"></i>
-            <span>코스탐색</span>
-          </button>
-          <button class="nav-item" onclick="toggleAdminModal(true)">
-            <i class="fa-solid fa-square-plus"></i>
-            <span>엑셀등록</span>
-          </button>
-          <button class="nav-item" onclick="openCommerceModal()">
-            <i class="fa-solid fa-store"></i>
-            <span>지역장터</span>
-          </button>
-          <button class="nav-item" onclick="navigateTo('my-page')">
-            <i class="fa-solid fa-user"></i>
-            <span>내 정보</span>
-          </button>
-        </nav>
-
-        <!-- 내 정보 뷰 모달 형태로 임시 처리 -->
-        <div class="my-page-view" id="view-my-page" style="display: none;">
-          <div class="my-page-header">
-            <button class="icon-btn" onclick="toggleMyPage(false)"><i class="fa-solid fa-xmark"></i></button>
-            <h3>내 프로필</h3>
-            <div style="width:40px;"></div>
           </div>
-          <div class="my-page-body">
-            <div class="user-profile-card">
-              <div class="user-avatar"><i class="fa-solid fa-user-astronaut"></i></div>
-              <h4>나들이 대장님</h4>
-              <p>주 활동지: 서울/경기 북부</p>
+
+        </section>
+
+        <!-- 한 줄 평 커뮤니티 섹션 (대시보드 하단 가로 배치) -->
+        <section class="dashboard-bottom-comments">
+          <div class="detail-card">
+            <h4 class="card-section-title"><i class="fa-solid fa-comments text-primary"></i> 다녀온 회원들의 이야기</h4>
+            
+            <div class="photo-gallery" id="detail-photo-gallery">
+              <!-- 포토 리스트 -->
             </div>
-            <div class="menu-list">
-              <div class="menu-item"><i class="fa-regular fa-bookmark"></i> 저장한 꽁아코스 <span class="badge">4개</span></div>
-              <div class="menu-item"><i class="fa-regular fa-comment-dots"></i> 내가 쓴 나들이 후기 <span class="badge" id="my-comment-count">2개</span></div>
-              <div class="menu-item" onclick="toggleTextSize()"><i class="fa-solid fa-font"></i> 글자 크기 크게 모드</div>
-              <div class="menu-item" onclick="alert('꽁아코스 v1.2.0 데모 버전입니다.')"><i class="fa-solid fa-circle-info"></i> 앱 정보</div>
+
+            <div class="comment-form">
+              <textarea id="comment-textarea" placeholder="나들이길 주차 요령이나 식당 방문 꿀팁 등을 댓글로 남겨주세요." rows="2"></textarea>
+              <div class="comment-form-actions">
+                <button class="btn btn-secondary" onclick="triggerPhotoUpload()"><i class="fa-solid fa-camera"></i> 사진 추가</button>
+                <button class="btn btn-primary" onclick="submitComment()">후기 등록</button>
+              </div>
+              <input type="file" id="photo-upload-input" style="display: none;" accept="image/*" onchange="handlePhotoSelected(event)">
+            </div>
+
+            <div class="comment-list" id="detail-comments-list">
+              <!-- 댓글 노드 -->
             </div>
           </div>
-        </div>
+        </section>
+      </div>
 
-        <!-- 엑셀 파일 관리자 마이그레이션 모달 -->
-        <div class="modal-overlay" id="admin-modal" style="display: none;">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h3><i class="fa-solid fa-file-excel text-excel"></i> 엑셀 데이터 연동 관리자</h3>
-              <button class="close-btn" onclick="toggleAdminModal(false)">&times;</button>
-            </div>
-            <div class="modal-body">
-              <p class="modal-tip">지금까지 방문했던 엑셀 데이터를 복사하여 하단에 입력하거나 가상의 엑셀 파일을 불러와서 앱 코스로 일괄 등록할 수 있습니다.</p>
-              
-              <div class="form-group">
-                <label>엑셀 템플릿 양식 선택</label>
-                <div class="excel-presets">
-                  <button class="btn-preset active" onclick="loadExcelPreset(1)">📁 가을 등산로 엑셀.xls</button>
-                  <button class="btn-preset" onclick="loadExcelPreset(2)">📁 경기 남부 나들이 엑셀.xlsx</button>
-                </div>
-              </div>
+    </main>
 
-              <div class="form-group">
-                <label>엑셀 데이터 (CSV 형식 데모)</label>
-                <textarea id="excel-data-input" rows="8" placeholder="지역,계절,코스명,소요시간,경유지목록,만족도..."></textarea>
-              </div>
+  </div>
 
-              <button class="btn btn-primary btn-block" onclick="importExcelData()">
-                <i class="fa-solid fa-cloud-arrow-up"></i> 앱 데이터베이스에 마이그레이션 실행
-              </button>
-            </div>
-          </div>
-        </div>
+  <!-- 하단 5탭 내비게이션 바 (모바일 크기일 때만 화면 하단에 플로팅 활성화) -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="navigateTo('home', this)">
+      <i class="fa-solid fa-house"></i>
+      <span>홈</span>
+    </button>
+    <button class="nav-item" onclick="alert('주제별 압축 검색을 활용해 242개 코스를 즉시 조율해보세요!')">
+      <i class="fa-solid fa-compass"></i>
+      <span>코스탐색</span>
+    </button>
+    <button class="nav-item" onclick="toggleAdminModal(true)">
+      <i class="fa-solid fa-square-plus"></i>
+      <span>엑셀등록</span>
+    </button>
+    <button class="nav-item" onclick="openCommerceModal()">
+      <i class="fa-solid fa-store"></i>
+      <span>지역장터</span>
+    </button>
+    <button class="nav-item" onclick="navigateTo('my-page')">
+      <i class="fa-solid fa-user"></i>
+      <span>내 정보</span>
+    </button>
+  </nav>
 
-        <!-- 농수산물 특산품 상세 커머스 팝업 (수익화) -->
-        <div class="modal-overlay" id="commerce-modal" style="display: none;">
-          <div class="modal-content commerce-modal-content">
-            <div class="modal-header">
-              <h3>🛍️ 지역 특산물 직송 안내</h3>
-              <button class="close-btn" onclick="toggleCommerceModal(false)">&times;</button>
-            </div>
-            <div class="modal-body text-center">
-              <div class="product-img-box">
-                <i class="fa-solid fa-lemon product-placeholder-icon"></i>
-              </div>
-              <h4 id="product-modal-title" class="product-title">해풍 맞고 자란 명품 토마토</h4>
-              <p class="product-price"><span class="price-origin">18,000원</span> → <strong class="price-sale">12,500원</strong> (무료배송)</p>
-              <p class="product-desc">본 코스의 출발지 인근 농가에서 생산자가 직거래 배송하는 100% 보증 특산물입니다.</p>
-              
-              <div class="phone-order-box">
-                <a href="tel:010-1234-5678" class="btn btn-call">
-                  <i class="fa-solid fa-phone-volume"></i> <strong>전화로 바로 주문하기</strong>
-                  <span>(중장년층 간편 주문)</span>
-                </a>
-              </div>
-              <button class="btn btn-secondary btn-block" onclick="alert('인터넷 간편결제 결제창으로 연동되는 임시 버튼입니다.')">인터넷으로 바로구매</button>
-            </div>
-          </div>
-        </div>
-
+  <!-- 내 정보 뷰 모달 형태로 처리 -->
+  <div class="my-page-view" id="view-my-page" style="display: none;">
+    <div class="my-page-header">
+      <button class="icon-btn" onclick="toggleMyPage(false)"><i class="fa-solid fa-xmark"></i></button>
+      <h3>내 프로필</h3>
+      <div style="width:40px;"></div>
+    </div>
+    <div class="my-page-body">
+      <div class="user-profile-card">
+        <div class="user-avatar"><i class="fa-solid fa-user-astronaut"></i></div>
+        <h4>나들이 대장님</h4>
+        <p>주 활동지: 서울/경기 북부</p>
+      </div>
+      <div class="menu-list">
+        <div class="menu-item"><i class="fa-regular fa-bookmark"></i> 저장한 꽁아코스 <span class="badge">4개</span></div>
+        <div class="menu-item"><i class="fa-regular fa-comment-dots"></i> 내가 쓴 나들이 후기 <span class="badge" id="my-comment-count">2개</span></div>
+        <div class="menu-item" onclick="toggleTextSize()"><i class="fa-solid fa-font"></i> 글자 크게 모드 토글</div>
+        <div class="menu-item" onclick="alert('꽁아코스 대시보드 v1.3.0 버전입니다.')"><i class="fa-solid fa-circle-info"></i> 앱 정보</div>
       </div>
     </div>
+  </div>
 
-    <!-- 2. 우측: PC 브라우저 뷰어 전용 기획 안내 & 테스트 가이드 패널 -->
-    <div class="demo-guide-panel">
-      <div class="guide-header">
-        <h2 class="guide-main-title"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> 꽁아코스 개발 데모 안내</h2>
-        <span class="guide-badge">Prototype v1.3.0</span>
+  <!-- 엑셀 데이터 연동 모달 -->
+  <div class="modal-overlay" id="admin-modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-file-excel text-excel"></i> 엑셀 데이터 연동 관리자</h3>
+        <button class="close-btn" onclick="toggleAdminModal(false)">&times;</button>
       </div>
-      
-      <p class="guide-intro">
-        이 화면은 사용자의 기획안 및 <strong>242개의 실제 엑셀 데이터</strong>를 바탕으로 완성된 하이브리드 앱 데모입니다.
-      </p>
+      <div class="modal-body">
+        <p class="modal-tip">방문했던 코스 데이터를 일괄 업로드하거나 시뮬레이션할 수 있습니다.</p>
+        
+        <div class="form-group">
+          <label>엑셀 템플릿 양식 선택</label>
+          <div class="excel-presets">
+            <button class="btn-preset active" onclick="loadExcelPreset(1)">📁 가을 등산로 엑셀.xls</button>
+            <button class="btn-preset" onclick="loadExcelPreset(2)">📁 경기 남부 나들이 엑셀.xlsx</button>
+          </div>
+        </div>
 
-      <div class="guide-section">
-        <h3>💡 주요 테스트 시나리오</h3>
-        <ul class="guide-steps">
-          <li>
-            <strong>1. 양측 좌/우 2열 대시보드 리스트</strong>
-            <span>기존 1열 세로 레이아웃 대신, 좌우에 균등하게 1개씩 노출되는 <strong>2열 대시보드 그리드 구조</strong>로 변경되어 더 많은 코스를 한눈에 직관적으로 비교할 수 있습니다. 카드를 탭하면 즉시 상세 화면으로 부드럽게 연동됩니다.</span>
-          </li>
-          <li>
-            <strong>2. 꽁아코스 상단 퀵 헤드탭 신설</strong>
-            <span>헤더 바로 밑에 <strong>오늘코스 · 당일코스 · 인기코스 · 신규코스</strong> 탭이 생성되었습니다. 탭을 선택하면 조건에 맞는 코스로 즉시 필터링(압축 검색)됩니다.</span>
-          </li>
-          <li>
-            <strong>3. 불필요한 스마트폰 상단바 요소 삭제</strong>
-            <span>상단 헤더 위의 불필요한 시계 배터리바 영역을 없애고 <strong>전문적 코스 추천 웹앱</strong> 스펙에 최적화된 심플 헤더로 전면 개편했습니다.</span>
-          </li>
-          <li>
-            <strong>4. 보강된 5탭 하단바</strong>
-            <span>하단 탭을 [홈 · 코스탐색 · 엑셀등록 · 지역장터 · 내정보]의 <strong>5개 기능형 탭</strong>으로 확장하여, 모바일 환경의 완결성 높은 앱 흐름을 완성했습니다.</span>
-          </li>
-        </ul>
-      </div>
+        <div class="form-group">
+          <label>엑셀 데이터 (CSV 형식)</label>
+          <textarea id="excel-data-input" rows="8" placeholder="지역,계절,코스명,소요시간,경유지목록,만족도..."></textarea>
+        </div>
 
-      <div class="guide-footer">
-        <p><i class="fa-regular fa-folder-open"></i> 로컬 소스 코드 파일 위치:</p>
-        <code>바탕화면/꽁아코스/</code>
+        <button class="btn btn-primary btn-block" onclick="importExcelData()">
+          <i class="fa-solid fa-cloud-arrow-up"></i> 대시보드 데이터베이스에 연동 실행
+        </button>
       </div>
     </div>
+  </div>
 
+  <!-- 특산물 상세 커머스 팝업 -->
+  <div class="modal-overlay" id="commerce-modal" style="display: none;">
+    <div class="modal-content commerce-modal-content">
+      <div class="modal-header">
+        <h3>🛍️ 지역 특산물 직송 안내</h3>
+        <button class="close-btn" onclick="toggleCommerceModal(false)">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="product-img-box">
+          <i class="fa-solid fa-lemon product-placeholder-icon"></i>
+        </div>
+        <h4 id="product-modal-title" class="product-title">해풍 맞고 자란 명품 토마토</h4>
+        <p class="product-price"><span class="price-origin">18,000원</span> → <strong class="price-sale">12,500원</strong> (무료배송)</p>
+        <p class="product-desc">본 코스의 출발지 인근 농가에서 생산자가 직거래 배송하는 100% 보증 특산물입니다.</p>
+        
+        <div class="phone-order-box">
+          <a href="tel:010-1234-5678" class="btn btn-call">
+            <i class="fa-solid fa-phone-volume"></i> <strong>전화로 바로 주문하기</strong>
+            <span>(중장년층 간편 주문)</span>
+          </a>
+        </div>
+        <button class="btn btn-secondary btn-block" onclick="alert('결제창으로 이동하는 기능입니다.')">인터넷 바로구매</button>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
