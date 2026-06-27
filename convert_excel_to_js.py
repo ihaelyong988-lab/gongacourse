@@ -172,7 +172,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 모바일 자동 대시보드 강제 롤링 및 뒤로가기 스크롤 추가
+    # JS 코드 갱신: 모바일 뷰 전환을 강제 구동하여 환경 불안정 해소
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -231,11 +231,11 @@ document.addEventListener("DOMContentLoaded", () => {{
   if (courses.length > 0) {{
     showCourseDetail(courses[0].id);
     
-    // [개선] 모바일 최초 접속 시, 대시보드 화면이 첫 화면으로 바로 표시되도록 자동 포커스
+    // 모바일 최초 접속 시, 대시보드 화면이 첫 화면으로 바로 표시되도록 자동 포커스
     if (window.innerWidth <= 900) {{
       setTimeout(() => {{
         scrollToDashboard();
-      }}, 600); // 렌더링 안정성을 위해 약간의 딜레이 후 실행
+      }}, 500); 
     }}
   }}
 }});
@@ -244,27 +244,32 @@ function saveToLocalStorage() {{
   localStorage.setItem("gongacourse_data", JSON.stringify(courses));
 }}
 
-// [신설] 모바일 뷰 양방향 스위칭 및 뒤로가기 스크롤 함수
+// [개정] 모바일 뷰 양방향 스위칭 및 뒤로가기 스크롤 함수 (화면 해상도 판정 노이즈 제거를 위한 강제 전환 장치)
 function scrollToCourseList() {{
+  document.querySelector(".left-panel").style.display = "flex";
+  document.querySelector(".right-panel").style.display = "none";
+  
+  const forwardBar = document.getElementById("mobile-back-to-detail-bar");
+  if (forwardBar) forwardBar.style.display = "block";
+  
   const listTop = document.getElementById("course-list-top");
-  if (listTop) {{
-    listTop.scrollIntoView({{ behavior: "smooth" }});
-    
-    // 목록 진입 시 대시보드 빠른 롤백 버튼 활성화
-    const forwardBar = document.getElementById("mobile-back-to-detail-bar");
-    if (forwardBar) forwardBar.style.display = "block";
-  }}
+  if (listTop) listTop.scrollIntoView();
 }}
 
 function scrollToDashboard() {{
-  const dashboardTop = document.getElementById("detail-dashboard-top");
-  if (dashboardTop) {{
-    dashboardTop.scrollIntoView({{ behavior: "smooth" }});
-    
-    // 대시보드 진입 시 롤백 버튼은 다시 감춤
-    const forwardBar = document.getElementById("mobile-back-to-detail-bar");
-    if (forwardBar) forwardBar.style.display = "none";
+  if (window.innerWidth <= 900) {{
+    document.querySelector(".left-panel").style.display = "none";
+    document.querySelector(".right-panel").style.display = "block";
+  }} else {{
+    document.querySelector(".left-panel").style.display = "flex";
+    document.querySelector(".right-panel").style.display = "block";
   }}
+  
+  const forwardBar = document.getElementById("mobile-back-to-detail-bar");
+  if (forwardBar) forwardBar.style.display = "none";
+
+  const dashboardTop = document.getElementById("detail-dashboard-top");
+  if (dashboardTop) dashboardTop.scrollIntoView();
 }}
 
 // 다차원 별점 지정 이벤트
@@ -473,10 +478,8 @@ function showCourseDetail(courseId) {{
 
   renderComments();
 
-  // 모바일 탭 시 상세 화면 강제 포커싱 및 목록 뒤로가기 버튼 활성화
-  if (window.innerWidth <= 900) {{
-    scrollToDashboard();
-  }}
+  // 모바일 탭 시 상세 화면 강제 포커싱
+  scrollToDashboard();
 
   const path = document.querySelector(".path-line");
   if (path) {{
