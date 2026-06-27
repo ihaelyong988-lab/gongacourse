@@ -171,7 +171,7 @@ try:
     # 242개 JSON 데이터 변환
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # 대규모 로직 자바스크립트 템플릿 정의 (다중 압축 검색 필터 완벽 보완)
+    # 대규모 로직 자바스크립트 템플릿 정의 (localStorage 캐시 불일치 시 리셋하도록 로직 긴급 수정)
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -189,13 +189,24 @@ let searchKeyword = "";
 
 document.addEventListener("DOMContentLoaded", () => {{
   const savedCourses = localStorage.getItem("gongacourse_data");
+  let needReset = false;
+  
   if (savedCourses) {{
     try {{
       courses = JSON.parse(savedCourses);
+      // 만약 저장된 데이터 개수가 242개(defaultCourses)와 다르면, 
+      // 이전 3개짜리 구버전 데이터가 캐싱되어 있는 것이므로 최신 242개 데이터로 강제 초기화(갱신)함.
+      if (courses.length !== defaultCourses.length) {{
+        needReset = true;
+      }}
     }} catch (e) {{
-      courses = [...defaultCourses];
+      needReset = true;
     }}
   }} else {{
+    needReset = true;
+  }}
+
+  if (needReset) {{
     courses = [...defaultCourses];
     saveToLocalStorage();
   }}
@@ -314,7 +325,7 @@ function renderCourseList() {{
   container.innerHTML = "";
 
   const filtered = courses.filter(course => {{
-    // A. 검색어 필터 (제목, 주소, 타입, 그리고 일정의 세부 스폿명까지 종합 매칭!)
+    // A. 검색어 필터 (공백 제거 매칭하여 검색 유연성 확보)
     const normSearch = searchKeyword.toLowerCase().replace(/\\s+/g, "");
     let matchesSearch = true;
     if (normSearch) {{
@@ -756,7 +767,7 @@ function toggleCommerceModal(show) {{
     with open(js_file, "w", encoding="utf-8") as f:
         f.write(js_logic)
         
-    print("All system code and 242 excel courses updated successfully in app.js.")
+    print("app.js with cache check has been successfully written.")
 
 except Exception as e:
     import traceback
