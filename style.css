@@ -226,9 +226,9 @@ body {
   padding-right: 14px;
 }
 
-/* [신설] 모바일 뷰 목록 구경 중 빠른 대시보드 복귀 패널 */
+/* 모바일 뷰 목록 구경 중 빠른 대시보드 복귀 패널 */
 .mobile-forward-panel {
-  display: none; /* 기본 PC뷰어에서는 비표시 */
+  display: none; 
 }
 
 /* 코스 개수 메타 */
@@ -489,9 +489,9 @@ body {
   margin: 0 auto;
 }
 
-/* [신설] 모바일 뷰 대시보드에서 이전 코스 목록으로 돌아가는 뒤로가기 버튼 영역 */
+/* 모바일 뷰 대시보드에서 이전 코스 목록으로 돌아가는 뒤로가기 버튼 영역 */
 .mobile-back-panel {
-  display: none; /* 기본 PC뷰어에서는 비표시 */
+  display: none; 
 }
 
 /* 대시보드 히어로 배너 */
@@ -1444,6 +1444,7 @@ body {
     width: 100%;
   }
   .left-panel {
+    display: none; /* [초밀착 개선] 최초 진입 시 목록 패널 숨김으로 대시보드 강제 고정 */
     width: 100%;
     height: auto;
     border-right: none;
@@ -1451,9 +1452,10 @@ body {
     padding-bottom: 10px;
   }
   .course-list-panel {
-    max-height: 380px; /* 세로 높이 최적화 */
+    max-height: 380px; 
   }
   .right-panel {
+    display: block; /* [초밀착 개선] 최초 진입 시 상세 대시보드만 우선 표시 */
     width: 100%;
     height: auto;
   }
@@ -1468,7 +1470,7 @@ body {
     gap: 10px;
   }
 
-  /* [신설] 모바일 뷰 전용 양방향 스위칭 네비게이션 노출 */
+  /* 모바일 뷰 전용 양방향 스위칭 네비게이션 노출 */
   .mobile-back-panel {
     display: block !important;
     margin-bottom: 10px;
@@ -1500,7 +1502,7 @@ body {
     font-weight: 800;
   }
 
-  /* 모바일 필터 터치 간격 및 여백 확장 (오터치 영구 차단) */
+  /* 모바일 필터 터치 간격 및 여백 확장 */
   .filter-selects-row {
     gap: 8px !important;
   }
