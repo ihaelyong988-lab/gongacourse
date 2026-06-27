@@ -171,7 +171,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 대시보드 구조에 맞춰 showCourseDetail 오버라이딩
+    # JS 코드 갱신: 빌트인 탭바 & 모바일 탭바 활성화 연동
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -212,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {{
 
   renderCourseList();
   
-  // 첫 진입 시 첫 번째 코스를 기본 상세 대시보드로 자동 로드해 주는 대시보드형 기법 적용
   if (courses.length > 0) {{
     showCourseDetail(courses[0].id);
   }}
@@ -222,24 +221,21 @@ function saveToLocalStorage() {{
   localStorage.setItem("gongacourse_data", JSON.stringify(courses));
 }}
 
-// 대시보드 탭 처리 (상세 화면으로 전환 대신 우측 패널 갱신)
+// 코스 상세 렌더링
 function showCourseDetail(courseId) {{
   const course = courses.find(c => c.id === courseId);
   if (!course) return;
 
   currentCourse = course;
 
-  // 플레이스홀더를 끄고 대시보드 활성화
   const placeholder = document.getElementById("detail-placeholder-view");
   const dashboard = document.getElementById("detail-dashboard-view");
   if (placeholder) placeholder.style.display = "none";
   if (dashboard) dashboard.style.display = "block";
 
-  // 카드 활성화 보정 (좌측 목록에 테두리 입히기)
   document.querySelectorAll(".course-card").forEach(card => {{
     card.classList.remove("active");
   }});
-  // 현재 선택한 카드 엘리먼트를 찾아서 active 부여
   const activeCard = document.querySelector(`.course-card[data-id="${{courseId}}"]`);
   if (activeCard) activeCard.classList.add("active");
 
@@ -334,7 +330,6 @@ function showCourseDetail(courseId) {{
 
   renderComments();
 
-  // 모바일 기기(폭 <= 900px)에서 탭 시 상세 화면 영역으로 부드럽게 스크롤 강제 연동
   if (window.innerWidth <= 900) {{
     document.getElementById("detail-dashboard-view").scrollIntoView({{ behavior: "smooth" }});
   }}
@@ -347,7 +342,7 @@ function showCourseDetail(courseId) {{
   }}
 }}
 
-// SPA 내비게이션 (모바일 탭 바 및 플레이어 대응)
+// 네비게이션 및 탭바 동기화 제어 (Built-in 탭바와 플로팅 탭바 동시 연동)
 function navigateTo(viewId, element) {{
   if (viewId === 'home') {{
     toggleMyPage(false);
@@ -356,12 +351,20 @@ function navigateTo(viewId, element) {{
     toggleMyPage(true);
   }}
   
-  if (element && element.classList.contains("nav-item")) {{
-    document.querySelectorAll(".bottom-nav .nav-item").forEach(item => {{
-      item.classList.remove("active");
-    }});
-    element.classList.add("active");
+  // 양쪽 탭바의 동일 인덱스 아이템들 active 동기화
+  let clickedIndex = 0;
+  if (element) {{
+    const siblingItems = Array.from(element.parentElement.children);
+    clickedIndex = siblingItems.indexOf(element);
   }}
+
+  document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
+    const items = Array.from(navBar.children);
+    items.forEach((item, idx) => {{
+      if (idx === clickedIndex) item.classList.add("active");
+      else item.classList.remove("active");
+    }});
+  }});
 }}
 
 function toggleMyPage(show) {{
@@ -369,9 +372,13 @@ function toggleMyPage(show) {{
   if (!myPage) return;
   myPage.style.display = show ? "flex" : "none";
   if (show) {{
-    document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
-      if (idx === 4) item.classList.add("active");
-      else item.classList.remove("active");
+    // Built-in과 모바일 탭바의 4번째 탭(내 정보) 활성화 동기화
+    document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
+      const items = Array.from(navBar.children);
+      items.forEach((item, idx) => {{
+        if (idx === 4) item.classList.add("active");
+        else item.classList.remove("active");
+      }});
     }});
 
     let myCommentCount = 0;
@@ -387,7 +394,7 @@ function toggleMyPage(show) {{
   }}
 }}
 
-// 상단 헤드 탭 연동 기능
+// 상단 밑줄 텍스트형 헤드 탭 연동
 function selectHeadTab(tabId, element) {{
   currentHeadTab = tabId;
   
@@ -400,7 +407,7 @@ function selectHeadTab(tabId, element) {{
   renderCourseList();
 }}
 
-// 압축 검색 필터 적용
+// 압축 검색 필터
 function applyFilters() {{
   const regionSelect = document.getElementById("filter-region");
   const seasonSelect = document.getElementById("filter-season");
@@ -535,7 +542,6 @@ function renderCourseList() {{
     card.setAttribute("data-id", course.id);
     card.onclick = () => showCourseDetail(course.id);
 
-    // 대시보드상 활성화 상태 매핑
     if (currentCourse && currentCourse.id === course.id) {{
       card.classList.add("active");
     }}
@@ -561,7 +567,7 @@ function renderCourseList() {{
         <div class="card-meta">
           <span>${{course.location}}</span>
         </div>
-        <h3 class="card-title-text" style="font-size: 12px; line-height: 1.3; height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom:4px;">${{course.title}}</h3>
+        <h3 class="card-title-text" style="font-size: 12px; line-height: 1.35; height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom:2px;">${{course.title}}</h3>
         
         ${{foodTagsHtml}} 
 
@@ -714,30 +720,27 @@ function handlePhotoSelected(event) {{
   }}
 }}
 
-function toggleTextSize() {{
-  document.body.classList.toggle("large-text-mode");
-  const isLarge = document.body.classList.contains("large-text-mode");
-  if (isLarge) {{
-    alert("큰 글씨 모드 활성화 (글자 30% 확대)");
-  }} else {{
-    alert("일반 글씨 크기 복원");
-  }}
-}}
-
 function toggleAdminModal(show) {{
   const modal = document.getElementById("admin-modal");
   if (modal) {{
     modal.style.display = show ? "flex" : "none";
     if (show) {{
       loadExcelPreset(1);
-      document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
-        if (idx === 2) item.classList.add("active");
-        else item.classList.remove("active");
+      // Built-in과 모바일 탭바의 3번째 탭(데이터설정) 활성화 동기화
+      document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
+        const items = Array.from(navBar.children);
+        items.forEach((item, idx) => {{
+          if (idx === 2) item.classList.add("active");
+          else item.classList.remove("active");
+        }});
       }});
     }} else {{
-      document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
-        if (idx === 0) item.classList.add("active");
-        else item.classList.remove("active");
+      document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
+        const items = Array.from(navBar.children);
+        items.forEach((item, idx) => {{
+          if (idx === 0) item.classList.add("active");
+          else item.classList.remove("active");
+        }});
       }});
     }}
   }}
@@ -829,7 +832,6 @@ function importExcelData() {{
       renderCourseList();
       toggleAdminModal(false);
       alert(`${{addedCount}}개 코스 마이그레이션 완료!`);
-      // 마이그레이션된 첫 번째 코스로 자동 로드
       showCourseDetail(courses[courses.length - addedCount].id);
     }}
   }} catch (e) {{
@@ -841,9 +843,12 @@ function openCommerceModal() {{
   const modal = document.getElementById("commerce-modal");
   if (modal) {{
     modal.style.display = "flex";
-    document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
-      if (idx === 3) item.classList.add("active");
-      else item.classList.remove("active");
+    document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
+      const items = Array.from(navBar.children);
+      items.forEach((item, idx) => {{
+        if (idx === 3) item.classList.add("active");
+        else item.classList.remove("active");
+      }});
     }});
   }}
 }}
@@ -853,9 +858,12 @@ function toggleCommerceModal(show) {{
   if (modal) {{
     modal.style.display = show ? "flex" : "none";
     if (!show) {{
-      document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
-        if (idx === 0) item.classList.add("active");
-        else item.classList.remove("active");
+      document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
+        const items = Array.from(navBar.children);
+        items.forEach((item, idx) => {{
+          if (idx === 0) item.classList.add("active");
+          else item.classList.remove("active");
+        }});
       }});
     }}
   }}
@@ -865,7 +873,7 @@ function toggleCommerceModal(show) {{
     with open(js_file, "w", encoding="utf-8") as f:
         f.write(js_logic)
         
-    print("app.js has been successfully updated with split-view layout.")
+    print("app.js has been successfully regenerated with synchronized tab navigation.")
 
 except Exception as e:
     import traceback

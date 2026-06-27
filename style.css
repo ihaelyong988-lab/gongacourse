@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * 꽁아코스 - 전문 대시보드 스타일 시트 (style.css)
+ * 꽁아코스 - 프리미엄 대시보드 스타일 시트 (style.css)
  * ----------------------------------------------------------------------------- */
 
 /* 1. 디자인 시스템 토큰 & 변수 정의 */
@@ -7,35 +7,34 @@
   --primary-color: #2e7d32;     /* 메인 자연 그린 */
   --primary-light: #e8f5e9;
   --secondary-color: #f57c00;   /* 포인트 오렌지 (만족도/강조) */
-  --bg-color: #f3f6f4;          /* 대시보드 배경 */
+  --bg-color: #f4f6f5;          /* 대시보드 뒷배경 */
   --card-bg: #ffffff;           /* 카드 배경 */
   --text-main: #2c3e50;         /* 메인 텍스트 */
   --text-muted: #7f8c8d;        /* 보조 텍스트 */
-  --border-color: #e5e8e6;      /* 경계선 */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.06);
-  --border-radius: 14px;
+  --border-color: #e6eae7;      /* 정밀한 연한 경계선 */
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --border-radius: 12px;
   
-  /* 반응형 폰트 사이즈 변수 (큰글씨 모드 대응) */
   --font-base: 13px;
-  --font-h1: 19px;
-  --font-h2: 15px;
-  --font-h3: 13px;
-  --font-btn: 13px;
-  --icon-size: 17px;
+  --font-h1: 18px;
+  --font-h2: 14px;
+  --font-h3: 12px;
+  --font-btn: 12px;
+  --icon-size: 16px;
 }
 
-/* 큰글씨 모드 활성화 시 덮어쓰는 변수 (중장년 접근성 고도화) */
+/* 큰글씨 모드 대응 변수 */
 body.large-text-mode {
   --font-base: 16px;
-  --font-h1: 22px;
-  --font-h2: 18px;
-  --font-h3: 16px;
-  --font-btn: 16px;
-  --icon-size: 20px;
+  --font-h1: 21px;
+  --font-h2: 17px;
+  --font-h3: 15px;
+  --font-btn: 15px;
+  --icon-size: 19px;
 }
 
-/* 기본 리셋 및 전역 스타일 */
+/* 기본 리셋 */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -45,13 +44,13 @@ body.large-text-mode {
 }
 
 body {
-  background: #f0f2f5;
+  background: var(--bg-color);
   color: var(--text-main);
   min-height: 100vh;
   overflow: hidden;
 }
 
-/* 2. 대시보드 전체 컨테이너 (좌우 분할 스플릿 뷰) */
+/* 2. 대시보드 전체 컨테이너 (화면 전체 꽉 차는 레이아웃) */
 .dashboard-container {
   display: flex;
   width: 100vw;
@@ -59,100 +58,55 @@ body {
   overflow: hidden;
 }
 
-/* 3. 좌측 패널: 검색 및 코스 리스트 (Left Panel - 420px 고정) */
+/* 3. 좌측 컨트롤 및 목록 패널 */
 .left-panel {
-  width: 420px;
+  width: 400px;
   background: var(--card-bg);
   border-right: 1.5px solid var(--border-color);
   display: flex;
   flex-direction: column;
   height: 100%;
   flex-shrink: 0;
-  box-shadow: 4px 0 15px rgba(0,0,0,0.02);
+  box-shadow: 2px 0 10px rgba(0,0,0,0.01);
   z-index: 10;
 }
 
-/* 좌측 헤더 */
+/* [개선] 꽁아코스 옆으로 검색창을 가로 나란히 좁혀서 배치 (헤더 높이 대폭 감소) */
 .panel-header {
-  height: 60px;
-  padding: 0 20px;
+  height: 52px;
+  padding: 0 16px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  justify-content: space-between;
+  border-bottom: 1.5px solid var(--border-color);
   background: white;
   flex-shrink: 0;
+  gap: 12px;
 }
 
 .app-logo {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 900;
   color: var(--primary-color);
   cursor: pointer;
   letter-spacing: -0.5px;
-}
-
-.header-controls {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: var(--icon-size);
-  color: var(--text-main);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.icon-btn:hover {
-  background: #f1f3f4;
-}
-
-.text-mode-btn {
-  background: var(--primary-light);
-  border: 1px solid var(--primary-color);
-  border-radius: 20px;
-  padding: 4px 10px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  color: var(--primary-color);
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-body.large-text-mode .text-mode-btn {
-  background: var(--primary-color);
-  color: white;
-}
-
-/* 검색바 영역 */
-.search-section {
-  padding: 14px 20px 8px 20px;
   flex-shrink: 0;
 }
 
-.search-bar {
+.search-bar-header {
+  flex: 1;
+  max-width: 230px;
   background: #f1f3f4;
   border: 1.5px solid transparent;
-  border-radius: var(--border-radius);
-  height: 46px;
+  border-radius: 20px;
+  height: 34px;
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding: 0 12px;
   transition: all 0.2s;
 }
 
-.search-bar:focus-within {
+.search-bar-header:focus-within {
   background: white;
   border-color: var(--primary-color);
   box-shadow: var(--shadow-sm);
@@ -160,102 +114,80 @@ body.large-text-mode .text-mode-btn {
 
 .search-icon {
   color: var(--text-muted);
-  font-size: 16px;
-  margin-right: 10px;
+  font-size: 13px;
+  margin-right: 6px;
 }
 
-.search-bar input {
+.search-bar-header input {
   border: none;
   outline: none;
   width: 100%;
-  font-size: var(--font-base);
+  font-size: 12px;
   color: var(--text-main);
   background: transparent;
 }
 
-/* 상단 퀵 헤드 탭 */
+/* [개선] 코스별 탭 박스 해제 및 언더라인형 미니멀 디자인 개편 */
 .head-tabs-container {
-  padding: 4px 20px 10px 20px;
-  overflow-x: auto;
+  padding: 8px 16px 4px 16px;
+  border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
 }
-.head-tabs-container::-webkit-scrollbar {
+
+.head-tabs-underline {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+}
+.head-tabs-underline::-webkit-scrollbar {
   display: none;
 }
 
-.head-tabs {
-  display: flex;
-  gap: 6px;
-  width: max-content;
-}
-
 .head-tab {
-  background: #f8f9fa;
-  border: 1px solid var(--border-color);
-  padding: 6px 12px;
-  border-radius: 16px;
-  font-size: 11px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 6px 0;
+  font-size: 12px;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 body.large-text-mode .head-tab {
   font-size: 14px;
-  padding: 8px 16px;
 }
 
 .head-tab:hover {
-  background: #eef1f3;
+  color: var(--text-main);
 }
 
 .head-tab.active {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-  color: white;
-  box-shadow: 0 3px 8px rgba(46, 125, 50, 0.2);
+  border-bottom: 3px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 900;
 }
 
-/* 주제별 압축 검색 박스 (좌측 정렬화) */
-.filter-section-card {
-  margin: 0 20px 10px 20px;
-  padding: 12px;
+/* [개선] 라벨 텍스트를 삭제하여 세로 폭을 초밀착한 압축 검색 필터 */
+.filter-section-compact {
+  padding: 10px 16px;
+  border-bottom: 1.5px solid var(--border-color);
   background: #fafbfa;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
   flex-shrink: 0;
 }
 
-.filter-card-title {
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 8px;
-}
-
-.filter-selects-container {
+.filter-selects-row {
   display: flex;
   gap: 6px;
 }
 
-.filter-select-wrapper {
+.filter-selects-row select {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.filter-select-wrapper label {
-  font-size: 9px;
-  font-weight: 800;
-  color: var(--text-muted);
-}
-
-.filter-select-wrapper select {
   background: white;
   border: 1.5px solid var(--border-color);
-  padding: 6px 4px;
+  padding: 8px 6px;
   border-radius: 8px;
   font-size: 11px;
   font-weight: 700;
@@ -265,20 +197,24 @@ body.large-text-mode .head-tab {
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237f8c8d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 4px center;
+  background-position: right 6px center;
   background-size: 8px;
-  padding-right: 14px;
+  padding-right: 16px;
+  transition: border-color 0.2s;
 }
 
-body.large-text-mode .filter-select-wrapper select {
+body.large-text-mode .filter-selects-row select {
   font-size: 13px;
-  padding: 8px 6px;
-  background-size: 10px;
+  padding: 10px 8px;
+}
+
+.filter-selects-row select:focus {
+  border-color: var(--primary-color);
 }
 
 /* 코스 개수 메타 */
 .list-meta-header {
-  padding: 10px 20px 6px 20px;
+  padding: 10px 16px 4px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -286,31 +222,32 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .meta-title {
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--text-main);
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--text-muted);
+  letter-spacing: -0.2px;
 }
 
 .meta-count {
   font-size: 11px;
-  color: var(--text-muted);
-  font-weight: 700;
+  color: var(--primary-color);
+  font-weight: 800;
 }
 
-/* 리스트 패널 스크롤 */
+/* 목록 스크롤 컨테이너 */
 .course-list-panel {
   flex: 1;
   overflow-y: auto;
-  padding: 4px 20px 20px 20px;
+  padding: 4px 16px 16px 16px;
 }
 
 .course-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 좌우 2열 대시보드 구조 적용 */
-  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-/* 코스 카드 (2열 대시보드화 콤팩트 디자인) */
+/* 코스 카드 */
 .course-card {
   background: var(--card-bg);
   border-radius: var(--border-radius);
@@ -318,7 +255,7 @@ body.large-text-mode .filter-select-wrapper select {
   box-shadow: var(--shadow-sm);
   border: 1.5px solid var(--border-color);
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.1, 0.8, 0.3, 1);
+  transition: all 0.22s cubic-bezier(0.1, 0.8, 0.3, 1);
   display: flex;
   flex-direction: column;
 }
@@ -329,10 +266,10 @@ body.large-text-mode .filter-select-wrapper select {
   border-color: #bdc3c7;
 }
 
-/* [중요] 상세 대시보드 로드 중 활성화 상태 테두리 표현 */
+/* 카드 선택 활성화 테두리 피드백 */
 .course-card.active {
   border-color: var(--primary-color);
-  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.08);
   background: var(--primary-light);
 }
 
@@ -355,14 +292,14 @@ body.large-text-mode .filter-select-wrapper select {
   left: 6px;
   background: rgba(0, 0, 0, 0.65);
   color: white;
-  padding: 2px 5px;
+  padding: 2px 4px;
   border-radius: 4px;
   font-size: 8px;
   font-weight: 700;
 }
 
 .card-info {
-  padding: 10px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -377,28 +314,28 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .card-title-text {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   color: var(--text-main);
   margin-bottom: 4px;
   line-height: 1.35;
 }
 
-/* 대시보드 카드 내부 맛집 요약 배지 */
+/* 카드 내 맛집 요약 노출 영역 */
 .card-food-tags {
   display: flex;
   align-items: center;
   gap: 4px;
   background: #fff8f1;
   border: 1px dashed #ffe0b2;
-  padding: 4px 6px;
+  padding: 3px 5px;
   border-radius: 6px;
-  margin: 4px 0 6px 0;
+  margin: 3px 0 5px 0;
 }
 
 .card-food-tags i {
   color: var(--secondary-color);
-  font-size: 9px;
+  font-size: 8px;
 }
 
 .tags-container {
@@ -428,9 +365,9 @@ body.large-text-mode .filter-select-wrapper select {
 .ratio-badge {
   background: var(--primary-light);
   color: var(--primary-color);
-  padding: 2px 5px;
+  padding: 1px 4px;
   border-radius: 4px;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
 }
 .ratio-badge.high-satisfaction {
@@ -439,12 +376,50 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .card-duration {
-  font-size: 9px;
+  font-size: 8px;
   color: var(--text-muted);
   font-weight: 700;
 }
 
-/* 4. 우측 패널: 상세 대시보드 화면 (Right Panel - Flex 1) */
+/* [개선] 설정 기능 통합 및 빌트인 네비게이션 적용 (좌측 하단 고정) */
+.bottom-nav-builtin {
+  height: 52px;
+  background: white;
+  border-top: 1.5px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 2px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.bottom-nav-builtin .nav-item {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex: 1;
+}
+
+.bottom-nav-builtin .nav-item i {
+  font-size: 15px;
+}
+
+.bottom-nav-builtin .nav-item span {
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.bottom-nav-builtin .nav-item.active {
+  color: var(--primary-color);
+}
+
+/* 4. 우측 패널: 상세 대시보드 화면 */
 .right-panel {
   flex: 1;
   background: var(--bg-color);
@@ -465,34 +440,33 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .placeholder-icon {
-  font-size: 64px;
+  font-size: 48px;
   color: #bdc3c7;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .detail-placeholder h2 {
-  font-size: 20px;
+  font-size: 18px;
   color: var(--text-main);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .detail-placeholder p {
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 /* 대시보드 뷰어 내용 */
 .detail-dashboard-view {
-  padding: 24px;
-  max-width: 1000px;
+  padding: 20px;
+  max-width: 960px;
   margin: 0 auto;
-  animation: fadeIn 0.3s cubic-bezier(0.1, 0.8, 0.3, 1);
 }
 
 /* 대시보드 히어로 배너 */
 .detail-hero-dashboard {
   border-radius: var(--border-radius);
-  height: 160px;
+  height: 140px;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -505,50 +479,50 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .hero-content {
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
-  padding: 24px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+  padding: 16px 20px;
 }
 
 .detail-badge {
   background: var(--secondary-color);
   color: white;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 9px;
   font-weight: 700;
   display: inline-block;
-  margin-bottom: 6px;
-}
-
-#detail-title {
-  font-size: 22px;
-  font-weight: 900;
   margin-bottom: 4px;
 }
 
+#detail-title {
+  font-size: 19px;
+  font-weight: 900;
+  margin-bottom: 2px;
+}
+
 #detail-subtitle {
-  font-size: 12px;
+  font-size: 11px;
   opacity: 0.9;
 }
 
-/* 2열 구조 대시보드 그리드 레이아웃 */
+/* 대시보드 그리드 배치 */
 .dashboard-grid-layout {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr; /* 3대 스탯 및 일정/맛집 가로 분리 */
-  gap: 20px;
-  margin-top: 20px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .dashboard-col {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 /* 스탯 정보 카드들 */
 .detail-info-cards {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .info-card-item {
@@ -556,17 +530,17 @@ body.large-text-mode .filter-select-wrapper select {
   background: white;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  padding: 14px 6px;
+  padding: 12px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   box-shadow: var(--shadow-sm);
   text-align: center;
 }
 
 .info-card-item i {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .card-diff i { color: #f5b041; }
@@ -574,13 +548,13 @@ body.large-text-mode .filter-select-wrapper select {
 .card-like i { color: #52be80; }
 
 .info-card-label {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   font-weight: 700;
 }
 
 .info-card-val {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   color: var(--text-main);
 }
@@ -590,15 +564,15 @@ body.large-text-mode .filter-select-wrapper select {
   background: white;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  padding: 16px;
+  padding: 14px;
   box-shadow: var(--shadow-sm);
 }
 
 .card-section-title {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 800;
   color: var(--text-main);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -606,9 +580,9 @@ body.large-text-mode .filter-select-wrapper select {
 
 /* 지도 시뮬레이션 */
 .map-mockup {
-  height: 140px;
+  height: 130px;
   background: #edf2f7;
-  border-radius: 10px;
+  border-radius: 8px;
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border-color);
@@ -629,7 +603,7 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .marker-label {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
   fill: #2c3e50;
 }
@@ -641,7 +615,7 @@ body.large-text-mode .filter-select-wrapper select {
   background: rgba(0,0,0,0.6);
   color: white;
   font-size: 8px;
-  padding: 2px 5px;
+  padding: 2px 4px;
   border-radius: 3px;
 }
 
@@ -649,29 +623,29 @@ body.large-text-mode .filter-select-wrapper select {
 .box-timeline {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .box-timeline-item {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   background: #f8faf9;
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 8px;
   border: 1px solid #e8edea;
   align-items: center;
 }
 
 .box-timeline-icon {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: white;
   border: 1.5px solid var(--primary-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   flex-shrink: 0;
 }
 
@@ -690,19 +664,19 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .box-timeline-spot {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   color: var(--text-main);
 }
 
 .box-timeline-time {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--primary-color);
   font-weight: 700;
 }
 
 .box-timeline-desc {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   line-height: 1.35;
   margin-top: 1px;
@@ -712,35 +686,30 @@ body.large-text-mode .filter-select-wrapper select {
 .detail-restaurant-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .restaurant-item-card {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: white;
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 8px 10px;
+  border-radius: 8px;
+  padding: 6px 8px;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.2s;
-}
-
-.restaurant-item-card:hover {
-  transform: translateX(2px);
 }
 
 .rest-icon-box {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
   background: #fff3e0;
   color: var(--secondary-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   flex-shrink: 0;
 }
 
@@ -749,7 +718,7 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .rest-info-box h4 {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   color: var(--text-main);
 }
@@ -758,21 +727,21 @@ body.large-text-mode .filter-select-wrapper select {
   font-size: 9px;
   background: var(--primary-light);
   color: var(--primary-color);
-  padding: 1px 4px;
+  padding: 1px 3px;
   border-radius: 4px;
   font-weight: 700;
 }
 
 .rest-phone-btn {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--secondary-color);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 11px;
   text-decoration: none;
   box-shadow: var(--shadow-sm);
 }
@@ -785,28 +754,27 @@ body.large-text-mode .filter-select-wrapper select {
 
 .vote-buttons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .vote-btn {
   flex: 1;
   background: white;
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   cursor: pointer;
-  transition: all 0.2s;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--text-main);
 }
 
-.vote-btn i { font-size: 18px; color: var(--text-muted); }
-.vote-btn strong { font-size: 14px; color: var(--text-muted); }
+.vote-btn i { font-size: 16px; color: var(--text-muted); }
+.vote-btn strong { font-size: 12px; color: var(--text-muted); }
 
 .vote-up.voted {
   background: var(--primary-light);
@@ -827,12 +795,11 @@ body.large-text-mode .filter-select-wrapper select {
   background: linear-gradient(135deg, #fffde7 0%, #fff8e1 100%);
   border: 1px solid #ffe082;
   border-radius: var(--border-radius);
-  padding: 14px;
+  padding: 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
-  box-shadow: var(--shadow-sm);
 }
 
 .commerce-badge {
@@ -840,42 +807,38 @@ body.large-text-mode .filter-select-wrapper select {
   color: white;
   font-size: 9px;
   font-weight: 700;
-  padding: 3px 5px;
+  padding: 2px 4px;
   border-radius: 4px;
 }
 
-.commerce-content {
-  flex: 1;
-}
-
 .commerce-content h4 {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   color: #5d4037;
 }
 
 .commerce-content p {
-  font-size: 10px;
+  font-size: 9px;
   color: #8d6e63;
 }
 
-.arrow-icon { color: var(--secondary-color); }
+.arrow-icon { color: var(--secondary-color); font-size: 11px; }
 
 /* 하단 댓글 영역 */
 .dashboard-bottom-comments {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .photo-gallery {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .gallery-img {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 6px;
   flex-shrink: 0;
 }
@@ -886,12 +849,12 @@ body.large-text-mode .filter-select-wrapper select {
 .comment-form textarea {
   width: 100%;
   border: 1.5px solid var(--border-color);
-  border-radius: 8px;
-  padding: 8px;
-  font-size: 12px;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 11px;
   resize: none;
   outline: none;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .comment-form textarea:focus {
@@ -904,49 +867,49 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .btn {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 10px;
   font-weight: 700;
   cursor: pointer;
   border: none;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .btn-primary { background: var(--primary-color); color: white; }
 .btn-secondary { background: #f1f3f4; color: var(--text-main); border: 1px solid var(--border-color); }
-.btn-block { width: 100%; justify-content: center; padding: 10px; }
+.btn-block { width: 100%; justify-content: center; padding: 8px; }
 
 .comment-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 14px;
+  gap: 8px;
+  margin-top: 10px;
   border-top: 1px solid var(--border-color);
-  padding-top: 14px;
+  padding-top: 10px;
 }
 
-.comment-node { display: flex; gap: 8px; }
+.comment-node { display: flex; gap: 6px; }
 .comment-avatar {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: #e8f5e9;
   color: var(--primary-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 11px;
+  font-size: 9px;
 }
 
 .comment-body { flex: 1; }
-.comment-user { font-size: 11px; font-weight: 700; }
-.comment-text { font-size: 12px; line-height: 1.4; }
-.comment-date { font-size: 9px; color: var(--text-muted); }
+.comment-user { font-size: 10px; font-weight: 700; }
+.comment-text { font-size: 11px; line-height: 1.4; }
+.comment-date { font-size: 8px; color: var(--text-muted); }
 
-/* 하단 탭바 (기본적으로 PC 뷰어에서는 숨김) */
+/* 하단 플로팅 탭바 (기본적으로 PC 뷰어에서는 숨김) */
 .bottom-nav {
   display: none;
 }
@@ -954,10 +917,10 @@ body.large-text-mode .filter-select-wrapper select {
 /* 5. 내 정보 뷰 */
 .my-page-view {
   position: fixed;
-  top: 60px;
-  left: 20px;
-  width: 380px;
-  height: calc(100% - 80px);
+  top: 52px;
+  left: 16px;
+  width: 368px;
+  height: calc(100% - 120px);
   background: var(--bg-color);
   z-index: 500;
   display: flex;
@@ -974,7 +937,7 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .my-page-header {
-  height: 50px;
+  height: 46px;
   background: white;
   display: flex;
   justify-content: space-between;
@@ -985,39 +948,39 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .my-page-header h3 {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .my-page-body {
   flex: 1;
-  padding: 16px;
+  padding: 12px;
   overflow-y: auto;
 }
 
 .user-profile-card {
   background: white;
   border-radius: var(--border-radius);
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   border: 1px solid var(--border-color);
 }
 
 .user-avatar {
-  width: 54px;
-  height: 54px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: var(--primary-light);
   color: var(--primary-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 20px;
+  margin-bottom: 6px;
 }
 
 .menu-list {
@@ -1029,13 +992,13 @@ body.large-text-mode .filter-select-wrapper select {
 }
 
 .menu-item {
-  padding: 12px;
+  padding: 10px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
 }
 .menu-item:last-child {
@@ -1052,9 +1015,9 @@ body.large-text-mode .filter-select-wrapper select {
 .badge {
   background: #eee;
   color: #333;
-  font-size: 10px;
-  padding: 1px 5px;
-  border-radius: 8px;
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 6px;
   margin-left: auto;
   font-weight: 700;
 }
@@ -1066,7 +1029,7 @@ body.large-text-mode .filter-select-wrapper select {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.4);
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -1075,9 +1038,9 @@ body.large-text-mode .filter-select-wrapper select {
 
 .modal-content {
   background: white;
-  width: 420px;
-  border-radius: 20px;
-  padding: 20px;
+  width: 380px;
+  border-radius: var(--border-radius);
+  padding: 16px;
   box-shadow: var(--shadow-md);
 }
 
@@ -1085,36 +1048,36 @@ body.large-text-mode .filter-select-wrapper select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .modal-header h3 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
 }
 
 .close-btn {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
   color: var(--text-muted);
 }
 
 .modal-tip {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 12px;
+  line-height: 1.4;
+  margin-bottom: 10px;
 }
 
 .form-group {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .form-group label {
   display: block;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--text-main);
   margin-bottom: 4px;
@@ -1122,16 +1085,16 @@ body.large-text-mode .filter-select-wrapper select {
 
 .excel-presets {
   display: flex;
-  gap: 6px;
+  gap: 4px;
 }
 
 .btn-preset {
   flex: 1;
   background: #f5f5f5;
   border: 1.5px solid var(--border-color);
-  padding: 6px;
-  border-radius: 6px;
-  font-size: 10px;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 9px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -1145,65 +1108,57 @@ body.large-text-mode .filter-select-wrapper select {
 #excel-data-input {
   width: 100%;
   border: 1.5px solid var(--border-color);
-  border-radius: 6px;
-  padding: 8px;
-  font-size: 10px;
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 9px;
   font-family: monospace;
   resize: none;
   outline: none;
 }
 
-.text-excel {
-  color: #1f7244;
-}
-
 .product-img-box {
-  height: 90px;
+  height: 80px;
   background: #fff8e1;
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   border: 1px dashed var(--secondary-color);
 }
 
 .product-placeholder-icon {
-  font-size: 36px;
+  font-size: 30px;
   color: var(--secondary-color);
 }
 
 .product-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
   color: #5d4037;
 }
 
 .product-price {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .price-origin {
   text-decoration: line-through;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .price-sale {
   color: var(--secondary-color);
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .product-desc {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
-  line-height: 1.4;
-  margin-bottom: 16px;
-}
-
-.phone-order-box {
-  margin-bottom: 8px;
+  line-height: 1.35;
+  margin-bottom: 12px;
 }
 
 .btn-call {
@@ -1211,20 +1166,12 @@ body.large-text-mode .filter-select-wrapper select {
   color: white;
   width: 100%;
   justify-content: center;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  flex-direction: column;
-  gap: 1px;
-  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 12px;
 }
 
-.btn-call span {
-  font-size: 9px;
-  opacity: 0.9;
-}
-
-/* 6. 모바일 반응형 처리 (미디어가 900px 이하로 좁아질 때 스택 레이아웃) */
+/* 6. 모바일 반응형 처리 */
 @media (max-width: 900px) {
   body {
     overflow-y: auto;
@@ -1241,48 +1188,62 @@ body.large-text-mode .filter-select-wrapper select {
     border-bottom: 1.5px solid var(--border-color);
   }
   .course-list-panel {
-    max-height: 500px;
+    max-height: 460px;
   }
   .right-panel {
     width: 100%;
     height: auto;
   }
   .detail-placeholder {
-    display: none; /* 모바일에서는 플레이스홀더를 숨김 */
+    display: none;
   }
   .detail-dashboard-view {
-    padding: 16px 12px;
+    padding: 12px 8px;
   }
   .dashboard-grid-layout {
-    grid-template-columns: 1fr; /* 모바일은 1열로 세로 정렬 */
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-  /* 모바일용 하단 탭바 플로팅 노출 */
+  /* 모바일 하단 플로팅 탭바 */
   .bottom-nav {
     display: flex;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 56px;
+    height: 52px;
     background: white;
-    border-top: 1px solid var(--border-color);
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+    border-top: 1.5px solid var(--border-color);
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.03);
     z-index: 100;
   }
-  /* 모바일용 마이페이지 조율 */
+  .bottom-nav .nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--text-muted);
+    cursor: pointer;
+    flex: 1;
+  }
+  .bottom-nav .nav-item i { font-size: 15px; }
+  .bottom-nav .nav-item span { font-size: 9px; font-weight: 800; }
+  .bottom-nav .nav-item.active { color: var(--primary-color); }
+
   .my-page-view {
     position: fixed;
-    top: 50px;
+    top: 0;
     left: 0;
     right: 0;
     width: 100%;
-    height: calc(100% - 106px);
+    height: calc(100% - 52px);
     border-radius: 0;
     box-shadow: none;
     border: none;
   }
   .demo-guide-panel {
-    display: none; /* 모바일 가이드 패널 감춤 */
+    display: none;
   }
 }
