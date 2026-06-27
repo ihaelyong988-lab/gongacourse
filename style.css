@@ -403,11 +403,11 @@ body {
   font-weight: 700;
 }
 
-/* 빌트인 네비게이션 */
+/* PC 빌트인 네비게이션 */
 .bottom-nav-builtin {
+  display: flex; 
   height: 46px; 
   border-top: 1.5px solid var(--border-color);
-  display: flex;
   justify-content: space-around;
   align-items: center;
   padding-bottom: 1px;
@@ -1217,7 +1217,7 @@ body {
   margin-top: 12px;
 }
 
-/* [리디자인] 다녀온 회원마당 사진 갤러리 영역: 등록된 사진이 있을 때만 flex 노출, 더미는 숨김 */
+/* 다녀온 회원마당 사진 갤러리 영역 */
 .photo-gallery {
   display: flex;
   gap: 6px;
@@ -1266,9 +1266,9 @@ body {
 .comment-text { font-size: 10.5px; line-height: 1.35; word-break: break-all; }
 .comment-date { font-size: 7.5px; color: var(--text-muted); }
 
-/* 하단 플로팅 탭바 */
+/* 하단 플로팅 탭바 - PC 와이드 뷰에서는 가림 */
 .bottom-nav {
-  display: none;
+  display: none !important;
 }
 
 /* 내 정보 */
@@ -1570,27 +1570,41 @@ body {
     font-size: 11px !important;
   }
 
-  .comment-form-horizontal {
+  /* [버그 해결] 모바일에서는 왼쪽 패널 내부에 포함된 빌트인 탭바를 철저하게 가림 */
+  .bottom-nav-builtin {
+    display: none !important;
+  }
+
+  /* [버그 해결] 모바일 플로팅 탭바는 하단 고정형으로 딱 한개만 노출 */
+  .bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: white;
+    border-top: 1.5px solid var(--border-color);
+    box-shadow: 0 -3px 8px rgba(0,0,0,0.02);
+    z-index: 100;
+  }
+  
+  .bottom-nav .nav-item {
+    background: none;
+    border: none;
+    display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    box-sizing: border-box;
+    align-items: center;
+    gap: 1.5px;
+    color: var(--text-muted);
+    cursor: pointer;
+    flex: 1;
   }
-  .comment-form-left-box {
-    width: 100%;
-  }
-  .comment-form-right-box {
-    width: 100%;
-  }
+  .bottom-nav .nav-item i { font-size: 13.5px; }
+  .bottom-nav .nav-item span { font-size: 8.5px; font-weight: 800; }
+  .bottom-nav .nav-item.active { color: var(--primary-color); }
 
-  .detail-restaurant-list {
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 6px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* 투표 버튼 강제 가로 배열 */
+  /* 만족도 투표 버튼 강제 가로 배열 */
   .vote-buttons {
     display: flex !important;
     flex-direction: row !important;
@@ -1607,33 +1621,27 @@ body {
     border-radius: 0 !important;
   }
 
-  /* 모바일 하단 플로팅 탭바 */
-  .bottom-nav {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 48px;
-    background: white;
-    border-top: 1.5px solid var(--border-color);
-    box-shadow: 0 -3px 8px rgba(0,0,0,0.02);
-    z-index: 100;
-  }
-  .bottom-nav .nav-item {
-    background: none;
-    border: none;
-    display: flex;
+  /* 리뷰 등록 폼 모바일 콤팩트 */
+  .comment-form-horizontal {
     flex-direction: column;
-    align-items: center;
-    gap: 1.5px;
-    color: var(--text-muted);
-    cursor: pointer;
-    flex: 1;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
-  .bottom-nav .nav-item i { font-size: 13.5px; }
-  .bottom-nav .nav-item span { font-size: 8.5px; font-weight: 800; }
-  .bottom-nav .nav-item.active { color: var(--primary-color); }
+  .comment-form-left-box {
+    width: 100%;
+  }
+  .comment-form-right-box {
+    width: 100%;
+  }
+
+  /* 주변 식당 리스트 2열 배치 */
+  .detail-restaurant-list {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
   .my-page-view {
     position: fixed;
