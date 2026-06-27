@@ -24,7 +24,7 @@
   --icon-size: 15px;
 }
 
-/* [개선] 방문자 맞춤 접근성: 시니어 3단계 폰트 지원 */
+/* 방문자 맞춤 접근성: 시니어 3단계 폰트 지원 */
 body.font-size-large {
   --font-base: 14.5px;
   --font-h1: 19px;
@@ -43,15 +43,15 @@ body.font-size-xlarge {
   --icon-size: 19px;
 }
 
-/* [개선] 방문자 맞춤 접근성: 고대비 모드 정의 (배경 순백, 대비 최대화, 테두리 두껍게) */
+/* 방문자 맞춤 접근성: 고대비 모드 정의 */
 body.contrast-high-mode {
   --bg-color: #ffffff !important;
   --card-bg: #ffffff !important;
   --text-main: #000000 !important;
   --text-muted: #2c3e50 !important;
   --border-color: #000000 !important;
-  --primary-color: #1b5e20 !important; /* 고대비용 짙은 초록 */
-  --secondary-color: #e65100 !important; /* 고대비용 짙은 주황 */
+  --primary-color: #1b5e20 !important; 
+  --secondary-color: #e65100 !important; 
 }
 
 body.contrast-high-mode .detail-card,
@@ -224,6 +224,11 @@ body {
   background-position: right 4px center;
   background-size: 7px;
   padding-right: 14px;
+}
+
+/* [신설] 모바일 뷰 목록 구경 중 빠른 대시보드 복귀 패널 */
+.mobile-forward-panel {
+  display: none; /* 기본 PC뷰어에서는 비표시 */
 }
 
 /* 코스 개수 메타 */
@@ -482,6 +487,11 @@ body {
   padding: 16px 20px; 
   max-width: 920px;
   margin: 0 auto;
+}
+
+/* [신설] 모바일 뷰 대시보드에서 이전 코스 목록으로 돌아가는 뒤로가기 버튼 영역 */
+.mobile-back-panel {
+  display: none; /* 기본 PC뷰어에서는 비표시 */
 }
 
 /* 대시보드 히어로 배너 */
@@ -803,7 +813,7 @@ body {
 }
 .vote-down.voted i, .vote-down.voted strong { color: #c62828; }
 
-/* 커머스 배너 */
+/* 커머스 배너 세로 콤팩트화 */
 .commerce-banner {
   background: linear-gradient(135deg, #fffde7 0%, #fff8e1 100%);
   border: 1px solid #ffe082;
@@ -837,7 +847,7 @@ body {
 
 .arrow-icon { color: var(--secondary-color); font-size: 10px; }
 
-/* [신설] 다차원 별점 평가를 위한 스타일 */
+/* 다차원 별점 평가를 위한 스타일 */
 .rating-stars-container {
   background: #f7f9f8;
   border-radius: 8px;
@@ -880,7 +890,7 @@ body {
 }
 
 .star-btn {
-  color: #d1d5db; /* 빈 별색상 */
+  color: #d1d5db; 
   font-size: 13.5px;
   cursor: pointer;
   transition: color 0.15s;
@@ -890,12 +900,11 @@ body {
   transform: scale(1.15);
 }
 
-/* 별이 활성화되었을 때 노란색 채우기 */
 .star-btn.active {
   color: #f1c40f !important;
 }
 
-/* [신설] 로컬 업로드 파일 미리보기 박스 */
+/* 로컬 업로드 파일 미리보기 박스 */
 .upload-preview-area {
   position: relative;
   width: 90px;
@@ -930,7 +939,7 @@ body {
   z-index: 5;
 }
 
-/* [신설] 후기 댓글 내 다차원 별점 뱃지 목록 */
+/* 후기 댓글 내 다차원 별점 뱃지 목록 */
 .comment-ratings {
   display: flex;
   gap: 5px;
@@ -946,7 +955,7 @@ body {
   font-weight: 800;
 }
 
-/* [개선] 설정 모달 섹션별 스타일 */
+/* 설정 모달 섹션별 스타일 */
 .setting-section {
   padding: 12px;
   background: #f8faf8;
@@ -1439,9 +1448,10 @@ body {
     height: auto;
     border-right: none;
     border-bottom: 1.5px solid var(--border-color);
+    padding-bottom: 10px;
   }
   .course-list-panel {
-    max-height: 420px;
+    max-height: 380px; /* 세로 높이 최적화 */
   }
   .right-panel {
     width: 100%;
@@ -1457,6 +1467,48 @@ body {
     grid-template-columns: 1fr;
     gap: 10px;
   }
+
+  /* [신설] 모바일 뷰 전용 양방향 스위칭 네비게이션 노출 */
+  .mobile-back-panel {
+    display: block !important;
+    margin-bottom: 10px;
+  }
+  .mobile-forward-panel {
+    display: block !important;
+    padding: 4px 12px;
+    background: #fafbfa;
+  }
+
+  .mobile-back-btn {
+    width: 100%;
+    background: white;
+    color: var(--primary-color);
+    border: 1.5px solid var(--primary-color) !important;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .mobile-forward-btn {
+    width: 100%;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  /* 모바일 필터 터치 간격 및 여백 확장 (오터치 영구 차단) */
+  .filter-selects-row {
+    gap: 8px !important;
+  }
+  .filter-selects-row select {
+    padding: 10px 8px !important;
+    font-size: 11px !important;
+  }
+
   /* 모바일 하단 플로팅 탭바 */
   .bottom-nav {
     display: flex;

@@ -172,7 +172,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 방문자 참여 및 시니어 설정 동기화 장치 이식
+    # JS 코드 갱신: 모바일 자동 대시보드 강제 롤링 및 뒤로가기 스크롤 추가
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -189,11 +189,11 @@ let currentThemeFilter = "all";
 let currentHeadTab = "all"; 
 let searchKeyword = "";
 
-// [신설] 다차원 별점 상태 및 파일 업로드 저장소
+// 다차원 별점 상태 및 파일 업로드 저장소
 let activeRatings = {{ scenery: 0, path: 0, parking: 0 }};
 let uploadedPhotoBase64 = null;
 
-// [신설] 방문자 중심 맞춤 설정값
+// 방문자 중심 맞춤 설정값
 let visitorSettings = {{
   companion: "none",
   transport: "car",
@@ -230,6 +230,13 @@ document.addEventListener("DOMContentLoaded", () => {{
   
   if (courses.length > 0) {{
     showCourseDetail(courses[0].id);
+    
+    // [개선] 모바일 최초 접속 시, 대시보드 화면이 첫 화면으로 바로 표시되도록 자동 포커스
+    if (window.innerWidth <= 900) {{
+      setTimeout(() => {{
+        scrollToDashboard();
+      }}, 600); // 렌더링 안정성을 위해 약간의 딜레이 후 실행
+    }}
   }}
 }});
 
@@ -237,7 +244,30 @@ function saveToLocalStorage() {{
   localStorage.setItem("gongacourse_data", JSON.stringify(courses));
 }}
 
-// [신설] 다차원 별점 지정 이벤트
+// [신설] 모바일 뷰 양방향 스위칭 및 뒤로가기 스크롤 함수
+function scrollToCourseList() {{
+  const listTop = document.getElementById("course-list-top");
+  if (listTop) {{
+    listTop.scrollIntoView({{ behavior: "smooth" }});
+    
+    // 목록 진입 시 대시보드 빠른 롤백 버튼 활성화
+    const forwardBar = document.getElementById("mobile-back-to-detail-bar");
+    if (forwardBar) forwardBar.style.display = "block";
+  }}
+}}
+
+function scrollToDashboard() {{
+  const dashboardTop = document.getElementById("detail-dashboard-top");
+  if (dashboardTop) {{
+    dashboardTop.scrollIntoView({{ behavior: "smooth" }});
+    
+    // 대시보드 진입 시 롤백 버튼은 다시 감춤
+    const forwardBar = document.getElementById("mobile-back-to-detail-bar");
+    if (forwardBar) forwardBar.style.display = "none";
+  }}
+}}
+
+// 다차원 별점 지정 이벤트
 function setRating(metric, value) {{
   activeRatings[metric] = value;
   const starsGroup = document.querySelector(`.stars[data-metric="${{metric}}"]`);
@@ -253,7 +283,7 @@ function setRating(metric, value) {{
   }}
 }}
 
-// [신설] 별점 그룹 리셋
+// 별점 그룹 리셋
 function resetRatingStars() {{
   activeRatings = {{ scenery: 0, path: 0, parking: 0 }};
   document.querySelectorAll(".stars").forEach(starsGroup => {{
@@ -262,7 +292,7 @@ function resetRatingStars() {{
   }});
 }}
 
-// [신설] 방문자 사진 파일 선택 및 브라우저 Canvas 리사이징 압축
+// 방문자 사진 파일 선택 및 브라우저 Canvas 리사이징 압축
 function triggerPhotoUpload() {{
   const input = document.getElementById("photo-upload-input");
   if (input) input.click();
@@ -276,7 +306,6 @@ function handlePhotoSelected(event) {{
   reader.onload = function(e) {{
     const img = new Image();
     img.onload = function() {{
-      // 용량 압축용 가상 캔버스 크기 조정 (최대 300px)
       const canvas = document.createElement("canvas");
       const MAX_WIDTH = 300;
       const MAX_HEIGHT = 300;
@@ -300,10 +329,8 @@ function handlePhotoSelected(event) {{
       const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0, width, height);
 
-      // 압축률 0.7 적용
       uploadedPhotoBase64 = canvas.toDataURL("image/jpeg", 0.7);
 
-      // 업로드 프리뷰 영역 활성화
       const previewBox = document.getElementById("upload-preview-box");
       const previewImg = document.getElementById("selected-photo-preview");
       if (previewBox && previewImg) {{
@@ -433,13 +460,11 @@ function showCourseDetail(courseId) {{
     course.photos.forEach(photoPattern => {{
       const photoDiv = document.createElement("div");
       if (photoPattern.startsWith("data:image")) {{
-        // 업로드된 실제 이미지 렌더링
         photoDiv.className = `gallery-img`;
         photoDiv.style.backgroundImage = `url("${{photoPattern}}")`;
         photoDiv.style.backgroundSize = "cover";
         photoDiv.style.backgroundPosition = "center";
       }} else {{
-        // 기본 그라디언트 패턴 렌더링
         photoDiv.className = `gallery-img ${{photoPattern}}`;
       }}
       gallery.appendChild(photoDiv);
@@ -448,8 +473,9 @@ function showCourseDetail(courseId) {{
 
   renderComments();
 
+  // 모바일 탭 시 상세 화면 강제 포커싱 및 목록 뒤로가기 버튼 활성화
   if (window.innerWidth <= 900) {{
-    document.getElementById("detail-dashboard-view").scrollIntoView({{ behavior: "smooth" }});
+    scrollToDashboard();
   }}
 
   const path = document.querySelector(".path-line");
@@ -497,7 +523,6 @@ function toggleMyPage(show) {{
       }});
     }});
 
-    // 회원 등급 동기화
     let myCommentCount = 0;
     courses.forEach(c => {{
       if (c.comments) {{
@@ -563,7 +588,6 @@ function renderCourseList() {{
   container.innerHTML = "";
 
   const filtered = courses.filter(course => {{
-    // A. 검색어 필터
     const normSearch = searchKeyword.toLowerCase().replace(/\\s+/g, "");
     let matchesSearch = true;
     if (normSearch) {{
@@ -578,19 +602,16 @@ function renderCourseList() {{
       matchesSearch = (matchTitle || matchLoc || matchType || matchTimeline);
     }}
     
-    // B. 지역 필터
     let matchesRegion = true;
     if (currentRegionFilter !== "all") {{
       matchesRegion = course.location.includes(currentRegionFilter);
     }}
     
-    // C. 계절 필터
     let matchesSeason = true;
     if (currentSeasonFilter !== "all") {{
       matchesSeason = (course.season === currentSeasonFilter);
     }}
     
-    // D. 테마 필터
     let matchesTheme = true;
     if (currentThemeFilter !== "all") {{
       if (currentThemeFilter === "easy") {{
@@ -626,7 +647,6 @@ function renderCourseList() {{
       }}
     }}
 
-    // E. 상단 헤드 탭 필터
     let matchesHeadTab = true;
     if (currentHeadTab !== "all") {{
       if (currentHeadTab === "today") {{
@@ -648,22 +668,18 @@ function renderCourseList() {{
     return matchesSearch && matchesRegion && matchesSeason && matchesTheme && matchesHeadTab;
   }});
 
-  // [신설] 나들이 동반자 선호도 가중치 정렬 (none 이외의 선택 시 해당 조건을 갖춘 코스가 상위로 오도록 정렬 조율)
   if (visitorSettings.companion !== "none") {{
     filtered.sort((a, b) => {{
       let scoreA = 0;
       let scoreB = 0;
       
       if (visitorSettings.companion === "pet") {{
-        // 반려동물 동반: 코스 타이틀이나 설명에 '애견', '반려', '공원', '숲길' 등이 있는지 확인
         if (a.title.includes("숲길") || a.title.includes("공원") || a.location.includes("제주")) scoreA += 5;
         if (b.title.includes("숲길") || b.title.includes("공원") || b.location.includes("제주")) scoreB += 5;
       }} else if (visitorSettings.companion === "parent") {{
-        // 부모님 동반: 난이도가 '쉬움'이거나 경사가 완만한 코스
         if (a.difficulty.includes("쉬움")) scoreA += 10;
         if (b.difficulty.includes("쉬움")) scoreB += 10;
       }} else if (visitorSettings.companion === "child") {{
-        // 어린아이 동반: 소요 시간이 2시간 이하인 짧은 코스
         const hrA = parseFloat(a.duration) || 2.0;
         const hrB = parseFloat(b.duration) || 2.0;
         if (hrA <= 2.0) scoreA += 5;
@@ -713,7 +729,6 @@ function renderCourseList() {{
       `;
     }}
 
-    // [신설] 설정 기반의 맞춤형 추천 마크 뱃지(동반자 유형, 대중교통) 동적 노출
     let companionBadgeHtml = "";
     if (visitorSettings.companion === "pet" && (course.title.includes("숲길") || course.title.includes("공원") || course.location.includes("제주"))) {{
       companionBadgeHtml = `<span class="badge" style="background:#e8f5e9; color:#2e7d32; font-size:8px; margin-left:4px; font-weight:800;">🐕 반려견가능</span>`;
@@ -821,7 +836,7 @@ function castVote(type) {{
   renderCourseList();
 }}
 
-// [개선] 다차원 별점을 포함한 상세 리뷰 목록 렌더링
+// 다차원 별점을 포함한 상세 리뷰 목록 렌더링
 function renderComments() {{
   const container = document.getElementById("detail-comments-list");
   if (!container) return;
@@ -860,7 +875,7 @@ function renderComments() {{
   }});
 }}
 
-// [개선] 별점 평가 데이터 및 리사이징 사진을 포함한 후기 등록 장치
+// 별점 평가 데이터 및 리사이징 사진을 포함한 후기 등록 장치
 function submitComment() {{
   const textarea = document.getElementById("comment-textarea");
   if (!textarea) return;
@@ -870,7 +885,6 @@ function submitComment() {{
     return;
   }}
 
-  // 다차원 별점 유효성 체크
   if (activeRatings.scenery === 0 || activeRatings.path === 0 || activeRatings.parking === 0) {{
     alert("경치, 길편의, 주차 만족도 별점을 모두 평가해 주세요!");
     return;
@@ -886,13 +900,11 @@ function submitComment() {{
   if (!currentCourse.comments) currentCourse.comments = [];
   currentCourse.comments.unshift(newComment);
 
-  // 실시간 갤러리에 Base64 사진 데이터 동적 주입
   if (uploadedPhotoBase64) {{
     if (!currentCourse.photos) currentCourse.photos = [];
     currentCourse.photos.unshift(uploadedPhotoBase64);
   }}
 
-  // 입력란 및 상태 값 초기화
   textarea.value = "";
   resetRatingStars();
   clearSelectedPhoto();
@@ -900,13 +912,12 @@ function submitComment() {{
   saveToLocalStorage();
   renderComments();
 
-  // 갤러리 슬라이더 리플래시
   showCourseDetail(currentCourse.id);
 
   alert("나들이 평점과 소중한 사진 후기가 정상 등록되었습니다!");
 }}
 
-// [개선] 방문자 맞춤 설정 제어 및 로컬스토리지 보존 연동
+// 방문자 맞춤 설정 제어 및 로컬스토리지 보존 연동
 function saveVisitorSettings() {{
   const companionSelect = document.getElementById("setting-companion");
   const transportSelect = document.getElementById("setting-transport");
@@ -916,7 +927,6 @@ function saveVisitorSettings() {{
 
   localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   
-  // 리스트 카드 뱃지 및 우선순위 필터 실시간 재정렬
   renderCourseList();
 }}
 
@@ -932,7 +942,6 @@ function loadVisitorSettings() {{
       if (companionSelect) companionSelect.value = visitorSettings.companion;
       if (transportSelect) transportSelect.value = visitorSettings.transport;
 
-      // 접근성 설정 로드
       changeFontSizeSettings(visitorSettings.fontSize);
       toggleHighContrastSettings(visitorSettings.highContrast);
 

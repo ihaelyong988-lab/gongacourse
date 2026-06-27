@@ -19,7 +19,7 @@
     <!-- 1. 좌측 컨트롤 및 목록 패널 (Left Panel) -->
     <aside class="left-panel">
       <!-- 꽁아코스 옆으로 검색창을 가로 나란히 배치 (세로 폭 압축) -->
-      <header class="panel-header">
+      <header class="panel-header" id="course-list-top">
         <h1 class="app-logo" onclick="location.reload()">꽁아코스</h1>
         <div class="search-bar-header">
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -71,6 +71,13 @@
         </div>
       </div>
 
+      <!-- [개설] 모바일 뷰 전용 대시보드로 빠른 화면 복귀 네비게이터 바 -->
+      <div class="mobile-forward-panel" id="mobile-back-to-detail-bar" style="display: none;">
+        <button class="btn btn-primary btn-block mobile-forward-btn" onclick="scrollToDashboard()">
+          선택 코스 대시보드로 돌아가기 <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+
       <!-- 리스트 카운터 메타 -->
       <div class="list-meta-header">
         <span class="meta-title">산책 코스 추천 목록</span>
@@ -110,7 +117,7 @@
     </aside>
 
     <!-- 2. 우측 패널: 선택된 코스의 상세 대시보드 화면 (Right Panel) -->
-    <main class="right-panel">
+    <main class="right-panel" id="detail-dashboard-top">
       
       <!-- 초기 플레이스홀더 (코스 미선택 시 노출) -->
       <div class="detail-placeholder" id="detail-placeholder-view">
@@ -124,6 +131,13 @@
       <!-- 실제 코스 상세 내용 대시보드 뷰 -->
       <div class="detail-dashboard-view" id="detail-dashboard-view" style="display: none;">
         
+        <!-- [개설] 모바일 뷰 전용 코스 리스트로 복귀하는 뒤로가기 바 버튼 -->
+        <div class="mobile-back-panel" id="mobile-back-to-list-bar" style="display: none;">
+          <button class="btn btn-secondary btn-block mobile-back-btn" onclick="scrollToCourseList()">
+            <i class="fa-solid fa-chevron-up"></i> 다른 추천 코스 선택하기 (목록 보기)
+          </button>
+        </div>
+
         <!-- 대시보드 상단 히어로 배너 -->
         <header class="detail-hero-dashboard" id="detail-hero-bg">
           <div class="hero-content">
@@ -237,7 +251,7 @@
 
         </section>
 
-        <!-- [개선] 별점 평가 시스템 및 실시간 사진 업로드가 포함된 커뮤니티 공간 -->
+        <!-- 별점 평가 시스템 및 실시간 사진 업로드가 포함된 커뮤니티 공간 -->
         <section class="dashboard-bottom-comments">
           <div class="detail-card">
             <h4 class="card-section-title"><i class="fa-solid fa-comments text-primary"></i> 다녀온 회원들의 참여 마당</h4>
@@ -356,7 +370,7 @@
     </div>
   </div>
 
-  <!-- [개선] 개발자 엑셀 덤프를 접고, 방문자 지향 맞춤식 설정(동반자, 교통수단, 3단계 큰글씨, 고대비, 오프라인 모드)으로 개편한 설정 모달 -->
+  <!-- 개발자 엑셀 덤프를 접고, 방문자 지향 맞춤식 설정(동반자, 교통수단, 3단계 큰글씨, 고대비, 오프라인 모드)으로 개편한 설정 모달 -->
   <div class="modal-overlay" id="admin-modal" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
