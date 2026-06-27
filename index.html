@@ -16,9 +16,9 @@
   <!-- 전체 레이아웃 컨테이너 -->
   <div class="dashboard-container">
     
-    <!-- 1. 좌측 컨트롤 및 목록 패널 (Left Panel) - 사용자께서 원하시는 [꽁아코스 로고와 검색 탭이 있는 메인 첫화면] -->
+    <!-- 1. 좌측 컨트롤 및 목록 패널 (Left Panel) -->
     <aside class="left-panel">
-      <!-- 꽁아코스 로고와 검색창 가로 나란히 배치 헤더 -->
+      <!-- 꽁아코스 로고와 검색창 가로 배치 헤더 -->
       <header class="panel-header" id="course-list-top">
         <h1 class="app-logo" onclick="location.reload()">꽁아코스</h1>
         <div class="search-bar-header">
@@ -27,7 +27,7 @@
         </div>
       </header>
 
-      <!-- 밑줄 텍스트형으로 개편한 상단 퀵 탭 -->
+      <!-- 밑줄형 상단 퀵 탭 -->
       <div class="head-tabs-container">
         <div class="head-tabs-underline">
           <button class="head-tab active" onclick="selectHeadTab('all', this)">전체</button>
@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <!-- 모바일용 대시보드 바로가기 영역 (평소엔 숨김) -->
+      <!-- 모바일용 대시보드 바로가기 영역 -->
       <div class="mobile-forward-panel" id="mobile-back-to-detail-bar" style="display: none;">
         <button class="btn btn-primary btn-block mobile-forward-btn" onclick="scrollToDashboard()">
           선택 코스 대시보드로 가기 <i class="fa-solid fa-arrow-right"></i>
@@ -84,14 +84,14 @@
         <span class="meta-count" id="course-count">총 242개 코스</span>
       </div>
 
-      <!-- 좌우 2열 대시보드 배치형 코스 리스트 -->
+      <!-- 코스 리스트 -->
       <div class="course-list-panel">
         <div class="course-grid" id="course-list-container">
-          <!-- JS에서 동적 바둑판식 카드 렌더링 -->
+          <!-- JS에서 동적 카드 렌더링 -->
         </div>
       </div>
 
-      <!-- 좌측 패널 최하단 빌트인 메뉴바 -->
+      <!-- [리디자인] 불필요한 장터 메뉴를 제거하고 4개 메뉴(홈, 탐색, 맞춤설정, 내정보)로 슬림화한 하단 탭바 -->
       <nav class="bottom-nav-builtin">
         <button class="nav-item active" onclick="navigateTo('home', this)">
           <i class="fa-solid fa-house"></i>
@@ -103,11 +103,7 @@
         </button>
         <button class="nav-item" onclick="toggleAdminModal(true)">
           <i class="fa-solid fa-gear"></i>
-          <span>앱설정</span>
-        </button>
-        <button class="nav-item" onclick="openCommerceModal()">
-          <i class="fa-solid fa-store"></i>
-          <span>지역장터</span>
+          <span>맞춤설정</span>
         </button>
         <button class="nav-item" onclick="navigateTo('my-page')">
           <i class="fa-solid fa-user"></i>
@@ -124,7 +120,7 @@
         <div class="placeholder-content">
           <i class="fa-solid fa-map-location-dot placeholder-icon"></i>
           <h2>나들이 코스 상세 대시보드</h2>
-          <p>좌측 목록에서 마음에 드는 나들이길을 탭해 보세요.<br>지선 정보, 일정표, 주변 식당 및 특산물이 실시간으로 펼쳐집니다.</p>
+          <p>좌측 목록에서 마음에 드는 나들이길을 탭해 보세요.<br>지선 정보, 일정표, 주변 식당 및 세부 내용이 실시간으로 펼쳐집니다.</p>
         </div>
       </div>
 
@@ -138,7 +134,7 @@
           </button>
         </div>
 
-        <!-- [대수술] 히어로 영역 초슬림 가로 배치형 헤더로 공간 절약 극대화 -->
+        <!-- 히어로 영역 초슬림 가로 배치형 헤더 -->
         <header class="detail-hero-dashboard-compact" id="detail-hero-bg">
           <div class="hero-content-horizontal">
             <h2 id="detail-title">북한산 우이령 단풍 둘레길</h2>
@@ -224,7 +220,7 @@
 
           <!-- 우측 칼럼: 나들이 경로일정 & 주변 연계 맛집/카페 리스트 -->
           <div class="dashboard-col right-col">
-            <!-- [대수술] 가로 횡스크롤 플로우(Horizontal Scroll Timeline) 형태로 일정을 가로 배치해 세로폭 절약 -->
+            <!-- 가로 횡스크롤 플로우 나들이 일정표 -->
             <div class="detail-card">
               <h4 class="card-section-title"><i class="fa-solid fa-route text-primary"></i> 꽁아 추천 나들이 일정표</h4>
               <div class="horizontal-timeline-container" id="detail-timeline-container">
@@ -239,31 +235,21 @@
                 <!-- 맛집 카드 목록 -->
               </div>
             </div>
-
-            <!-- 지역 직송 농수산물 특산품 추천 배너 -->
-            <div class="commerce-banner" onclick="openCommerceModal()">
-              <div class="commerce-badge"><i class="fa-solid fa-gift"></i> 산지 직배송</div>
-              <div class="commerce-content">
-                <h4 id="commerce-title">산지 한정 특산품 판매</h4>
-                <p>현지 영농조합에서 보증하는 친환경 신선 제품 특가</p>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </div>
           </div>
 
         </section>
 
-        <!-- 별점 평가 시스템 및 실시간 사진 업로드가 포함된 커뮤니티 공간 -->
+        <!-- 별점 평가 시스템 및 실시간 사진 업로드 회원 참여 마당 -->
         <section class="dashboard-bottom-comments">
           <div class="detail-card">
-            <h4 class="card-section-title"><i class="fa-solid fa-comments text-primary"></i> 다녀온 회원들의 참여 마당</h4>
+            <h4 class="card-section-title"><i class="fa-solid fa-comments text-primary"></i> 다녀온 회원마당</h4>
             
             <!-- 포토 슬라이드 갤러리 -->
             <div class="photo-gallery" id="detail-photo-gallery">
               <!-- 업로드한 사진 동적 렌더링 -->
             </div>
 
-            <!-- [대수술] 리뷰 폼을 좌우 2분할 가로 배치하여 세로 높이를 획기적으로 감축 -->
+            <!-- 리뷰 등록 폼 좌우 2분할 가로 배치 -->
             <div class="comment-form-horizontal">
               
               <!-- 왼쪽 파트: 평점 및 사진 올리기 버튼 -->
@@ -303,7 +289,7 @@
                   </div>
                 </div>
 
-                <!-- 이미지 선택 시 로컬 파일 프리뷰 영역 -->
+                <!-- 이미지 선택 시 로컬 파일 미리보기 영역 -->
                 <div class="upload-preview-area" id="upload-preview-box" style="display: none;">
                   <span class="preview-close-btn" onclick="clearSelectedPhoto()">&times;</span>
                   <img id="selected-photo-preview" src="" alt="선택한 인증샷 미리보기">
@@ -333,7 +319,7 @@
 
   </div>
 
-  <!-- 모바일 하단 플로팅 탭바 (폭 900px 이하 시 노출) -->
+  <!-- 모바일 하단 플로팅 탭바 (폭 900px 이하 시 노출) - 지역장터 제거하고 4개 탭 리디자인 -->
   <nav class="bottom-nav">
     <button class="nav-item active" onclick="navigateTo('home', this)">
       <i class="fa-solid fa-house"></i>
@@ -345,11 +331,7 @@
     </button>
     <button class="nav-item" onclick="toggleAdminModal(true)">
       <i class="fa-solid fa-gear"></i>
-      <span>앱설정</span>
-    </button>
-    <button class="nav-item" onclick="openCommerceModal()">
-      <i class="fa-solid fa-store"></i>
-      <span>지역장터</span>
+      <span>맞춤설정</span>
     </button>
     <button class="nav-item" onclick="navigateTo('my-page')">
       <i class="fa-solid fa-user"></i>
@@ -357,7 +339,7 @@
     </button>
   </nav>
 
-  <!-- 내 정보 뷰 모달 형태로 처리 -->
+  <!-- 내 정보 뷰 모달 -->
   <div class="my-page-view" id="view-my-page" style="display: none;">
     <div class="my-page-header">
       <button class="icon-btn" onclick="toggleMyPage(false)"><i class="fa-solid fa-xmark"></i></button>
@@ -373,12 +355,12 @@
       <div class="menu-list">
         <div class="menu-item"><i class="fa-regular fa-bookmark"></i> 저장한 꽁아코스 <span class="badge">4개</span></div>
         <div class="menu-item"><i class="fa-regular fa-comment-dots"></i> 내가 쓴 나들이 후기 <span class="badge" id="my-comment-count">0개</span></div>
-        <div class="menu-item" onclick="alert('꽁아코스 대시보드 v1.3.5 버전입니다.')"><i class="fa-solid fa-circle-info"></i> 앱 정보</div>
+        <div class="menu-item" onclick="alert('꽁아코스 대시보드 v1.4.0 버전입니다.')"><i class="fa-solid fa-circle-info"></i> 앱 정보</div>
       </div>
     </div>
   </div>
 
-  <!-- 개발자 엑셀 덤프를 접고, 방문자 지향 맞춤식 설정(동반자, 교통수단, 3단계 큰글씨, 고대비, 오프라인 모드)으로 개편한 설정 모달 -->
+  <!-- 방문자 지향 맞춤식 설정 모달 -->
   <div class="modal-overlay" id="admin-modal" style="display: none;">
     <div class="modal-content">
       <div class="modal-header">
@@ -445,7 +427,7 @@
           </div>
         </div>
 
-        <!-- 4. 개발자 모드 (아코디언으로 축소하여 방문자 시야 확보) -->
+        <!-- 4. 개발자 모드 -->
         <details class="accordion-dev-settings" style="margin-top: 14px;">
           <summary class="dev-settings-summary"><i class="fa-solid fa-code"></i> 개발자 데이터 관리 도구</summary>
           <div class="dev-settings-content" style="padding-top: 8px;">
@@ -467,32 +449,6 @@
           </div>
         </details>
 
-      </div>
-    </div>
-  </div>
-
-  <!-- 특산물 상세 커머스 팝업 -->
-  <div class="modal-overlay" id="commerce-modal" style="display: none;">
-    <div class="modal-content commerce-modal-content">
-      <div class="modal-header">
-        <h3>🛍️ 지역 특산물 직송 안내</h3>
-        <button class="close-btn" onclick="toggleCommerceModal(false)">&times;</button>
-      </div>
-      <div class="modal-body text-center">
-        <div class="product-img-box">
-          <i class="fa-solid fa-lemon product-placeholder-icon"></i>
-        </div>
-        <h4 id="product-modal-title" class="product-title">해풍 맞고 자란 명품 토마토</h4>
-        <p class="product-price"><span class="price-origin">18,000원</span> → <strong class="price-sale">12,500원</strong> (무료배송)</p>
-        <p class="product-desc">본 코스의 출발지 인근 농가에서 생산자가 직거래 배송하는 100% 보증 특산물입니다.</p>
-        
-        <div class="phone-order-box">
-          <a href="tel:010-1234-5678" class="btn btn-call">
-            <i class="fa-solid fa-phone-volume"></i> <strong>전화로 바로 주문하기</strong>
-            <span>(중장년층 간편 주문)</span>
-          </a>
-        </div>
-        <button class="btn btn-secondary btn-block" onclick="alert('결제창으로 이동하는 기능입니다.')">인터넷 바로구매</button>
       </div>
     </div>
   </div>

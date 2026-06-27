@@ -432,7 +432,7 @@ body {
 .bottom-nav-builtin .nav-item span { font-size: 8.5px; font-weight: 800; }
 .bottom-nav-builtin .nav-item.active { color: var(--primary-color); }
 
-/* 우측 패널 */
+/* 우측 패널: 상세 대시보드 화면 */
 .right-panel {
   flex: 1;
   background: var(--bg-color);
@@ -469,6 +469,7 @@ body {
   line-height: 1.5;
 }
 
+/* 우측 추천 대시보드 컨테이너 */
 .detail-dashboard-view {
   padding: 16px 20px; 
   max-width: 920px;
@@ -935,42 +936,6 @@ body {
 }
 .vote-down.voted i, .vote-down.voted strong { color: #c62828; }
 
-/* 커머스 배너 */
-.commerce-banner {
-  background: linear-gradient(135deg, #fffde7 0%, #fff8e1 100%);
-  border: 1px solid #ffe082;
-  border-radius: var(--border-radius);
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.commerce-badge {
-  background: var(--secondary-color);
-  color: white;
-  font-size: 8px;
-  font-weight: 700;
-  padding: 1.5px 3.5px;
-  border-radius: 3px;
-}
-
-.commerce-content h4 {
-  font-size: 10.5px;
-  font-weight: 800;
-  color: #5d4037;
-}
-
-.commerce-content p {
-  font-size: 8.5px;
-  color: #8d6e63;
-}
-
-.arrow-icon { color: var(--secondary-color); font-size: 10px; }
-
 /* 리뷰 폼 가로 2분할 레이아웃 */
 .comment-form-horizontal {
   display: flex;
@@ -1252,9 +1217,10 @@ body {
   margin-top: 12px;
 }
 
+/* [리디자인] 다녀온 회원마당 사진 갤러리 영역: 등록된 사진이 있을 때만 flex 노출, 더미는 숨김 */
 .photo-gallery {
   display: flex;
-  gap: 5px;
+  gap: 6px;
   overflow-x: auto;
   margin-bottom: 8px;
   box-sizing: border-box;
@@ -1262,14 +1228,13 @@ body {
 }
 
 .gallery-img {
-  width: 44px;
-  height: 44px;
-  border-radius: 4px;
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
   flex-shrink: 0;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
-.gallery-img.pattern1 { background: linear-gradient(45deg, #11998e, #38ef7d); }
-.gallery-img.pattern2 { background: linear-gradient(45deg, #ff9966, #ff5e62); }
-.gallery-img.pattern3 { background: linear-gradient(45deg, #4b6cb7, #182848); }
 
 .comment-list {
   display: flex;
@@ -1508,61 +1473,6 @@ body {
   outline: none;
 }
 
-.product-img-box {
-  height: 70px;
-  background: #fff8e1;
-  border-radius: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 8px;
-  border: 1px dashed var(--secondary-color);
-}
-
-.product-placeholder-icon {
-  font-size: 24px;
-  color: var(--secondary-color);
-}
-
-.product-title {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 2px;
-  color: #5d4037;
-}
-
-.product-price {
-  margin-bottom: 6px;
-}
-
-.price-origin {
-  text-decoration: line-through;
-  color: var(--text-muted);
-  font-size: 9px;
-}
-
-.price-sale {
-  color: var(--secondary-color);
-  font-size: 13px;
-}
-
-.product-desc {
-  font-size: 10.5px;
-  color: var(--text-muted);
-  line-height: 1.35;
-  margin-bottom: 10px;
-}
-
-.btn-call {
-  background: var(--secondary-color);
-  color: white;
-  width: 100%;
-  justify-content: center;
-  padding: 8px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-
 /* 6. 모바일 반응형 처리 */
 @media (max-width: 900px) {
   body {
@@ -1650,7 +1560,6 @@ body {
     font-weight: 800;
   }
 
-  /* 모바일 필터 터치 여백 확장 */
   .filter-selects-row {
     gap: 8px !important;
     width: 100%;
@@ -1661,24 +1570,6 @@ body {
     font-size: 11px !important;
   }
 
-  /* 모바일 뷰 전용 투표 버튼의 강제 가로 배열 중요 규칙 잠금 */
-  .vote-buttons {
-    display: flex !important;
-    flex-direction: row !important; /* 모바일에서도 무조건 좌우 가로로 배치 */
-    border-radius: 20px !important;
-    overflow: hidden !important;
-    height: 32px !important;
-    width: 100% !important;
-  }
-  
-  .vote-btn {
-    flex: 1 !important;
-    flex-direction: row !important;
-    height: 100% !important;
-    border-radius: 0 !important;
-  }
-
-  /* 리뷰 등록 폼 모바일 뷰 콤팩트 최적화 */
   .comment-form-horizontal {
     flex-direction: column;
     gap: 10px;
@@ -1692,12 +1583,28 @@ body {
     width: 100%;
   }
 
-  /* 주변 식당 리스트 모바일 뷰 최적화 (2열 배치) */
   .detail-restaurant-list {
     grid-template-columns: repeat(2, 1fr); 
     gap: 6px;
     width: 100%;
     box-sizing: border-box;
+  }
+
+  /* 투표 버튼 강제 가로 배열 */
+  .vote-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    height: 32px !important;
+    width: 100% !important;
+  }
+  
+  .vote-btn {
+    flex: 1 !important;
+    flex-direction: row !important;
+    height: 100% !important;
+    border-radius: 0 !important;
   }
 
   /* 모바일 하단 플로팅 탭바 */

@@ -10,39 +10,6 @@ if not os.path.exists(excel_file):
     print("Error: Excel file not found.")
     exit(1)
 
-product_templates = {
-    "인천": {"title": "강화도 수제 약쑥 듬뿍 차", "price": 22000, "salePrice": 16900, "desc": "강화도 현지 약쑥을 전통 방식으로 로스팅하여 눈이 편안해지는 명품 전통차입니다."},
-    "서울": {"title": "서울숲 길상사 우전 수제차", "price": 28000, "salePrice": 21000, "desc": "도심 속 사찰 정취를 담아 정성껏 로스팅한 전통 수제차 패키지입니다."},
-    "경기": {"title": "가평 프리미엄 무농약 가평잣", "price": 32000, "salePrice": 25000, "desc": "가령 잣나무 숲에서 무농약으로 재배한 명품 백잣 선물세트입니다."},
-    "강원": {"title": "대관령 명품 평창 황태포 세트", "price": 35000, "salePrice": 27000, "desc": "영하의 덕장에서 얼고 녹기를 반복하여 속살이 노랗고 부드러운 명품 황태입니다."},
-    "충청": {"title": "단양 마늘 향기 고추장 구이 세트", "price": 24000, "salePrice": 18500, "desc": "단양 육쪽마늘을 가미하여 감칠맛이 일품인 양념 구이 세트입니다."},
-    "경북": {"title": "경주 명품 오릉 찰보리빵 (30구)", "price": 20000, "salePrice": 15000, "desc": "경주 찰보리로 반죽하여 구수하고 팥앙금이 달지 않아 중장년층 영양 간식으로 최고입니다."},
-    "전남": {"title": "보성 다원 유기농 첫물 세작 녹차", "price": 45000, "salePrice": 38000, "desc": "화학비료 없이 키워 이른 봄 수확한 명품 보성 세작 녹차잎입니다."},
-    "제주": {"title": "서귀포 친환경 해풍 감귤 박스", "price": 18000, "salePrice": 12900, "desc": "서귀포 해풍을 맞고 자라 당도가 매우 높고 껍질이 얇은 신선 감귤입니다."}
-}
-
-def get_product(region):
-    for r, prod in product_templates.items():
-        if r in region:
-            return prod
-    return {"title": "산지직송 유기농 시골 제철 과일", "price": 30000, "salePrice": 23000, "desc": "친환경 농가에서 당일 수확하여 당일 직배송하는 명품 제철 과일 패키지입니다."}
-
-def parse_season(season_str, title_str):
-    season_str = str(season_str).strip()
-    title_str = str(title_str)
-    
-    if "봄" in season_str or "3월" in season_str or "4월" in season_str or "5월" in season_str or "벚꽃" in title_str:
-        return "spring", "봄 추천"
-    elif "여름" in season_str or "6월" in season_str or "7월" in season_str or "8월" in season_str or "연꽃" in title_str or "해수욕장" in title_str:
-        return "summer", "여름 추천"
-    elif "가을" in season_str or "9월" in season_str or "10월" in season_str or "11월" in season_str or "단풍" in title_str or "억새" in title_str:
-        return "autumn", "가을 추천"
-    elif "겨울" in season_str or "12월" in season_str or "1월" in season_str or "2월" in season_str or "설경" in title_str:
-        return "winter", "겨울 추천"
-    
-    seasons = [("spring", "봄 추천"), ("summer", "여름 추천"), ("autumn", "가을 추천"), ("winter", "겨울 추천")]
-    return random.choice(seasons)
-
 try:
     df = pd.read_excel(excel_file, sheet_name="트레킹,맛집 정보", header=1)
     df = df.fillna("")
@@ -88,8 +55,16 @@ try:
             except:
                 duration = "2시간"
 
-        season_raw = str(row.iloc[9]).strip()
-        season_code, season_name = parse_season(season_raw, title)
+        # 계절 추출
+        season_str = str(row.iloc[9]).strip()
+        if "봄" in season_str or "3월" in season_str or "4월" in season_str or "5월" in season_str or "벚꽃" in title:
+            season_code, season_name = "spring", "봄 추천"
+        elif "여름" in season_str or "6월" in season_str or "7월" in season_str or "8월" in season_str or "연꽃" in title or "해수욕장" in title:
+            season_code, season_name = "summer", "여름 추천"
+        elif "가을" in season_str or "9월" in season_str or "10월" in season_str or "11월" in season_str or "단풍" in title or "억새" in title:
+            season_code, season_name = "autumn", "가을 추천"
+        else:
+            season_code, season_name = "winter", "겨울 추천"
 
         timeline = []
         start_spot = str(row.iloc[5]).strip()
@@ -161,8 +136,7 @@ try:
             "votesDown": votes_down,
             "timeline": timeline,
             "comments": comments,
-            "photos": [f"pattern{random.randint(1,3)}", f"pattern{random.randint(1,3)}"],
-            "product": get_product(region),
+            "photos": [], # [리디자인] 다녀온 회원마당 사진갤러리에서 파란색/더미 그라디언트 도형을 완전 제거하기 위해 빈 배열로 마이그레이션
             "foods": food_list
         }
         
@@ -172,7 +146,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: popstate 가로채기 앱 종료 확인 컨펌 다이얼로그 추가
+    # JS 코드 갱신: 장터 광고 삭제, 빈 갤러리 숨김 및 popstate 백버튼 다이얼로그 결합
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -232,18 +206,14 @@ document.addEventListener("DOMContentLoaded", () => {{
     showCourseDetail(courses[0].id, false); 
   }}
 
-  // [신설] 브라우저/모바일 물리 뒤로가기(Back) 버튼 감지 및 앱 종료 확인 컨펌 다이얼로그 이식
-  // 세션 히스토리에 가상 엔트리 하나를 밀어둡니다.
+  // 브라우저/모바일 물리 뒤로가기(Back) 버튼 감지 및 앱 종료 확인 컨펌 다이얼로그 이식
   history.pushState({{ page: "gongacourse_main" }}, "", "");
   
   window.addEventListener("popstate", (event) => {{
-    // 사용자가 이전 페이지(앱 나가기)로 튕기려고 할 때 다이얼로그 개입
     if (confirm("꽁아코스 앱을 나갈까요?")) {{
-      // 확인 시: 윈도우 창 닫기 시도 또는 2단계 히스토리 뒤로가기로 진짜 나가기
       window.close();
       history.go(-2);
     }} else {{
-      // 취소 시: 현재 가상 엔트리를 히스토리에 재유지하여 앱 내에 가둬둠
       history.pushState({{ page: "gongacourse_main" }}, "", "");
     }}
   }});
@@ -463,37 +433,27 @@ function showCourseDetail(courseId, triggerMobileScroll = true) {{
     }}
   }}
 
-  if (course.product) {{
-    const commerceTitle = document.getElementById("commerce-title");
-    if (commerceTitle) commerceTitle.textContent = `${{course.product.title}} 산지 한정 특가`;
-    
-    document.getElementById("product-modal-title").textContent = course.product.title;
-    document.querySelector(".price-origin").textContent = `${{course.product.price.toLocaleString()}}원`;
-    document.querySelector(".price-sale").textContent = `${{course.product.salePrice.toLocaleString()}}원`;
-    document.querySelector(".product-desc").textContent = course.product.desc;
-  }}
-
-  // C. 실시간 업로드 사진 & 기정 사진 합성 렌더링
+  // C. [리디자인] 실시간 업로드 사진 갤러리: 사용자가 등록한 base64 이미지 데이터가 1장이라도 존재할 때만 갤러리 영역 노출
   const gallery = document.getElementById("detail-photo-gallery");
   if (gallery) {{
     gallery.innerHTML = "";
-    course.photos.forEach(photoPattern => {{
-      const photoDiv = document.createElement("div");
-      if (photoPattern.startsWith("data:image")) {{
+    if (course.photos && course.photos.length > 0) {{
+      gallery.style.display = "flex"; // 노출
+      course.photos.forEach(photoPattern => {{
+        const photoDiv = document.createElement("div");
         photoDiv.className = `gallery-img`;
         photoDiv.style.backgroundImage = `url("${{photoPattern}}")`;
         photoDiv.style.backgroundSize = "cover";
         photoDiv.style.backgroundPosition = "center";
-      }} else {{
-        photoDiv.className = `gallery-img ${{photoPattern}}`;
-      }}
-      gallery.appendChild(photoDiv);
-    }});
+        gallery.appendChild(photoDiv);
+      }});
+    }} else {{
+      gallery.style.display = "none"; // 더미 파란도형 소멸을 위해 평소엔 갤러리 전체 숨김
+    }}
   }}
 
   renderComments();
 
-  // 모바일 사용자가 직접 카드를 클릭해서 상세를 볼 때만 화면을 슥 밀어줍니다.
   if (triggerMobileScroll) {{
     scrollToDashboard();
   }}
@@ -538,7 +498,7 @@ function toggleMyPage(show) {{
     document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
       const items = Array.from(navBar.children);
       items.forEach((item, idx) => {{
-        if (idx === 4) item.classList.add("active");
+        if (idx === 3) item.classList.add("active");
         else item.classList.remove("active");
       }});
     }});
@@ -1102,8 +1062,7 @@ function importExcelData() {{
         votesDown: 0,
         timeline: timeline,
         comments: [],
-        photos: ["pattern1"],
-        product: {{ title: productTitle, price: 20000, salePrice: 15000, desc: "추가 특산물" }},
+        photos: [],
         foods: ["현지 추천 식당"]
       }};
       courses.push(newCourse);
@@ -1118,36 +1077,6 @@ function importExcelData() {{
     }}
   }} catch (e) {{
     alert("오류: " + e.message);
-  }}
-}}
-
-function openCommerceModal() {{
-  const modal = document.getElementById("commerce-modal");
-  if (modal) {{
-    modal.style.display = "flex";
-    document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
-      const items = Array.from(navBar.children);
-      items.forEach((item, idx) => {{
-        if (idx === 3) item.classList.add("active");
-        else item.classList.remove("active");
-      }});
-    }});
-  }}
-}}
-
-function toggleCommerceModal(show) {{
-  const modal = document.getElementById("commerce-modal");
-  if (modal) {{
-    modal.style.display = show ? "flex" : "none";
-    if (!show) {{
-      document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
-        const items = Array.from(navBar.children);
-        items.forEach((item, idx) => {{
-          if (idx === 0) item.classList.add("active");
-          else item.classList.remove("active");
-        }});
-      }});
-    }}
   }}
 }}
 """
