@@ -16,9 +16,9 @@
   <!-- 전체 레이아웃 컨테이너 -->
   <div class="dashboard-container">
     
-    <!-- 1. 좌측 컨트롤 및 목록 패널 (Left Panel) -->
+    <!-- 1. 좌측 컨트롤 및 목록 패널 (Left Panel) - 사용자께서 원하시는 [꽁아코스 로고와 검색 탭이 있는 메인 첫화면] -->
     <aside class="left-panel">
-      <!-- 꽁아코스 옆으로 검색창을 가로 나란히 배치 (세로 폭 압축) -->
+      <!-- 꽁아코스 로고와 검색창 가로 나란히 배치 헤더 -->
       <header class="panel-header" id="course-list-top">
         <h1 class="app-logo" onclick="location.reload()">꽁아코스</h1>
         <div class="search-bar-header">
@@ -27,7 +27,7 @@
         </div>
       </header>
 
-      <!-- 박스 배경과 테두리를 해제하여 깔끔한 밑줄 텍스트형으로 개편한 상단 퀵 탭 -->
+      <!-- 밑줄 텍스트형으로 개편한 상단 퀵 탭 -->
       <div class="head-tabs-container">
         <div class="head-tabs-underline">
           <button class="head-tab active" onclick="selectHeadTab('all', this)">전체</button>
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <!-- "지역별, 계절별, 테마별" 라벨을 삭제하여 세로 폭을 대폭 압축한 필터 영역 -->
+      <!-- 주제별 압축 검색 필터 영역 -->
       <div class="filter-section-compact">
         <div class="filter-selects-row">
           <select id="filter-region" onchange="applyFilters()">
@@ -71,10 +71,10 @@
         </div>
       </div>
 
-      <!-- [개설] 모바일 뷰 전용 대시보드로 빠른 화면 복귀 네비게이터 바 -->
+      <!-- 모바일용 대시보드 바로가기 영역 (평소엔 숨김) -->
       <div class="mobile-forward-panel" id="mobile-back-to-detail-bar" style="display: none;">
         <button class="btn btn-primary btn-block mobile-forward-btn" onclick="scrollToDashboard()">
-          선택 코스 대시보드로 돌아가기 <i class="fa-solid fa-chevron-down"></i>
+          선택 코스 대시보드로 가기 <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
 
@@ -91,7 +91,7 @@
         </div>
       </div>
 
-      <!-- 좌측 패널 최하단에 빌트인된 5대 핵심 메뉴바 (톱니바퀴는 '데이터설정'으로 포함) -->
+      <!-- 좌측 패널 최하단 빌트인 메뉴바 -->
       <nav class="bottom-nav-builtin">
         <button class="nav-item active" onclick="navigateTo('home', this)">
           <i class="fa-solid fa-house"></i>
@@ -119,7 +119,7 @@
     <!-- 2. 우측 패널: 선택된 코스의 상세 대시보드 화면 (Right Panel) -->
     <main class="right-panel" id="detail-dashboard-top">
       
-      <!-- 초기 플레이스홀더 (코스 미선택 시 노출) -->
+      <!-- 초기 플레이스홀더 -->
       <div class="detail-placeholder" id="detail-placeholder-view">
         <div class="placeholder-content">
           <i class="fa-solid fa-map-location-dot placeholder-icon"></i>
@@ -131,19 +131,21 @@
       <!-- 실제 코스 상세 내용 대시보드 뷰 -->
       <div class="detail-dashboard-view" id="detail-dashboard-view" style="display: none;">
         
-        <!-- [개설] 모바일 뷰 전용 코스 리스트로 복귀하는 뒤로가기 바 버튼 -->
+        <!-- 모바일용 코스 목록으로 돌아가는 뒤로가기 바 버튼 -->
         <div class="mobile-back-panel" id="mobile-back-to-list-bar" style="display: none;">
           <button class="btn btn-secondary btn-block mobile-back-btn" onclick="scrollToCourseList()">
-            <i class="fa-solid fa-chevron-up"></i> 다른 추천 코스 선택하기 (목록 보기)
+            <i class="fa-solid fa-chevron-left"></i> 코스 목록 보기 (검색 탭으로 뒤로가기)
           </button>
         </div>
 
-        <!-- 대시보드 상단 히어로 배너 -->
-        <header class="detail-hero-dashboard" id="detail-hero-bg">
-          <div class="hero-content">
-            <span class="detail-badge" id="detail-season-badge">가을 추천</span>
+        <!-- [대수술] 히어로 영역 초슬림 가로 배치형 헤더로 공간 절약 극대화 -->
+        <header class="detail-hero-dashboard-compact" id="detail-hero-bg">
+          <div class="hero-content-horizontal">
             <h2 id="detail-title">북한산 우이령 단풍 둘레길</h2>
-            <p id="detail-subtitle"><i class="fa-solid fa-location-dot"></i> 서울 강북구 · 트레킹 코스</p>
+            <div class="hero-metadata-horizontal">
+              <span class="detail-badge" id="detail-season-badge">가을 추천</span>
+              <span id="detail-subtitle"><i class="fa-solid fa-location-dot"></i> 서울 강북구</span>
+            </div>
           </div>
         </header>
 
@@ -222,11 +224,11 @@
 
           <!-- 우측 칼럼: 나들이 경로일정 & 주변 연계 맛집/카페 리스트 -->
           <div class="dashboard-col right-col">
-            <!-- 일정표 카드 -->
+            <!-- [대수술] 가로 횡스크롤 플로우(Horizontal Scroll Timeline) 형태로 일정을 가로 배치해 세로폭 절약 -->
             <div class="detail-card">
               <h4 class="card-section-title"><i class="fa-solid fa-route text-primary"></i> 꽁아 추천 나들이 일정표</h4>
-              <div class="box-timeline" id="detail-timeline-container">
-                <!-- 일정 노드 -->
+              <div class="horizontal-timeline-container" id="detail-timeline-container">
+                <!-- 가로형 일정 카드 -->
               </div>
             </div>
 
@@ -261,56 +263,62 @@
               <!-- 업로드한 사진 동적 렌더링 -->
             </div>
 
-            <!-- 후기 및 다차원 평가 입력 폼 -->
-            <div class="comment-form">
-              <div class="rating-stars-container">
-                <span class="rating-label">방문자 만족 평가:</span>
-                <div class="rating-row">
-                  <div class="rating-group">
-                    <span class="rating-item-title">⛰️ 경치</span>
-                    <div class="stars" data-metric="scenery">
-                      <i class="fa-solid fa-star star-btn" data-value="1" onclick="setRating('scenery', 1)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="2" onclick="setRating('scenery', 2)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="3" onclick="setRating('scenery', 3)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="4" onclick="setRating('scenery', 4)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="5" onclick="setRating('scenery', 5)"></i>
+            <!-- [대수술] 리뷰 폼을 좌우 2분할 가로 배치하여 세로 높이를 획기적으로 감축 -->
+            <div class="comment-form-horizontal">
+              
+              <!-- 왼쪽 파트: 평점 및 사진 올리기 버튼 -->
+              <div class="comment-form-left-box">
+                <div class="rating-stars-container-compact">
+                  <div class="rating-row-vertical">
+                    <div class="rating-group-horizontal">
+                      <span class="rating-item-title-compact">⛰️ 경치</span>
+                      <div class="stars" data-metric="scenery">
+                        <i class="fa-solid fa-star star-btn" data-value="1" onclick="setRating('scenery', 1)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="2" onclick="setRating('scenery', 2)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="3" onclick="setRating('scenery', 3)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="4" onclick="setRating('scenery', 4)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="5" onclick="setRating('scenery', 5)"></i>
+                      </div>
                     </div>
-                  </div>
-                  <div class="rating-group">
-                    <span class="rating-item-title">🥾 길 편의</span>
-                    <div class="stars" data-metric="path">
-                      <i class="fa-solid fa-star star-btn" data-value="1" onclick="setRating('path', 1)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="2" onclick="setRating('path', 2)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="3" onclick="setRating('path', 3)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="4" onclick="setRating('path', 4)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="5" onclick="setRating('path', 5)"></i>
+                    <div class="rating-group-horizontal">
+                      <span class="rating-item-title-compact">🥾 편의</span>
+                      <div class="stars" data-metric="path">
+                        <i class="fa-solid fa-star star-btn" data-value="1" onclick="setRating('path', 1)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="2" onclick="setRating('path', 2)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="3" onclick="setRating('path', 3)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="4" onclick="setRating('path', 4)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="5" onclick="setRating('path', 5)"></i>
+                      </div>
                     </div>
-                  </div>
-                  <div class="rating-group">
-                    <span class="rating-item-title">🚗 주차</span>
-                    <div class="stars" data-metric="parking">
-                      <i class="fa-solid fa-star star-btn" data-value="1" onclick="setRating('parking', 1)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="2" onclick="setRating('parking', 2)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="3" onclick="setRating('parking', 3)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="4" onclick="setRating('parking', 4)"></i>
-                      <i class="fa-solid fa-star star-btn" data-value="5" onclick="setRating('parking', 5)"></i>
+                    <div class="rating-group-horizontal">
+                      <span class="rating-item-title-compact">🚗 주차</span>
+                      <div class="stars" data-metric="parking">
+                        <i class="fa-solid fa-star star-btn" data-value="1" onclick="setRating('parking', 1)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="2" onclick="setRating('parking', 2)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="3" onclick="setRating('parking', 3)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="4" onclick="setRating('parking', 4)"></i>
+                        <i class="fa-solid fa-star star-btn" data-value="5" onclick="setRating('parking', 5)"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                <!-- 이미지 선택 시 로컬 파일 프리뷰 영역 -->
+                <div class="upload-preview-area" id="upload-preview-box" style="display: none;">
+                  <span class="preview-close-btn" onclick="clearSelectedPhoto()">&times;</span>
+                  <img id="selected-photo-preview" src="" alt="선택한 인증샷 미리보기">
+                </div>
+
+                <button class="btn btn-secondary btn-block" onclick="triggerPhotoUpload()"><i class="fa-solid fa-camera"></i> 사진올리기</button>
+                <input type="file" id="photo-upload-input" style="display: none;" accept="image/*" onchange="handlePhotoSelected(event)">
               </div>
 
-              <!-- 이미지 선택 시 로컬 파일 프리뷰 영역 -->
-              <div class="upload-preview-area" id="upload-preview-box" style="display: none;">
-                <span class="preview-close-btn" onclick="clearSelectedPhoto()">&times;</span>
-                <img id="selected-photo-preview" src="" alt="선택한 인증샷 미리보기">
+              <!-- 오른쪽 파트: 소감 입력창 및 제출 버튼 -->
+              <div class="comment-form-right-box">
+                <textarea id="comment-textarea" placeholder="나들이 코스 상태, 추천 주차 팁 등을 기록하세요." rows="4"></textarea>
+                <button class="btn btn-primary btn-block" style="padding: 10px;" onclick="submitComment()">방문후기 등록하기</button>
               </div>
 
-              <textarea id="comment-textarea" placeholder="나들이길 코스 상태, 추천 주차 팁 등을 상세하게 남겨주세요." rows="2"></textarea>
-              <div class="comment-form-actions">
-                <button class="btn btn-secondary" onclick="triggerPhotoUpload()"><i class="fa-solid fa-camera"></i> 사진 올리기</button>
-                <button class="btn btn-primary" onclick="submitComment()">방문후기 등록</button>
-              </div>
-              <input type="file" id="photo-upload-input" style="display: none;" accept="image/*" onchange="handlePhotoSelected(event)">
             </div>
 
             <!-- 후기 및 평점 리스트 -->

@@ -172,7 +172,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 모바일 뷰 전환을 강제 구동하여 환경 불안정 해소
+    # JS 코드 갱신: 모바일 첫화면을 '목록/검색탭'으로 기본 노출, 대시보드는 선택 시 팝업 전환
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -229,14 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {{
   renderCourseList();
   
   if (courses.length > 0) {{
-    showCourseDetail(courses[0].id);
-    
-    // 모바일 최초 접속 시, 대시보드 화면이 첫 화면으로 바로 표시되도록 자동 포커스
-    if (window.innerWidth <= 900) {{
-      setTimeout(() => {{
-        scrollToDashboard();
-      }}, 500); 
-    }}
+    // 최초 구동 시 첫번째 코스 데이터 바인딩만 해두되, 
+    // 모바일 뷰의 화면 전환을 강제 기동하지 않으므로 사용자는 꽁아코스 로고와 검색 탭이 있는 목록 첫화면을 자연스럽게 마주하게 됩니다.
+    showCourseDetail(courses[0].id, false); 
   }}
 }});
 
@@ -244,7 +239,7 @@ function saveToLocalStorage() {{
   localStorage.setItem("gongacourse_data", JSON.stringify(courses));
 }}
 
-// [개정] 모바일 뷰 양방향 스위칭 및 뒤로가기 스크롤 함수 (화면 해상도 판정 노이즈 제거를 위한 강제 전환 장치)
+// 모바일 뷰 양방향 스위칭 및 뒤로가기 스크롤 함수
 function scrollToCourseList() {{
   document.querySelector(".left-panel").style.display = "flex";
   document.querySelector(".right-panel").style.display = "none";
@@ -362,7 +357,7 @@ function clearSelectedPhoto() {{
 }}
 
 // 코스 상세 렌더링
-function showCourseDetail(courseId) {{
+function showCourseDetail(courseId, triggerMobileScroll = true) {{
   const course = courses.find(c => c.id === courseId);
   if (!course) return;
 
@@ -380,11 +375,11 @@ function showCourseDetail(courseId) {{
   if (activeCard) activeCard.classList.add("active");
 
   const heroBg = document.getElementById("detail-hero-bg");
-  if (heroBg) heroBg.className = `detail-hero-dashboard ${{course.patternClass}}`;
+  if (heroBg) heroBg.className = `detail-hero-dashboard-compact ${{course.patternClass}}`;
   
   document.getElementById("detail-season-badge").textContent = course.seasonName;
   document.getElementById("detail-title").textContent = course.title;
-  document.getElementById("detail-subtitle").innerHTML = `<i class="fa-solid fa-location-dot"></i> ${{course.location}} · ${{course.type}}`;
+  document.getElementById("detail-subtitle").innerHTML = `<i class="fa-solid fa-location-dot"></i> ${{course.location}}`;
   
   document.getElementById("detail-difficulty").textContent = course.difficulty;
   document.getElementById("detail-duration").textContent = course.duration;
@@ -392,7 +387,7 @@ function showCourseDetail(courseId) {{
   renderVoteButtonsState();
   updateSatisfactionUI();
 
-  // A. 일정표 렌더링
+  // A. [대수술] 가로 횡스크롤 일정표 카드 렌더링
   const timelineContainer = document.getElementById("detail-timeline-container");
   if (timelineContainer) {{
     timelineContainer.innerHTML = "";
@@ -478,8 +473,10 @@ function showCourseDetail(courseId) {{
 
   renderComments();
 
-  // 모바일 탭 시 상세 화면 강제 포커싱
-  scrollToDashboard();
+  // 모바일 사용자가 '수동으로 코스 목록의 카드를 탭하여 상세를 볼 때만' 대시보드로 화면 전환을 트리거합니다.
+  if (triggerMobileScroll) {{
+    scrollToDashboard();
+  }}
 
   const path = document.querySelector(".path-line");
   if (path) {{
@@ -713,7 +710,7 @@ function renderCourseList() {{
     const card = document.createElement("div");
     card.className = `course-card accent-${{course.season}}`;
     card.setAttribute("data-id", course.id);
-    card.onclick = () => showCourseDetail(course.id);
+    card.onclick = () => showCourseDetail(course.id, true); // 목록 카드를 직접 클릭할 때만 스크롤 기동
 
     if (currentCourse && currentCourse.id === course.id) {{
       card.classList.add("active");
@@ -915,7 +912,7 @@ function submitComment() {{
   saveToLocalStorage();
   renderComments();
 
-  showCourseDetail(currentCourse.id);
+  showCourseDetail(currentCourse.id, false); // 본인 후기 제출 시 스크롤 포커스는 고정
 
   alert("나들이 평점과 소중한 사진 후기가 정상 등록되었습니다!");
 }}
@@ -1097,7 +1094,7 @@ function importExcelData() {{
       renderCourseList();
       toggleAdminModal(false);
       alert(`${{addedCount}}개 코스 마이그레이션 완료!`);
-      showCourseDetail(courses[courses.length - addedCount].id);
+      showCourseDetail(courses[courses.length - addedCount].id, true);
     }}
   }} catch (e) {{
     alert("오류: " + e.message);
