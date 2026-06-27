@@ -10,7 +10,6 @@ if not os.path.exists(excel_file):
     print("Error: Excel file not found.")
     exit(1)
 
-# 특산물 매핑 테이블
 product_templates = {
     "인천": {"title": "강화도 수제 약쑥 듬뿍 차", "price": 22000, "salePrice": 16900, "desc": "강화도 현지 약쑥을 전통 방식으로 로스팅하여 눈이 편안해지는 명품 전통차입니다."},
     "서울": {"title": "서울숲 길상사 우전 수제차", "price": 28000, "salePrice": 21000, "desc": "도심 속 사찰 정취를 담아 정성껏 로스팅한 전통 수제차 패키지입니다."},
@@ -171,7 +170,7 @@ try:
     print(f"Processed {len(parsed_courses)} courses.")
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
 
-    # JS 코드 갱신: 빌트인 탭바 & 모바일 탭바 활성화 연동
+    # JS 코드 갱신: 개별 카드에서 이미지 제거 및 콤팩트 카드 HTML 변경
     js_logic = f"""// =============================================================================
 // 꽁아코스 - 애플리케이션 로직 (app.js)
 // =============================================================================
@@ -342,7 +341,7 @@ function showCourseDetail(courseId) {{
   }}
 }}
 
-// 네비게이션 및 탭바 동기화 제어 (Built-in 탭바와 플로팅 탭바 동시 연동)
+// 네비게이션 동기화
 function navigateTo(viewId, element) {{
   if (viewId === 'home') {{
     toggleMyPage(false);
@@ -351,7 +350,6 @@ function navigateTo(viewId, element) {{
     toggleMyPage(true);
   }}
   
-  // 양쪽 탭바의 동일 인덱스 아이템들 active 동기화
   let clickedIndex = 0;
   if (element) {{
     const siblingItems = Array.from(element.parentElement.children);
@@ -372,7 +370,6 @@ function toggleMyPage(show) {{
   if (!myPage) return;
   myPage.style.display = show ? "flex" : "none";
   if (show) {{
-    // Built-in과 모바일 탭바의 4번째 탭(내 정보) 활성화 동기화
     document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
       const items = Array.from(navBar.children);
       items.forEach((item, idx) => {{
@@ -538,7 +535,8 @@ function renderCourseList() {{
 
   filtered.forEach(course => {{
     const card = document.createElement("div");
-    card.className = "course-card";
+    // 계절별 좌측 테두리 색상 분기용 클래스 동적 부여 (이미지 삭제 후 포인트 시각화)
+    card.className = `course-card accent-${{course.season}}`;
     card.setAttribute("data-id", course.id);
     card.onclick = () => showCourseDetail(course.id);
 
@@ -559,21 +557,23 @@ function renderCourseList() {{
       `;
     }}
 
+    // [대수술] 불필요한 이미지 박스를 완전히 걷어내고, 계절 컬러 닷 뱃지를 한 줄로 병합하여 세로폭 최적화
     card.innerHTML = `
-      <div class="card-img-wrapper ${{course.patternClass}}">
-        <span class="card-badge">${{course.seasonName}}</span>
-      </div>
       <div class="card-info">
         <div class="card-meta">
+          <span class="season-dot-tag">
+            <span class="dot-indicator ${{course.season}}"></span>
+            ${{course.seasonName}}
+          </span>
           <span>${{course.location}}</span>
         </div>
-        <h3 class="card-title-text" style="font-size: 12px; line-height: 1.35; height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom:2px;">${{course.title}}</h3>
+        <h3 class="card-title-text">${{course.title}}</h3>
         
         ${{foodTagsHtml}} 
 
-        <div class="card-footer" style="padding-top: 6px; margin-top: 4px;">
-          <span class="ratio-badge ${{ratioClass}}" style="font-size: 9px; padding: 2px 4px;"><i class="fa-solid fa-thumbs-up"></i> ${{course.satisfaction}}%</span>
-          <span class="card-duration" style="font-size: 9px;"><i class="fa-regular fa-clock"></i> ${{course.duration}}</span>
+        <div class="card-footer">
+          <span class="ratio-badge ${{ratioClass}}"><i class="fa-solid fa-thumbs-up"></i> ${{course.satisfaction}}%</span>
+          <span class="card-duration"><i class="fa-regular fa-clock"></i> ${{course.duration}}</span>
         </div>
       </div>
     `;
@@ -726,7 +726,6 @@ function toggleAdminModal(show) {{
     modal.style.display = show ? "flex" : "none";
     if (show) {{
       loadExcelPreset(1);
-      // Built-in과 모바일 탭바의 3번째 탭(데이터설정) 활성화 동기화
       document.querySelectorAll(".bottom-nav-builtin, .bottom-nav").forEach(navBar => {{
         const items = Array.from(navBar.children);
         items.forEach((item, idx) => {{
@@ -873,7 +872,7 @@ function toggleCommerceModal(show) {{
     with open(js_file, "w", encoding="utf-8") as f:
         f.write(js_logic)
         
-    print("app.js has been successfully regenerated with synchronized tab navigation.")
+    print("app.js has been successfully written with image-less mini cards.")
 
 except Exception as e:
     import traceback
