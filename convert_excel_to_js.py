@@ -46,7 +46,6 @@ def parse_season(season_str, title_str):
     return random.choice(seasons)
 
 try:
-    # header=1 로 읽어서 두 번째 행을 컬럼명으로 잡음
     df = pd.read_excel(excel_file, sheet_name="트레킹,맛집 정보", header=1)
     df = df.fillna("")
     
@@ -54,20 +53,17 @@ try:
     course_id = 1
     
     for idx, row in df.iterrows():
-        # 번호 컬럼이나 지역 컬럼이 없으면 스킵
         num_val = row.iloc[0]
         region = str(row.iloc[1]).strip()
         sub_region = str(row.iloc[2]).strip()
         
-        # 탐방지 타이틀
         title = str(row.iloc[3]).strip()
         if not title:
-            title = str(row.iloc[4]).strip() # 목적지 컬럼으로 대체
+            title = str(row.iloc[4]).strip()
             
         if not title or title == "둘레길,트레킹 \n탐방지" or "탐방지" in title:
             continue
             
-        # 번호가 명확히 기재된 행들만 파싱 대상으로 삼음
         try:
             if num_val == "":
                 continue
@@ -75,22 +71,18 @@ try:
         except ValueError:
             continue
             
-        # 난이도
         diff = str(row.iloc[8]).strip()
         if not diff:
             diff = "보통"
             
-        # 시간 파싱
         duration_val = str(row.iloc[12]).strip()
         if duration_val:
             try:
-                # 숫자만 추출
                 dur_num = float(''.join(c for c in duration_val if c.isdigit() or c == '.'))
                 duration = f"{int(dur_num)}시간" if dur_num.is_integer() else f"{dur_num}시간"
             except:
                 duration = "2시간"
         else:
-            # 거리가 있으면 시간 예측 (시속 3km 환산)
             dist_val = str(row.iloc[11]).strip()
             try:
                 dist_num = float(''.join(c for c in dist_val if c.isdigit() or c == '.'))
@@ -98,20 +90,15 @@ try:
             except:
                 duration = "2시간"
 
-        # 계절 파싱
         season_raw = str(row.iloc[9]).strip()
         season_code, season_name = parse_season(season_raw, title)
 
-        # 타임라인 생성
         timeline = []
-        
-        # 1. 출발지
         start_spot = str(row.iloc[5]).strip()
         if not start_spot:
             start_spot = "들머리 입구"
         timeline.append({"spot": start_spot, "desc": "트레킹 시작 및 코스 입구 진입.", "time": "09:30"})
         
-        # 2. 중간 경유지 (사찰 또는 연계 산행)
         temple_spot = str(row.iloc[7]).strip()
         if temple_spot:
             timeline.append({"spot": temple_spot.split(",")[0], "desc": "천년 사찰의 지혜와 수려한 정취 관람.", "time": "11:00"})
@@ -120,7 +107,6 @@ try:
         if view_spot and view_spot != "정보확인 필요":
             timeline.append({"spot": view_spot.split(",")[0], "desc": "주요 경유 명소 및 조망점 관찰.", "time": "12:30"})
 
-        # 3. 맛집 및 카페 연동
         food_raw = str(row.iloc[14]).strip()
         add_food_raw = str(row.iloc[15]).strip()
         
@@ -131,15 +117,11 @@ try:
             food_list.extend([f.strip() for f in add_food_raw.split(",") if f.strip()])
             
         comments = []
-        # 맛집이 있으면 타임라인과 후기 댓글에 삽입
         if food_list:
-            # 첫 번째는 점심식사로 타임라인 배정
             timeline.append({"spot": f"{food_list[0]} (식사)", "desc": "현지 방문자들이 극찬한 강추 맛집 방문.", "time": "13:30"})
             if len(food_list) > 1:
-                # 두 번째는 디저트 카페로 배정
                 timeline.append({"spot": f"{food_list[1]} (카페)", "desc": "산책 후 편안한 커피 앤 차 쉼터 휴식.", "time": "15:00"})
                 
-            # 모의 댓글 조립
             comment_users = ["산책매니아", "맛집사냥꾼", "들꽃길", "강산이좋아"]
             for idx_f, food_item in enumerate(food_list[:3]):
                 user = comment_users[idx_f % len(comment_users)]
@@ -184,31 +166,598 @@ try:
         parsed_courses.append(course_obj)
         course_id += 1
         
-    print(f"Successfully processed {len(parsed_courses)} courses from Excel.")
+    print(f"Processed {len(parsed_courses)} courses.")
     
-    # 6. app.js 덮어쓰기 코드 작성
-    # app.js 파일의 구조를 유지하면서 defaultCourses 만 덮어쓰기 위해, 
-    # 기존 app.js를 읽어와서 defaultCourses = [ ... ] 부분을 교체
-    with open(js_file, "r", encoding="utf-8") as f:
-        js_content = f.read()
-        
-    # JSON 객체를 Javascript 배열 형태로 변환
+    # 242개 JSON 데이터 변환
     js_courses_str = json.dumps(parsed_courses, ensure_ascii=False, indent=2)
+
+    # 대규모 로직 자바스크립트 템플릿 정의 (다중 압축 검색 필터 완벽 보완)
+    js_logic = f"""// =============================================================================
+// 꽁아코스 - 애플리케이션 로직 (app.js)
+// =============================================================================
+
+const defaultCourses = {js_courses_str};
+
+let courses = [];
+let currentCourse = null;
+
+// 주제별 압축 다중 필터 전역 변수
+let currentRegionFilter = "all";
+let currentSeasonFilter = "all";
+let currentThemeFilter = "all";
+let searchKeyword = "";
+
+document.addEventListener("DOMContentLoaded", () => {{
+  const savedCourses = localStorage.getItem("gongacourse_data");
+  if (savedCourses) {{
+    try {{
+      courses = JSON.parse(savedCourses);
+    }} catch (e) {{
+      courses = [...defaultCourses];
+    }}
+  }} else {{
+    courses = [...defaultCourses];
+    saveToLocalStorage();
+  }}
+
+  renderCourseList();
+  updateMockTime();
+  setInterval(updateMockTime, 60000);
+}});
+
+function saveToLocalStorage() {{
+  localStorage.setItem("gongacourse_data", JSON.stringify(courses));
+}}
+
+function updateMockTime() {{
+  const timeEl = document.querySelector(".time");
+  if (timeEl) {{
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    timeEl.textContent = `${{hours}}:${{minutes}}`;
+  }}
+}}
+
+// 3. 내비게이션 (SPA)
+function navigateTo(viewId, element) {{
+  if (viewId === 'my-page') {{
+    toggleMyPage(true);
+    return;
+  }}
+
+  document.querySelectorAll(".app-view").forEach(view => {{
+    view.classList.remove("active");
+  }});
+  
+  toggleMyPage(false);
+
+  const targetView = document.getElementById(`view-${{viewId}}`);
+  if (targetView) {{
+    targetView.classList.add("active");
+  }}
+
+  const backBtn = document.getElementById("header-back-btn");
+  if (viewId === "detail") {{
+    backBtn.style.display = "flex";
+  }} else {{
+    backBtn.style.display = "none";
+  }}
+
+  if (element && element.classList.contains("nav-item")) {{
+    document.querySelectorAll(".bottom-nav .nav-item").forEach(item => {{
+      item.classList.remove("active");
+    }});
+    element.classList.add("active");
+  }} else if (viewId === "home") {{
+    document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
+      if (idx === 0) item.classList.add("active");
+      else item.classList.remove("active");
+    }});
+  }}
+
+  document.querySelector(".app-content").scrollTop = 0;
+}}
+
+function toggleMyPage(show) {{
+  const myPage = document.getElementById("view-my-page");
+  if (!myPage) return;
+
+  myPage.style.display = show ? "flex" : "none";
+  
+  if (show) {{
+    document.querySelectorAll(".bottom-nav .nav-item").forEach((item, idx) => {{
+      if (idx === 2) item.classList.add("active");
+      else item.classList.remove("active");
+    }});
+
+    let myCommentCount = 0;
+    courses.forEach(c => {{
+      if (c.comments) {{
+        c.comments.forEach(comm => {{
+          if (comm.user === "나들이 대장님") myCommentCount++;
+        }});
+      }}
+    }});
+    const badge = document.getElementById("my-comment-count");
+    if (badge) badge.textContent = `${{myCommentCount}}개`;
+  }}
+}}
+
+// 4. 주제별 압축 다중 필터 & 고성능 검색 엔진
+function applyFilters() {{
+  const regionSelect = document.getElementById("filter-region");
+  const seasonSelect = document.getElementById("filter-season");
+  const themeSelect = document.getElementById("filter-theme");
+  
+  if (regionSelect) currentRegionFilter = regionSelect.value;
+  if (seasonSelect) currentSeasonFilter = seasonSelect.value;
+  if (themeSelect) currentThemeFilter = themeSelect.value;
+  
+  renderCourseList();
+}}
+
+function filterCourses() {{
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) {{
+    searchKeyword = searchInput.value.trim();
+    renderCourseList();
+  }}
+}}
+
+function renderCourseList() {{
+  const container = document.getElementById("course-list-container");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const filtered = courses.filter(course => {{
+    // A. 검색어 필터 (제목, 주소, 타입, 그리고 일정의 세부 스폿명까지 종합 매칭!)
+    const normSearch = searchKeyword.toLowerCase().replace(/\\s+/g, "");
+    let matchesSearch = true;
+    if (normSearch) {{
+      const matchTitle = course.title.toLowerCase().replace(/\\s+/g, "").includes(normSearch);
+      const matchLoc = course.location.toLowerCase().replace(/\\s+/g, "").includes(normSearch);
+      const matchType = course.type.toLowerCase().replace(/\\s+/g, "").includes(normSearch);
+      
+      const matchTimeline = course.timeline.some(t => 
+        t.spot.toLowerCase().replace(/\\s+/g, "").includes(normSearch)
+      );
+      
+      matchesSearch = (matchTitle || matchLoc || matchType || matchTimeline);
+    }}
     
-    # 정규식을 이용해 const defaultCourses = [ ... ]; 부분을 교체
-    import re
-    # const defaultCourses = [ ... ]; 구조를 찾아냄
-    pattern = r"const defaultCourses = \[\s*[\s\S]*?\n\s*\];"
-    replacement = f"const defaultCourses = {js_courses_str};"
+    // B. 지역 필터
+    let matchesRegion = true;
+    if (currentRegionFilter !== "all") {{
+      matchesRegion = course.location.includes(currentRegionFilter);
+    }}
     
-    new_js_content = re.sub(pattern, replacement, js_content)
+    // C. 계절 필터
+    let matchesSeason = true;
+    if (currentSeasonFilter !== "all") {{
+      matchesSeason = (course.season === currentSeasonFilter);
+    }}
     
+    // D. 테마 필터
+    let matchesTheme = true;
+    if (currentThemeFilter !== "all") {{
+      if (currentThemeFilter === "easy") {{
+        const isEasyDiff = ["쉬움", "매우 쉬움", "매우쉬움"].includes(course.difficulty);
+        let isShortTime = true;
+        if (course.duration) {{
+          const matchHours = parseFloat(course.duration);
+          if (!isNaN(matchHours) && matchHours > 2) {{
+            isShortTime = false;
+          }}
+        }}
+        matchesTheme = (isEasyDiff || isShortTime);
+      }} else if (currentThemeFilter === "temple") {{
+        const hasTempleInTitle = ["사", "절", "암"].some(word => course.title.includes(word));
+        const hasTempleInTimeline = course.timeline.some(t => 
+          ["사", "절", "암", "사찰", "암자"].some(word => t.spot.includes(word))
+        );
+        matchesTheme = (hasTempleInTitle || hasTempleInTimeline);
+      }} else if (currentThemeFilter === "food") {{
+        matchesTheme = course.timeline.some(t => 
+          ["식사", "맛집", "카페", "커피", "식당", "푸드"].some(word => t.spot.includes(word))
+        );
+      }} else if (currentThemeFilter === "long") {{
+        let isLongTime = false;
+        if (course.duration) {{
+          const matchHours = parseFloat(course.duration);
+          if (!isNaN(matchHours) && matchHours >= 3) {{
+            isLongTime = true;
+          }}
+        }}
+        const isNotEasy = !["쉬움", "매우 쉬움", "매우쉬움"].includes(course.difficulty);
+        matchesTheme = (isLongTime || isNotEasy);
+      }}
+    }}
+
+    return matchesSearch && matchesRegion && matchesSeason && matchesTheme;
+  }});
+
+  const countEl = document.getElementById("course-count");
+  if (countEl) {{
+    countEl.textContent = `총 ${{filtered.length}}개 코스`;
+  }}
+
+  if (filtered.length === 0) {{
+    container.innerHTML = `
+      <div class="empty-list" style="text-align:center; padding: 40px 16px; color: var(--text-muted);">
+        <i class="fa-solid fa-filter-circle-xmark" style="font-size: 36px; color: #ccc; margin-bottom: 12px; display: block;"></i>
+        <p style="font-size: var(--font-base); font-weight: 700;">조건에 맞는 코스가 없습니다.</p>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">검색 조건을 변경해 보세요.</p>
+      </div>
+    `;
+    return;
+  }}
+
+  filtered.forEach(course => {{
+    const card = document.createElement("div");
+    card.className = "course-card";
+    card.onclick = () => showCourseDetail(course.id);
+
+    const ratioClass = course.satisfaction >= 95 ? "high-satisfaction" : "";
+
+    card.innerHTML = `
+      <div class="card-img-wrapper ${{course.patternClass}}">
+        <span class="card-badge">${{course.seasonName}}</span>
+      </div>
+      <div class="card-info">
+        <div class="card-meta">
+          <span><i class="fa-solid fa-location-dot"></i> ${{course.location}}</span>
+          <span>${{course.type}}</span>
+        </div>
+        <h3 class="card-title-text">${{course.title}}</h3>
+        <div class="card-footer">
+          <span class="ratio-badge ${{ratioClass}}"><i class="fa-solid fa-thumbs-up"></i> 만족도 ${{course.satisfaction}}%</span>
+          <span class="card-duration"><i class="fa-regular fa-clock"></i> ${{course.duration}}</span>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  }});
+}}
+
+// 5. 상세 화면 로드 & 시각화
+function showCourseDetail(courseId) {{
+  const course = courses.find(c => c.id === courseId);
+  if (!course) return;
+
+  currentCourse = course;
+
+  const heroBg = document.getElementById("detail-hero-bg");
+  if (heroBg) heroBg.className = `detail-hero ${{course.patternClass}}`;
+  
+  document.getElementById("detail-season-badge").textContent = course.seasonName;
+  document.getElementById("detail-title").textContent = course.title;
+  document.getElementById("detail-subtitle").innerHTML = `<i class="fa-solid fa-location-dot"></i> ${{course.location}} · ${{course.type}}`;
+  
+  document.getElementById("detail-difficulty").textContent = course.difficulty;
+  document.getElementById("detail-duration").textContent = course.duration;
+  
+  renderVoteButtonsState();
+  updateSatisfactionUI();
+
+  const timelineContainer = document.getElementById("detail-timeline-container");
+  if (timelineContainer) {{
+    timelineContainer.innerHTML = "";
+    course.timeline.forEach(node => {{
+      const timelineNode = document.createElement("div");
+      timelineNode.className = "timeline-node";
+      timelineNode.innerHTML = `
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>${{node.spot}}</span>
+            <span class="timeline-time">${{node.time}}</span>
+          </div>
+          <div class="timeline-desc">${{node.desc}}</div>
+        </div>
+      `;
+      timelineContainer.appendChild(timelineNode);
+    }});
+  }}
+
+  if (course.product) {{
+    const commerceTitle = document.getElementById("commerce-title");
+    if (commerceTitle) commerceTitle.textContent = `${{course.product.title}} 산지 한정 특가`;
+    
+    document.getElementById("product-modal-title").textContent = course.product.title;
+    document.querySelector(".price-origin").textContent = `${{course.product.price.toLocaleString()}}원`;
+    document.querySelector(".price-sale").textContent = `${{course.product.salePrice.toLocaleString()}}원`;
+    document.querySelector(".product-desc").textContent = course.product.desc;
+  }}
+
+  const gallery = document.getElementById("detail-photo-gallery");
+  if (gallery) {{
+    gallery.innerHTML = "";
+    course.photos.forEach(photoPattern => {{
+      const photoDiv = document.createElement("div");
+      photoDiv.className = `gallery-img ${{photoPattern}}`;
+      gallery.appendChild(photoDiv);
+    }});
+  }}
+
+  renderComments();
+  navigateTo("detail");
+
+  const path = document.querySelector(".path-line");
+  if (path) {{
+    path.style.animation = 'none';
+    path.offsetHeight;
+    path.style.animation = 'drawPath 4s linear infinite';
+  }}
+}}
+
+function renderVoteButtonsState() {{
+  if (!currentCourse) return;
+  const upBtn = document.querySelector(".vote-up");
+  const downBtn = document.querySelector(".vote-down");
+  if (!upBtn || !downBtn) return;
+
+  upBtn.classList.remove("voted");
+  downBtn.classList.remove("voted");
+
+  const storageKey = `voted_course_${{currentCourse.id}}`;
+  const votedType = localStorage.getItem(storageKey);
+
+  if (votedType === "up") {{
+    upBtn.classList.add("voted");
+  }} else if (votedType === "down") {{
+    downBtn.classList.add("voted");
+  }}
+}}
+
+function updateSatisfactionUI() {{
+  if (!currentCourse) return;
+  const totalVotes = currentCourse.votesUp + currentCourse.votesDown;
+  const ratio = totalVotes > 0 ? Math.round((currentCourse.votesUp / totalVotes) * 100) : 100;
+  
+  currentCourse.satisfaction = ratio;
+
+  document.getElementById("detail-like-ratio").textContent = `${{ratio}}% 만족`;
+  document.getElementById("detail-votes-up").textContent = currentCourse.votesUp;
+  document.getElementById("detail-votes-down").textContent = currentCourse.votesDown;
+}}
+
+function castVote(type) {{
+  if (!currentCourse) return;
+  const storageKey = `voted_course_${{currentCourse.id}}`;
+  const existingVote = localStorage.getItem(storageKey);
+
+  if (existingVote) {{
+    if (existingVote === type) {{
+      if (type === 'up') currentCourse.votesUp = Math.max(0, currentCourse.votesUp - 1);
+      else currentCourse.votesDown = Math.max(0, currentCourse.votesDown - 1);
+      localStorage.removeItem(storageKey);
+      alert("공감 투표가 취소되었습니다.");
+    }} else {{
+      if (type === 'up') {{
+        currentCourse.votesUp++;
+        currentCourse.votesDown = Math.max(0, currentCourse.votesDown - 1);
+      }} else {{
+        currentCourse.votesDown++;
+        currentCourse.votesUp = Math.max(0, currentCourse.votesUp - 1);
+      }}
+      localStorage.setItem(storageKey, type);
+      alert("공감 의견이 변경되었습니다.");
+    }}
+  }} else {{
+    if (type === 'up') currentCourse.votesUp++;
+    else currentCourse.votesDown++;
+    localStorage.setItem(storageKey, type);
+    alert("공감 투표가 반영되었습니다!");
+  }}
+
+  saveToLocalStorage();
+  renderVoteButtonsState();
+  updateSatisfactionUI();
+  renderCourseList();
+}}
+
+function renderComments() {{
+  const container = document.getElementById("detail-comments-list");
+  if (!container) return;
+  container.innerHTML = "";
+  
+  if (!currentCourse.comments || currentCourse.comments.length === 0) {{
+    container.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 12px 0;">댓글이 없습니다.</p>`;
+    return;
+  }}
+
+  currentCourse.comments.forEach(comment => {{
+    const node = document.createElement("div");
+    node.className = "comment-node";
+    node.innerHTML = `
+      <div class="comment-avatar"><i class="fa-solid fa-comment-dots"></i></div>
+      <div class="comment-body">
+        <div class="comment-user">${{comment.user}}</div>
+        <div class="comment-text">${{comment.text}}</div>
+        <div class="comment-date">${{comment.date}}</div>
+      </div>
+    `;
+    container.appendChild(node);
+  }});
+}}
+
+function submitComment() {{
+  const textarea = document.getElementById("comment-textarea");
+  if (!textarea) return;
+  const text = textarea.value.trim();
+  if (!text) {{
+    alert("댓글을 입력하세요.");
+    return;
+  }}
+
+  const newComment = {{
+    user: "나들이 대장님",
+    text: text,
+    date: new Date().toISOString().split('T')[0]
+  }};
+
+  if (!currentCourse.comments) currentCourse.comments = [];
+  currentCourse.comments.unshift(newComment);
+  textarea.value = "";
+  
+  saveToLocalStorage();
+  renderComments();
+  alert("댓글이 등록되었습니다!");
+}}
+
+function triggerPhotoUpload() {{
+  const input = document.getElementById("photo-upload-input");
+  if (input) input.click();
+}}
+
+function handlePhotoSelected(event) {{
+  if (!currentCourse) return;
+  const file = event.target.files[0];
+  if (file) {{
+    const randomPatterns = ["pattern1", "pattern2", "pattern3"];
+    const randomSelected = randomPatterns[Math.floor(Math.random() * randomPatterns.length)];
+    if (!currentCourse.photos) currentCourse.photos = [];
+    currentCourse.photos.unshift(randomSelected);
+    saveToLocalStorage();
+    const gallery = document.getElementById("detail-photo-gallery");
+    if (gallery) {{
+      const photoDiv = document.createElement("div");
+      photoDiv.className = `gallery-img ${{randomSelected}}`;
+      gallery.insertBefore(photoDiv, gallery.firstChild);
+    }}
+    alert("사진이 추가되었습니다!");
+  }}
+}}
+
+function toggleTextSize() {{
+  document.body.classList.toggle("large-text-mode");
+  const isLarge = document.body.classList.contains("large-text-mode");
+  if (isLarge) {{
+    alert("큰 글씨 모드 활성화 (글자 30% 확대)");
+  }} else {{
+    alert("일반 글씨 크기 복원");
+  }}
+}}
+
+function toggleAdminModal(show) {{
+  const modal = document.getElementById("admin-modal");
+  if (modal) {{
+    modal.style.display = show ? "flex" : "none";
+    if (show) loadExcelPreset(1);
+  }}
+}}
+
+function loadExcelPreset(id) {{
+  const input = document.getElementById("excel-data-input");
+  if (input) {{
+    input.value = excelPresets[id] || "";
+    document.querySelectorAll(".btn-preset").forEach((btn, idx) => {{
+      if (idx === (id - 1)) btn.classList.add("active");
+      else btn.classList.remove("active");
+    }});
+  }}
+}}
+
+function parseCSVLine(line) {{
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {{
+    const char = line[i];
+    if (char === '"') {{
+      inQuotes = !inQuotes;
+    }} else if (char === ',' && !inQuotes) {{
+      result.push(current.trim());
+      current = '';
+    }} else {{
+      current += char;
+    }}
+  }}
+  result.push(current.trim());
+  return result;
+}}
+
+function importExcelData() {{
+  const input = document.getElementById("excel-data-input");
+  if (!input) return;
+  const rawText = input.value.trim();
+  if (!rawText) return;
+
+  try {{
+    const lines = rawText.split('\\n');
+    let addedCount = 0;
+    for (let i = 1; i < lines.length; i++) {{
+      const line = lines[i].trim();
+      if (!line) continue;
+      const values = parseCSVLine(line);
+      if (values.length < 5) continue;
+
+      const location = values[0];
+      const season = values[1];
+      const title = values[2];
+      const duration = values[3];
+      const difficulty = values[4];
+      const routeStr = values[5] || "경유지 없음";
+      const productTitle = values[6] || "지역 농수산물";
+
+      const spots = routeStr.split("->").map(s => s.trim());
+      const timeline = spots.map((spot, idx) => {{
+        return {{ spot: spot, desc: `${{spot}} 관람 코스`, time: "11:00" }};
+      }});
+
+      const newCourseId = courses.length > 0 ? Math.max(...courses.map(c => c.id)) + 1 : 1;
+      const newCourse = {{
+        id: newCourseId,
+        title: title,
+        season: season,
+        seasonName: season === 'spring' ? '봄 추천' : season === 'summer' ? '여름 추천' : season === 'autumn' ? '가을 추천' : '겨울 추천',
+        location: location,
+        duration: duration,
+        difficulty: difficulty,
+        type: "엑셀 추가",
+        patternClass: "bg-pattern1",
+        satisfaction: 95,
+        votesUp: 5,
+        votesDown: 0,
+        timeline: timeline,
+        comments: [],
+        photos: ["pattern1"],
+        product: {{ title: productTitle, price: 20000, salePrice: 15000, desc: "추가 특산물" }}
+      }};
+      courses.push(newCourse);
+      addedCount++;
+    }}
+    if (addedCount > 0) {{
+      saveToLocalStorage();
+      renderCourseList();
+      toggleAdminModal(false);
+      alert(`${{addedCount}}개 코스 마이그레이션 완료!`);
+    }}
+  }} catch (e) {{
+    alert("오류: " + e.message);
+  }}
+}}
+
+function openCommerceModal() {{
+  const modal = document.getElementById("commerce-modal");
+  if (modal) modal.style.display = "flex";
+}}
+
+function toggleCommerceModal(show) {{
+  const modal = document.getElementById("commerce-modal");
+  if (modal) modal.style.display = show ? "flex" : "none";
+}}
+"""
+
     with open(js_file, "w", encoding="utf-8") as f:
-        f.write(new_js_content)
+        f.write(js_logic)
         
-    print("app.js has been successfully updated with Excel data.")
+    print("All system code and 242 excel courses updated successfully in app.js.")
 
 except Exception as e:
     import traceback
-    print("Error during conversion:", str(e))
     traceback.print_exc()

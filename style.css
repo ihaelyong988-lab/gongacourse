@@ -17,12 +17,12 @@
   --border-radius: 16px;
   
   /* 반응형 폰트 사이즈 변수 (큰글씨 모드 대응) */
-  --font-base: 14px;
-  --font-h1: 20px;
-  --font-h2: 16px;
-  --font-h3: 15px;
-  --font-btn: 14px;
-  --icon-size: 18px;
+  --font-base: 13px;
+  --font-h1: 19px;
+  --font-h2: 15px;
+  --font-h3: 14px;
+  --font-btn: 13px;
+  --icon-size: 17px;
 }
 
 /* 큰글씨 모드 활성화 시 덮어쓰는 변수 (중장년 접근성 고도화) */
@@ -268,44 +268,65 @@ body.large-text-mode .text-mode-btn {
   font-weight: 600;
 }
 
-/* 계절 칩 필터 */
-.filter-chips {
+/* 7. 주제별 압축 검색 선택 필터 스타일 (추가됨) */
+.filter-selects-container {
   display: flex;
-  gap: 8px;
-  padding: 8px 16px;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-.filter-chips::-webkit-scrollbar {
-  display: none;
+  gap: 6px;
+  padding: 4px 16px 16px 16px;
+  justify-content: space-between;
 }
 
-.chip {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  padding: 8px 14px;
-  border-radius: 30px;
-  font-size: var(--font-base);
-  color: var(--text-main);
-  font-weight: 600;
-  cursor: pointer;
+.filter-select-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-select-wrapper label {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-muted);
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: all 0.2s;
+  gap: 3px;
+}
+
+body.large-text-mode .filter-select-wrapper label {
+  font-size: 13px;
+}
+
+.filter-select-wrapper select {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  padding: 8px 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
   box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237f8c8d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  background-size: 10px;
+  padding-right: 20px;
 }
 
-.chip.active {
-  background: var(--primary-color);
-  color: white;
+body.large-text-mode .filter-select-wrapper select {
+  font-size: var(--font-base);
+  padding: 10px 8px;
+  padding-right: 24px;
+  background-size: 12px;
+}
+
+.filter-select-wrapper select:focus {
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-light);
 }
-
-.text-spring { color: #ff6b6b; }
-.text-summer { color: #00a8ff; }
-.text-autumn { color: #e1b12c; }
-.text-winter { color: #4cd137; }
 
 /* 코스 카드 디자인 */
 .course-list {
@@ -331,7 +352,7 @@ body.large-text-mode .text-mode-btn {
 }
 
 .card-img-wrapper {
-  height: 140px;
+  height: 120px;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -355,26 +376,26 @@ body.large-text-mode .text-mode-btn {
   position: absolute;
   top: 12px;
   left: 12px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
   color: white;
   padding: 4px 8px;
   border-radius: 8px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .card-info {
-  padding: 16px;
+  padding: 14px;
 }
 
 .card-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   margin-bottom: 6px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .card-title-text {
@@ -390,7 +411,7 @@ body.large-text-mode .text-mode-btn {
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--border-color);
-  padding-top: 12px;
+  padding-top: 10px;
 }
 
 .ratio-badge {
@@ -398,7 +419,7 @@ body.large-text-mode .text-mode-btn {
   color: var(--primary-color);
   padding: 4px 8px;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 }
 
@@ -408,9 +429,9 @@ body.large-text-mode .text-mode-btn {
 }
 
 .card-duration {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* 7. 상세 화면 컴포넌트 */

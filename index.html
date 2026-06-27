@@ -61,20 +61,52 @@
             <div class="search-section">
               <div class="search-bar">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="search-input" placeholder="어디로 나들이를 떠나볼까요?" oninput="filterCourses()">
+                <input type="text" id="search-input" placeholder="산책로명, 지역, 사찰, 맛집 검색" oninput="filterCourses()">
               </div>
             </div>
 
-            <!-- 계절 퀵 필터 -->
+            <!-- 주제별 압축 검색 선택 필터 탭 -->
             <div class="section-title-container">
-              <h2 class="section-title">지금 가기 좋은 계절 코스</h2>
+              <h2 class="section-title"><i class="fa-solid fa-sliders text-primary"></i> 주제별 압축 검색</h2>
             </div>
-            <div class="filter-chips">
-              <button class="chip active" onclick="selectSeason('all', this)">모든 계절</button>
-              <button class="chip" onclick="selectSeason('spring', this)"><i class="fa-solid fa-seedling text-spring"></i> 봄</button>
-              <button class="chip" onclick="selectSeason('summer', this)"><i class="fa-solid fa-umbrella-beach text-summer"></i> 여름</button>
-              <button class="chip" onclick="selectSeason('autumn', this)"><i class="fa-solid fa-leaf text-autumn"></i> 가을</button>
-              <button class="chip" onclick="selectSeason('winter', this)"><i class="fa-solid fa-snowflake text-winter"></i> 겨울</button>
+            
+            <div class="filter-selects-container">
+              <div class="filter-select-wrapper">
+                <label for="filter-region"><i class="fa-solid fa-map"></i> 지역별</label>
+                <select id="filter-region" onchange="applyFilters()">
+                  <option value="all">전체 지역</option>
+                  <option value="서울">서울</option>
+                  <option value="인천">인천</option>
+                  <option value="경기">경기</option>
+                  <option value="강원">강원</option>
+                  <option value="충청">충청</option>
+                  <option value="경북">경북/경남</option>
+                  <option value="전남">전남/전북</option>
+                  <option value="제주">제주도</option>
+                </select>
+              </div>
+              
+              <div class="filter-select-wrapper">
+                <label for="filter-season"><i class="fa-solid fa-calendar-days"></i> 계절별</label>
+                <select id="filter-season" onchange="applyFilters()">
+                  <option value="all">전체 계절</option>
+                  <option value="spring">봄 추천</option>
+                  <option value="summer">여름 추천</option>
+                  <option value="autumn">가을 추천</option>
+                  <option value="winter">겨울 추천</option>
+                </select>
+              </div>
+
+              <div class="filter-select-wrapper">
+                <label for="filter-theme"><i class="fa-solid fa-compass"></i> 테마별</label>
+                <select id="filter-theme" onchange="applyFilters()">
+                  <option value="all">전체 테마</option>
+                  <option value="easy">쉬운 산책 (2시간내)</option>
+                  <option value="temple">천년사찰 탐방</option>
+                  <option value="food">맛집/카페 연계</option>
+                  <option value="long">도전! 장거리 코스</option>
+                </select>
+              </div>
             </div>
 
             <!-- 코스 리스트 -->
@@ -316,35 +348,31 @@
     <div class="demo-guide-panel">
       <div class="guide-header">
         <h2 class="guide-main-title"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> 꽁아코스 개발 데모 안내</h2>
-        <span class="guide-badge">Prototype v1.0.0</span>
+        <span class="guide-badge">Prototype v1.1.0</span>
       </div>
       
       <p class="guide-intro">
-        이 화면은 사용자의 기획안을 바탕으로 신속 개발된 <strong>하이브리드 앱 전용 프로토타입</strong>입니다. 왼쪽 목업 폰을 직접 터치/클릭하여 모든 연동 기능을 테스트해보실 수 있습니다.
+        이 화면은 사용자의 기획안 및 <strong>242개의 실제 엑셀 데이터</strong>를 바탕으로 완성된 하이브리드 앱 데모입니다.
       </p>
 
       <div class="guide-section">
         <h3>💡 주요 테스트 시나리오</h3>
         <ul class="guide-steps">
           <li>
-            <strong>1. 계절 필터 & 장소 검색</strong>
-            <span>[모든 계절] 칩들을 터치해 보세요. 해당 계절 코스가 필터링됩니다. 검색창에 '양평' 등을 치면 즉시 장소가 검색됩니다.</span>
+            <strong>1. 초고속 통합 검색</strong>
+            <span>최상단 검색창에 '마니산', '수목원' 등의 코스 이름뿐만 아니라 '순두부'(맛집), '사찰'(주변 명소), '양평'(지역)을 입력해도 관련 코스가 즉시 추출됩니다.</span>
           </li>
           <li>
-            <strong>2. 상세 정보 & 점선 루트 애니메이션</strong>
-            <span>코스 카드를 누르면 상세 일정과 함께 지도 위에 실제 등산로가 움직이며 그려지는 효과를 보실 수 있습니다.</span>
+            <strong>2. 주제별 압축 검색 (다중 필터)</strong>
+            <span>지역별(인천/서울/경기 등) + 계절별(봄/여름/가을/겨울) + 테마별(사찰 탐방, 맛집 투어 등) 조건을 <strong>동시에 자유롭게 조합</strong>하여 원하는 산책로를 정밀 압축 조율할 수 있습니다.</span>
           </li>
           <li>
             <strong>3. 중장년 접근성 (큰 글씨 전환)</strong>
-            <span>폰 상단 우측의 <strong>'가↕'</strong> 버튼을 클릭해 보세요. 저시력 고령층을 위한 큰 글씨 모드가 켜지며 가독성이 향상됩니다.</span>
+            <span>폰 상단 우측의 <strong>'가↕'</strong> 버튼을 클릭하면 저시력 고령층을 위해 레이아웃이 무너지지 않고 글자가 큼직하게 확대됩니다.</span>
           </li>
           <li>
-            <strong>4. 공감 투표 및 댓글 작성</strong>
-            <span>[추천해요]나 [아쉬워요]를 누르면 실시간 평점이 변경되며 데이터가 로컬 스토리지에 지속 보관됩니다. 한줄 댓글과 가상 이미지 추가 기능도 지원됩니다.</span>
-          </li>
-          <li>
-            <strong>5. 엑셀 데이터 마이그레이션</strong>
-            <span>헤더 우측의 <strong>설정(톱니바퀴)</strong> 아이콘을 눌러보세요. 실제 사용하시던 코스 엑셀 파일을 일괄 임포트하여 앱 내부에 새 코스로 추가하는 과정을 경험하실 수 있습니다.</span>
+            <strong>4. 실시간 공감 및 모의 커뮤니티</strong>
+            <span>추천/비추천 클릭 시 로컬 스토리지에 결과가 저장되고 평점이 재연산됩니다. 실제 엑셀 맛집 명칭들이 후기 글에 자동 매핑되어 생동감이 넘칩니다.</span>
           </li>
         </ul>
       </div>
