@@ -468,6 +468,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .composer-post:active { background: var(--primary-dark); }
 
 /* 검색순 인기 키워드 칩 */
+.kw-lead { font-size: calc(11.5px * var(--fs)); font-weight: 800; color: var(--text-mut); margin: 2px 0 8px; }
+.kw-lead i { color: var(--amber); margin-right: 5px; }
+.kw-lead span { font-weight: 600; color: var(--text-faint); }
 .kw-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
 .kw-chip {
   font-size: calc(12px * var(--fs)); font-weight: 700; padding: 6px 12px; border-radius: 20px;
@@ -615,13 +618,13 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 /* =============================================================================
    상세 — 출발 전 체크(사전 준비물 · 검토 변수) 키워드 칩
    ============================================================================= */
-.kw-block + .kw-block { margin-top: 12px; }
-.kw-head { display: flex; align-items: center; gap: 6px; font-size: calc(12px * var(--fs)); font-weight: 800; color: var(--text-mut); margin-bottom: 8px; }
-.kw-head i { color: var(--primary); }
-.kw-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
-.kw-chip { font-size: calc(12px * var(--fs)); font-weight: 700; padding: 5px 11px; border-radius: 20px; line-height: 1.3; }
-.kw-chip.prep { background: var(--primary-soft); color: var(--primary-dark); }
-.kw-chip.check { background: var(--amber-soft); color: #8a5a00; }
+.pc-block + .pc-block { margin-top: 12px; }
+.pc-head { display: flex; align-items: center; gap: 6px; font-size: calc(12px * var(--fs)); font-weight: 800; color: var(--text-mut); margin-bottom: 8px; }
+.pc-head i { color: var(--primary); }
+.pc-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+.pc-chip { font-size: calc(12px * var(--fs)); font-weight: 700; padding: 5px 11px; border-radius: 20px; line-height: 1.3; }
+.pc-chip.prep { background: var(--primary-soft); color: var(--primary-dark); }
+.pc-chip.check { background: var(--amber-soft); color: #8a5a00; }
 
 /* =============================================================================
    헬스 탭(구 '저장') — 건강 히어로 · 트레킹 지표 · 예방건강 미션
