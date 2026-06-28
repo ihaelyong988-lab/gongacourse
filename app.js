@@ -18497,6 +18497,7 @@ function renderMypage() {
   let myCount = 0;
   courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myCount++; }));
   let grade = myCount >= 5 ? "산책 명인" : myCount >= 2 ? "나들이 매니아" : "초보 걷기꾼";
+  const avatar = visitorSettings.avatar || "";
 
   const steps = todaySteps();
   const goal = stepData.goal;
@@ -18521,16 +18522,21 @@ function renderMypage() {
 
   root.innerHTML = `
     <div class="profile-row">
-      <div class="avatar-sm"><i class="fa-solid fa-user-astronaut"></i></div>
+      <button class="avatar-sm ${avatar ? "has" : ""}" onclick="triggerAvatar()" aria-label="프로필 사진 등록"
+        style="${avatar ? `background-image:url('${avatar}')` : ""}">
+        ${avatar ? "" : `<i class="fa-solid fa-user-astronaut"></i>`}
+        <span class="avatar-cam"><i class="fa-solid fa-camera"></i></span>
+      </button>
+      <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="handleAvatar(event)">
       <div class="pr-meta">
         <h3>${NICK}</h3>
         <span class="grade">${grade} · 후기 ${myCount}개</span>
       </div>
     </div>
-    <div class="profile-stats">
-      <div class="ps" onclick="goTab('saved')"><strong>${savedCourses.length}</strong><span>저장 코스</span></div>
-      <div class="ps" onclick="goTab('community')"><strong>${myCount}</strong><span>내 후기</span></div>
-      <div class="ps"><strong>${courses.length}</strong><span>전체 코스</span></div>
+    <div class="mini-stats">
+      <div class="mstat s-teal" onclick="goTab('saved')"><i class="fa-regular fa-bookmark"></i><b>${savedCourses.length}</b><span>저장</span></div>
+      <div class="mstat s-amber" onclick="goTab('community')"><i class="fa-regular fa-comment-dots"></i><b>${myCount}</b><span>후기</span></div>
+      <div class="mstat s-blue"><i class="fa-solid fa-compass"></i><b>${courses.length}</b><span>코스</span></div>
     </div>
 
     <div class="set-card ped-dash">
@@ -18610,6 +18616,34 @@ function setSetting(group, val) {
   localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   renderMypage();
 }
+// 프로필 사진 등록 (로컬 저장, Canvas 리사이즈)
+function triggerAvatar() {
+  const i = document.getElementById("avatar-input");
+  if (i) i.click();
+}
+function handleAvatar(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const SIZE = 200;
+      canvas.width = SIZE; canvas.height = SIZE;
+      // 정사각 크롭(중앙)
+      const side = Math.min(img.width, img.height);
+      const sx = (img.width - side) / 2, sy = (img.height - side) / 2;
+      canvas.getContext("2d").drawImage(img, sx, sy, side, side, 0, 0, SIZE, SIZE);
+      visitorSettings.avatar = canvas.toDataURL("image/jpeg", 0.8);
+      localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+      renderMypage();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 // 홈 배너에서 동반자 선택 (맞춤 결과 즉시 반영)
 function setCompanionHome(val) {
   visitorSettings.companion = val;
