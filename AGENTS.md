@@ -116,3 +116,9 @@
 1. **변경**: ①`sectionLabel()` 헬퍼 — 섹션 제목 + **수평 hairline(그라데이션)** + 우측요소. 홈 3개 섹션·소통 "방문후기"에 적용. ②피드를 **박스→hairline 행**(`.feed-item`/`.feed-card` border 제거, `border-bottom: var(--hair)`)으로 = 박스나라 탈출 핵심. ③카드 제목(`d-card-title`/`set-title`)에 **하단 hairline** 밴딩. ④카드 테두리 `--border`→**`--hair`(연하게)**로 약화(course/today/d-card/set-card/composer). ⑤anti-pattern(AI 보라/핑크) 회피 → 맞춤배너 **보라→그린**. 토큰 추가 `--hair #edf0ed`, `--accent-line #cfe0d2`.
 2. **교훈(영구 디자인 원칙)**: 박스 단조로움 탈출 = **세로 스택 박스 줄이고 수평 hairline으로 밴딩**(섹션 헤더 라인 + 리스트는 박스 대신 구분선 행). 카드 테두리는 `--hair`로 은은하게. **UI/UX 작업은 `ui-ux-pro-max` 스킬을 호출해 적용**(수동 추정 금지). 보라/핑크 그라데이션 회피, 그린 자연 팔레트 유지.
 3. **검증**: preview 375px 홈(섹션 라인+그린 배너+hairline 후기)·소통(방문후기 라인+hairline 피드)·상세(카드 제목 라인) 정상, 콘솔 에러 0.
+
+### 2026-06-28 — 하네스 규칙 강제주입 훅 + 내정보=만보기 계기판
+> ① 사용자 분노: md에 적어도 우회됨 → 원인=UserPromptSubmit 훅이 고정문구만 주입(실제 규칙 X). ② 내정보에서 효도코스(맞춤설정)·오프라인·앱정보 삭제, 만보기 계기판+기록 신설.
+1. **변경**: ①`scripts/harness-context.mjs` — AGENTS.md §4/§6/§9를 매 턴 컨텍스트 강제주입(우회 차단). settings.json 배선은 **사용자 승인 대기**(자가수정 가드 차단). ②mypage: 동반자/교통 카드·오프라인·앱정보 제거 → **만보기 대시보드**(SVG 원형 게이지 `ped-gauge` + km/kcal/목표 + 목표칩 + 걸음기록 input·+칩 + 7일 막대). 저장소 `gongacourse_steps {goal,days}`. ③동반자 개인화는 **홈 배너로 이동**(`match-card` 칩 `setCompanionHome`)해 끊김 방지. 화면 접근성은 mypage 유지.
+2. **교훈**: 규칙은 기록만으론 강제력 0 → **훅이 실제 규칙을 주입해야** 적용됨. 만보기는 센서 없이 기록형(localStorage). 설정 삭제 시 의존 기능(홈 배너) 이전 필수.
+3. **검증**: 6,420보→4.49km·257kcal·게이지80%(offset65.3), 주간바7·오늘80%, 삭제3종 제거 확인, 홈 동반자칩→효도코스 결과, 콘솔 에러 0(eval).

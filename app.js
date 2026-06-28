@@ -17776,17 +17776,19 @@ function renderHome() {
       <i class="fa-solid ${s.icon}"></i><span>${s.label}</span>
     </button>`).join("");
 
-  const bannerHtml = cr
-    ? `<div class="match-bar" onclick="goTab('mypage')">
-        <i class="fa-solid fa-user-check"></i>
-        <span class="mb-s">${cr.sub}</span>
-        <i class="fa-solid fa-chevron-right mb-arrow"></i>
-      </div>`
-    : `<div class="match-bar empty" onclick="goTab('mypage')">
-        <i class="fa-solid fa-sliders"></i>
-        <span class="mb-s">동반자·교통을 설정하면 딱 맞는 코스를 먼저 보여드려요</span>
-        <i class="fa-solid fa-chevron-right mb-arrow"></i>
-      </div>`;
+  const comp = visitorSettings.companion;
+  const compChip = (val, label) => `<button class="comp-chip ${comp === val ? "on" : ""}" onclick="setCompanionHome('${val}')">${label}</button>`;
+  const bannerHtml = `
+    <div class="match-card">
+      <div class="mc-head"><i class="fa-solid fa-user-group"></i> 누구와 함께 가나요?</div>
+      <div class="mc-chips">
+        ${compChip("none", "혼자")}
+        ${compChip("pet", "🐕 반려동물")}
+        ${compChip("parent", "👴 부모님")}
+        ${compChip("child", "👶 아이")}
+      </div>
+      ${cr ? `<div class="mc-result"><i class="fa-solid fa-circle-check"></i> ${cr.sub}</div>` : ""}
+    </div>`;
 
   const foodChip = t.foods && t.foods.length ? ` · <i class="fa-solid fa-utensils"></i> 맛집 ${t.foods.length}` : "";
   const adviceHtml = (weatherInfo && weatherInfo.kind !== "normal")
@@ -18496,7 +18498,23 @@ function renderMypage() {
   courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myCount++; }));
   let grade = myCount >= 5 ? "산책 명인" : myCount >= 2 ? "나들이 매니아" : "초보 걷기꾼";
 
-  const cr = companionResult();
+  const steps = todaySteps();
+  const goal = stepData.goal;
+  const pct = Math.min(100, Math.round((steps / goal) * 100));
+  const km = (steps * 0.0007).toFixed(2);
+  const kcal = Math.round(steps * 0.04);
+  const C = 326.7; // 2πr, r=52
+  const offset = (C * (1 - pct / 100)).toFixed(1);
+  const week = weekDays();
+  const weekMax = Math.max(goal, ...week.map(d => d.steps), 1);
+  const goalChips = [6000, 8000, 10000, 12000].map(g =>
+    `<button class="goal-chip ${goal === g ? "on" : ""}" onclick="setStepGoal(${g})">${g / 1000}천</button>`).join("");
+  const weekBars = week.map((d, i) => {
+    const h = Math.max(4, Math.round((d.steps / weekMax) * 100));
+    const isToday = i === week.length - 1;
+    return `<div class="wk"><div class="wk-bar ${isToday ? "today" : ""} ${d.steps >= goal ? "hit" : ""}" style="height:${h}%"></div><span class="wk-l ${isToday ? "on" : ""}">${d.label}</span></div>`;
+  }).join("");
+
   root.innerHTML = `
     <div class="profile">
       <div class="avatar"><i class="fa-solid fa-user-astronaut"></i></div>
@@ -18510,19 +18528,43 @@ function renderMypage() {
     </div>
 
     <div class="set-card">
-      <div class="set-title"><i class="fa-solid fa-user-group"></i> 누구와 함께 가나요?</div>
-      <div class="seg" id="seg-companion">
-        ${segBtn("companion", "none", "혼자/일반")}
-        ${segBtn("companion", "pet", "🐕 반려동물")}
-        ${segBtn("companion", "parent", "👴 부모님")}
-        ${segBtn("companion", "child", "👶 아이")}
+      <div class="set-title"><i class="fa-solid fa-shoe-prints"></i> 오늘의 만보기</div>
+      <div class="ped-gauge">
+        <svg viewBox="0 0 120 120" class="ped-svg">
+          <circle cx="60" cy="60" r="52" class="ped-track"/>
+          <circle cx="60" cy="60" r="52" class="ped-prog ${steps >= goal ? "done" : ""}"
+            stroke-dasharray="${C}" stroke-dashoffset="${offset}" transform="rotate(-90 60 60)"/>
+        </svg>
+        <div class="ped-center">
+          <strong>${steps.toLocaleString()}</strong>
+          <span>걸음</span>
+          <em>목표 ${pct}%</em>
+        </div>
       </div>
-      <div class="set-title" style="margin-top:14px"><i class="fa-solid fa-car"></i> 이동 수단</div>
-      <div class="seg" id="seg-transport">
-        ${segBtn("transport", "car", "🚗 자차")}
-        ${segBtn("transport", "transit", "🚌 대중교통")}
+
+      <div class="ped-stats">
+        <div class="pst"><strong>${km}</strong><span>km</span></div>
+        <div class="pst"><strong>${kcal}</strong><span>kcal</span></div>
+        <div class="pst"><strong>${goal.toLocaleString()}</strong><span>목표 걸음</span></div>
       </div>
-      ${cr ? `<div class="set-result"><i class="fa-solid fa-circle-check"></i> ${cr.sub}</div>` : ""}
+
+      <div class="ped-sub">목표 설정</div>
+      <div class="goal-row">${goalChips}</div>
+
+      <div class="ped-sub">오늘 걸음 기록</div>
+      <div class="ped-record">
+        <input id="ped-input" type="number" inputmode="numeric" placeholder="걸음 수 입력" value="${steps || ""}">
+        <button class="ped-save" onclick="setTodaySteps(document.getElementById('ped-input').value)">기록</button>
+      </div>
+      <div class="ped-quick">
+        <button class="q-chip" onclick="addSteps(1000)">+1,000</button>
+        <button class="q-chip" onclick="addSteps(3000)">+3,000</button>
+        <button class="q-chip" onclick="addSteps(5000)">+5,000</button>
+        <button class="q-chip reset" onclick="setTodaySteps(0)">초기화</button>
+      </div>
+
+      <div class="ped-sub">최근 7일</div>
+      <div class="ped-week">${weekBars}</div>
     </div>
 
     <div class="set-card">
@@ -18535,17 +18577,6 @@ function renderMypage() {
       <div class="set-row toggle-row" onclick="toggleContrast()">
         <span>🕶️ 고대비 모드</span>
         <span class="switch ${visitorSettings.highContrast ? "on" : ""}"><span class="knob"></span></span>
-      </div>
-    </div>
-
-    <div class="set-card">
-      <div class="set-row" onclick="alert('242개 코스 데이터가 기기에 저장되어 오프라인에서도 열람할 수 있어요.')">
-        <span><i class="fa-solid fa-cloud-arrow-down"></i> 오프라인 저장 상태</span>
-        <span class="ok"><i class="fa-solid fa-circle-check"></i> 안전</span>
-      </div>
-      <div class="set-row" onclick="alert('꽁아코스 v2.0')">
-        <span><i class="fa-solid fa-circle-info"></i> 앱 정보</span>
-        <span class="muted">v2.0</span>
       </div>
     </div>
   `;
@@ -18564,6 +18595,12 @@ function setSetting(group, val) {
   visitorSettings[group] = val;
   localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   renderMypage();
+}
+// 홈 배너에서 동반자 선택 (맞춤 결과 즉시 반영)
+function setCompanionHome(val) {
+  visitorSettings.companion = val;
+  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  renderHome();
 }
 function setFontSize(size) {
   visitorSettings.fontSize = size;
@@ -18592,6 +18629,42 @@ function loadVisitorSettings() {
 }
 
 // -----------------------------------------------------------------------------
+// 만보기 (걸음 기록·계기판) — 로컬 저장 기반 기록형
+// -----------------------------------------------------------------------------
+let stepData = { goal: 8000, days: {} };
+function loadSteps() {
+  try {
+    const s = localStorage.getItem("gongacourse_steps");
+    if (s) stepData = Object.assign({ goal: 8000, days: {} }, JSON.parse(s));
+  } catch (e) { stepData = { goal: 8000, days: {} }; }
+}
+function saveSteps() { localStorage.setItem("gongacourse_steps", JSON.stringify(stepData)); }
+function dayKey(d) {
+  const x = d || new Date();
+  return x.getFullYear() + "-" + String(x.getMonth() + 1).padStart(2, "0") + "-" + String(x.getDate()).padStart(2, "0");
+}
+function todaySteps() { return stepData.days[dayKey()] || 0; }
+function setTodaySteps(v) {
+  stepData.days[dayKey()] = Math.max(0, parseInt(v, 10) || 0);
+  saveSteps(); renderMypage();
+}
+function addSteps(delta) { setTodaySteps(todaySteps() + delta); }
+function setStepGoal(v) {
+  stepData.goal = Math.max(1000, parseInt(v, 10) || 8000);
+  saveSteps(); renderMypage();
+}
+function weekDays() {
+  const arr = [], now = new Date();
+  const dow = ["일", "월", "화", "수", "목", "금", "토"];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+    const k = dayKey(d);
+    arr.push({ key: k, label: dow[d.getDay()], steps: stepData.days[k] || 0 });
+  }
+  return arr;
+}
+
+// -----------------------------------------------------------------------------
 // 부팅
 // -----------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
@@ -18608,6 +18681,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadBookmarks();
   loadCommunityPosts();
   loadSearchCounts();
+  loadSteps();
   loadVisitorSettings();
 
   history.replaceState({ screen: "home" }, "");
