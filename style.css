@@ -543,7 +543,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 
 /* 만보기 — 모던 270° 계기판 */
 .ped-live { font-size: calc(10.5px * var(--fs)); font-weight: 800; color: #c0392b; margin-left: 6px; }
-.gauge-wrap { position: relative; width: 200px; height: 178px; margin: 4px auto 6px; }
+/* 제목 줄 = 만보기 + (우측) 목표까지 N보 알약 */
+.ped-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.gauge-wrap { position: relative; width: 200px; height: 162px; margin: 6px auto 2px; overflow: hidden; }
 .gauge-svg { width: 200px; height: 200px; position: absolute; top: 0; left: 0; }
 .g-track { fill: none; stroke: var(--hair); stroke-width: 9; stroke-linecap: round; }
 .g-prog { fill: none; stroke: url(#pedGrad); stroke-width: 9; stroke-linecap: round; transition: stroke-dasharray 0.55s cubic-bezier(.4,0,.2,1); }
@@ -554,8 +556,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .gauge-center strong { font-size: calc(34px * var(--fs)); font-weight: 900; color: var(--text); line-height: 1; letter-spacing: -1px; }
 .gauge-center span { font-size: calc(12px * var(--fs)); color: var(--text-mut); margin-top: 4px; }
 .gauge-center span b { color: var(--primary); font-weight: 800; }
-.gauge-status { position: absolute; left: 0; right: 0; bottom: 2px; text-align: center; }
-.status-pill { display: inline-block; font-size: calc(11.5px * var(--fs)); font-weight: 800; color: var(--primary); background: var(--primary-soft); padding: 5px 14px; border-radius: 20px; }
+.status-pill { display: inline-block; flex-shrink: 0; font-size: calc(11px * var(--fs)); font-weight: 800; color: var(--primary); background: var(--primary-soft); padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 .status-pill.done { color: #8a5a00; background: var(--amber-soft); }
 
 .track-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--primary); color: #fff; border-radius: 12px; padding: 13px; font-weight: 800; font-size: calc(14px * var(--fs)); box-shadow: 0 3px 10px rgba(46,125,50,0.22); transition: background 0.2s, box-shadow 0.2s; }

@@ -18540,7 +18540,10 @@ function renderMypage() {
     </div>
 
     <div class="set-card ped-dash">
-      <div class="set-title"><i class="fa-solid fa-shoe-prints"></i> 만보기 ${motionActive ? `<span class="ped-live">● 측정중</span>` : ""}</div>
+      <div class="set-title ped-title">
+        <span><i class="fa-solid fa-shoe-prints"></i> 만보기 ${motionActive ? `<span class="ped-live">● 측정중</span>` : ""}</span>
+        <span class="status-pill ${steps >= goal ? "done" : ""}" id="ped-status">${statusTxt}</span>
+      </div>
 
       <div class="gauge-wrap">
         <svg viewBox="0 0 120 120" class="gauge-svg" aria-hidden="true">
@@ -18560,9 +18563,6 @@ function renderMypage() {
           <i class="fa-solid fa-shoe-prints g-ic"></i>
           <strong id="ped-steps">${steps.toLocaleString()}</strong>
           <span>걸음 · <b id="ped-pct">${pct}%</b></span>
-        </div>
-        <div class="gauge-status">
-          <span class="status-pill ${steps >= goal ? "done" : ""}" id="ped-status">${statusTxt}</span>
         </div>
       </div>
 
