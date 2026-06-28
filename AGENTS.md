@@ -200,3 +200,9 @@
 1. **원인**: 엑셀/데이터 오류 아님 — `location`은 정상으로 `충북`(36)·`충남`(18)·`세종`(2)로 저장. 버그는 **필터**: 칩 이름 `"충청"`을 `location.includes("충청")`로 매칭 → 약칭이라 0건. 같은 이유로 `경남`(25)·`전북`(20)·`부산`(1)은 칩 자체가 없어 도달 불가였음.
 2. **변경**: `REGION_MATCH`(광역권→약칭 배열: 충청=충북/충남/대전/세종, 경북=경북/대구, 경남=경남/부산/울산, 전라=전북/전남/광주) + `matchesRegion(c,region)` 신설. `REGIONS=Object.keys(REGION_MATCH)`(경남·전라 칩 추가). `getFilteredCourses` 지역검사를 `matchesRegion` 경유로 교체.
 3. **검증**: 충청 0→56, 경남 28·전라 42 칩 신설, **도달 불가 코스 0/242**, 지역 서랍 10칩 노출, 콘솔 에러 0.
+
+### 2026-06-28 — 만보기 자동재개 + 자정 자동리셋 (+ 플립 한계 정직 고지)
+> 사용자: "플립 닫으면 측정 안 됨. 앱 사용 여부와 무관하게 늘 일간 단위로 리셋·측정되게."
+1. **원인/한계(정직)**: 플립 닫힘=화면 꺼짐 → 브라우저가 DeviceMotion 정지. **모든 웹앱 공통 제약, 우회 불가**(진짜 백그라운드 만보기는 네이티브만). Wake Lock도 케이스/전원 강제 OFF는 못 막음.
+2. **변경(가능한 최대)**: ①**측정 ON 의도 영속화** `stepData.tracking` → `startStepTracking`서 true 저장, `stopStepTracking`서 false. ②**자동 재개** `resumeTrackingIfWanted()` — 콜드 로드(DOMContentLoaded)·탭 복귀(visibilitychange)서 tracking이면 자동 `startStepTracking`(매번 시작버튼 불필요). Android는 즉시 재개, iOS는 권한 제스처 필요라 재탭 1회. ③**자정 자동 리셋** `checkDayRollover`/`startMidnightWatcher`(30s 폴링) — days[]가 날짜별이라 새 날 0부터, 열린 채 자정 넘으면 표시 갱신, 과거는 주간바 보존. ④안내문구 정직화(자동재개·자정리셋·플립 한계 명시).
+3. **검증(eval)**: tracking 시작=true·영속화·정지=false, resume→motionActive 재개, 롤오버 갱신, 오늘/어제 독립(500/9999), 콘솔 에러 0. 실센서·플립은 실기기에서만.
