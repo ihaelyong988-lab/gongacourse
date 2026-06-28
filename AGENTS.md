@@ -146,3 +146,9 @@
 1. **변경**: `gauge-status`(게이지 하단 절대배치) 제거 → `ped-title`(set-title flex space-between) 우측에 `status-pill` 배치. `gauge-wrap` 높이 178→162 + overflow hidden으로 빈 하단 트림. `updateGaugeLive`는 id `ped-status`라 위치 무관 그대로 동작.
 2. **교훈**: 게이지 중앙(카운트)은 숫자만 — 부가정보(목표 잔여)는 제목 줄 여백으로. 절대배치 오버랩 주의.
 3. **검증**: 제목 우측 "목표까지 4,800보", 라이브 8,500→"🎉 목표 달성", 2,000→"목표까지 6,000보", 콘솔 에러 0.
+
+### 2026-06-28 — 내정보 프로필을 앱바 우측으로 이동(아이콘 최우측)
+> 사용자: 프로필 아이콘+이름을 최상단 "꽁아코스" 행으로, 아이콘 최우측.
+1. **변경**: 본문 `profile-row` 제거 → 앱바에 `appbar-profile`(이름+등급 2줄 + 아바타 최우측, `margin-left:auto`). `renderAppbarProfile()`가 채우고 `showScreen`이 mypage에서만 노출(타 화면 hidden). 아바타 업로드(`triggerAvatar`/`handleAvatar`)는 앱바로 이동, `handleAvatar`→`renderAppbarProfile()` 갱신.
+2. **교훈**: 화면별 앱바 컨텐츠는 `showScreen`에서 토글(검색=홈·탐색, 프로필=내정보). 본문 헤더를 앱바로 올리면 세로 절약.
+3. **검증**: 앱바 우측 이름+등급+아이콘 노출, 아바타 주입 반영, 홈 hidden·내정보 flex, 콘솔 에러 0.

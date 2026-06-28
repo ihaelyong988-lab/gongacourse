@@ -17484,6 +17484,12 @@ function showScreen(id, state) {
   const showSearch = (id === "home" || id === "explore");
   const searchEl = document.getElementById("appbar-search");
   if (searchEl) searchEl.style.display = showSearch ? "flex" : "none";
+  // 내정보에선 프로필(이름+아이콘)을 앱바 우측에 노출
+  const profEl = document.getElementById("appbar-profile");
+  if (profEl) {
+    profEl.style.display = (id === "mypage") ? "flex" : "none";
+    if (id === "mypage") renderAppbarProfile();
+  }
   window.scrollTo(0, 0);
   if (el) el.scrollTop = 0;
 }
@@ -18497,7 +18503,6 @@ function renderMypage() {
   let myCount = 0;
   courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myCount++; }));
   let grade = myCount >= 5 ? "산책 명인" : myCount >= 2 ? "나들이 매니아" : "초보 걷기꾼";
-  const avatar = visitorSettings.avatar || "";
 
   const steps = todaySteps();
   const goal = stepData.goal;
@@ -18521,18 +18526,6 @@ function renderMypage() {
   }).join("");
 
   root.innerHTML = `
-    <div class="profile-row">
-      <button class="avatar-sm ${avatar ? "has" : ""}" onclick="triggerAvatar()" aria-label="프로필 사진 등록"
-        style="${avatar ? `background-image:url('${avatar}')` : ""}">
-        ${avatar ? "" : `<i class="fa-solid fa-user-astronaut"></i>`}
-        <span class="avatar-cam"><i class="fa-solid fa-camera"></i></span>
-      </button>
-      <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="handleAvatar(event)">
-      <div class="pr-meta">
-        <h3>${NICK}</h3>
-        <span class="grade">${grade} · 후기 ${myCount}개</span>
-      </div>
-    </div>
     <div class="mini-stats">
       <div class="mstat s-teal" onclick="goTab('saved')"><i class="fa-regular fa-bookmark"></i><b>${savedCourses.length}</b><span>저장</span></div>
       <div class="mstat s-amber" onclick="goTab('community')"><i class="fa-regular fa-comment-dots"></i><b>${myCount}</b><span>후기</span></div>
@@ -18616,6 +18609,28 @@ function setSetting(group, val) {
   localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   renderMypage();
 }
+// 앱바 우측 프로필(이름+등급+아이콘) 렌더
+function renderAppbarProfile() {
+  const el = document.getElementById("appbar-profile");
+  if (!el) return;
+  let myCount = 0;
+  courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myCount++; }));
+  const grade = myCount >= 5 ? "산책 명인" : myCount >= 2 ? "나들이 매니아" : "초보 걷기꾼";
+  const avatar = visitorSettings.avatar || "";
+  el.innerHTML = `
+    <div class="ap-meta">
+      <span class="ap-name">${NICK}</span>
+      <span class="ap-grade">${grade} · 후기 ${myCount}개</span>
+    </div>
+    <button class="ap-avatar ${avatar ? "has" : ""}" onclick="triggerAvatar()" aria-label="프로필 사진 등록"
+      style="${avatar ? `background-image:url('${avatar}')` : ""}">
+      ${avatar ? "" : `<i class="fa-solid fa-user-astronaut"></i>`}
+      <span class="ap-cam"><i class="fa-solid fa-camera"></i></span>
+    </button>
+    <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="handleAvatar(event)">
+  `;
+}
+
 // 프로필 사진 등록 (로컬 저장, Canvas 리사이즈)
 function triggerAvatar() {
   const i = document.getElementById("avatar-input");
@@ -18637,7 +18652,7 @@ function handleAvatar(e) {
       canvas.getContext("2d").drawImage(img, sx, sy, side, side, 0, 0, SIZE, SIZE);
       visitorSettings.avatar = canvas.toDataURL("image/jpeg", 0.8);
       localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
-      renderMypage();
+      renderAppbarProfile();
     };
     img.src = ev.target.result;
   };
