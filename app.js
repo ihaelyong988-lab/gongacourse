@@ -18753,7 +18753,7 @@ function renderMypage() {
       <button class="track-btn ${motionActive ? "on" : ""}" onclick="toggleStepTracking()">
         <i class="fa-solid fa-${motionActive ? "stop" : "play"}"></i> ${motionActive ? "측정 정지" : "측정 시작"}
       </button>
-      <p class="hero-note"><i class="fa-solid fa-circle-info"></i> 폰을 들고 걸으면 자동 카운트돼요. 측정 중엔 <b>화면이 자동으로 꺼지지 않게</b> 잡아둡니다(끊김 방지). <br><span class="note-warn">단, 전원 버튼·케이스로 화면을 직접 끄거나 다른 앱으로 가면 멈춰요 — 웹앱의 원리적 한계예요.</span></p>
+      <p class="hero-note"><i class="fa-solid fa-circle-info"></i> 폰을 들고 걸으면 자동 카운트돼요. 측정 중엔 <b>화면이 안 꺼지게</b> 잡아두고, <b>앱을 다시 열면 자동으로 이어서</b> 측정해요. 걸음 수는 <b>매일 자정에 0으로 리셋</b>(지난 기록은 주간 그래프에 보존). <br><span class="note-warn">단, 플립을 닫거나 전원 버튼으로 화면을 끄면 그동안엔 멈춰요 — 진짜 백그라운드 측정은 네이티브 앱만 가능한 웹의 한계예요. (열어두면 끊김 없이 측정)</span></p>
     </div>
 
     <!-- 기록 카드 (목표·주간·수동) — 보조 정보 -->
@@ -18886,12 +18886,13 @@ function loadVisitorSettings() {
 // -----------------------------------------------------------------------------
 // 만보기 (걸음 기록·계기판) — 로컬 저장 기반 기록형
 // -----------------------------------------------------------------------------
-let stepData = { goal: 8000, days: {} };
+// tracking: 측정 ON 의도를 영속화 → 앱을 다시 열면 자동 재개. days는 날짜별이라 자정에 자동 0 리셋.
+let stepData = { goal: 8000, days: {}, tracking: false };
 function loadSteps() {
   try {
     const s = localStorage.getItem("gongacourse_steps");
-    if (s) stepData = Object.assign({ goal: 8000, days: {} }, JSON.parse(s));
-  } catch (e) { stepData = { goal: 8000, days: {} }; }
+    if (s) stepData = Object.assign({ goal: 8000, days: {}, tracking: false }, JSON.parse(s));
+  } catch (e) { stepData = { goal: 8000, days: {}, tracking: false }; }
 }
 function saveSteps() { localStorage.setItem("gongacourse_steps", JSON.stringify(stepData)); }
 function dayKey(d) {
@@ -18963,6 +18964,8 @@ function startStepTracking() {
   motionHandler = onDeviceMotion;
   window.addEventListener("devicemotion", motionHandler);
   motionActive = true;
+  stepData.tracking = true; // 측정 ON 의도 영속화 → 앱 재시작/재방문 시 자동 재개
+  saveSteps();
   requestWakeLock(); // 측정 중 화면 꺼짐 방지 → 센서 끊김 없이 카운트 지속
   renderMypage();
 }
@@ -18971,9 +18974,36 @@ function stopStepTracking() {
   if (motionHandler) window.removeEventListener("devicemotion", motionHandler);
   motionHandler = null;
   motionActive = false;
+  stepData.tracking = false; // 사용자가 명시적으로 정지 → 자동 재개 안 함
   releaseWakeLock();
   saveSteps();
   renderMypage();
+}
+
+// 앱을 다시 열었을 때(콜드 로드/탭 복귀) 측정 ON 의도가 남아있으면 자동 재개.
+// Android Chrome 등 권한 불필요 환경은 즉시 카운트 재개. iOS는 권한이 사용자 제스처로만
+// 부여되므로(재로드 시 소멸) 이벤트가 오기 전까지 대기 → '측정 시작'을 다시 한 번 탭하면 됨.
+function resumeTrackingIfWanted() {
+  if (!stepData.tracking || motionActive) return;
+  if (typeof DeviceMotionEvent === "undefined") return;
+  startStepTracking();
+}
+
+// 자정 자동 리셋 — days[]가 날짜별이라 새 날은 자연히 0부터. 앱이 열린 채 자정을 넘으면
+// 표시만 갱신해 주면 됨(과거 기록은 주간 막대에 보존). 측정은 끊기지 않고 새 날에 누적.
+let _lastDayKey = null;
+function checkDayRollover() {
+  const k = dayKey();
+  if (_lastDayKey === null) { _lastDayKey = k; return; }
+  if (k !== _lastDayKey) {
+    _lastDayKey = k;
+    if (currentScreen === "mypage") renderMypage();
+    else if (currentScreen === "saved") renderSaved();
+  }
+}
+function startMidnightWatcher() {
+  _lastDayKey = dayKey();
+  setInterval(checkDayRollover, 30000); // 30초마다 날짜 변경 확인(부담 없음)
 }
 
 function onDeviceMotion(e) {
@@ -19054,6 +19084,12 @@ document.addEventListener("DOMContentLoaded", () => {
   history.replaceState({ screen: "home" }, "");
   showScreen("home");
 
+  // 측정 ON 상태로 종료했다면 앱 재시작 시 자동 재개(매번 시작 버튼 누를 필요 없음)
+  resumeTrackingIfWanted();
+
+  // 자정 자동 리셋: 날짜가 바뀌면 표시를 새 날(0)로 갱신. 측정은 끊김 없이 새 날에 누적.
+  startMidnightWatcher();
+
   window.addEventListener("popstate", (e) => {
     const s = e.state && e.state.screen;
     if (s) {
@@ -19065,10 +19101,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 백그라운드/화면꺼짐 전환 시 걸음 기록 즉시 저장(유실 방지)
-  // 복귀 시: 측정 중이면 Wake Lock 재획득(앱 전환 시 자동 해제되므로) → 화면 다시 안 꺼지게.
+  // 복귀 시: ①측정 중이면 Wake Lock 재획득(앱 전환 시 자동 해제 대응) ②측정 의도가 남았는데
+  // (플립/화면꺼짐으로) 끊겼다면 자동 재개 ③날짜 바뀌었으면 새 날로 갱신.
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) { saveSteps(); }
-    else if (motionActive && !wakeLock) { requestWakeLock(); }
+    if (document.hidden) { saveSteps(); return; }
+    checkDayRollover();
+    if (motionActive && !wakeLock) requestWakeLock();
+    else if (!motionActive) resumeTrackingIfWanted();
   });
   window.addEventListener("pagehide", saveSteps);
 });
