@@ -218,3 +218,9 @@
 1. **변경**: ①`FOOD_SYN`(맛집/먹거리/음식/식당…) → `getFilteredCourses` 검색이 음식 동의어면 `hasFood(c)`로 확장(맛집 8→217). ②`openPhotoZoom(el)` 라이트박스(전체화면 확대+X닫기, bg-image/IMG 모두 지원) → `.gphoto`(상세 갤러리)·`.fc-photo`(소통 인증샷) 클릭 연결(피드는 stopPropagation). ③`trek-card`에서 `<i>` 제거 + 패딩 축소(12→8). ④`appbar-logo`에 `onclick=goTab('home')`+cursor. ⑤`.status-pill` 11px→**22px**(2배)·`.hero-top` flex-wrap.
 2. **교훈**: literal 텍스트 검색은 의미검색이 안 됨 → 핵심 동의어는 테마술어로 확장 매핑(맛집=hasFood). bg-image 사진 확대는 `style.backgroundImage` 파싱이 깔끔(URL 인라인 인자 회피).
 3. **검증(eval/preview)**: 맛집 217·먹거리 217, 라이트박스 overlay on+imgSrc, 로고 onclick=home, 트레킹 아이콘 0/4카드, 상태칩 24.2px, 콘솔 에러 0.
+
+### 2026-06-28 — 상세 스탯행(난이도·소요시간·만족도) 아이콘 제거 + 폰트 확대
+> 사용자: 상세의 "난이도 소요시간 만족도" 폰트 조금 크게 + 불필요한 아이콘 삭제.
+1. **변경**: `stat-row`의 fa-mountain/fa-clock/fa-thumbs-up 3개 아이콘 제거. `.stat i` 규칙 삭제. `.s-l` 10.5→**12.5px**(색 text-mut·700), `.s-v` 14→**17px**.
+2. **교훈**: 정보성 스탯은 아이콘보다 라벨+값 가독성이 우선 — 군더더기 아이콘 제거 + 폰트 한 단계.
+3. **검증**: 상세 스탯 아이콘 0, 라벨 13.75px·값 18.7px, 콘솔 에러 0.
