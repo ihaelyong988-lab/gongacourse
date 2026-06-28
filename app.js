@@ -18483,26 +18483,15 @@ function renderCommunity() {
   renderCommFeed();
 }
 
-// 검색순: 많이 찾은 키워드 칩 (탭하면 그 키워드 후기만)
+// 인기순: 해시태그 키워드 칩 제거(사용자 요청). 인기순은 인기도 정렬만 하고
+// 별도 칩 UI는 노출하지 않는다. (정렬 로직은 getCommFeed의 commSort==='popular'에서 처리)
 function renderCommKeywords() {
   const wrap = document.getElementById("comm-kw-wrap");
   if (!wrap) return;
-  if (commSort !== "popular") { wrap.innerHTML = ""; return; }
-  const kws = topKeywords(8);
-  if (!kws.length) {
-    wrap.innerHTML = `<p class="kw-hint"><i class="fa-solid fa-fire"></i> 상단 검색창에서 코스를 찾을수록 인기 키워드가 모여요</p>`;
-    return;
-  }
-  wrap.innerHTML = `
-    <div class="kw-lead"><i class="fa-solid fa-fire"></i> 인기 검색어 <span>· 상단 검색창에서 많이 찾은 키워드, 탭하면 그 후기만</span></div>
-    <div class="kw-row">
-    <button class="kw-chip ${commKeyword === "" ? "on" : ""}" onclick="filterByKeyword('')">전체</button>
-    ${kws.map(k => `<button class="kw-chip ${commKeyword === k ? "on" : ""}" onclick="filterByKeyword('${k}')">#${k} <b>${searchCounts[k]}</b></button>`).join("")}
-  </div>`;
+  wrap.innerHTML = "";
 }
 function filterByKeyword(k) {
   commKeyword = (commKeyword === k ? "" : k);
-  renderCommKeywords();
   renderCommFeed();
 }
 
