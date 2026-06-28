@@ -21,6 +21,7 @@ function slice(startMark, endMark) {
 
 const s4 = slice("## 4.", "## 5.");          // 절대 규칙(DON'T)
 const s6 = slice("## 6.", "## 7.");          // 스킬·도구 라우팅
+const s8 = slice("## 8.", "## 9.");          // 마감 루틴(Closeout) — "마감처리" 트리거
 const s9block = slice("## 9.", null);        // 결정 로그
 const s9heads = s9block
   .split("\n")
@@ -33,6 +34,7 @@ const ctx = [
   "자기개선 §0: 사용자가 한 번 설명한 지시·방식·선호는 두 번 묻지 않는다. 새 작업 전 아래 규칙을 먼저 적용한다.",
   s4,
   s6,
+  s8,
   s9heads ? "## 9. 최근 확정 결정(제목 — 상세는 AGENTS.md)\n" + s9heads : "",
 ]
   .filter(Boolean)

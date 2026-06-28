@@ -59,8 +59,17 @@
 ## 7. 워크플로우 라우팅
 상세는 `docs/WORKFLOWS.md`.
 
-## 8. 마감 루틴 (Closeout)
-1. 검증 통과  2. (선택)인덱스/그래프 갱신  3. 교훈 `memory/` 기록  4. 브랜치 커밋(기본 브랜치 직접/푸시는 승인 시)  5. 변경 요약 보고
+## 8. 마감 루틴 (Closeout) — "마감처리" 한마디면 아래 전체를 순서대로 자동 실행 (매번 확인 없이)
+> 사용자가 **"마감처리 / 마감 / closeout"** 이라고 하면, 무엇을 할지 되묻지 말고 다음을 빠짐없이 순서대로 수행한다.
+1. **지침·작업방법 기록**: 이번 세션의 지시·교정·선호·결정을 §4(금지)·§6(라우팅)·§9(Decision Log)·`docs/CONVENTIONS.md`·전역 `memory/`에 반영(재설명 방지, §0).
+2. **검증**: `docs/VERIFY.md` 실행(`node --check` + Claude Preview 375px + 기능 체크리스트), 콘솔 에러 0 확인.
+3. **md 일치 점검**: AGENTS/CLAUDE/GEMINI/docs에 `<placeholder>` 잔존 0, §9에 이번 작업이 기록됐는지 확인.
+4. **커밋**: 작업 브랜치에 의미단위 커밋(메시지 끝 `Co-Authored-By: Claude ...`). ❌ 기본 브랜치 직접 커밋 금지.
+5. **푸시 + PR**: 브랜치 push → master PR 생성/갱신(`gh pr create` / `gh pr edit`). ❌ 기본 브랜치 직접 푸시 금지.
+6. **배포(해당 시)**: 정적 웹앱이면 GitHub Pages 빌드 트리거(`gh api -X POST repos/OWNER/REPO/pages/builds`) → 라이브 URL을 curl로 검증(title/마커). HTTPS 필수. (현 배포: https://ihaelyong988-lab.github.io/gongacourse/)
+7. **정리**: 임시 미리보기 서버 종료 등 뒷정리.
+8. **순번 결과 보고**: 한 일을 ①②③… **순번으로 간결히** + 라이브 URL·PR 링크·남은 1클릭(머지)을 명시.
+※ master 직접 푸시·배포는 런타임 보안 가드가 막을 수 있음 → 항상 **PR/Pages 경유**로 처리하고, 막히는 그 1단계만 사용자에게 고지(나머지는 자동 진행).
 
 ## 9. 작업 이력 · 지시 맥락 (Decision Log) — append-only
 ### 2026-06-28 — 모바일 네이티브 전면 재구축 (v2.0)
@@ -152,6 +161,12 @@
 1. **변경**: 본문 `profile-row` 제거 → 앱바에 `appbar-profile`(이름+등급 2줄 + 아바타 최우측, `margin-left:auto`). `renderAppbarProfile()`가 채우고 `showScreen`이 mypage에서만 노출(타 화면 hidden). 아바타 업로드(`triggerAvatar`/`handleAvatar`)는 앱바로 이동, `handleAvatar`→`renderAppbarProfile()` 갱신.
 2. **교훈**: 화면별 앱바 컨텐츠는 `showScreen`에서 토글(검색=홈·탐색, 프로필=내정보). 본문 헤더를 앱바로 올리면 세로 절약.
 3. **검증**: 앱바 우측 이름+등급+아이콘 노출, 아바타 주입 반영, 홈 hidden·내정보 flex, 콘솔 에러 0.
+
+### 2026-06-28 — "마감처리" 자동 절차 확정 (§8 전면개정 + 훅 §8 주입)
+> 사용자: "마감처리"라 하면 매번 확인 없이 지침·작업방법 기록→커밋→푸시·PR→배포→순번 보고까지 전부 자동.
+1. **변경**: §8을 8단계 확정 체크리스트로 개정(기록→검증→md점검→커밋→푸시+PR→배포→정리→**순번 결과보고**). `harness-context.mjs`가 §8까지 매 턴 주입하도록 수정(누락 방지). 동일 적용: **꽁아코스 + 하네스 킷(settings.json도 규칙주입 훅으로 교체) + Hermes_Workspace**.
+2. **교훈**: 절차도 훅으로 주입해야 트리거가 안 샌다. master 직접푸시·배포는 가드가 막을 수 있으니 PR/Pages 경유 고정.
+3. **검증**: 3곳 훅 모두 "마감처리" 텍스트 주입 확인, 킷 settings.json 유효.
 
 ### 2026-06-28 — 마감·배포: PR + GitHub Pages(HTTPS)
 > 사용자: 마감처리 후 배포.
