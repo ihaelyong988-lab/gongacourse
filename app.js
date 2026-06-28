@@ -17624,6 +17624,27 @@ function coursePhoto(course, size) {
   return `https://loremflickr.com/${size}/${size}/${kw}/all?lock=${course.id}`;
 }
 
+// 사진 터치 확대(라이트박스) — 갤러리/인증샷 사진을 탭하면 전체화면 확대, 다시 탭하면 닫힘.
+function openPhotoZoom(el) {
+  let src = "";
+  if (el.tagName === "IMG") src = el.src;
+  else {
+    const m = (el.style.backgroundImage || "").match(/url\(["']?(.*?)["']?\)/);
+    src = m ? m[1] : "";
+  }
+  if (!src) return;
+  let ov = document.getElementById("photo-zoom");
+  if (!ov) {
+    ov = document.createElement("div");
+    ov.id = "photo-zoom";
+    ov.className = "photo-zoom";
+    ov.addEventListener("click", () => ov.classList.remove("on"));
+    document.body.appendChild(ov);
+  }
+  ov.innerHTML = `<span class="pz-close" aria-label="닫기"><i class="fa-solid fa-xmark"></i></span><img src="${src}" alt="확대 사진">`;
+  ov.classList.add("on");
+}
+
 // -----------------------------------------------------------------------------
 // 코스 카드 (탐색/저장/홈 공용)
 // -----------------------------------------------------------------------------
@@ -17921,6 +17942,9 @@ function clearFilters() {
   renderExploreFilters(); renderExploreList();
 }
 
+// 검색어 동의어 → 테마 의미 매핑. "맛집"을 치면 literal 'manjip' 텍스트만 매칭돼 8개뿐이라
+// 사용자가 기대하는 "맛집 있는 코스 전체"가 안 나옴 → 음식 동의어는 hasFood로 확장 매칭.
+const FOOD_SYN = ["맛집", "맛집연계", "먹거리", "음식", "식당", "맛집투어", "맛집코스"];
 function getFilteredCourses() {
   const norm = searchKeyword.toLowerCase().replace(/\s+/g, "");
   return courses.filter(c => {
@@ -17930,7 +17954,8 @@ function getFilteredCourses() {
         || c.location.toLowerCase().replace(/\s+/g, "").includes(norm)
         || (c.type || "").toLowerCase().replace(/\s+/g, "").includes(norm)
         || (c.foods || []).some(f => f.toLowerCase().replace(/\s+/g, "").includes(norm))
-        || c.timeline.some(t => t.spot.toLowerCase().replace(/\s+/g, "").includes(norm));
+        || c.timeline.some(t => t.spot.toLowerCase().replace(/\s+/g, "").includes(norm))
+        || (FOOD_SYN.includes(norm) && hasFood(c)); // "맛집/먹거리" 검색 → 맛집 보유 코스 전체
     }
     let r = matchesRegion(c, currentRegionFilter);
     let se = currentSeasonFilter === "all" || c.season === currentSeasonFilter;
@@ -18098,7 +18123,7 @@ function renderDetail(courseId) {
     : `<p class="muted-note">주변 등록된 식당 정보가 없어요. 도시락을 준비하세요.</p>`;
 
   const gallery = (c.photos && c.photos.length)
-    ? `<div class="photo-gallery">${c.photos.map(p => `<div class="gphoto" style="background-image:url('${p}')"></div>`).join("")}</div>`
+    ? `<div class="photo-gallery">${c.photos.map(p => `<div class="gphoto" style="background-image:url('${p}')" onclick="openPhotoZoom(this)"></div>`).join("")}</div>`
     : "";
 
   const voted = localStorage.getItem(`voted_course_${c.id}`);
@@ -18402,7 +18427,7 @@ function commStars(r) {
 
 function feedItemHtml(it) {
   const onClick = it.courseId ? `onclick="openCourse(${it.courseId})"` : "";
-  const photo = it.photo ? `<div class="fc-photo" style="background-image:url('${it.photo}')"></div>` : "";
+  const photo = it.photo ? `<div class="fc-photo" style="background-image:url('${it.photo}')" onclick="event.stopPropagation();openPhotoZoom(this)"></div>` : "";
   const ratingBadge = it.rating ? `<span class="fc-rate">${commStars(it.rating)} ${it.rating.toFixed(1)}</span>` : "";
   const courseTag = it.courseTitle
     ? `<span class="fc-course"><i class="fa-solid fa-location-dot"></i> ${it.courseTitle}</span>` : "";
@@ -18648,10 +18673,10 @@ function renderSaved() {
 
     ${sectionLabel("🥾 트레킹 활동", `<span class="sec-sub">저장 코스 완주 시 추정</span>`)}
     <div class="trek-stats">
-      <div class="trek-card s-teal"><i class="fa-solid fa-bookmark"></i><b>${list.length}</b><span>저장 코스</span></div>
-      <div class="trek-card s-blue"><i class="fa-solid fa-route"></i><b>${planKm}</b><span>예상 km</span></div>
-      <div class="trek-card s-amber"><i class="fa-solid fa-fire"></i><b>${planKcal}</b><span>예상 kcal</span></div>
-      <div class="trek-card s-green"><i class="fa-regular fa-comment-dots"></i><b>${myReviews}</b><span>내 후기</span></div>
+      <div class="trek-card"><b>${list.length}</b><span>저장 코스</span></div>
+      <div class="trek-card"><b>${planKm}</b><span>예상 km</span></div>
+      <div class="trek-card"><b>${planKcal}</b><span>예상 kcal</span></div>
+      <div class="trek-card"><b>${myReviews}</b><span>내 후기</span></div>
     </div>
 
     ${sectionLabel("🛡️ 예방건강 미션", `<span class="sec-sub">${doneCount}/${missions.length} 완료</span>`)}

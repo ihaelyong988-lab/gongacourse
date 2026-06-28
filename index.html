@@ -16,7 +16,7 @@
   <!-- 상단 앱바 (검색창을 최상단 로고 옆에 배치) -->
   <header class="appbar">
     <button class="appbar-back" id="appbar-back" onclick="goBack()" aria-label="뒤로가기"><i class="fa-solid fa-chevron-left"></i></button>
-    <span class="appbar-logo" id="appbar-logo">꽁아코스</span>
+    <span class="appbar-logo" id="appbar-logo" role="button" tabindex="0" onclick="goTab('home')">꽁아코스</span>
     <div class="appbar-search" id="appbar-search">
       <i class="fa-solid fa-magnifying-glass"></i>
       <input type="text" id="global-search" placeholder="코스 · 지역 · 맛집 검색" oninput="onGlobalSearch(this.value)">

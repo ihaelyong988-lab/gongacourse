@@ -212,3 +212,9 @@
 1. **원인/설명**: 그 "전체 #키워드 N"은 **소통 탭 '인기순' 정렬의 인기 검색어 칩**(§9 확정 스펙) — 상단 검색창에서 코스를 찾을 때마다 `searchCounts` 누적, 탭하면 그 키워드 후기만, '전체'=필터 해제. 버그 아님.
 2. **변경**: ①`renderCommKeywords`에 **`.kw-lead` 라벨**("🔥 인기 검색어 · 상단 검색창에서 많이 찾은 키워드, 탭하면 그 후기만") 추가로 자명화. ②**클래스 충돌 분리**: 상세 '출발 전 체크'의 준비물/검토 칩이 소통 인기칩과 같은 `.kw-chip`을 공유 → 상세 쪽을 `pc-chip`/`pc-block`/`pc-head`/`pc-wrap`로 개명(디커플). ⚠️ **교훈**: 신규 컴포넌트 클래스명은 기존과 겹치지 않게(공용 prefix 충돌 주의).
 3. **검증**: 인기순 라벨 노출, 상세 준비물 12칩=pc-chip(잔여 kw-chip 0), 콘솔 에러 0. (주의: python http.server 프리뷰는 브라우저 캐시가 stale될 수 있음 → `location.replace('/index.html?cb='+Date.now())`로 캐시 우회 검증.)
+
+### 2026-06-28 — UX 5종: 맛집검색·사진확대·트레킹카드축소·로고홈링크·상태칩 2배
+> 사용자: ①선택검색서 "맛집" 검색 안 됨 ②사진 터치 확대 ③헬스 트레킹 카드 4개 아이콘 삭제+세로 축소 ④좌상단 "꽁아코스" 로고 홈 링크 ⑤만보기 "목표까지 N보" 상태칩 폰트 2배.
+1. **변경**: ①`FOOD_SYN`(맛집/먹거리/음식/식당…) → `getFilteredCourses` 검색이 음식 동의어면 `hasFood(c)`로 확장(맛집 8→217). ②`openPhotoZoom(el)` 라이트박스(전체화면 확대+X닫기, bg-image/IMG 모두 지원) → `.gphoto`(상세 갤러리)·`.fc-photo`(소통 인증샷) 클릭 연결(피드는 stopPropagation). ③`trek-card`에서 `<i>` 제거 + 패딩 축소(12→8). ④`appbar-logo`에 `onclick=goTab('home')`+cursor. ⑤`.status-pill` 11px→**22px**(2배)·`.hero-top` flex-wrap.
+2. **교훈**: literal 텍스트 검색은 의미검색이 안 됨 → 핵심 동의어는 테마술어로 확장 매핑(맛집=hasFood). bg-image 사진 확대는 `style.backgroundImage` 파싱이 깔끔(URL 인라인 인자 회피).
+3. **검증(eval/preview)**: 맛집 217·먹거리 217, 라이트박스 overlay on+imgSrc, 로고 onclick=home, 트레킹 아이콘 0/4카드, 상태칩 24.2px, 콘솔 에러 0.
