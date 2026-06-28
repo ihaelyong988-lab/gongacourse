@@ -17555,9 +17555,19 @@ function hasFood(c) {
   return (c.foods && c.foods.length > 0) ||
     c.timeline.some(t => ["식사", "맛집", "카페", "커피", "식당", "푸드"].some(w => t.spot.includes(w)));
 }
+// 사찰 코스 판별 — 단독 '사/절/암'은 식사·행사·계절 등과 충돌하므로 사용 금지.
+// 사찰 전용어 또는 '○○사/○○암'(2자+)으로 끝나는 토큰만 인정(흔한 비사찰어 제외).
+const TEMPLE_BAD = /식사|행사|회사|신문사|역사|봉사|기사|의사|공사|검사|인사|농사|도사|관리사|박물관|미술관|기념|정문|휴게소|도서관|회관/;
+const TEMPLE_WORD = /사찰|암자|사원|대웅전|일주문|범종|고찰|산사/;
+function spotIsTemple(s) {
+  if (!s) return false;
+  if (TEMPLE_WORD.test(s)) return true;
+  return s.split(/[,\s·~()]+/).some(tok =>
+    tok && !TEMPLE_BAD.test(tok) && /[가-힣]{2,}(사|암)$/.test(tok));
+}
 function hasTemple(c) {
-  if (["사", "절", "암"].some(w => c.title.includes(w))) return true;
-  return c.timeline.some(t => ["사", "절", "암", "사찰", "암자"].some(w => t.spot.includes(w)));
+  if (spotIsTemple(c.title)) return true;
+  return c.timeline.some(t => spotIsTemple(t.spot));
 }
 function isPetFriendly(c) {
   return c.title.includes("숲길") || c.title.includes("공원") || c.location.includes("제주");
@@ -17567,7 +17577,7 @@ function stepIcon(node, idx, len) {
   if (idx === len - 1) return "🏁";
   if (node.spot.includes("식사") || node.spot.includes("맛집") || node.spot.includes("식당")) return "🍴";
   if (node.spot.includes("카페") || node.spot.includes("커피") || node.spot.includes("쉼터")) return "☕";
-  if (node.spot.includes("사찰") || node.spot.includes("사") || node.spot.includes("암")) return "⛩️";
+  if (spotIsTemple(node.spot)) return "⛩️";
   return "👣";
 }
 function kakaoMapLink(query) {
@@ -17577,21 +17587,40 @@ function isSaved(id) {
   return savedCourses.includes(id);
 }
 
-// 코스 실사 사진 (키워드 매칭 실사 · 테마/계절별, id로 고정·분산). 실패 시 계절 그라데이션 폴백.
+// 코스 실사 사진 (키워드 매칭 실사 · 지형/테마/계절별, id로 고정·분산). 실패 시 계절 그라데이션 폴백.
+// ※ 추천 사유의 핵심(지형·맥락)에 맞는 사진을 고른다. 제목의 지형이 사찰보다 우선 →
+//   "삼형제섬"처럼 동선에 법당이 끼어도 섬/바다 사진이 나오게 한다(§9 이미지 컨텍스트 매칭).
 const PHOTO_KW = {
   spring: "spring,blossom,trail",
   summer: "forest,green,trail",
-  autumn: "autumn,mountain,foliage",
+  autumn: "autumn,foliage,mountain",
   winter: "snow,mountain,winter",
-  temple: "temple,korea",
-  sea: "sea,coast,beach"
+  temple: "temple,korea,buddhist",
+  sea: "sea,coast,island",
+  lake: "lake,reservoir,nature",
+  valley: "valley,stream,waterfall",
+  forest: "forest,woods,trail",
+  park: "park,garden,green",
+  mountain: "mountain,ridge,hiking",
+  river: "river,riverside,walk"
 };
+// 코스 정체성(제목 우선)에 맞는 사진 키워드. 지형이 사찰보다 우선.
+function photoKeyForCourse(c) {
+  const t = c.title || "";
+  if (/섬|해수욕|해변|바닷|바다|해안|포구|항구|등대|해상|갯벌|방파제/.test(t)) return "sea";
+  if (/호수|저수지|댐|호반/.test(t)) return "lake";
+  if (/계곡|폭포|약수|물놀이|소(沼)/.test(t)) return "valley";
+  if (/강변|강가|천변|하천|강/.test(t)) return "river";
+  if (/수목원|식물원|자연휴양림|치유의숲|숲길|숲|편백/.test(t)) return "forest";
+  if (/공원|호반공원|생태공원|둘레|올레/.test(t)) return "park";
+  // 제목 자체가 사찰일 때만 temple (동선상 사찰 경유는 제외 → 지형 정체성 보존)
+  if (/사$|[가-힣]사 |[가-힣]사·|사찰|암자|[가-힣]암$|대웅전|법당|절/.test(t)) return "temple";
+  if (/산|봉|능선|고개|재|령|岳|대(臺)/.test(t)) return "mountain";
+  return c.season; // 제목으로 안 잡히면 계절 기본
+}
 function coursePhoto(course, size) {
   size = size || 220;
-  let key = course.season;
-  if (hasTemple(course)) key = "temple";
-  else if (/섬|해변|바다|해수욕|포구|항|등대|해안|호수|강변|계곡|폭포/.test(course.title)) key = "sea";
-  const kw = PHOTO_KW[key] || PHOTO_KW.summer;
+  const kw = PHOTO_KW[photoKeyForCourse(course)] || PHOTO_KW.summer;
   return `https://loremflickr.com/${size}/${size}/${kw}/all?lock=${course.id}`;
 }
 
@@ -17986,6 +18015,39 @@ function renderExploreList() {
 // -----------------------------------------------------------------------------
 // 3) 상세 — 실제 세로 타임라인
 // -----------------------------------------------------------------------------
+// 사전 준비물(가져갈 것) — 계절·난이도·소요시간·지형 맥락으로 자동 도출
+function coursePrep(c) {
+  const items = ["편한 운동화", "식수"];
+  const hours = parseHours(c.duration);
+  const key = photoKeyForCourse(c);
+  if (c.season === "summer") items.push("모자", "자외선차단제", "벌레기피제");
+  else if (c.season === "winter") items.push("방한복", "장갑", "핫팩");
+  else if (c.season === "spring") items.push("꽃가루 마스크", "얇은 겉옷");
+  else items.push("바람막이");
+  if (hours >= 3) items.push("간식·도시락", "여벌 양말");
+  if (!isEasy(c)) items.push("등산스틱", "무릎보호대");
+  if (key === "sea") items.push("승선권·시간표");
+  if (key === "valley" || key === "river") items.push("미끄럼 방지 신발");
+  if (key === "temple") items.push("단정한 복장");
+  return [...new Set(items)];
+}
+// 검토 변수(출발 전 확인) — 날씨·교통·안전 변수
+function courseChecks(c) {
+  const v = ["당일 날씨·강수", "주차장 혼잡도", "화장실 위치"];
+  const hours = parseHours(c.duration);
+  const key = photoKeyForCourse(c);
+  if (key === "sea") v.push("여객선 운항·물때");
+  if (hasTemple(c) || key === "temple") v.push("사찰 입장·예불 시간");
+  if (c.season === "summer") v.push("폭염·온열질환");
+  else if (c.season === "winter") v.push("결빙·일몰 시간");
+  if (hours >= 3) v.push("체력·중간 탈출로");
+  if (!isEasy(c)) v.push("등산로 통제 여부");
+  return [...new Set(v)];
+}
+function chipList(arr, cls) {
+  return arr.map(x => `<span class="kw-chip ${cls}">${x}</span>`).join("");
+}
+
 function renderDetail(courseId) {
   const c = courses.find(x => x.id === courseId);
   if (!c) return;
@@ -18044,6 +18106,18 @@ function renderDetail(courseId) {
     <a class="map-btn" href="${kakaoMapLink(c.title + " " + c.location)}" target="_blank" rel="noopener">
       <i class="fa-solid fa-map-location-dot"></i> 카카오맵에서 길찾기 · 위치보기
     </a>
+
+    <div class="d-card prep-card">
+      <h4 class="d-card-title"><i class="fa-solid fa-clipboard-check"></i> 출발 전 체크</h4>
+      <div class="kw-block">
+        <span class="kw-head"><i class="fa-solid fa-backpack"></i> 사전 준비물</span>
+        <div class="kw-wrap">${chipList(coursePrep(c), "prep")}</div>
+      </div>
+      <div class="kw-block">
+        <span class="kw-head"><i class="fa-solid fa-triangle-exclamation"></i> 검토 변수</span>
+        <div class="kw-wrap">${chipList(courseChecks(c), "check")}</div>
+      </div>
+    </div>
 
     <div class="d-card">
       <h4 class="d-card-title"><i class="fa-solid fa-route"></i> 추천 나들이 동선</h4>
@@ -18482,16 +18556,102 @@ function deleteCommunityPost(idx) {
 // -----------------------------------------------------------------------------
 // 5) 저장
 // -----------------------------------------------------------------------------
+// 예방건강 — 오늘의 건강 미션(걸음·맥락 연동)
+function healthMissions(steps, goal) {
+  const remain = Math.max(0, goal - steps);
+  const minutes = Math.max(1, Math.ceil(remain / 100)); // ~100보/분
+  return [
+    { ic: "fa-shoe-prints", t: `오늘 ${goal.toLocaleString()}보 채우기`, d: steps >= goal ? "목표 달성! 훌륭해요 🎉" : `${remain.toLocaleString()}보 남음 · 약 ${minutes}분만 더!`, done: steps >= goal },
+    { ic: "fa-person-walking", t: "30분 빠르게 걷기", d: "심박을 올리는 활기찬 걸음으로", done: steps >= 3000 },
+    { ic: "fa-glass-water", t: "수분 1.5L 섭취", d: "걷는 틈틈이 한 모금씩", done: false },
+    { ic: "fa-spa", t: "종아리·무릎 스트레칭", d: "운동 전후 5분이면 충분", done: false }
+  ];
+}
+// 예방건강 — 계절·날씨 맥락 팁
+function healthTip() {
+  const s = getCurrentSeason();
+  const k = weatherInfo && weatherInfo.kind;
+  if (k === "hot" || s === "summer") return { ic: "fa-temperature-high", t: "온열질환 예방", d: "한낮(12~16시) 땡볕은 피하고 20분마다 수분을 보충하세요." };
+  if (k === "cold" || s === "winter") return { ic: "fa-snowflake", t: "낙상·저체온 주의", d: "빙판길은 보폭을 줄이고, 보온 후 가볍게 관절을 풀어주세요." };
+  if (s === "spring") return { ic: "fa-head-side-mask", t: "꽃가루·미세먼지", d: "알레르기가 있다면 마스크를 쓰고 귀가 후 손·얼굴을 씻으세요." };
+  if (k === "wet") return { ic: "fa-umbrella", t: "미끄럼 주의", d: "바닥이 젖었어요. 밑창 깊은 신발로 무릎 부담을 줄이세요." };
+  return { ic: "fa-heart-circle-check", t: "꾸준함이 보약", d: "하루 30분 빠르게 걷기는 심혈관 질환 위험을 낮춥니다." };
+}
+
+// 헬스 탭(구 '저장') — 만보기 + 트레킹 결과지표 + 예방건강 + 저장 코스
 function renderSaved() {
   const root = document.getElementById("saved-body");
   if (!root) return;
+
+  // 만보기 지표
+  const steps = todaySteps();
+  const goal = stepData.goal;
+  const pct = Math.min(100, Math.round((steps / goal) * 100));
+  const km = (steps * 0.0007).toFixed(2);
+  const kcal = Math.round(steps * 0.04);
+  const week = weekDays();
+  const activeDays = week.filter(d => d.steps > 0).length;
+
+  // 트레킹/산책 코스 지표 (저장 코스 기반 추정)
   const list = savedCourses.map(id => courses.find(c => c.id === id)).filter(Boolean);
-  if (!list.length) {
-    root.innerHTML = `<div class="empty"><i class="fa-regular fa-bookmark"></i><p>저장한 코스가 없어요</p><span>코스 카드의 북마크를 눌러 모아두세요</span>
-      <button class="btn-primary" style="margin-top:14px" onclick="goTab('explore')">코스 둘러보기</button></div>`;
-    return;
+  const planHours = list.reduce((s, c) => s + parseHours(c.duration), 0);
+  const planKm = (planHours * 2.8).toFixed(1);          // 평균 보행 2.8km/h
+  const planKcal = Math.round(planHours * 2.8 * 55);     // ~55kcal/km
+  let myReviews = 0;
+  courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myReviews++; }));
+
+  const missions = healthMissions(steps, goal);
+  const missionHtml = missions.map(m =>
+    `<div class="mission ${m.done ? "done" : ""}">
+      <span class="ms-ic"><i class="fa-solid ${m.ic}"></i></span>
+      <span class="ms-body"><b>${m.t}</b><span>${m.d}</span></span>
+      <span class="ms-chk"><i class="fa-solid ${m.done ? "fa-circle-check" : "fa-circle"}"></i></span>
+    </div>`).join("");
+  const tip = healthTip();
+  const doneCount = missions.filter(m => m.done).length;
+
+  root.innerHTML = `
+    <div class="health-hero">
+      <div class="hh-top">
+        <span class="hh-title"><i class="fa-solid fa-heart-pulse"></i> 오늘의 건강</span>
+        <span class="hh-badge ${steps >= goal ? "done" : ""}">${pct}%</span>
+      </div>
+      <div class="hh-metrics">
+        <div><b>${steps.toLocaleString()}</b><span>걸음</span></div>
+        <div><b>${km}</b><span>km</span></div>
+        <div><b>${kcal}</b><span>kcal</span></div>
+        <div><b>${activeDays}/7</b><span>활동일</span></div>
+      </div>
+      <div class="hh-bar"><span style="width:${pct}%"></span></div>
+      <button class="hh-cta" onclick="goTab('mypage')"><i class="fa-solid fa-shoe-prints"></i> 만보기 열어 측정 시작 <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    ${sectionLabel("🥾 트레킹 활동", `<span class="sec-sub">저장 코스 완주 시 추정</span>`)}
+    <div class="trek-stats">
+      <div class="trek-card s-teal"><i class="fa-solid fa-bookmark"></i><b>${list.length}</b><span>저장 코스</span></div>
+      <div class="trek-card s-blue"><i class="fa-solid fa-route"></i><b>${planKm}</b><span>예상 km</span></div>
+      <div class="trek-card s-amber"><i class="fa-solid fa-fire"></i><b>${planKcal}</b><span>예상 kcal</span></div>
+      <div class="trek-card s-green"><i class="fa-regular fa-comment-dots"></i><b>${myReviews}</b><span>내 후기</span></div>
+    </div>
+
+    ${sectionLabel("🛡️ 예방건강 미션", `<span class="sec-sub">${doneCount}/${missions.length} 완료</span>`)}
+    <div class="mission-list">${missionHtml}</div>
+    <div class="health-tip">
+      <div class="ht-ic"><i class="fa-solid ${tip.ic}"></i></div>
+      <div class="ht-body"><b>${tip.t}</b><p>${tip.d}</p></div>
+    </div>
+
+    ${sectionLabel("📌 저장한 코스", list.length ? `<a onclick="goTab('explore')">더 찾기</a>` : "")}
+    ${list.length
+      ? `<div class="course-list">${list.map(courseCardHtml).join("")}</div>`
+      : `<div class="empty-soft"><i class="fa-regular fa-bookmark"></i><p>저장한 코스가 없어요</p><span>코스 카드의 북마크를 눌러 모아두세요</span>
+         <button class="btn-primary" style="margin-top:12px" onclick="goTab('explore')">코스 둘러보기</button></div>`}
+  `;
+
+  // 예방건강 팁 정확도용 날씨 1회 로드(미로드 시)
+  if (!weatherInfo && !weatherFetching) {
+    loadWeather(() => { if (currentScreen === "saved") renderSaved(); });
   }
-  root.innerHTML = `<div class="result-meta"><span>저장한 코스 ${list.length}개</span></div><div class="course-list">${list.map(courseCardHtml).join("")}</div>`;
 }
 
 // -----------------------------------------------------------------------------
@@ -18534,9 +18694,9 @@ function renderMypage() {
     </div>
 
     <!-- 히어로: 풀 링 계기판 (걸음 수가 유일한 포인트) -->
-    <div class="hero-ped">
+    <div class="hero-ped ${motionActive ? "measuring" : ""}">
       <div class="hero-top">
-        <span class="hero-label"><i class="fa-solid fa-shoe-prints"></i> 오늘 걸음 ${motionActive ? `<span class="ped-live">● 측정중</span>` : ""}</span>
+        <span class="hero-label"><i class="fa-solid fa-shoe-prints"></i> 오늘 걸음</span>
         <span class="status-pill ${steps >= goal ? "done" : ""}" id="ped-status">${statusTxt}</span>
       </div>
 
@@ -18565,10 +18725,17 @@ function renderMypage() {
         <div><i class="fa-solid fa-fire"></i><b id="ped-kcal">${kcal}</b> kcal</div>
       </div>
 
+      ${motionActive
+      ? `<div class="measure-banner">
+           <span class="mb-live"><span class="mb-dot"></span> 측정 중</span>
+           <span class="mb-wake"><i class="fa-solid fa-lightbulb"></i> 화면 꺼짐 방지 ON</span>
+         </div>`
+      : ""}
+
       <button class="track-btn ${motionActive ? "on" : ""}" onclick="toggleStepTracking()">
         <i class="fa-solid fa-${motionActive ? "stop" : "play"}"></i> ${motionActive ? "측정 정지" : "측정 시작"}
       </button>
-      <p class="hero-note"><i class="fa-solid fa-circle-info"></i> 앱이 켜진 화면에서 폰을 들고 걸으면 자동 카운트 (HTTPS·동작 권한). 화면 끄거나 다른 앱으로 가면 멈춰요(웹 한계).</p>
+      <p class="hero-note"><i class="fa-solid fa-circle-info"></i> 폰을 들고 걸으면 자동 카운트돼요. 측정 중엔 <b>화면이 자동으로 꺼지지 않게</b> 잡아둡니다(끊김 방지). <br><span class="note-warn">단, 전원 버튼·케이스로 화면을 직접 끄거나 다른 앱으로 가면 멈춰요 — 웹앱의 원리적 한계예요.</span></p>
     </div>
 
     <!-- 기록 카드 (목표·주간·수동) — 보조 정보 -->
