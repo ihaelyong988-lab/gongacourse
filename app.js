@@ -18516,10 +18516,12 @@ function renderMypage() {
   }).join("");
 
   root.innerHTML = `
-    <div class="profile">
-      <div class="avatar"><i class="fa-solid fa-user-astronaut"></i></div>
-      <h3>${NICK}</h3>
-      <span class="grade">${grade} · 후기 ${myCount}개</span>
+    <div class="profile-row">
+      <div class="avatar-sm"><i class="fa-solid fa-user-astronaut"></i></div>
+      <div class="pr-meta">
+        <h3>${NICK}</h3>
+        <span class="grade">${grade} · 후기 ${myCount}개</span>
+      </div>
     </div>
     <div class="profile-stats">
       <div class="ps" onclick="goTab('saved')"><strong>${savedCourses.length}</strong><span>저장 코스</span></div>
@@ -18527,44 +18529,40 @@ function renderMypage() {
       <div class="ps"><strong>${courses.length}</strong><span>전체 코스</span></div>
     </div>
 
-    <div class="set-card">
-      <div class="set-title"><i class="fa-solid fa-shoe-prints"></i> 오늘의 만보기</div>
-      <div class="ped-gauge">
-        <svg viewBox="0 0 120 120" class="ped-svg">
-          <circle cx="60" cy="60" r="52" class="ped-track"/>
-          <circle cx="60" cy="60" r="52" class="ped-prog ${steps >= goal ? "done" : ""}"
-            stroke-dasharray="${C}" stroke-dashoffset="${offset}" transform="rotate(-90 60 60)"/>
-        </svg>
-        <div class="ped-center">
-          <strong>${steps.toLocaleString()}</strong>
-          <span>걸음</span>
-          <em>목표 ${pct}%</em>
+    <div class="set-card ped-dash">
+      <div class="set-title"><i class="fa-solid fa-shoe-prints"></i> 만보기 ${motionActive ? `<span class="ped-live">● 측정중</span>` : ""}</div>
+      <div class="ped-main">
+        <div class="ped-gauge">
+          <svg viewBox="0 0 120 120" class="ped-svg">
+            <circle cx="60" cy="60" r="52" class="ped-track"/>
+            <circle cx="60" cy="60" r="52" class="ped-prog ${steps >= goal ? "done" : ""}"
+              stroke-dasharray="${C}" stroke-dashoffset="${offset}" transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="ped-center">
+            <strong id="ped-steps">${steps.toLocaleString()}</strong>
+            <span>걸음</span>
+            <em id="ped-pct">목표 ${pct}%</em>
+          </div>
+        </div>
+        <div class="ped-side">
+          <button class="track-btn ${motionActive ? "on" : ""}" onclick="toggleStepTracking()">
+            <i class="fa-solid fa-${motionActive ? "stop" : "play"}"></i> ${motionActive ? "측정 정지" : "측정 시작"}
+          </button>
+          <div class="ped-mini">
+            <div><strong id="ped-km">${km}</strong><span>km</span></div>
+            <div><strong id="ped-kcal">${kcal}</strong><span>kcal</span></div>
+          </div>
+          <div class="goal-row">${goalChips}</div>
         </div>
       </div>
-
-      <div class="ped-stats">
-        <div class="pst"><strong>${km}</strong><span>km</span></div>
-        <div class="pst"><strong>${kcal}</strong><span>kcal</span></div>
-        <div class="pst"><strong>${goal.toLocaleString()}</strong><span>목표 걸음</span></div>
-      </div>
-
-      <div class="ped-sub">목표 설정</div>
-      <div class="goal-row">${goalChips}</div>
-
-      <div class="ped-sub">오늘 걸음 기록</div>
-      <div class="ped-record">
-        <input id="ped-input" type="number" inputmode="numeric" placeholder="걸음 수 입력" value="${steps || ""}">
-        <button class="ped-save" onclick="setTodaySteps(document.getElementById('ped-input').value)">기록</button>
-      </div>
+      <div class="ped-week">${weekBars}</div>
       <div class="ped-quick">
         <button class="q-chip" onclick="addSteps(1000)">+1,000</button>
         <button class="q-chip" onclick="addSteps(3000)">+3,000</button>
         <button class="q-chip" onclick="addSteps(5000)">+5,000</button>
         <button class="q-chip reset" onclick="setTodaySteps(0)">초기화</button>
       </div>
-
-      <div class="ped-sub">최근 7일</div>
-      <div class="ped-week">${weekBars}</div>
+      <p class="ped-note"><i class="fa-solid fa-circle-info"></i> 휴대폰에서 “측정 시작” 후 들고 걸으면 가속도 센서로 자동 카운트돼요(HTTPS·동작 권한 필요). 수동 기록은 위 버튼.</p>
     </div>
 
     <div class="set-card">
@@ -18662,6 +18660,93 @@ function weekDays() {
     arr.push({ key: k, label: dow[d.getDay()], steps: stepData.days[k] || 0 });
   }
   return arr;
+}
+
+// --- 실시간 걸음 측정 (DeviceMotion 가속도계 피크 검출) ---
+let motionActive = false;
+let motionHandler = null;
+let motionState = { smoothed: 9.8, peaked: false, lastStepAt: 0, sinceSave: 0 };
+
+async function toggleStepTracking() {
+  if (motionActive) { stopStepTracking(); return; }
+  if (typeof DeviceMotionEvent === "undefined") {
+    alert("이 기기/브라우저는 동작 센서를 지원하지 않아요. (PC 미리보기에선 작동 안 함 — 실제 휴대폰 + HTTPS 필요)");
+    return;
+  }
+  // iOS 13+ 권한 요청 (사용자 제스처 필요)
+  if (typeof DeviceMotionEvent.requestPermission === "function") {
+    try {
+      const res = await DeviceMotionEvent.requestPermission();
+      if (res !== "granted") { alert("동작 센서 권한이 거부되었어요."); return; }
+    } catch (e) {
+      alert("동작 센서를 시작할 수 없어요: " + e.message);
+      return;
+    }
+  }
+  startStepTracking();
+}
+
+function startStepTracking() {
+  motionState = { smoothed: 9.8, peaked: false, lastStepAt: 0, sinceSave: 0 };
+  motionHandler = onDeviceMotion;
+  window.addEventListener("devicemotion", motionHandler);
+  motionActive = true;
+  renderMypage();
+}
+
+function stopStepTracking() {
+  if (motionHandler) window.removeEventListener("devicemotion", motionHandler);
+  motionHandler = null;
+  motionActive = false;
+  saveSteps();
+  renderMypage();
+}
+
+function onDeviceMotion(e) {
+  const a = e.accelerationIncludingGravity || e.acceleration;
+  if (!a || (a.x == null && a.y == null && a.z == null)) return;
+  const mag = Math.sqrt((a.x || 0) ** 2 + (a.y || 0) ** 2 + (a.z || 0) ** 2);
+  // 저주파(중력) 분리 → 동적 성분
+  motionState.smoothed = motionState.smoothed * 0.9 + mag * 0.1;
+  const dyn = mag - motionState.smoothed;
+  const now = Date.now();
+  const THRESH = 1.2, MIN_INTERVAL = 280;
+  if (dyn > THRESH && !motionState.peaked && (now - motionState.lastStepAt) > MIN_INTERVAL) {
+    motionState.peaked = true;
+    motionState.lastStepAt = now;
+    countOneStep();
+  } else if (dyn < THRESH * 0.4) {
+    motionState.peaked = false;
+  }
+}
+
+// 한 걸음 카운트: 전체 재렌더 없이 게이지/숫자만 즉시 갱신, 저장은 10보마다
+function countOneStep() {
+  const k = dayKey();
+  stepData.days[k] = (stepData.days[k] || 0) + 1;
+  motionState.sinceSave++;
+  if (motionState.sinceSave >= 10) { saveSteps(); motionState.sinceSave = 0; }
+  updateGaugeLive();
+}
+
+function updateGaugeLive() {
+  const steps = todaySteps();
+  const goal = stepData.goal;
+  const pct = Math.min(100, Math.round((steps / goal) * 100));
+  const offset = (326.7 * (1 - pct / 100)).toFixed(1);
+  const elSteps = document.getElementById("ped-steps");
+  const elPct = document.getElementById("ped-pct");
+  const elKm = document.getElementById("ped-km");
+  const elKcal = document.getElementById("ped-kcal");
+  const prog = document.querySelector(".ped-prog");
+  if (elSteps) elSteps.textContent = steps.toLocaleString();
+  if (elPct) elPct.textContent = "목표 " + pct + "%";
+  if (elKm) elKm.textContent = (steps * 0.0007).toFixed(2);
+  if (elKcal) elKcal.textContent = Math.round(steps * 0.04);
+  if (prog) {
+    prog.setAttribute("stroke-dashoffset", offset);
+    if (steps >= goal) prog.classList.add("done");
+  }
 }
 
 // -----------------------------------------------------------------------------

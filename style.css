@@ -502,14 +502,16 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 /* =============================================================================
    내 정보
    ============================================================================= */
-.profile { text-align: center; padding: 12px 0 6px; }
-.avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 10px; }
-.profile h3 { font-size: calc(18px * var(--fs)); font-weight: 900; }
-.grade { display: inline-block; margin-top: 6px; font-size: calc(12px * var(--fs)); font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 4px 12px; border-radius: 20px; }
-.profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
-.ps { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 6px; text-align: center; }
-.ps strong { display: block; font-size: calc(20px * var(--fs)); font-weight: 900; color: var(--primary); }
-.ps span { font-size: calc(11px * var(--fs)); color: var(--text-mut); }
+/* 콤팩트 프로필 (가로 1줄) */
+.profile-row { display: flex; align-items: center; gap: 12px; padding: 4px 2px 10px; }
+.avatar-sm { width: 48px; height: 48px; border-radius: 50%; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.pr-meta { min-width: 0; }
+.pr-meta h3 { font-size: calc(16px * var(--fs)); font-weight: 900; }
+.grade { display: inline-block; margin-top: 3px; font-size: calc(11px * var(--fs)); font-weight: 700; color: var(--primary); background: var(--primary-soft); padding: 3px 10px; border-radius: 20px; }
+.profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 12px; }
+.ps { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; padding: 10px 6px; text-align: center; }
+.ps strong { display: block; font-size: calc(17px * var(--fs)); font-weight: 900; color: var(--primary); }
+.ps span { font-size: calc(10.5px * var(--fs)); color: var(--text-mut); }
 
 .set-card { background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius); padding: 15px; margin-bottom: 12px; }
 .set-title { font-size: calc(14px * var(--fs)); font-weight: 800; margin-bottom: 12px; padding-bottom: 9px; border-bottom: 1px solid var(--hair); }
@@ -530,43 +532,46 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .switch .knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: left 0.2s; }
 .switch.on .knob { left: 21px; }
 
-/* 만보기 계기판 */
-.ped-gauge { position: relative; width: 160px; height: 160px; margin: 6px auto 14px; }
-.ped-svg { width: 160px; height: 160px; }
+/* 만보기 대시보드 (한 화면 콤팩트) */
+.ped-live { font-size: calc(10.5px * var(--fs)); font-weight: 800; color: var(--text-danger, #c0392b); margin-left: 6px; }
+.ped-main { display: flex; gap: 14px; align-items: center; }
+.ped-gauge { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+.ped-svg { width: 132px; height: 132px; }
 .ped-track { fill: none; stroke: var(--hair); stroke-width: 11; }
-.ped-prog { fill: none; stroke: var(--primary); stroke-width: 11; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+.ped-prog { fill: none; stroke: var(--primary); stroke-width: 11; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
 .ped-prog.done { stroke: var(--amber); }
 .ped-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.ped-center strong { font-size: calc(30px * var(--fs)); font-weight: 900; color: var(--text); line-height: 1; }
-.ped-center span { font-size: calc(12px * var(--fs)); color: var(--text-mut); margin-top: 3px; }
-.ped-center em { font-size: calc(11px * var(--fs)); font-style: normal; font-weight: 800; color: var(--primary); margin-top: 5px; }
+.ped-center strong { font-size: calc(26px * var(--fs)); font-weight: 900; color: var(--text); line-height: 1; }
+.ped-center span { font-size: calc(11px * var(--fs)); color: var(--text-mut); margin-top: 2px; }
+.ped-center em { font-size: calc(10.5px * var(--fs)); font-style: normal; font-weight: 800; color: var(--primary); margin-top: 4px; }
 
-.ped-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
-.pst { background: var(--bg); border-radius: 10px; padding: 11px 4px; text-align: center; }
-.pst strong { display: block; font-size: calc(16px * var(--fs)); font-weight: 900; color: var(--primary); }
-.pst span { font-size: calc(10.5px * var(--fs)); color: var(--text-mut); }
+.ped-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 9px; }
+.track-btn { display: flex; align-items: center; justify-content: center; gap: 7px; background: var(--primary); color: #fff; border-radius: 11px; padding: 11px; font-weight: 800; font-size: calc(13.5px * var(--fs)); }
+.track-btn.on { background: #c0392b; }
+.track-btn:active { filter: brightness(0.95); }
+.ped-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ped-mini > div { background: var(--bg); border-radius: 9px; padding: 8px 4px; text-align: center; }
+.ped-mini strong { display: block; font-size: calc(15px * var(--fs)); font-weight: 900; color: var(--primary); }
+.ped-mini span { font-size: calc(10px * var(--fs)); color: var(--text-mut); }
 
-.ped-sub { font-size: calc(11.5px * var(--fs)); font-weight: 800; color: var(--text-faint); margin: 12px 0 7px; }
-.goal-row { display: flex; gap: 6px; }
-.goal-chip { flex: 1; padding: 8px 4px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg); color: var(--text-mut); font-weight: 800; font-size: calc(12px * var(--fs)); }
+.goal-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.goal-chip { padding: 7px 2px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text-mut); font-weight: 800; font-size: calc(11px * var(--fs)); }
 .goal-chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 
-.ped-record { display: flex; gap: 8px; }
-.ped-record input { flex: 1; min-width: 0; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-family: inherit; font-size: calc(14px * var(--fs)); outline: none; background: var(--bg); }
-.ped-record input:focus { border-color: var(--primary); background: var(--surface); }
-.ped-save { flex-shrink: 0; background: var(--primary); color: #fff; border-radius: 10px; padding: 10px 18px; font-weight: 800; font-size: calc(13px * var(--fs)); }
-.ped-quick { display: flex; gap: 6px; margin-top: 8px; }
-.q-chip { flex: 1; padding: 9px 4px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--primary); font-weight: 800; font-size: calc(12px * var(--fs)); }
-.q-chip.reset { color: var(--text-faint); }
-.q-chip:active { background: var(--primary-soft); }
-
-.ped-week { display: flex; align-items: flex-end; gap: 6px; height: 96px; padding-top: 6px; }
-.wk { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 6px; }
-.wk-bar { width: 60%; max-width: 26px; background: #d7e3d8; border-radius: 6px 6px 0 0; min-height: 4px; }
+.ped-week { display: flex; align-items: flex-end; gap: 6px; height: 70px; margin-top: 14px; }
+.wk { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 5px; }
+.wk-bar { width: 62%; max-width: 24px; background: #d7e3d8; border-radius: 5px 5px 0 0; min-height: 4px; }
 .wk-bar.today { background: var(--primary); }
 .wk-bar.hit { background: var(--amber); }
 .wk-l { font-size: calc(10px * var(--fs)); color: var(--text-faint); font-weight: 700; }
 .wk-l.on { color: var(--primary); }
+
+.ped-quick { display: flex; gap: 6px; margin-top: 12px; }
+.q-chip { flex: 1; padding: 8px 4px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--primary); font-weight: 800; font-size: calc(11.5px * var(--fs)); }
+.q-chip.reset { color: var(--text-faint); }
+.q-chip:active { background: var(--primary-soft); }
+.ped-note { font-size: calc(10.5px * var(--fs)); color: var(--text-faint); line-height: 1.5; margin: 11px 0 0; }
+.ped-note i { color: var(--primary); margin-right: 4px; }
 
 /* 홈 동반자(맞춤) 카드 */
 .match-card { margin-top: 12px; background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius); padding: 12px 13px; box-shadow: var(--shadow); }
