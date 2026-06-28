@@ -17874,7 +17874,25 @@ function renderHome() {
 // -----------------------------------------------------------------------------
 // 2) 탐색 — 칩 필터 + 결과 리스트
 // -----------------------------------------------------------------------------
-const REGIONS = ["서울", "인천", "경기", "강원", "충청", "경북", "전남", "제주"];
+// 지역 칩 → 실제 location 표기 매핑. 데이터는 충북/충남·경남/부산 등 약칭이라
+// "충청"으로 includes 하면 0건이 된다(엑셀 오류 아님). 광역권으로 묶어 전 코스 도달 보장.
+const REGION_MATCH = {
+  "서울": ["서울"],
+  "인천": ["인천"],
+  "경기": ["경기"],
+  "강원": ["강원"],
+  "충청": ["충북", "충남", "대전", "세종", "충청"],
+  "경북": ["경북", "대구"],
+  "경남": ["경남", "부산", "울산"],
+  "전라": ["전북", "전남", "광주", "전라"],
+  "제주": ["제주"]
+};
+const REGIONS = Object.keys(REGION_MATCH);
+function matchesRegion(c, region) {
+  if (region === "all") return true;
+  const keys = REGION_MATCH[region] || [region];
+  return keys.some(k => c.location.includes(k));
+}
 const SEASONS = [
   { k: "spring", n: "봄" }, { k: "summer", n: "여름" },
   { k: "autumn", n: "가을" }, { k: "winter", n: "겨울" }
@@ -17914,7 +17932,7 @@ function getFilteredCourses() {
         || (c.foods || []).some(f => f.toLowerCase().replace(/\s+/g, "").includes(norm))
         || c.timeline.some(t => t.spot.toLowerCase().replace(/\s+/g, "").includes(norm));
     }
-    let r = currentRegionFilter === "all" || c.location.includes(currentRegionFilter);
+    let r = matchesRegion(c, currentRegionFilter);
     let se = currentSeasonFilter === "all" || c.season === currentSeasonFilter;
     let th = true;
     if (currentThemeFilter === "easy") th = isEasy(c) || parseHours(c.duration) <= 2;
