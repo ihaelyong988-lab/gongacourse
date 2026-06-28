@@ -18141,9 +18141,9 @@ function renderDetail(courseId) {
     </div>
 
     <div class="stat-row">
-      <div class="stat"><i class="fa-solid fa-mountain"></i><span class="s-l">난이도</span><span class="s-v">${c.difficulty}</span></div>
-      <div class="stat"><i class="fa-solid fa-clock"></i><span class="s-l">소요시간</span><span class="s-v">${c.duration}</span></div>
-      <div class="stat"><i class="fa-solid fa-thumbs-up"></i><span class="s-l">만족도</span><span class="s-v hl">${ratio}%</span></div>
+      <div class="stat"><span class="s-l">난이도</span><span class="s-v">${c.difficulty}</span></div>
+      <div class="stat"><span class="s-l">소요시간</span><span class="s-v">${c.duration}</span></div>
+      <div class="stat"><span class="s-l">만족도</span><span class="s-v hl">${ratio}%</span></div>
     </div>
 
     <a class="map-btn" href="${kakaoMapLink(c.title + " " + c.location)}" target="_blank" rel="noopener">
