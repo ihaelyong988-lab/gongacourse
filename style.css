@@ -441,32 +441,37 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
    소통 — 상단 업로드 컴포저 + 하단 후기 필터 피드
    ============================================================================= */
 /* 컴포저 — 간소화 (간단의견 + 사진/갤러리 + 올리기) */
+/* 컴포저 리디자인 — "사각나라" 탈출: 테두리 없는 에어리 카드 + 필(pill) 입력 +
+   고스트 사진/갤러리 링크 + 단일 강조 '올리기' 필 버튼(우측 정렬). (ui-ux: 미니멀 chrome·단일 CTA) */
 .composer {
-  background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius);
-  padding: 12px; box-shadow: var(--shadow); margin-bottom: 16px;
+  background: var(--surface); border: none; border-radius: 18px;
+  padding: 14px; box-shadow: 0 4px 18px rgba(20,40,30,0.07); margin-bottom: 16px;
 }
 .composer-input {
-  width: 100%; border: 1px solid var(--border); border-radius: 10px; background: var(--bg);
-  padding: 12px 13px; font-family: inherit; font-size: calc(14px * var(--fs)); color: var(--text); outline: none;
+  width: 100%; border: none; border-radius: 22px; background: var(--bg);
+  padding: 13px 17px; font-family: inherit; font-size: calc(14px * var(--fs)); color: var(--text); outline: none;
+  transition: box-shadow 0.2s, background 0.2s;
 }
-.composer-input:focus { border-color: var(--primary); background: var(--surface); }
-.composer-photo { position: relative; display: inline-block; margin: 10px 0 0; }
-.composer-photo img { max-width: 150px; max-height: 120px; border-radius: 10px; display: block; }
+.composer-input::placeholder { color: var(--text-faint); }
+.composer-input:focus { background: var(--surface); box-shadow: 0 0 0 2px var(--accent-line); }
+.composer-photo { position: relative; display: inline-block; margin: 12px 0 0; }
+.composer-photo img { max-width: 150px; max-height: 120px; border-radius: 12px; display: block; }
 .composer-photo-x { position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; background: #333; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-.composer-actions { display: flex; gap: 8px; margin-top: 10px; }
+.composer-actions { display: flex; align-items: center; gap: 4px; margin-top: 12px; }
 .composer-link {
-  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
-  border: 1px solid var(--border); border-radius: 10px; padding: 11px 6px;
-  background: var(--bg); color: var(--text); font-weight: 700; font-size: calc(13px * var(--fs));
+  display: inline-flex; align-items: center; gap: 6px;
+  border: none; border-radius: 20px; padding: 8px 12px;
+  background: transparent; color: var(--text-mut); font-weight: 700; font-size: calc(13px * var(--fs));
 }
-.composer-link i { color: var(--primary); font-size: calc(15px * var(--fs)); }
+.composer-link i { color: var(--primary); font-size: calc(16px * var(--fs)); }
 .composer-link:active { background: var(--primary-soft); }
 .composer-post {
-  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
-  background: var(--primary); color: #fff; border: none; border-radius: 10px;
-  padding: 11px 6px; font-weight: 800; font-size: calc(13px * var(--fs));
+  margin-left: auto; display: inline-flex; align-items: center; gap: 7px;
+  background: var(--primary); color: #fff; border: none; border-radius: 22px;
+  padding: 10px 20px; font-weight: 800; font-size: calc(13.5px * var(--fs));
+  box-shadow: 0 3px 12px rgba(46,125,50,0.25);
 }
-.composer-post:active { background: var(--primary-dark); }
+.composer-post:active { background: var(--primary-dark); transform: translateY(1px); }
 
 /* 검색순 인기 키워드 칩 */
 .kw-lead { font-size: calc(11.5px * var(--fs)); font-weight: 800; color: var(--text-mut); margin: 2px 0 8px; }
