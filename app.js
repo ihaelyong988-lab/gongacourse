@@ -18739,6 +18739,21 @@ let motionActive = false;
 let motionHandler = null;
 let motionState = { smoothed: 9.8, peaked: false, lastStepAt: 0, sinceSave: 0 };
 
+// 화면 꺼짐 방지(Screen Wake Lock) — 만보기 측정 중 화면이 자동으로 꺼지면
+// 센서 이벤트가 멈춰 카운트가 중단된다. 측정 중엔 화면을 켜둬 끊김 없이 카운트.
+let wakeLock = null;
+async function requestWakeLock() {
+  if (!("wakeLock" in navigator)) return; // 미지원 브라우저: graceful 무시
+  try {
+    wakeLock = await navigator.wakeLock.request("screen");
+    wakeLock.addEventListener("release", () => { wakeLock = null; });
+  } catch (e) { wakeLock = null; } // 권한·정책 거부 시 조용히 폴백
+}
+async function releaseWakeLock() {
+  try { if (wakeLock) await wakeLock.release(); } catch (e) {}
+  wakeLock = null;
+}
+
 async function toggleStepTracking() {
   if (motionActive) { stopStepTracking(); return; }
   if (typeof DeviceMotionEvent === "undefined") {
@@ -18763,6 +18778,7 @@ function startStepTracking() {
   motionHandler = onDeviceMotion;
   window.addEventListener("devicemotion", motionHandler);
   motionActive = true;
+  requestWakeLock(); // 측정 중 화면 꺼짐 방지 → 센서 끊김 없이 카운트 지속
   renderMypage();
 }
 
@@ -18770,6 +18786,7 @@ function stopStepTracking() {
   if (motionHandler) window.removeEventListener("devicemotion", motionHandler);
   motionHandler = null;
   motionActive = false;
+  releaseWakeLock();
   saveSteps();
   renderMypage();
 }
@@ -18863,7 +18880,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 백그라운드/화면꺼짐 전환 시 걸음 기록 즉시 저장(유실 방지)
-  // ※ 웹 한계: 백그라운드에서는 센서 이벤트가 멈춰 카운트는 일시정지(앱 복귀 시 재개)
-  document.addEventListener("visibilitychange", () => { if (document.hidden) saveSteps(); });
+  // 복귀 시: 측정 중이면 Wake Lock 재획득(앱 전환 시 자동 해제되므로) → 화면 다시 안 꺼지게.
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { saveSteps(); }
+    else if (motionActive && !wakeLock) { requestWakeLock(); }
+  });
   window.addEventListener("pagehide", saveSteps);
 });
