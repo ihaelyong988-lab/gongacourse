@@ -206,3 +206,9 @@
 1. **원인/한계(정직)**: 플립 닫힘=화면 꺼짐 → 브라우저가 DeviceMotion 정지. **모든 웹앱 공통 제약, 우회 불가**(진짜 백그라운드 만보기는 네이티브만). Wake Lock도 케이스/전원 강제 OFF는 못 막음.
 2. **변경(가능한 최대)**: ①**측정 ON 의도 영속화** `stepData.tracking` → `startStepTracking`서 true 저장, `stopStepTracking`서 false. ②**자동 재개** `resumeTrackingIfWanted()` — 콜드 로드(DOMContentLoaded)·탭 복귀(visibilitychange)서 tracking이면 자동 `startStepTracking`(매번 시작버튼 불필요). Android는 즉시 재개, iOS는 권한 제스처 필요라 재탭 1회. ③**자정 자동 리셋** `checkDayRollover`/`startMidnightWatcher`(30s 폴링) — days[]가 날짜별이라 새 날 0부터, 열린 채 자정 넘으면 표시 갱신, 과거는 주간바 보존. ④안내문구 정직화(자동재개·자정리셋·플립 한계 명시).
 3. **검증(eval)**: tracking 시작=true·영속화·정지=false, resume→motionActive 재개, 롤오버 갱신, 오늘/어제 독립(500/9999), 콘솔 에러 0. 실센서·플립은 실기기에서만.
+
+### 2026-06-28 — 소통 "인기 검색어" 라벨 명료화 + 칩 클래스 충돌 분리
+> 사용자: "검색하면 왜 '전체 #키워드'가 나오지요?" (소통→인기순의 인기 검색어 칩이 설명 없어 혼란)
+1. **원인/설명**: 그 "전체 #키워드 N"은 **소통 탭 '인기순' 정렬의 인기 검색어 칩**(§9 확정 스펙) — 상단 검색창에서 코스를 찾을 때마다 `searchCounts` 누적, 탭하면 그 키워드 후기만, '전체'=필터 해제. 버그 아님.
+2. **변경**: ①`renderCommKeywords`에 **`.kw-lead` 라벨**("🔥 인기 검색어 · 상단 검색창에서 많이 찾은 키워드, 탭하면 그 후기만") 추가로 자명화. ②**클래스 충돌 분리**: 상세 '출발 전 체크'의 준비물/검토 칩이 소통 인기칩과 같은 `.kw-chip`을 공유 → 상세 쪽을 `pc-chip`/`pc-block`/`pc-head`/`pc-wrap`로 개명(디커플). ⚠️ **교훈**: 신규 컴포넌트 클래스명은 기존과 겹치지 않게(공용 prefix 충돌 주의).
+3. **검증**: 인기순 라벨 노출, 상세 준비물 12칩=pc-chip(잔여 kw-chip 0), 콘솔 에러 0. (주의: python http.server 프리뷰는 브라우저 캐시가 stale될 수 있음 → `location.replace('/index.html?cb='+Date.now())`로 캐시 우회 검증.)

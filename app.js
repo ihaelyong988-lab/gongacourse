@@ -18063,7 +18063,7 @@ function courseChecks(c) {
   return [...new Set(v)];
 }
 function chipList(arr, cls) {
-  return arr.map(x => `<span class="kw-chip ${cls}">${x}</span>`).join("");
+  return arr.map(x => `<span class="pc-chip ${cls}">${x}</span>`).join("");
 }
 
 function renderDetail(courseId) {
@@ -18127,13 +18127,13 @@ function renderDetail(courseId) {
 
     <div class="d-card prep-card">
       <h4 class="d-card-title"><i class="fa-solid fa-clipboard-check"></i> 출발 전 체크</h4>
-      <div class="kw-block">
-        <span class="kw-head"><i class="fa-solid fa-backpack"></i> 사전 준비물</span>
-        <div class="kw-wrap">${chipList(coursePrep(c), "prep")}</div>
+      <div class="pc-block">
+        <span class="pc-head"><i class="fa-solid fa-backpack"></i> 사전 준비물</span>
+        <div class="pc-wrap">${chipList(coursePrep(c), "prep")}</div>
       </div>
-      <div class="kw-block">
-        <span class="kw-head"><i class="fa-solid fa-triangle-exclamation"></i> 검토 변수</span>
-        <div class="kw-wrap">${chipList(courseChecks(c), "check")}</div>
+      <div class="pc-block">
+        <span class="pc-head"><i class="fa-solid fa-triangle-exclamation"></i> 검토 변수</span>
+        <div class="pc-wrap">${chipList(courseChecks(c), "check")}</div>
       </div>
     </div>
 
@@ -18468,7 +18468,9 @@ function renderCommKeywords() {
     wrap.innerHTML = `<p class="kw-hint"><i class="fa-solid fa-fire"></i> 상단 검색창에서 코스를 찾을수록 인기 키워드가 모여요</p>`;
     return;
   }
-  wrap.innerHTML = `<div class="kw-row">
+  wrap.innerHTML = `
+    <div class="kw-lead"><i class="fa-solid fa-fire"></i> 인기 검색어 <span>· 상단 검색창에서 많이 찾은 키워드, 탭하면 그 후기만</span></div>
+    <div class="kw-row">
     <button class="kw-chip ${commKeyword === "" ? "on" : ""}" onclick="filterByKeyword('')">전체</button>
     ${kws.map(k => `<button class="kw-chip ${commKeyword === k ? "on" : ""}" onclick="filterByKeyword('${k}')">#${k} <b>${searchCounts[k]}</b></button>`).join("")}
   </div>`;
