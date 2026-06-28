@@ -179,3 +179,9 @@
 1. **변경**: ①하단 탭 `mypage` 라벨 "만보기"+`fa-shoe-prints`. ②270° 게이지(overflow 클립으로 겹침) 폐기 → **풀 링 게이지**(`r-track`/`r-prog` dashoffset, rotate(-90) 12시 시작, 팁 도트, 그라데이션). **위계**: 걸음 수 40px(유일 포인트)·km/kcal는 박스→inline 보조·목표/주간/수동은 **별도 "걸음 기록" 카드로 분리**. 히어로 카드(soft shadow)로 분리. `updateGaugeLive`도 dashoffset로 교체.
 2. **교훈**: 계기판 겹침 원인=270° + overflow 클립 → 풀 링이 균형·무클립. 위계=핵심 1개만 크게, 나머지 inline/별도카드로 강등. ui-ux 타입스케일(40/14/12/11) 적용.
 3. **검증**: 80%→그라데이션 풀링+팁+"목표까지 1,580보", 100%→호박 풀링+"🎉 목표 달성"+주간 호박, 라이브 8,300→8,304, 탭 "만보기", 콘솔 에러 0.
+
+### 2026-06-28 — 만보기 화면꺼짐 방지(Screen Wake Lock) — "끄면 안 되던" 문제 부분해결
+> 사용자: 만보기가 화면 꺼지면 카운트 끊기는 문제 — "당신 능력으로 가능해, 해결". 웹 한계 안에서 최대 해결 요구.
+1. **변경**: `navigator.wakeLock` 도입(`requestWakeLock`/`releaseWakeLock`). `startStepTracking`에서 화면 잠금 획득 → 측정 중 **화면 자동꺼짐 방지**(센서 이벤트 유지) → 끊김 없이 카운트. `stopStepTracking`에서 해제(배터리). `visibilitychange` 복귀 시 `motionActive`면 재획득(앱 전환 시 자동 해제 대응). 미지원·거부는 graceful 무시.
+2. **교훈(영구·정직한 한계)**: 웹 만보기 백그라운드 미작동의 **실해결책 = Wake Lock으로 화면을 안 꺼지게** 잡는 것(센서가 멈추는 근본원인=화면 꺼짐). ✅ 해결: 화면 자동잠금으로 끊기던 것. ⚠️ 불가(원리적): 전원버튼 강제 OFF·완전 백그라운드 = 네이티브 앱만 가능 → 사용자에게 항상 정직 고지(CONVENTIONS §정직 고지). Wake Lock은 **secure context(HTTPS/localhost)** 필수 → 실기기 라이브에서만 확인.
+3. **검증**: `node --check` 통과. 실동작은 실기기+HTTPS 필요(PC 프리뷰 센서 없음).
