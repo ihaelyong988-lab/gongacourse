@@ -4,7 +4,7 @@
     "UserPromptSubmit": [
       {
         "hooks": [
-          { "type": "command", "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":\"[하네스] 작업 전 AGENTS.md 우선 숙독. 자기개선(§0) 최우선: 사용자가 한번 설명한 작업 지시·방식·선호는 두번 다시 설명하게 하지 말 것 — 첫 지시에 CONVENTIONS/§4/§9/memory 기록 후, 새 작업 전 먼저 조회해 적용(재설명 요구 금지). 마감(§8): 검증→교훈 memory 기록→브랜치 커밋.\"}}'" }
+          { "type": "command", "command": "node scripts/harness-context.mjs" }
         ]
       }
     ],
