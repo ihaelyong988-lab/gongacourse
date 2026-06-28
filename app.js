@@ -18568,7 +18568,7 @@ function renderMypage() {
       <button class="track-btn ${motionActive ? "on" : ""}" onclick="toggleStepTracking()">
         <i class="fa-solid fa-${motionActive ? "stop" : "play"}"></i> ${motionActive ? "측정 정지" : "측정 시작"}
       </button>
-      <p class="hero-note"><i class="fa-solid fa-circle-info"></i> 폰을 들고 걸으면 센서로 자동 카운트 (HTTPS·동작 권한)</p>
+      <p class="hero-note"><i class="fa-solid fa-circle-info"></i> 앱이 켜진 화면에서 폰을 들고 걸으면 자동 카운트 (HTTPS·동작 권한). 화면 끄거나 다른 앱으로 가면 멈춰요(웹 한계).</p>
     </div>
 
     <!-- 기록 카드 (목표·주간·수동) — 보조 정보 -->
@@ -18861,4 +18861,9 @@ document.addEventListener("DOMContentLoaded", () => {
       else history.pushState({ screen: currentScreen }, "");
     }
   });
+
+  // 백그라운드/화면꺼짐 전환 시 걸음 기록 즉시 저장(유실 방지)
+  // ※ 웹 한계: 백그라운드에서는 센서 이벤트가 멈춰 카운트는 일시정지(앱 복귀 시 재개)
+  document.addEventListener("visibilitychange", () => { if (document.hidden) saveSteps(); });
+  window.addEventListener("pagehide", saveSteps);
 });
