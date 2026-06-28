@@ -152,3 +152,9 @@
 1. **변경**: 본문 `profile-row` 제거 → 앱바에 `appbar-profile`(이름+등급 2줄 + 아바타 최우측, `margin-left:auto`). `renderAppbarProfile()`가 채우고 `showScreen`이 mypage에서만 노출(타 화면 hidden). 아바타 업로드(`triggerAvatar`/`handleAvatar`)는 앱바로 이동, `handleAvatar`→`renderAppbarProfile()` 갱신.
 2. **교훈**: 화면별 앱바 컨텐츠는 `showScreen`에서 토글(검색=홈·탐색, 프로필=내정보). 본문 헤더를 앱바로 올리면 세로 절약.
 3. **검증**: 앱바 우측 이름+등급+아이콘 노출, 아바타 주입 반영, 홈 hidden·내정보 flex, 콘솔 에러 0.
+
+### 2026-06-28 — 탭 "내정보"→"만보기" + 만보기 히어로 풀링 계기판 재설계
+> 사용자: 하단 탭을 "만보기"로, 계기판이 겹치고·균형/위계 없고 조잡 → 직관 재설계.
+1. **변경**: ①하단 탭 `mypage` 라벨 "만보기"+`fa-shoe-prints`. ②270° 게이지(overflow 클립으로 겹침) 폐기 → **풀 링 게이지**(`r-track`/`r-prog` dashoffset, rotate(-90) 12시 시작, 팁 도트, 그라데이션). **위계**: 걸음 수 40px(유일 포인트)·km/kcal는 박스→inline 보조·목표/주간/수동은 **별도 "걸음 기록" 카드로 분리**. 히어로 카드(soft shadow)로 분리. `updateGaugeLive`도 dashoffset로 교체.
+2. **교훈**: 계기판 겹침 원인=270° + overflow 클립 → 풀 링이 균형·무클립. 위계=핵심 1개만 크게, 나머지 inline/별도카드로 강등. ui-ux 타입스케일(40/14/12/11) 적용.
+3. **검증**: 80%→그라데이션 풀링+팁+"목표까지 1,580보", 100%→호박 풀링+"🎉 목표 달성"+주간 호박, 라이브 8,300→8,304, 탭 "만보기", 콘솔 에러 0.

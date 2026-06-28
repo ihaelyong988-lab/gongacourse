@@ -548,38 +548,46 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .switch .knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: left 0.2s; }
 .switch.on .knob { left: 21px; }
 
-/* 만보기 — 모던 270° 계기판 */
-.ped-live { font-size: calc(10.5px * var(--fs)); font-weight: 800; color: #c0392b; margin-left: 6px; }
-/* 제목 줄 = 만보기 + (우측) 목표까지 N보 알약 */
-.ped-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.gauge-wrap { position: relative; width: 200px; height: 162px; margin: 6px auto 2px; overflow: hidden; }
-.gauge-svg { width: 200px; height: 200px; position: absolute; top: 0; left: 0; }
-.g-track { fill: none; stroke: var(--hair); stroke-width: 9; stroke-linecap: round; }
-.g-prog { fill: none; stroke: url(#pedGrad); stroke-width: 9; stroke-linecap: round; transition: stroke-dasharray 0.55s cubic-bezier(.4,0,.2,1); }
-.g-prog.done { stroke: var(--amber); }
-.g-tip { fill: #fff; stroke: var(--primary); stroke-width: 3; transition: cx 0.55s cubic-bezier(.4,0,.2,1), cy 0.55s cubic-bezier(.4,0,.2,1); }
-.gauge-center { position: absolute; left: 0; right: 0; top: 52px; display: flex; flex-direction: column; align-items: center; }
-.g-ic { color: var(--primary); font-size: calc(15px * var(--fs)); margin-bottom: 4px; opacity: 0.85; }
-.gauge-center strong { font-size: calc(34px * var(--fs)); font-weight: 900; color: var(--text); line-height: 1; letter-spacing: -1px; }
-.gauge-center span { font-size: calc(12px * var(--fs)); color: var(--text-mut); margin-top: 4px; }
-.gauge-center span b { color: var(--primary); font-weight: 800; }
+/* 만보기 — 풀 링 히어로 계기판 (걸음 수 = 유일한 포인트) */
+.ped-live { font-size: calc(10px * var(--fs)); font-weight: 800; color: #c0392b; margin-left: 5px; }
+.hero-ped { background: var(--surface); border: 1px solid var(--hair); border-radius: 16px; padding: 16px 16px 14px; box-shadow: 0 4px 16px rgba(20,40,30,0.06); margin-bottom: 12px; }
+.hero-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.hero-label { font-size: calc(12.5px * var(--fs)); font-weight: 800; color: var(--text-mut); }
+.hero-label i { color: var(--primary); margin-right: 5px; }
 .status-pill { display: inline-block; flex-shrink: 0; font-size: calc(11px * var(--fs)); font-weight: 800; color: var(--primary); background: var(--primary-soft); padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
 .status-pill.done { color: #8a5a00; background: var(--amber-soft); }
 
-.track-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--primary); color: #fff; border-radius: 12px; padding: 13px; font-weight: 800; font-size: calc(14px * var(--fs)); box-shadow: 0 3px 10px rgba(46,125,50,0.22); transition: background 0.2s, box-shadow 0.2s; }
-.track-btn.on { background: #c0392b; box-shadow: 0 3px 10px rgba(192,57,43,0.22); }
+.ring-wrap { position: relative; width: 188px; height: 188px; margin: 10px auto 6px; }
+.ring-svg { width: 188px; height: 188px; transform: rotate(0deg); }
+.r-track { fill: none; stroke: var(--hair); stroke-width: 10; }
+.r-prog { fill: none; stroke: url(#pedGrad); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.6s cubic-bezier(.4,0,.2,1); }
+.r-prog.done { stroke: var(--amber); }
+.r-tip { fill: #fff; stroke: var(--primary); stroke-width: 3.5; transition: cx 0.6s cubic-bezier(.4,0,.2,1), cy 0.6s cubic-bezier(.4,0,.2,1); }
+.r-prog.done ~ .r-tip { stroke: var(--amber); }
+.ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring-center strong { font-size: calc(40px * var(--fs)); font-weight: 900; color: var(--text); line-height: 0.95; letter-spacing: -1.5px; }
+.rc-unit { font-size: calc(13px * var(--fs)); color: var(--text-mut); margin-top: 5px; font-weight: 700; }
+.rc-pct { font-size: calc(11px * var(--fs)); color: var(--text-faint); margin-top: 7px; font-weight: 700; }
+.rc-pct b { color: var(--primary); font-weight: 800; }
+
+.hero-stats { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 4px 0 14px; font-size: calc(12.5px * var(--fs)); color: var(--text-mut); }
+.hero-stats > div { display: flex; align-items: center; gap: 5px; }
+.hero-stats i { color: var(--text-faint); font-size: calc(12px * var(--fs)); }
+.hero-stats b { color: var(--text); font-weight: 800; font-size: calc(14px * var(--fs)); }
+
+.track-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--primary); color: #fff; border-radius: 12px; padding: 14px; font-weight: 800; font-size: calc(14.5px * var(--fs)); box-shadow: 0 3px 12px rgba(46,125,50,0.25); transition: background 0.2s, box-shadow 0.2s; }
+.track-btn.on { background: #c0392b; box-shadow: 0 3px 12px rgba(192,57,43,0.25); }
 .track-btn:active { transform: translateY(1px); }
+.hero-note { font-size: calc(10.5px * var(--fs)); color: var(--text-faint); line-height: 1.5; margin: 10px 0 0; text-align: center; }
+.hero-note i { color: var(--primary); margin-right: 4px; }
 
-.ped-mini3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
-.ped-mini3 > div { background: var(--bg); border-radius: 11px; padding: 11px 4px; text-align: center; }
-.ped-mini3 strong { display: block; font-size: calc(17px * var(--fs)); font-weight: 900; color: var(--primary); }
-.ped-mini3 span { font-size: calc(10px * var(--fs)); color: var(--text-mut); }
-
-.goal-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 12px; }
+.ped-sub { font-size: calc(11.5px * var(--fs)); font-weight: 800; color: var(--text-faint); margin: 14px 0 8px; }
+.ped-sub:first-of-type { margin-top: 4px; }
+.goal-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .goal-chip { padding: 7px 2px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text-mut); font-weight: 800; font-size: calc(11px * var(--fs)); }
 .goal-chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 
-.ped-week { display: flex; align-items: flex-end; gap: 6px; height: 70px; margin-top: 14px; }
+.ped-week { display: flex; align-items: flex-end; gap: 6px; height: 70px; margin-top: 0; }
 .wk { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 5px; }
 .wk-bar { width: 62%; max-width: 24px; background: #d7e3d8; border-radius: 5px 5px 0 0; min-height: 4px; }
 .wk-bar.today { background: var(--primary); }
@@ -587,7 +595,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .wk-l { font-size: calc(10px * var(--fs)); color: var(--text-faint); font-weight: 700; }
 .wk-l.on { color: var(--primary); }
 
-.ped-quick { display: flex; gap: 6px; margin-top: 12px; }
+.ped-quick { display: flex; gap: 6px; margin-top: 0; }
 .q-chip { flex: 1; padding: 8px 4px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--primary); font-weight: 800; font-size: calc(11.5px * var(--fs)); }
 .q-chip.reset { color: var(--text-faint); }
 .q-chip:active { background: var(--primary-soft); }

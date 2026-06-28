@@ -18509,8 +18509,9 @@ function renderMypage() {
   const pct = Math.min(100, Math.round((steps / goal) * 100));
   const km = (steps * 0.0007).toFixed(2);
   const kcal = Math.round(steps * 0.04);
-  const dash = (pct * 0.75).toFixed(2); // 270° 게이지(pathLength 100 기준)
-  const tipAng = (135 + (pct / 100) * 270) * Math.PI / 180;
+  const C = 326.726; // 2πr, r=52 (풀 링)
+  const off = (C * (1 - pct / 100)).toFixed(1);
+  const tipAng = (-90 + (pct / 100) * 360) * Math.PI / 180;
   const tipX = (60 + 52 * Math.cos(tipAng)).toFixed(2);
   const tipY = (60 + 52 * Math.sin(tipAng)).toFixed(2);
   const remain = Math.max(0, goal - steps);
@@ -18532,52 +18533,58 @@ function renderMypage() {
       <div class="mstat s-blue"><i class="fa-solid fa-compass"></i><b>${courses.length}</b><span>코스</span></div>
     </div>
 
-    <div class="set-card ped-dash">
-      <div class="set-title ped-title">
-        <span><i class="fa-solid fa-shoe-prints"></i> 만보기 ${motionActive ? `<span class="ped-live">● 측정중</span>` : ""}</span>
+    <!-- 히어로: 풀 링 계기판 (걸음 수가 유일한 포인트) -->
+    <div class="hero-ped">
+      <div class="hero-top">
+        <span class="hero-label"><i class="fa-solid fa-shoe-prints"></i> 오늘 걸음 ${motionActive ? `<span class="ped-live">● 측정중</span>` : ""}</span>
         <span class="status-pill ${steps >= goal ? "done" : ""}" id="ped-status">${statusTxt}</span>
       </div>
 
-      <div class="gauge-wrap">
-        <svg viewBox="0 0 120 120" class="gauge-svg" aria-hidden="true">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 120 120" class="ring-svg" aria-hidden="true">
           <defs>
             <linearGradient id="pedGrad" x1="0" y1="1" x2="1" y2="0">
               <stop offset="0%" stop-color="#8ad6a0"/>
               <stop offset="100%" stop-color="#1b5e20"/>
             </linearGradient>
           </defs>
-          <circle cx="60" cy="60" r="52" class="g-track" pathLength="100"
-            stroke-dasharray="75 100" transform="rotate(135 60 60)"/>
-          <circle cx="60" cy="60" r="52" class="g-prog ${steps >= goal ? "done" : ""}" id="g-prog" pathLength="100"
-            stroke-dasharray="${dash} 100" transform="rotate(135 60 60)"/>
-          <circle cx="${tipX}" cy="${tipY}" r="4.5" class="g-tip" id="g-tip"/>
+          <circle cx="60" cy="60" r="52" class="r-track"/>
+          <circle cx="60" cy="60" r="52" class="r-prog ${steps >= goal ? "done" : ""}" id="g-prog"
+            stroke-dasharray="${C}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
+          <circle cx="${tipX}" cy="${tipY}" r="5" class="r-tip" id="g-tip"/>
         </svg>
-        <div class="gauge-center">
-          <i class="fa-solid fa-shoe-prints g-ic"></i>
+        <div class="ring-center">
           <strong id="ped-steps">${steps.toLocaleString()}</strong>
-          <span>걸음 · <b id="ped-pct">${pct}%</b></span>
+          <span class="rc-unit">걸음</span>
+          <span class="rc-pct">목표 <b id="ped-pct">${pct}%</b></span>
         </div>
+      </div>
+
+      <div class="hero-stats">
+        <div><i class="fa-solid fa-route"></i><b id="ped-km">${km}</b> km</div>
+        <div><i class="fa-solid fa-fire"></i><b id="ped-kcal">${kcal}</b> kcal</div>
       </div>
 
       <button class="track-btn ${motionActive ? "on" : ""}" onclick="toggleStepTracking()">
         <i class="fa-solid fa-${motionActive ? "stop" : "play"}"></i> ${motionActive ? "측정 정지" : "측정 시작"}
       </button>
+      <p class="hero-note"><i class="fa-solid fa-circle-info"></i> 폰을 들고 걸으면 센서로 자동 카운트 (HTTPS·동작 권한)</p>
+    </div>
 
-      <div class="ped-mini3">
-        <div><strong id="ped-km">${km}</strong><span>거리 km</span></div>
-        <div><strong id="ped-kcal">${kcal}</strong><span>칼로리</span></div>
-        <div><strong>${(goal / 1000)}천</strong><span>목표 걸음</span></div>
-      </div>
-
+    <!-- 기록 카드 (목표·주간·수동) — 보조 정보 -->
+    <div class="set-card">
+      <div class="set-title"><i class="fa-solid fa-chart-simple"></i> 걸음 기록</div>
+      <div class="ped-sub">하루 목표</div>
       <div class="goal-row">${goalChips}</div>
+      <div class="ped-sub">최근 7일</div>
       <div class="ped-week">${weekBars}</div>
+      <div class="ped-sub">수동 기록</div>
       <div class="ped-quick">
         <button class="q-chip" onclick="addSteps(1000)">+1,000</button>
         <button class="q-chip" onclick="addSteps(3000)">+3,000</button>
         <button class="q-chip" onclick="addSteps(5000)">+5,000</button>
         <button class="q-chip reset" onclick="setTodaySteps(0)">초기화</button>
       </div>
-      <p class="ped-note"><i class="fa-solid fa-circle-info"></i> “측정 시작” 후 폰을 들고 걸으면 가속도 센서로 자동 카운트(HTTPS·동작 권한 필요). 수동 기록은 아래 버튼.</p>
     </div>
 
     <div class="set-card">
@@ -18798,8 +18805,9 @@ function updateGaugeLive() {
   const steps = todaySteps();
   const goal = stepData.goal;
   const pct = Math.min(100, Math.round((steps / goal) * 100));
-  const dash = (pct * 0.75).toFixed(2);
-  const ang = (135 + (pct / 100) * 270) * Math.PI / 180;
+  const C = 326.726;
+  const off = (C * (1 - pct / 100)).toFixed(1);
+  const ang = (-90 + (pct / 100) * 360) * Math.PI / 180;
   const tipX = (60 + 52 * Math.cos(ang)).toFixed(2);
   const tipY = (60 + 52 * Math.sin(ang)).toFixed(2);
   const set = (id, txt) => { const e = document.getElementById(id); if (e) e.textContent = txt; };
@@ -18809,7 +18817,7 @@ function updateGaugeLive() {
   set("ped-kcal", Math.round(steps * 0.04));
   const prog = document.getElementById("g-prog");
   if (prog) {
-    prog.setAttribute("stroke-dasharray", dash + " 100");
+    prog.setAttribute("stroke-dashoffset", off);
     prog.classList.toggle("done", steps >= goal);
   }
   const tip = document.getElementById("g-tip");
