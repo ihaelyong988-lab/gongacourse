@@ -17410,10 +17410,14 @@ let visitorSettings = {
   companion: "none",
   transport: "car",
   fontSize: "medium",
-  highContrast: false
+  highContrast: false,
+  nick: "",      // 간편등록 필명 (미설정 시 기본 NICK)
+  phone: "",     // 간편등록 휴대폰(로컬 저장만, 외부 전송 없음)
+  avatar: ""     // 프로필 사진(dataURL)
 };
 
-const NICK = "나들이 대장님";
+const DEFAULT_NICK = "나들이 대장님";
+let NICK = DEFAULT_NICK; // 필명(간편등록 시 visitorSettings.nick으로 갱신)
 
 // -----------------------------------------------------------------------------
 // 영속화
@@ -17484,11 +17488,12 @@ function showScreen(id, state) {
   const showSearch = (id === "home" || id === "explore");
   const searchEl = document.getElementById("appbar-search");
   if (searchEl) searchEl.style.display = showSearch ? "flex" : "none";
-  // 내정보에선 프로필(이름+아이콘)을 앱바 우측에 노출
+  // 프로필(필명+사진)은 상단 우측 앱바에만 노출(본문 중복 스트립 없음, 등급줄 없음).
   const profEl = document.getElementById("appbar-profile");
   if (profEl) {
-    profEl.style.display = (id === "mypage") ? "flex" : "none";
-    if (id === "mypage") renderAppbarProfile();
+    const showProf = (id === "mypage" || id === "community" || id === "saved");
+    profEl.style.display = showProf ? "flex" : "none";
+    if (showProf) renderAppbarProfile();
   }
   window.scrollTo(0, 0);
   if (el) el.scrollTop = 0;
@@ -18122,8 +18127,14 @@ function renderDetail(courseId) {
     }).join("")
     : `<p class="muted-note">주변 등록된 식당 정보가 없어요. 도시락을 준비하세요.</p>`;
 
+  // 회원이 올린 코스 사진. 라벨로 정체를 명확히 하고, 깨진 이미지는 자동 제거해
+  // 빈 회색 사각형이 남지 않게 한다(사진 0장이면 영역 자체를 숨김).
   const gallery = (c.photos && c.photos.length)
-    ? `<div class="photo-gallery">${c.photos.map(p => `<div class="gphoto" style="background-image:url('${p}')" onclick="openPhotoZoom(this)"></div>`).join("")}</div>`
+    ? `<div class="member-gallery" id="member-gallery">
+         <div class="mg-head"><i class="fa-solid fa-camera-retro"></i> 회원 사진</div>
+         <div class="photo-gallery">${c.photos.map(p =>
+           `<img class="gphoto" src="${p}" alt="회원이 올린 코스 사진" loading="lazy" onclick="openPhotoZoom(this)" onerror="this.remove(); var g=document.getElementById('member-gallery'); if(g&&!g.querySelector('.gphoto'))g.remove();">`).join("")}</div>
+       </div>`
     : "";
 
   const voted = localStorage.getItem(`voted_course_${c.id}`);
@@ -18240,7 +18251,7 @@ function renderComments() {
     let rb = "";
     if (cm.ratings) rb = `<div class="cm-rates"><span>⛰️${cm.ratings.scenery}</span><span>🥾${cm.ratings.path}</span><span>🚗${cm.ratings.parking}</span></div>`;
     return `<div class="comment">
-      <div class="cm-av"><i class="fa-solid fa-comment-dots"></i></div>
+      ${avatarHtml(cm.user, "cm-av")}
       <div class="cm-body">
         <div class="cm-user">${cm.user}</div>${rb}
         <div class="cm-text">${cm.text}</div>
@@ -18436,7 +18447,7 @@ function feedItemHtml(it) {
   return `
     <div class="feed-card" ${onClick}>
       <div class="fc-head">
-        <div class="fc-av"><i class="fa-solid fa-user"></i></div>
+        ${avatarHtml(it.user, "fc-av")}
         <div class="fc-who"><span class="fc-user">${it.user}</span><span class="fc-date">${it.date}</span></div>
         ${ratingBadge}${mineDel}
       </div>
@@ -18644,19 +18655,59 @@ function renderSaved() {
   const tip = healthTip();
   const doneCount = missions.filter(m => m.done).length;
 
+  // 일/주/월 통계
+  const R = healthRange;                       // day | week | month
+  const st = healthStats(R);
+  const rTitle = R === "month" ? "이번 달 건강" : R === "week" ? "이번 주 건강" : "오늘의 건강";
+  const rKm = (st.steps * 0.0007).toFixed(R === "day" ? 2 : 1);
+  const rKcal = Math.round(st.steps * 0.04);
+  const rStepLabel = R === "day" ? "걸음" : "총 걸음";
+  const seg = ["day", "week", "month"].map(k =>
+    `<button class="hh-seg-btn ${R === k ? "on" : ""}" onclick="setHealthRange('${k}')">${k === "day" ? "일" : k === "week" ? "주" : "월"}</button>`).join("");
+
+  let hhBody;
+  if (R === "day") {
+    // 오늘: 목표 진행률 막대 + 지표
+    hhBody = `
+      <div class="hh-metrics">
+        <div><b>${st.steps.toLocaleString()}</b><span>${rStepLabel}</span></div>
+        <div><b>${rKm}</b><span>km</span></div>
+        <div><b>${rKcal}</b><span>kcal</span></div>
+        <div><b>${pct}%</b><span>목표</span></div>
+      </div>
+      <div class="hh-bar"><span style="width:${pct}%"></span></div>`;
+  } else {
+    // 주/월: 막대그래프 + 합계 지표
+    const cmax = Math.max(goal, ...st.days.map(d => d.steps), 1);
+    const todayK = dayKey();
+    const bars = st.days.map((d, i) => {
+      const h = Math.max(3, Math.round((d.steps / cmax) * 100));
+      const isToday = d.key === todayK;
+      // 월: 라벨 과밀 방지 → 매 7번째(주 시작)와 오늘만 노출(끝부분 겹침 방지)
+      const showLbl = R === "week" || isToday || (i % 7 === 0 && i < st.n - 2);
+      return `<div class="cb"><div class="cb-bar ${isToday ? "today" : ""} ${d.steps >= goal ? "hit" : ""}" style="height:${h}%"></div><span class="cb-l">${showLbl ? d.label : ""}</span></div>`;
+    }).join("");
+    hhBody = `
+      <div class="hh-chart" role="img" aria-label="${R === "week" ? "최근 7일" : "최근 30일"} 일별 걸음 막대그래프">${bars}</div>
+      <div class="hh-metrics">
+        <div><b>${st.steps.toLocaleString()}</b><span>${rStepLabel}</span></div>
+        <div><b>${rKm}</b><span>km</span></div>
+        <div><b>${rKcal}</b><span>kcal</span></div>
+        <div><b>${st.activeDays}/${st.n}</b><span>활동일</span></div>
+      </div>`;
+  }
+  const hhBadge = R === "day"
+    ? `<span class="hh-badge ${st.steps >= goal ? "done" : ""}">${pct}%</span>`
+    : `<span class="hh-badge ${st.hitDays > 0 ? "done" : ""}">목표 ${st.hitDays}일</span>`;
+
   root.innerHTML = `
     <div class="health-hero">
       <div class="hh-top">
-        <span class="hh-title"><i class="fa-solid fa-heart-pulse"></i> 오늘의 건강</span>
-        <span class="hh-badge ${steps >= goal ? "done" : ""}">${pct}%</span>
+        <span class="hh-title"><i class="fa-solid fa-heart-pulse"></i> ${rTitle}</span>
+        ${hhBadge}
       </div>
-      <div class="hh-metrics">
-        <div><b>${steps.toLocaleString()}</b><span>걸음</span></div>
-        <div><b>${km}</b><span>km</span></div>
-        <div><b>${kcal}</b><span>kcal</span></div>
-        <div><b>${activeDays}/7</b><span>활동일</span></div>
-      </div>
-      <div class="hh-bar"><span style="width:${pct}%"></span></div>
+      <div class="hh-seg" role="tablist" aria-label="기간 선택">${seg}</div>
+      ${hhBody}
       <button class="hh-cta" onclick="goTab('mypage')"><i class="fa-solid fa-shoe-prints"></i> 만보기 열어 측정 시작 <i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
@@ -18698,109 +18749,116 @@ function renderMypage() {
   courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myCount++; }));
   let grade = myCount >= 5 ? "산책 명인" : myCount >= 2 ? "나들이 매니아" : "초보 걷기꾼";
 
-  const steps = todaySteps();
   const goal = stepData.goal;
+  const avatar = visitorSettings.avatar || "";
+  const key = pedDate || dayKey();
+  const isToday = key === dayKey();
+  const steps = stepData.days[key] || 0;
   const pct = Math.min(100, Math.round((steps / goal) * 100));
-  const km = (steps * 0.0007).toFixed(2);
+  const m = Math.round(steps * 0.7);
+  const distTxt = m >= 1000 ? (m / 1000).toFixed(2) + " km" : m + " m";
   const kcal = Math.round(steps * 0.04);
-  const C = 326.726; // 2πr, r=52 (풀 링)
-  const off = (C * (1 - pct / 100)).toFixed(1);
-  const tipAng = (-90 + (pct / 100) * 360) * Math.PI / 180;
-  const tipX = (60 + 52 * Math.cos(tipAng)).toFixed(2);
-  const tipY = (60 + 52 * Math.sin(tipAng)).toFixed(2);
-  const remain = Math.max(0, goal - steps);
-  const statusTxt = steps >= goal ? "🎉 목표 달성!" : `목표까지 ${remain.toLocaleString()}보`;
-  const week = weekDays();
-  const weekMax = Math.max(goal, ...week.map(d => d.steps), 1);
-  const goalChips = [6000, 8000, 10000, 12000].map(g =>
-    `<button class="goal-chip ${goal === g ? "on" : ""}" onclick="setStepGoal(${g})">${g / 1000}천</button>`).join("");
-  const weekBars = week.map((d, i) => {
-    const h = Math.max(4, Math.round((d.steps / weekMax) * 100));
-    const isToday = i === week.length - 1;
-    return `<div class="wk"><div class="wk-bar ${isToday ? "today" : ""} ${d.steps >= goal ? "hit" : ""}" style="height:${h}%"></div><span class="wk-l ${isToday ? "on" : ""}">${d.label}</span></div>`;
-  }).join("");
+
+  // 일/주/월 세그먼트
+  const seg = ["day", "week", "month"].map(k =>
+    `<button class="p2-seg-btn ${pedView === k ? "on" : ""}" onclick="setPedView('${k}')">${k === "day" ? "일" : k === "week" ? "주" : "월"}</button>`).join("");
+
+  let body;
+  if (pedView === "day") {
+    const remainTxt = steps >= goal ? "목표 달성!" : `목표까지 ${Math.max(0, goal - steps).toLocaleString()}보`;
+    const elapsed = (isToday && pedSession.startTs) ? fmtElapsed(sessionElapsedMs()) : "00:00:00";
+    const speed = (isToday && pedSession.startTs) ? sessionSpeedKmh().toFixed(1) : "0.0";
+    body = `
+      <div class="p2-date">
+        <button class="p2-nav" onclick="pedDateShift(-1)" aria-label="이전 날"><i class="fa-solid fa-chevron-left"></i></button>
+        <span class="p2-dtxt">${fmtDateKo(key)}</span>
+        <button class="p2-nav ${isToday ? "dim" : ""}" onclick="pedDateShift(1)" ${isToday ? "disabled" : ""} aria-label="다음 날"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="p2-hero">
+        <i class="fa-solid fa-shoe-prints p2-foot" aria-hidden="true"></i>
+        <b id="ped2-steps">${steps.toLocaleString()}</b>
+      </div>
+      <div class="p2-goalline">
+        <div class="p2-goalbar"><span id="ped2-goalbar" style="width:${pct}%"></span></div>
+        <span class="p2-goalmeta"><b id="ped2-goalpct">${pct}%</b> · <span id="ped2-remain">${remainTxt}</span></span>
+      </div>
+      <div class="p2-grid">
+        <div class="p2-cell"><b id="ped2-kcal">${kcal}</b><span>칼로리 kcal</span></div>
+        <div class="p2-cell"><b id="ped2-dist">${distTxt}</b><span>거리</span></div>
+        <div class="p2-cell"><b id="ped2-time">${elapsed}</b><span>측정 시간</span></div>
+        <div class="p2-cell"><b id="ped2-speed">${speed}</b><span>속도 km/h</span></div>
+      </div>
+      <div class="p2-graph" id="ped2-graph">${pedGraphSvg(key)}</div>
+      ${isToday
+        ? `<button class="p2-track ${motionActive ? "on" : ""}" onclick="toggleStepTracking()"><i class="fa-solid fa-${motionActive ? "stop" : "play"}"></i> ${motionActive ? "중지" : "측정 시작"}</button>`
+        : `<div class="p2-pastnote">지난 기록 조회 중 · <button class="p2-today" onclick="pedDateShift(99)">오늘로</button></div>`}
+    `;
+  } else {
+    const st = healthStats(pedView); // week | month 집계 재사용
+    const cmax = Math.max(goal, ...st.days.map(d => d.steps), 1);
+    const todayK = dayKey();
+    const bars = st.days.map((d, i) => {
+      const h = Math.max(3, Math.round((d.steps / cmax) * 100));
+      const isT = d.key === todayK;
+      const showLbl = pedView === "week" || isT || (i % 7 === 0 && i < st.n - 2);
+      return `<div class="cb"><div class="cb-bar ${isT ? "today" : ""} ${d.steps >= goal ? "hit" : ""}" style="height:${h}%"></div><span class="cb-l">${showLbl ? d.label : ""}</span></div>`;
+    }).join("");
+    const tKm = (st.steps * 0.0007).toFixed(1), tKcal = Math.round(st.steps * 0.04);
+    body = `
+      <div class="p2-chart">${bars}</div>
+      <div class="p2-grid">
+        <div class="p2-cell"><b>${st.steps.toLocaleString()}</b><span>총 걸음</span></div>
+        <div class="p2-cell"><b>${tKm}</b><span>km</span></div>
+        <div class="p2-cell"><b>${tKcal}</b><span>kcal</span></div>
+        <div class="p2-cell"><b>${st.activeDays}/${st.n}</b><span>활동일</span></div>
+      </div>
+    `;
+  }
 
   root.innerHTML = `
-    <div class="mini-stats">
-      <div class="mstat s-teal" onclick="goTab('saved')"><i class="fa-regular fa-bookmark"></i><b>${savedCourses.length}</b><span>저장</span></div>
-      <div class="mstat s-amber" onclick="goTab('community')"><i class="fa-regular fa-comment-dots"></i><b>${myCount}</b><span>후기</span></div>
-      <div class="mstat s-blue"><i class="fa-solid fa-compass"></i><b>${courses.length}</b><span>코스</span></div>
+    <!-- 만보기 카드 (초록 컨셉 · 일/주/월 + ⋮) -->
+    <div class="ped2 ${motionActive ? "measuring" : ""} ${pedView === "day" ? "fill" : ""}">
+      <div class="ped2-head">
+        <div class="p2-seg">${seg}</div>
+        <button class="p2-menu" onclick="togglePedMenu(event)" aria-label="메뉴(수정·공유·설정)"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+      </div>
+      ${body}
     </div>
 
-    <!-- 히어로: 풀 링 계기판 (걸음 수가 유일한 포인트) -->
-    <div class="hero-ped ${motionActive ? "measuring" : ""}">
-      <div class="hero-top">
-        <span class="hero-label"><i class="fa-solid fa-shoe-prints"></i> 오늘 걸음</span>
-        <span class="status-pill ${steps >= goal ? "done" : ""}" id="ped-status">${statusTxt}</span>
-      </div>
-
-      <div class="ring-wrap">
-        <svg viewBox="0 0 120 120" class="ring-svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="pedGrad" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stop-color="#8ad6a0"/>
-              <stop offset="100%" stop-color="#1b5e20"/>
-            </linearGradient>
-          </defs>
-          <circle cx="60" cy="60" r="52" class="r-track"/>
-          <circle cx="60" cy="60" r="52" class="r-prog ${steps >= goal ? "done" : ""}" id="g-prog"
-            stroke-dasharray="${C}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
-          <circle cx="${tipX}" cy="${tipY}" r="5" class="r-tip" id="g-tip"/>
-        </svg>
-        <div class="ring-center">
-          <strong id="ped-steps">${steps.toLocaleString()}</strong>
-          <span class="rc-unit">걸음</span>
-          <span class="rc-pct">목표 <b id="ped-pct">${pct}%</b></span>
+    <!-- ⋮ 시트: 수정 / 공유 / 설정 -->
+    <div class="p2-sheet" id="p2-sheet" hidden>
+      <div class="p2-sheet-sec">
+        <div class="p2-sheet-t"><i class="fa-solid fa-pen-to-square"></i> 수정 · 수동 기록</div>
+        <div class="ped-quick">
+          <button class="q-chip" onclick="addSteps(1000)">+1,000</button>
+          <button class="q-chip" onclick="addSteps(3000)">+3,000</button>
+          <button class="q-chip" onclick="addSteps(5000)">+5,000</button>
+          <button class="q-chip reset" onclick="setTodaySteps(0)">초기화</button>
         </div>
       </div>
-
-      <div class="hero-stats">
-        <div><i class="fa-solid fa-route"></i><b id="ped-km">${km}</b> km</div>
-        <div><i class="fa-solid fa-fire"></i><b id="ped-kcal">${kcal}</b> kcal</div>
+      <div class="p2-sheet-sec">
+        <div class="p2-sheet-t"><i class="fa-solid fa-share-nodes"></i> 공유</div>
+        <button class="p2-share" onclick="sharePed()"><i class="fa-solid fa-share-nodes"></i> 오늘 걸음 공유하기</button>
       </div>
-
-      ${motionActive
-      ? `<div class="measure-banner">
-           <span class="mb-live"><span class="mb-dot"></span> 측정 중</span>
-           <span class="mb-wake"><i class="fa-solid fa-lightbulb"></i> 화면 꺼짐 방지 ON</span>
-         </div>`
-      : ""}
-
-      <button class="track-btn ${motionActive ? "on" : ""}" onclick="toggleStepTracking()">
-        <i class="fa-solid fa-${motionActive ? "stop" : "play"}"></i> ${motionActive ? "측정 정지" : "측정 시작"}
-      </button>
-      <p class="hero-note"><i class="fa-solid fa-circle-info"></i> 폰을 들고 걸으면 자동 카운트돼요. 측정 중엔 <b>화면이 안 꺼지게</b> 잡아두고, <b>앱을 다시 열면 자동으로 이어서</b> 측정해요. 걸음 수는 <b>매일 자정에 0으로 리셋</b>(지난 기록은 주간 그래프에 보존). <br><span class="note-warn">단, 플립을 닫거나 전원 버튼으로 화면을 끄면 그동안엔 멈춰요 — 진짜 백그라운드 측정은 네이티브 앱만 가능한 웹의 한계예요. (열어두면 끊김 없이 측정)</span></p>
-    </div>
-
-    <!-- 기록 카드 (목표·주간·수동) — 보조 정보 -->
-    <div class="set-card">
-      <div class="set-title"><i class="fa-solid fa-chart-simple"></i> 걸음 기록</div>
-      <div class="ped-sub">하루 목표</div>
-      <div class="goal-row">${goalChips}</div>
-      <div class="ped-sub">최근 7일</div>
-      <div class="ped-week">${weekBars}</div>
-      <div class="ped-sub">수동 기록</div>
-      <div class="ped-quick">
-        <button class="q-chip" onclick="addSteps(1000)">+1,000</button>
-        <button class="q-chip" onclick="addSteps(3000)">+3,000</button>
-        <button class="q-chip" onclick="addSteps(5000)">+5,000</button>
-        <button class="q-chip reset" onclick="setTodaySteps(0)">초기화</button>
-      </div>
-    </div>
-
-    <div class="set-card">
-      <div class="set-title"><i class="fa-solid fa-universal-access"></i> 화면 접근성</div>
-      <div class="set-row"><span>글자 크기</span>
-        <div class="seg small">
-          ${fontBtn("medium", "보통")}${fontBtn("large", "크게")}${fontBtn("xlarge", "아주크게")}
+      <div class="p2-sheet-sec">
+        <div class="p2-sheet-t"><i class="fa-solid fa-gear"></i> 설정</div>
+        <div class="ped-sub">하루 목표</div>
+        <div class="goal-row">${[6000, 8000, 10000, 12000].map(g => `<button class="goal-chip ${goal === g ? "on" : ""}" onclick="setStepGoal(${g})">${g / 1000}천</button>`).join("")}</div>
+        <div class="set-row"><span>글자 크기</span>
+          <div class="seg small">${fontBtn("medium", "보통")}${fontBtn("large", "크게")}${fontBtn("xlarge", "아주크게")}</div>
+        </div>
+        <div class="set-row toggle-row" onclick="toggleContrast()">
+          <span><i class="fa-solid fa-circle-half-stroke"></i> 고대비 모드</span>
+          <span class="switch ${visitorSettings.highContrast ? "on" : ""}"><span class="knob"></span></span>
         </div>
       </div>
-      <div class="set-row toggle-row" onclick="toggleContrast()">
-        <span>🕶️ 고대비 모드</span>
-        <span class="switch ${visitorSettings.highContrast ? "on" : ""}"><span class="knob"></span></span>
-      </div>
+      <p class="p2-note"><i class="fa-solid fa-circle-info"></i> 폰을 들고 걸으면 자동 카운트돼요. 측정 중엔 화면을 켜두면 끊김 없이 측정되고, 앱을 다시 열면 이어서 측정해요. 걸음은 매일 자정에 0으로 리셋(지난 기록은 주·월 그래프에 보존).</p>
     </div>
   `;
+  // 측정 중 세션 타이머 표시 보장(오늘 조회 시)
+  if (motionActive && isToday && !pedSession.timer) {
+    pedSession.timer = setInterval(updateSessionLive, 1000);
+  }
 }
 
 function segBtn(group, val, label) {
@@ -18817,26 +18875,102 @@ function setSetting(group, val) {
   localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   renderMypage();
 }
-// 앱바 우측 프로필(이름+등급+아이콘) 렌더
+// 앱바 우측 프로필(필명 + 사진) — 보조 등급줄 제거(간결), 탭 시 간편등록 모달
 function renderAppbarProfile() {
   const el = document.getElementById("appbar-profile");
   if (!el) return;
-  let myCount = 0;
-  courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myCount++; }));
-  const grade = myCount >= 5 ? "산책 명인" : myCount >= 2 ? "나들이 매니아" : "초보 걷기꾼";
   const avatar = visitorSettings.avatar || "";
   el.innerHTML = `
-    <div class="ap-meta">
-      <span class="ap-name">${NICK}</span>
-      <span class="ap-grade">${grade} · 후기 ${myCount}개</span>
-    </div>
-    <button class="ap-avatar ${avatar ? "has" : ""}" onclick="triggerAvatar()" aria-label="프로필 사진 등록"
+    <button class="ap-name-btn" onclick="openProfileEdit()">${NICK}</button>
+    <button class="ap-avatar ${avatar ? "has" : ""}" onclick="openProfileEdit()" aria-label="프로필 등록"
       style="${avatar ? `background-image:url('${avatar}')` : ""}">
       ${avatar ? "" : `<i class="fa-solid fa-user-astronaut"></i>`}
       <span class="ap-cam"><i class="fa-solid fa-camera"></i></span>
     </button>
-    <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="handleAvatar(event)">
   `;
+}
+
+// ── 만보기 상태/동작 ─────────────────────────────────────────────
+let pedView = "day";   // day | week | month
+let pedDate = null;    // null=오늘, 아니면 dayKey 문자열(과거 조회)
+function setPedView(v) { if (pedView === v) return; pedView = v; closePedSheet(); renderMypage(); }
+function pedDateShift(d) {
+  if (d === 99) { pedDate = null; renderMypage(); return; }
+  const base = pedDate ? new Date(pedDate + "T00:00:00") : new Date();
+  base.setDate(base.getDate() + d);
+  const todayK = dayKey();
+  let k = dayKey(base);
+  if (k > todayK) k = todayK;            // 미래 차단
+  pedDate = (k === todayK) ? null : k;
+  renderMypage();
+}
+function fmtDateKo(key) {
+  const d = new Date(key + "T00:00:00");
+  const dow = ["일", "월", "화", "수", "목", "금", "토"][d.getDay()];
+  const tag = (key === dayKey()) ? "오늘 · " : "";
+  return `${tag}${d.getMonth() + 1}월 ${d.getDate()}일(${dow})`;
+}
+function togglePedMenu(e) { if (e) e.stopPropagation(); const s = document.getElementById("p2-sheet"); if (s) s.hidden = !s.hidden; }
+function closePedSheet() { const s = document.getElementById("p2-sheet"); if (s) s.hidden = true; }
+function sharePed() {
+  const steps = todaySteps();
+  const km = (steps * 0.0007).toFixed(2);
+  const txt = `오늘 ${NICK}님의 걸음: ${steps.toLocaleString()}보 (약 ${km}km) — 꽁아코스`;
+  if (navigator.share) navigator.share({ title: "꽁아코스 만보기", text: txt }).catch(() => {});
+  else if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => alert("공유 문구를 복사했어요!\n\n" + txt), () => alert(txt));
+  else alert(txt);
+}
+
+// ── 프로필 간편등록(필명·휴대폰·사진) 모달 ───────────────────────
+function openProfileEdit() {
+  let ov = document.getElementById("prof-modal");
+  if (!ov) { ov = document.createElement("div"); ov.id = "prof-modal"; ov.className = "prof-modal"; document.body.appendChild(ov); }
+  const avatar = visitorSettings.avatar || "";
+  const esc = s => (s || "").replace(/"/g, "&quot;");
+  ov.innerHTML = `
+    <div class="pm-card" role="dialog" aria-label="프로필 등록">
+      <div class="pm-head"><b>프로필 등록</b><button class="pm-x" onclick="closeProfileEdit()" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="pm-avwrap">
+        <button class="pm-av ${avatar ? "has" : ""}" onclick="triggerAvatar()" aria-label="프로필 사진 선택"
+          style="${avatar ? `background-image:url('${avatar}')` : ""}">
+          ${avatar ? "" : `<i class="fa-solid fa-user-astronaut"></i>`}<span class="pm-cam"><i class="fa-solid fa-camera"></i></span>
+        </button>
+        <span class="pm-avhint">사진 선택 (선택)</span>
+        <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="handleAvatar(event)">
+      </div>
+      <label class="pm-field"><span>필명</span>
+        <input type="text" id="pm-nick" maxlength="16" placeholder="예: 나들이 대장님" value="${esc(visitorSettings.nick)}">
+      </label>
+      <label class="pm-field"><span>휴대폰 번호 (선택)</span>
+        <input type="tel" id="pm-phone" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" value="${esc(visitorSettings.phone)}">
+      </label>
+      <p class="pm-priv"><i class="fa-solid fa-lock"></i> 입력 정보는 이 기기에만 저장되며 외부로 전송되지 않아요.</p>
+      <button class="pm-save" onclick="saveProfile()">간편 등록</button>
+    </div>`;
+  ov.classList.add("on");
+  ov.onclick = ev => { if (ev.target === ov) closeProfileEdit(); };
+  setTimeout(() => { const n = document.getElementById("pm-nick"); if (n) n.focus(); }, 50);
+}
+function closeProfileEdit() { const ov = document.getElementById("prof-modal"); if (ov) ov.classList.remove("on"); }
+function saveProfile() {
+  const nick = (document.getElementById("pm-nick").value || "").trim();
+  const phone = (document.getElementById("pm-phone").value || "").trim();
+  visitorSettings.nick = nick;
+  visitorSettings.phone = phone;
+  NICK = nick || DEFAULT_NICK;
+  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  closeProfileEdit();
+  renderAppbarProfile();
+  if (currentScreen === "mypage") renderMypage();
+  else if (currentScreen === "community") renderCommunity();
+  else if (currentScreen === "saved") renderSaved();
+}
+
+// 작성자 아바타(본인=내 사진, 그 외=기본 아이콘)
+function avatarHtml(user, cls) {
+  const av = visitorSettings.avatar || "";
+  if (user === NICK && av) return `<div class="${cls} has" style="background-image:url('${av}')"></div>`;
+  return `<div class="${cls}"><i class="fa-solid fa-user"></i></div>`;
 }
 
 // 프로필 사진 등록 (로컬 저장, Canvas 리사이즈)
@@ -18861,6 +18995,10 @@ function handleAvatar(e) {
       visitorSettings.avatar = canvas.toDataURL("image/jpeg", 0.8);
       localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
       renderAppbarProfile();
+      // 프로필 모달이 열려 있으면 미리보기 갱신(입력값은 보존)
+      const pmav = document.querySelector("#prof-modal .pm-av");
+      if (pmav) { pmav.classList.add("has"); pmav.style.backgroundImage = `url('${visitorSettings.avatar}')`; pmav.innerHTML = `<span class="pm-cam"><i class="fa-solid fa-camera"></i></span>`; }
+      if (currentScreen === "mypage") { const a = document.querySelector(".my-prof .mp-av"); if (a) { a.classList.add("has"); a.style.backgroundImage = `url('${visitorSettings.avatar}')`; a.innerHTML = ""; } }
     };
     img.src = ev.target.result;
   };
@@ -18895,6 +19033,7 @@ function loadVisitorSettings() {
     const s = localStorage.getItem("gongacourse_visitor_settings");
     if (s) visitorSettings = Object.assign(visitorSettings, JSON.parse(s));
   } catch (e) {}
+  if (visitorSettings.nick) NICK = visitorSettings.nick;
   applyFontSize();
   document.body.classList.toggle("contrast-high", visitorSettings.highContrast);
 }
@@ -18903,12 +19042,45 @@ function loadVisitorSettings() {
 // 만보기 (걸음 기록·계기판) — 로컬 저장 기반 기록형
 // -----------------------------------------------------------------------------
 // tracking: 측정 ON 의도를 영속화 → 앱을 다시 열면 자동 재개. days는 날짜별이라 자정에 자동 0 리셋.
-let stepData = { goal: 8000, days: {}, tracking: false };
+let stepData = { goal: 8000, days: {}, hours: {}, tracking: false };
 function loadSteps() {
   try {
     const s = localStorage.getItem("gongacourse_steps");
-    if (s) stepData = Object.assign({ goal: 8000, days: {}, tracking: false }, JSON.parse(s));
-  } catch (e) { stepData = { goal: 8000, days: {}, tracking: false }; }
+    if (s) stepData = Object.assign({ goal: 8000, days: {}, hours: {}, tracking: false }, JSON.parse(s));
+  } catch (e) { stepData = { goal: 8000, days: {}, hours: {}, tracking: false }; }
+  if (!stepData.hours) stepData.hours = {};
+}
+// 시간대별 걸음(0~23시) — 시간대 그래프 & 누적선 생성용
+function dayHours(k) {
+  k = k || dayKey();
+  if (!stepData.hours) stepData.hours = {};
+  if (!stepData.hours[k]) stepData.hours[k] = new Array(24).fill(0);
+  return stepData.hours[k];
+}
+function addHourSteps(n, k, hour) {
+  const arr = dayHours(k);
+  const h = (hour == null) ? new Date().getHours() : hour;
+  arr[Math.max(0, Math.min(23, h))] += n;
+}
+function cumulativeHours(k) {
+  const arr = dayHours(k), out = []; let s = 0;
+  for (let i = 0; i < 24; i++) { s += arr[i]; out.push(s); }
+  return out;
+}
+
+// 측정 세션(시간·속도 산출) — 측정 시작~정지 기준
+let pedSession = { startTs: 0, startSteps: 0, timer: null };
+function sessionElapsedMs() { return pedSession.startTs ? Date.now() - pedSession.startTs : 0; }
+function fmtElapsed(ms) {
+  const t = Math.floor(ms / 1000);
+  const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+  return [h, m, s].map(x => String(x).padStart(2, "0")).join(":");
+}
+function sessionStepDelta() { return Math.max(0, todaySteps() - pedSession.startSteps); }
+function sessionSpeedKmh() {
+  const hrs = sessionElapsedMs() / 3600000;
+  if (hrs <= 0) return 0;
+  return (sessionStepDelta() * 0.0007) / hrs;
 }
 function saveSteps() { localStorage.setItem("gongacourse_steps", JSON.stringify(stepData)); }
 function dayKey(d) {
@@ -18917,10 +19089,18 @@ function dayKey(d) {
 }
 function todaySteps() { return stepData.days[dayKey()] || 0; }
 function setTodaySteps(v) {
-  stepData.days[dayKey()] = Math.max(0, parseInt(v, 10) || 0);
+  const k = dayKey();
+  const val = Math.max(0, parseInt(v, 10) || 0);
+  stepData.days[k] = val;
+  if (val === 0) stepData.hours[k] = new Array(24).fill(0); // 초기화 시 시간대도 리셋
   saveSteps(); renderMypage();
 }
-function addSteps(delta) { setTodaySteps(todaySteps() + delta); }
+function addSteps(delta) {
+  const k = dayKey();
+  stepData.days[k] = Math.max(0, (stepData.days[k] || 0) + delta);
+  addHourSteps(delta, k);            // 수동 기록도 현재 시간대에 누적
+  saveSteps(); renderMypage();
+}
 function setStepGoal(v) {
   stepData.goal = Math.max(1000, parseInt(v, 10) || 8000);
   saveSteps(); renderMypage();
@@ -18934,6 +19114,37 @@ function weekDays() {
     arr.push({ key: k, label: dow[d.getDay()], steps: stepData.days[k] || 0 });
   }
   return arr;
+}
+// 최근 30일 (헬스 '월' 통계용) — 라벨은 일자(매주 시작점만 노출)
+function monthDays() {
+  const arr = [], now = new Date();
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+    const k = dayKey(d);
+    arr.push({ key: k, label: String(d.getDate()), steps: stepData.days[k] || 0 });
+  }
+  return arr;
+}
+// 헬스 일/주/월 통계 — 기간별 집계
+let healthRange = "day"; // day | week | month
+function setHealthRange(r) {
+  if (healthRange === r) return;
+  healthRange = r;
+  if (currentScreen === "saved") renderSaved();
+}
+function healthStats(range) {
+  const goal = stepData.goal;
+  if (range === "day") {
+    const s = todaySteps();
+    return { steps: s, days: [{ label: "오늘", steps: s, key: dayKey() }], n: 1, hitDays: s >= goal ? 1 : 0, activeDays: s > 0 ? 1 : 0 };
+  }
+  const days = range === "month" ? monthDays() : weekDays();
+  const steps = days.reduce((a, d) => a + d.steps, 0);
+  return {
+    steps, days, n: days.length,
+    hitDays: days.filter(d => d.steps >= goal).length,
+    activeDays: days.filter(d => d.steps > 0).length
+  };
 }
 
 // --- 실시간 걸음 측정 (DeviceMotion 가속도계 피크 검출) ---
@@ -18981,6 +19192,11 @@ function startStepTracking() {
   window.addEventListener("devicemotion", motionHandler);
   motionActive = true;
   stepData.tracking = true; // 측정 ON 의도 영속화 → 앱 재시작/재방문 시 자동 재개
+  // 측정 세션 시작(시간·속도 산출 기준점)
+  pedSession.startTs = Date.now();
+  pedSession.startSteps = todaySteps();
+  if (pedSession.timer) clearInterval(pedSession.timer);
+  pedSession.timer = setInterval(updateSessionLive, 1000); // 시간·속도 1초마다 갱신
   saveSteps();
   requestWakeLock(); // 측정 중 화면 꺼짐 방지 → 센서 끊김 없이 카운트 지속
   renderMypage();
@@ -18991,9 +19207,18 @@ function stopStepTracking() {
   motionHandler = null;
   motionActive = false;
   stepData.tracking = false; // 사용자가 명시적으로 정지 → 자동 재개 안 함
+  if (pedSession.timer) { clearInterval(pedSession.timer); pedSession.timer = null; }
+  pedSession.startTs = 0;
   releaseWakeLock();
   saveSteps();
   renderMypage();
+}
+// 세션 시간·속도만 1초마다 갱신(전체 재렌더 없이)
+function updateSessionLive() {
+  const t = document.getElementById("ped2-time");
+  const sp = document.getElementById("ped2-speed");
+  if (t) t.textContent = fmtElapsed(sessionElapsedMs());
+  if (sp) sp.textContent = sessionSpeedKmh().toFixed(1);
 }
 
 // 앱을 다시 열었을 때(콜드 로드/탭 복귀) 측정 ON 의도가 남아있으면 자동 재개.
@@ -19013,7 +19238,10 @@ function checkDayRollover() {
   if (_lastDayKey === null) { _lastDayKey = k; return; }
   if (k !== _lastDayKey) {
     _lastDayKey = k;
-    if (currentScreen === "mypage") renderMypage();
+    // 측정 중이면 새 날의 세션(시간·속도·시간대 그래프)을 자동으로 새로 시작
+    // → "시작" 한 번이면 자정을 넘겨 매일 24시간 자동 작동(일단위 리셋).
+    if (motionActive) { pedSession.startTs = Date.now(); pedSession.startSteps = 0; }
+    if (currentScreen === "mypage") { pedDate = null; renderMypage(); }
     else if (currentScreen === "saved") renderSaved();
   }
 }
@@ -19044,37 +19272,75 @@ function onDeviceMotion(e) {
 function countOneStep() {
   const k = dayKey();
   stepData.days[k] = (stepData.days[k] || 0) + 1;
+  addHourSteps(1, k);
   motionState.sinceSave++;
-  if (motionState.sinceSave >= 10) { saveSteps(); motionState.sinceSave = 0; }
+  if (motionState.sinceSave >= 10) { saveSteps(); motionState.sinceSave = 0; redrawPedGraph(); }
   updateGaugeLive();
 }
 
+// 측정 중 숫자(걸음·칼로리·거리·목표)를 전체 재렌더 없이 즉시 갱신
 function updateGaugeLive() {
+  // 오늘(측정 중)만 라이브 갱신 — 과거 날짜 조회 중이면 무시
+  if (pedDate && pedDate !== dayKey()) return;
   const steps = todaySteps();
   const goal = stepData.goal;
   const pct = Math.min(100, Math.round((steps / goal) * 100));
-  const C = 326.726;
-  const off = (C * (1 - pct / 100)).toFixed(1);
-  const ang = (-90 + (pct / 100) * 360) * Math.PI / 180;
-  const tipX = (60 + 52 * Math.cos(ang)).toFixed(2);
-  const tipY = (60 + 52 * Math.sin(ang)).toFixed(2);
+  const m = Math.round(steps * 0.7);
   const set = (id, txt) => { const e = document.getElementById(id); if (e) e.textContent = txt; };
-  set("ped-steps", steps.toLocaleString());
-  set("ped-pct", pct + "%");
-  set("ped-km", (steps * 0.0007).toFixed(2));
-  set("ped-kcal", Math.round(steps * 0.04));
-  const prog = document.getElementById("g-prog");
-  if (prog) {
-    prog.setAttribute("stroke-dashoffset", off);
-    prog.classList.toggle("done", steps >= goal);
+  set("ped2-steps", steps.toLocaleString());
+  set("ped2-kcal", Math.round(steps * 0.04));
+  set("ped2-dist", m >= 1000 ? (m / 1000).toFixed(2) + " km" : m + " m");
+  set("ped2-goalpct", pct + "%");
+  const bar = document.getElementById("ped2-goalbar");
+  if (bar) bar.style.width = pct + "%";
+  const rem = document.getElementById("ped2-remain");
+  if (rem) rem.textContent = steps >= goal ? "목표 달성!" : `목표까지 ${Math.max(0, goal - steps).toLocaleString()}보`;
+}
+// 시간대 누적 그래프만 다시 그림(10보마다)
+function redrawPedGraph() {
+  const g = document.getElementById("ped2-graph");
+  if (!g) return;
+  const key = pedDate || dayKey();
+  if (key !== dayKey()) return; // 오늘 조회 중일 때만 라이브 갱신
+  g.innerHTML = pedGraphSvg(key);
+}
+// 시간대(0~24시) 누적 걸음 Area 차트 — Y축 K(천보) 눈금·가로 그리드 + X축 시(時)
+function pedGraphSvg(key) {
+  const cum = cumulativeHours(key);
+  const goal = stepData.goal;
+  const rawMax = Math.max(goal, cum[23], 1);
+  const niceMax = Math.max(4000, Math.ceil(rawMax / 4000) * 4000); // 4구간 K 눈금
+  const W = 335, H = 140, PAD_L = 30, PAD_R = 8, PAD_T = 10, PAD_B = 20;
+  const plotW = W - PAD_L - PAD_R, plotH = H - PAD_T - PAD_B;
+  const xAt = i => PAD_L + (Math.min(i, 24) / 24) * plotW;
+  const yAt = v => PAD_T + plotH - (v / niceMax) * plotH;
+  const nowH = (key === dayKey()) ? new Date().getHours() : 23;
+  // Y 그리드 + K 라벨 (0, 1/4, 1/2, 3/4, max)
+  let grid = "";
+  for (let g = 0; g <= 4; g++) {
+    const v = (niceMax / 4) * g, y = yAt(v).toFixed(1);
+    grid += `<line x1="${PAD_L}" y1="${y}" x2="${W - PAD_R}" y2="${y}" class="pg-grid"/>`;
+    grid += `<text x="${PAD_L - 5}" y="${(+y + 3).toFixed(1)}" class="pg-yl" text-anchor="end">${v === 0 ? "0" : (v / 1000) + "K"}</text>`;
   }
-  const tip = document.getElementById("g-tip");
-  if (tip) { tip.setAttribute("cx", tipX); tip.setAttribute("cy", tipY); }
-  const status = document.getElementById("ped-status");
-  if (status) {
-    status.textContent = steps >= goal ? "🎉 목표 달성!" : `목표까지 ${Math.max(0, goal - steps).toLocaleString()}보`;
-    status.classList.toggle("done", steps >= goal);
-  }
+  // 누적 선/면 (현재 시각까지)
+  let pts = [];
+  for (let i = 0; i <= nowH; i++) pts.push(`${xAt(i).toFixed(1)},${yAt(cum[i]).toFixed(1)}`);
+  if (!pts.length) pts.push(`${xAt(0).toFixed(1)},${yAt(0).toFixed(1)}`);
+  const line = pts.join(" ");
+  const lastX = xAt(nowH), lastY = yAt(cum[Math.max(0, nowH)] || 0);
+  const baseY = (PAD_T + plotH).toFixed(1);
+  const area = `${PAD_L},${baseY} ${line} ${lastX.toFixed(1)},${baseY}`;
+  // 목표선(점선) + X 시간 라벨
+  const goalLine = goal <= niceMax ? `<line x1="${PAD_L}" y1="${yAt(goal).toFixed(1)}" x2="${W - PAD_R}" y2="${yAt(goal).toFixed(1)}" class="pg-goal"/>` : "";
+  const xlabels = [0, 6, 12, 18, 24].map(h =>
+    `<text x="${xAt(h).toFixed(1)}" y="${H - 5}" class="pg-xl" text-anchor="${h === 0 ? "start" : h === 24 ? "end" : "middle"}">${h}시</text>`).join("");
+  const dot = `<circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3.5" class="pg-dot"/>`;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" class="pg-svg" role="img" aria-label="시간대별 누적 걸음(세로축 K=천보, 가로축 시)">
+    ${grid}${goalLine}
+    <polygon points="${area}" class="pg-area"/>
+    <polyline points="${line}" class="pg-line"/>
+    ${dot}${xlabels}
+  </svg>`;
 }
 
 // -----------------------------------------------------------------------------
