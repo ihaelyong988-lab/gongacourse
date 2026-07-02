@@ -17386,7 +17386,7 @@ let currentScreen = "home";
 let searchKeyword = "";
 let currentRegionFilter = "all";
 let currentSeasonFilter = "all";
-let currentThemeFilter = "all";
+let currentThemeFilters = []; // 취향 칩 다중선택(AND 교집합) — 빈 배열 = 전체 (P1)
 
 // 후기 입력 상태
 let activeRatings = { scenery: 0, path: 0, parking: 0 };
@@ -17574,6 +17574,42 @@ function hasTemple(c) {
   if (spotIsTemple(c.title)) return true;
   return c.timeline.some(t => spotIsTemple(t.spot));
 }
+
+// 취향 태그 감지 5종 (docs/OPTIMIZE.md P1) — spotIsTemple 패턴 복제.
+// 제목+동선(timeline spot) 텍스트가 태깅 원천(데이터 수작업 0). 토큰 단위로
+// 전용어(WORD)를 매칭하되 상호명 등 오탐 토큰(BAD)은 배제한다.
+function spotHasTag(s, word, bad) {
+  if (!s) return false;
+  return s.split(/[,\s·~()]+/).some(tok => tok && word.test(tok) && !(bad && bad.test(tok)));
+}
+function courseHasTag(c, word, bad) {
+  if (spotHasTag(c.title, word, bad)) return true;
+  return c.timeline.some(t => spotHasTag(t.spot, word, bad));
+}
+const WATERFALL_WORD = /폭포|瀑/;
+const WATERFALL_BAD = /폭포수커피|폭포카페|폭포수식당|폭포식당|폭포가든/;
+function hasWaterfall(c) { return courseHasTag(c, WATERFALL_WORD, WATERFALL_BAD); }
+const VALLEY_WORD = /계곡|협곡/;
+const VALLEY_BAD = /계곡가든|계곡식당|계곡카페/;
+function hasValley(c) { return courseHasTag(c, VALLEY_WORD, VALLEY_BAD); }
+// 바다: 전용어 + '○○섬(길)'·'○○항'(2자+) 접미 토큰.
+// 섬진강(강)·무섬마을(내륙 강변)·공항·운항 등 오탐 배제.
+const SEA_WORD = /바다|바닷|해변|해수욕|해안|갯벌|방파제|등대|포구|항구|해상|선착장|여객선|유람선/;
+const SEA_ISLE_BAD = /섬진|무섬|섬유|섬세/;
+const SEA_PORT_BAD = /공항|운항|입항|출항|밀항|저항|대항|반항/;
+function hasSea(c) {
+  if (courseHasTag(c, SEA_WORD, null)) return true;
+  return [c.title].concat(c.timeline.map(t => t.spot)).some(s =>
+    s && s.split(/[,\s·~()]+/).some(tok => tok && (
+      (!SEA_ISLE_BAD.test(tok) && /[가-힣]{2,}섬(길|투어|여행)?$/.test(tok)) ||
+      (!SEA_PORT_BAD.test(tok) && /[가-힣]{2,}항$/.test(tok)))));
+}
+const LAKE_WORD = /호수|저수지|호반|댐/;
+const LAKE_BAD = /호수식당|호수카페|호수가든/;
+function hasLake(c) { return courseHasTag(c, LAKE_WORD, LAKE_BAD); }
+const FOREST_WORD = /숲|수목원|휴양림|편백|삼림욕/;
+const FOREST_BAD = /숲카페|숲속식당|숲가든/;
+function hasForest(c) { return courseHasTag(c, FOREST_WORD, FOREST_BAD); }
 function isPetFriendly(c) {
   return c.title.includes("숲길") || c.title.includes("공원") || c.location.includes("제주");
 }
@@ -17653,8 +17689,29 @@ function openPhotoZoom(el) {
 // -----------------------------------------------------------------------------
 // 코스 카드 (탐색/저장/홈 공용)
 // -----------------------------------------------------------------------------
+// 코스 카드 취향 태그 뱃지 — 감지 순서대로 최대 2개 (P1). 기존 카드 레이아웃 유지.
+const PREF_TAGS = [
+  { k: "waterfall", n: "폭포", f: hasWaterfall },
+  { k: "valley", n: "계곡", f: hasValley },
+  { k: "sea", n: "바다", f: hasSea },
+  { k: "lake", n: "호수", f: hasLake },
+  { k: "forest", n: "숲", f: hasForest },
+  { k: "temple", n: "사찰", f: hasTemple }
+];
+function coursePrefTags(c) {
+  const out = [];
+  for (const t of PREF_TAGS) {
+    if (t.f(c)) { out.push(t); if (out.length === 2) break; }
+  }
+  return out;
+}
+
 function courseCardHtml(course) {
   const ratioClass = course.satisfaction >= 95 ? "high" : "";
+  const prefs = coursePrefTags(course);
+  const prefTag = prefs.length
+    ? `<div class="cc-prefs">${prefs.map(p => `<span class="cc-pref pref-${p.k}">${p.n}</span>`).join("")}</div>`
+    : "";
   let foodTag = "";
   if (course.foods && course.foods.length > 0) {
     foodTag = `<span class="cc-food"><i class="fa-solid fa-utensils"></i> ${course.foods.slice(0, 2).join(" · ")}</span>`;
@@ -17681,6 +17738,7 @@ function courseCardHtml(course) {
           </button>
         </div>
         <h3 class="cc-title">${course.title} ${badge}</h3>
+        ${prefTag}
         ${foodTag}
         <div class="cc-foot">
           <span class="cc-stat"><i class="fa-solid fa-mountain"></i> ${course.difficulty}</span>
@@ -17805,8 +17863,8 @@ function gotoSituation(key) {
   searchKeyword = "";
   currentRegionFilter = "all";
   currentSeasonFilter = "all";
-  currentThemeFilter = "all";
-  if (key === "easy" || key === "food" || key === "temple" || key === "long") currentThemeFilter = key;
+  currentThemeFilters = [];
+  if (key === "easy" || key === "food" || key === "temple" || key === "long") currentThemeFilters = [key];
   navigate("explore");
 }
 
@@ -17923,10 +17981,24 @@ const SEASONS = [
   { k: "spring", n: "봄" }, { k: "summer", n: "여름" },
   { k: "autumn", n: "가을" }, { k: "winter", n: "겨울" }
 ];
+// 취향 칩 8종 (P1) — 기존 4종 + 폭포·계곡·바다·호수/숲. 다중선택 시 AND 교집합.
 const THEMES = [
-  { k: "easy", n: "쉬운산책" }, { k: "food", n: "맛집연계" },
-  { k: "temple", n: "사찰탐방" }, { k: "long", n: "장거리" }
+  { k: "easy", n: "쉬운산책" }, { k: "food", n: "맛집" },
+  { k: "temple", n: "사찰" }, { k: "waterfall", n: "폭포" },
+  { k: "valley", n: "계곡" }, { k: "sea", n: "바다" },
+  { k: "lakeforest", n: "호수/숲" }, { k: "long", n: "장거리" }
 ];
+function matchesTheme(c, k) {
+  if (k === "easy") return isEasy(c) || parseHours(c.duration) <= 2;
+  if (k === "food") return hasFood(c);
+  if (k === "temple") return hasTemple(c);
+  if (k === "waterfall") return hasWaterfall(c);
+  if (k === "valley") return hasValley(c);
+  if (k === "sea") return hasSea(c);
+  if (k === "lakeforest") return hasLake(c) || hasForest(c);
+  if (k === "long") return parseHours(c.duration) >= 3 || !isEasy(c);
+  return true;
+}
 
 function chip(active, label, onclick) {
   return `<button class="chip ${active ? "on" : ""}" onclick="${onclick}">${label}</button>`;
@@ -17937,10 +18009,19 @@ let openDrawer = null;
 
 function setRegion(r) { currentRegionFilter = r; openDrawer = null; renderExploreFilters(); renderExploreList(); }
 function setSeason(s) { currentSeasonFilter = s; openDrawer = null; renderExploreFilters(); renderExploreList(); }
-function setTheme(t) { currentThemeFilter = t; openDrawer = null; renderExploreFilters(); renderExploreList(); }
+// 취향 칩은 다중선택(AND)이라 토글식 — 서랍을 닫지 않고 계속 고를 수 있게 유지
+function setTheme(t) {
+  if (t === "all") currentThemeFilters = [];
+  else {
+    const i = currentThemeFilters.indexOf(t);
+    if (i >= 0) currentThemeFilters.splice(i, 1);
+    else currentThemeFilters.push(t);
+  }
+  renderExploreFilters(); renderExploreList();
+}
 function toggleDrawer(g) { openDrawer = (openDrawer === g ? null : g); renderExploreFilters(); }
 function clearFilters() {
-  searchKeyword = ""; currentRegionFilter = "all"; currentSeasonFilter = "all"; currentThemeFilter = "all";
+  searchKeyword = ""; currentRegionFilter = "all"; currentSeasonFilter = "all"; currentThemeFilters = [];
   openDrawer = null;
   const gs = document.getElementById("global-search");
   if (gs) gs.value = "";
@@ -17950,6 +18031,13 @@ function clearFilters() {
 // 검색어 동의어 → 테마 의미 매핑. "맛집"을 치면 literal 'manjip' 텍스트만 매칭돼 8개뿐이라
 // 사용자가 기대하는 "맛집 있는 코스 전체"가 안 나옴 → 음식 동의어는 hasFood로 확장 매칭.
 const FOOD_SYN = ["맛집", "맛집연계", "먹거리", "음식", "식당", "맛집투어", "맛집코스"];
+// 취향 동의어 확장 (P1) — FOOD_SYN 패턴 재사용. "폭포"만 쳐도 감지 함수로 전체 매칭.
+const WATERFALL_SYN = ["폭포", "폭포수", "폭포코스", "폭포투어"];
+const VALLEY_SYN = ["계곡", "협곡", "물놀이", "계곡코스"];
+const SEA_SYN = ["바다", "해변", "해수욕장", "해안", "섬", "섬여행", "섬투어", "바닷가"];
+const LAKE_SYN = ["호수", "저수지", "호반", "댐"];
+const FOREST_SYN = ["숲", "숲길", "수목원", "휴양림", "편백", "삼림욕", "치유의숲"];
+const TEMPLE_SYN = ["사찰", "절", "암자", "사찰탐방", "산사"];
 function getFilteredCourses() {
   const norm = searchKeyword.toLowerCase().replace(/\s+/g, "");
   return courses.filter(c => {
@@ -17960,15 +18048,17 @@ function getFilteredCourses() {
         || (c.type || "").toLowerCase().replace(/\s+/g, "").includes(norm)
         || (c.foods || []).some(f => f.toLowerCase().replace(/\s+/g, "").includes(norm))
         || c.timeline.some(t => t.spot.toLowerCase().replace(/\s+/g, "").includes(norm))
-        || (FOOD_SYN.includes(norm) && hasFood(c)); // "맛집/먹거리" 검색 → 맛집 보유 코스 전체
+        || (FOOD_SYN.includes(norm) && hasFood(c)) // "맛집/먹거리" 검색 → 맛집 보유 코스 전체
+        || (WATERFALL_SYN.includes(norm) && hasWaterfall(c))
+        || (VALLEY_SYN.includes(norm) && hasValley(c))
+        || (SEA_SYN.includes(norm) && hasSea(c))
+        || (LAKE_SYN.includes(norm) && hasLake(c))
+        || (FOREST_SYN.includes(norm) && hasForest(c))
+        || (TEMPLE_SYN.includes(norm) && hasTemple(c));
     }
     let r = matchesRegion(c, currentRegionFilter);
     let se = currentSeasonFilter === "all" || c.season === currentSeasonFilter;
-    let th = true;
-    if (currentThemeFilter === "easy") th = isEasy(c) || parseHours(c.duration) <= 2;
-    else if (currentThemeFilter === "food") th = hasFood(c);
-    else if (currentThemeFilter === "temple") th = hasTemple(c);
-    else if (currentThemeFilter === "long") th = parseHours(c.duration) >= 3 || !isEasy(c);
+    let th = currentThemeFilters.every(k => matchesTheme(c, k)); // 다중선택 AND 교집합
     return s && r && se && th;
   });
 }
@@ -17987,7 +18077,12 @@ function applyPersonalSort(list) {
 }
 
 function regionText() { return currentRegionFilter === "all" ? "전체" : currentRegionFilter; }
-function themeText() { const t = THEMES.find(x => x.k === currentThemeFilter); return t ? t.n : "전체"; }
+function themeText() {
+  if (!currentThemeFilters.length) return "전체";
+  const names = currentThemeFilters.map(k => (THEMES.find(x => x.k === k) || {}).n).filter(Boolean);
+  if (!names.length) return "전체";
+  return names.length > 1 ? `${names[0]} 외 ${names.length - 1}` : names[0];
+}
 function seasonText() { const s = SEASONS.find(x => x.k === currentSeasonFilter); return s ? s.n : "전체"; }
 
 function drawerTab(group, label, valueText) {
@@ -18016,7 +18111,7 @@ function renderExplore() {
 function renderExploreFilters() {
   const host = document.getElementById("filter-sticky");
   if (!host) return;
-  const anyFilter = currentRegionFilter !== "all" || currentSeasonFilter !== "all" || currentThemeFilter !== "all" || searchKeyword;
+  const anyFilter = currentRegionFilter !== "all" || currentSeasonFilter !== "all" || currentThemeFilters.length > 0 || searchKeyword;
 
   let drawer = "";
   if (openDrawer === "region") {
@@ -18026,8 +18121,9 @@ function renderExploreFilters() {
     </div>`;
   } else if (openDrawer === "theme") {
     drawer = `<div class="filter-drawer">
-      ${chip(currentThemeFilter === "all", "전체 테마", "setTheme('all')")}
-      ${THEMES.map(t => chip(currentThemeFilter === t.k, t.n, `setTheme('${t.k}')`)).join("")}
+      ${chip(currentThemeFilters.length === 0, "전체 테마", "setTheme('all')")}
+      ${THEMES.map(t => chip(currentThemeFilters.includes(t.k), t.n, `setTheme('${t.k}')`)).join("")}
+      <span class="drawer-hint">여러 개 선택하면 모두 만족하는 코스만 보여요</span>
     </div>`;
   } else if (openDrawer === "season") {
     drawer = `<div class="filter-drawer">
@@ -18054,7 +18150,23 @@ function renderExploreList() {
   const filtered = applyPersonalSort(getFilteredCourses());
   if (countEl) countEl.textContent = `총 ${filtered.length}개 코스`;
   if (filtered.length === 0) {
-    list.innerHTML = `<div class="empty"><i class="fa-solid fa-filter-circle-xmark"></i><p>조건에 맞는 코스가 없어요</p><span>필터를 바꾸거나 초기화해 보세요</span></div>`;
+    // 조건 완화 제안 (P1) — 취향 태그 중 해제 시 결과가 가장 많아지는 1개를 제안
+    let relax = "";
+    if (currentThemeFilters.length > 0) {
+      let best = null;
+      currentThemeFilters.forEach(k => {
+        const saved = currentThemeFilters;
+        currentThemeFilters = saved.filter(x => x !== k);
+        const n = getFilteredCourses().length;
+        currentThemeFilters = saved;
+        if (n > 0 && (!best || n > best.n)) best = { k, n };
+      });
+      if (best) {
+        const name = (THEMES.find(x => x.k === best.k) || { n: best.k }).n;
+        relax = `<button class="relax-btn" onclick="setTheme('${best.k}')">'${name}' 태그를 풀면 코스 ${best.n}개</button>`;
+      }
+    }
+    list.innerHTML = `<div class="empty"><i class="fa-solid fa-filter-circle-xmark"></i><p>조건에 맞는 코스가 없어요</p><span>필터를 바꾸거나 초기화해 보세요</span>${relax}</div>`;
     return;
   }
   list.innerHTML = filtered.map(courseCardHtml).join("");
