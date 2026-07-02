@@ -19,7 +19,8 @@
     "Stop": [
       {
         "hooks": [
-          { "type": "command", "command": "node scripts/validate.mjs" }
+          { "type": "command", "command": "node scripts/validate.mjs" },
+          { "type": "command", "command": "node scripts/growth-gate.mjs", "timeout": 10 }
         ]
       }
     ]
