@@ -275,6 +275,16 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 .chip.clear { color: var(--text-mut); border-style: dashed; }
 .chip:active { transform: scale(0.95); }
+/* 취향 서랍 다중선택 안내 (P1) */
+.drawer-hint { width: 100%; font-size: calc(11px * var(--fs)); color: var(--text-mut); padding-top: 2px; }
+/* 결과 0건 조건 완화 제안 버튼 (P1) — 터치 타깃 44px 이상 */
+.relax-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 14px; min-height: 44px; padding: 10px 18px; border-radius: 22px;
+  border: 1px solid var(--primary); background: var(--primary-soft);
+  color: var(--primary-dark); font-weight: 800; font-size: calc(13px * var(--fs));
+}
+.relax-btn:active { transform: scale(0.97); }
 
 /* ---- 계절 비주얼(CSS 생성 이미지: 그라데이션+산 실루엣+이모지) ---- */
 .season-visual {
@@ -316,6 +326,12 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .badge-child { background: var(--blue-soft); color: #185fa5; }
 .cc-food { font-size: calc(11.5px * var(--fs)); color: var(--text-mut); display: block; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cc-food i { color: var(--amber); margin-right: 3px; }
+/* 취향 태그 뱃지 (코스 카드, 최대 2개 — P1) */
+.cc-prefs { display: flex; gap: 4px; margin-bottom: 5px; }
+.cc-pref { font-size: calc(10px * var(--fs)); font-weight: 800; padding: 2px 8px; border-radius: 10px; background: var(--primary-soft); color: var(--primary-dark); }
+.pref-sea, .pref-lake { background: var(--blue-soft); color: #185fa5; }
+.pref-waterfall, .pref-valley { background: var(--teal-soft); color: #0b7261; }
+.pref-temple { background: var(--amber-soft); color: #985f0c; }
 .cc-foot { display: flex; gap: 12px; align-items: center; font-size: calc(12px * var(--fs)); color: var(--text-mut); font-weight: 700; margin-top: auto; }
 .cc-ratio { margin-left: auto; color: var(--text-mut); }
 .cc-ratio.high { color: var(--primary); }
