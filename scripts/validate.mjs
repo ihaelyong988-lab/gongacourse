@@ -17,6 +17,7 @@ const CONFIG = {
   CHECK_INLINE_JS: true,             // <script> 인라인 JS 문법(node --check)
   DEP_ALLOWLIST: [                    // 허용 외부 의존성(이 외 감지 시 경고)
     /fonts\.googleapis\.com/i, /fonts\.gstatic\.com/i,
+    /cdnjs\.cloudflare\.com\/ajax\/libs\/font-awesome/i, // 아이콘 고정 스택(AGENTS §2) — 2026-07-02 allowlist 누락 교정
   ],
   FORBID_NETWORK: false,             // fetch/XHR 금지(정적·localStorage 전용 프로젝트면 true)
 };
