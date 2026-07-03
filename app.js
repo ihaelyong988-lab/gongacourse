@@ -17369,6 +17369,3090 @@ const defaultCourses = [
       "카페바르"
     ]
   }
+,
+  // ---- 2026-07-03 추가: 행안부 「가고싶은 섬」 47 + 「리서치 나들이」 15 (가고픈곳_리서치추가 엑셀, 중복 제외) ----
+  {
+    "id": 243,
+    "title": "외달도 해안데크길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전남 목포",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 89,
+    "votesUp": 69,
+    "votesDown": 5,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "외달도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "해안데크 산책로",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해수풀장·해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "외달도 배 시간만 잘 맞추면 반나절로 충분합니다. 걷는 내내 바다가 따라와요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 244,
+    "title": "연홍도 마을벽화길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "전남 고흥",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 96,
+    "votesUp": 82,
+    "votesDown": 6,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "연홍도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "마을벽화길",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해변포토존",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      },
+      {
+        "spot": "마을미술관",
+        "desc": "섬의 이야기가 남은 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "연홍도는 사진보다 실물이 낫습니다. 사람이 적어 조용히 걷기 좋아요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 245,
+    "title": "청산도 슬로길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "전남 완도",
+    "duration": "6시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 93,
+    "votesUp": 95,
+    "votesDown": 7,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "청산도항",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "슬로길 1코스",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "구들장논",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      },
+      {
+        "spot": "돌담길",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "청산도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 246,
+    "title": "한산도,추봉도 역사길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경남 통영",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 90,
+    "votesUp": 108,
+    "votesDown": 2,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "제승당 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "한산역사길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "제승당",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      },
+      {
+        "spot": "추봉도 일주도로 꽃길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "한산도에서 한나절 보냈습니다. 매점이 적으니 물과 간식은 챙겨 가세요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 247,
+    "title": "신수도 몽돌해변 오솔길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "경남 사천",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 97,
+    "votesUp": 121,
+    "votesDown": 3,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "신수도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "소나무 오솔길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "몽돌해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      },
+      {
+        "spot": "캠핑장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "신수도는 성수기보다 평일이 좋습니다. 배편 예매를 서두르는 편이 안전해요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 248,
+    "title": "내도 동백숲길",
+    "season": "winter",
+    "seasonName": "겨울 추천",
+    "location": "경남 거제",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 94,
+    "votesUp": 42,
+    "votesDown": 4,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "내도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "동백나무 숲길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "바람의 언덕",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "12:30"
+      },
+      {
+        "spot": "몽돌해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "내도 바람이 잦은 곳이라 겉옷 하나 챙기면 걷기 딱 좋습니다.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 249,
+    "title": "이수도 사슴생태 둘레길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경남 거제",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 91,
+    "votesUp": 55,
+    "votesDown": 5,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "이수도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "사슴 생태 둘레길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "전망대",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "12:30"
+      },
+      {
+        "spot": "출렁다리",
+        "desc": "바다 위를 걷는 명물 구간.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "이수도 배 시간만 잘 맞추면 반나절로 충분합니다. 걷는 내내 바다가 따라와요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 250,
+    "title": "풍도 야생화 둘레길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경기 안산",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 88,
+    "votesUp": 68,
+    "votesDown": 6,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "풍도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "풍도 둘레길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "야생화 군락지",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "풍도는 사진보다 실물이 낫습니다. 사람이 적어 조용히 걷기 좋아요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 251,
+    "title": "방축도 트래킹길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전북 군산",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 95,
+    "votesUp": 81,
+    "votesDown": 7,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "방축도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "트래킹 코스",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해안 조망점",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "방축도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 252,
+    "title": "장도 뻘배길 갯벌탐방",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전남 보성",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 92,
+    "votesUp": 94,
+    "votesDown": 2,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "장도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "뻘배길",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "11:00"
+      },
+      {
+        "spot": "갯벌탐방장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "12:30"
+      },
+      {
+        "spot": "해상낚시터",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "장도에서 한나절 보냈습니다. 매점이 적으니 물과 간식은 챙겨 가세요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 253,
+    "title": "모도 신비의 바닷길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "전남 진도",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 89,
+    "votesUp": 107,
+    "votesDown": 3,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "모도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "신비의 바닷길",
+        "desc": "바다 위를 걷는 명물 구간.",
+        "time": "11:00"
+      },
+      {
+        "spot": "모도 마을길",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "모도는 성수기보다 평일이 좋습니다. 배편 예매를 서두르는 편이 안전해요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 254,
+    "title": "소악도 12사도 순례길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전남 신안",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 96,
+    "votesUp": 120,
+    "votesDown": 4,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "소악도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "12사도 예배당 순례길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "노둣길 해안 조망",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "소악도 바람이 잦은 곳이라 겉옷 하나 챙기면 걷기 딱 좋습니다.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 255,
+    "title": "사량도 옥녀봉 등산길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경남 통영",
+    "duration": "6시간",
+    "difficulty": "중상",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 93,
+    "votesUp": 41,
+    "votesDown": 5,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "사량도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "지리산 옥녀봉 등산코스",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "고동산 둘레코스",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "사량도 배 시간만 잘 맞추면 반나절로 충분합니다. 걷는 내내 바다가 따라와요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 256,
+    "title": "위도 상사화길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전북 부안",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 90,
+    "votesUp": 54,
+    "votesDown": 6,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "위도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "위도상사화 군락",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "위도 해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "위도는 사진보다 실물이 낫습니다. 사람이 적어 조용히 걷기 좋아요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 257,
+    "title": "송이도 몽돌해변길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전남 영광",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 97,
+    "votesUp": 67,
+    "votesDown": 7,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "송이도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "몽돌해변",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "11:00"
+      },
+      {
+        "spot": "왕소사나무 군락지",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "송이도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 258,
+    "title": "소안도 해양생태공원길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전남 완도",
+    "duration": "5시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 94,
+    "votesUp": 80,
+    "votesDown": 2,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "소안도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "미라리 해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "11:00"
+      },
+      {
+        "spot": "이목 해양생태공원",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "소안도에서 한나절 보냈습니다. 매점이 적으니 물과 간식은 챙겨 가세요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 259,
+    "title": "임하도 일몰 산책길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전남 해남",
+    "duration": "2시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 91,
+    "votesUp": 93,
+    "votesDown": 3,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "임하교",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "임하도 해안길",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "일몰 조망점",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "임하도는 성수기보다 평일이 좋습니다. 배편 예매를 서두르는 편이 안전해요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 260,
+    "title": "자은도 무한의 다리",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전남 신안",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 88,
+    "votesUp": 106,
+    "votesDown": 4,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "무한의 다리",
+        "desc": "연륙교·진입로로 걸어서 입도, 나들이 시작.",
+        "time": "09:30"
+      },
+      {
+        "spot": "1004뮤지엄파크",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해변 산책로",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "자은도 바람이 잦은 곳이라 겉옷 하나 챙기면 걷기 딱 좋습니다.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 261,
+    "title": "병풍도 맨드라미 정원",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전남 신안",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 95,
+    "votesUp": 119,
+    "votesDown": 5,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "병풍도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "맨드라미 정원",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "섬 둘레 산책로",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "병풍도 배 시간만 잘 맞추면 반나절로 충분합니다. 걷는 내내 바다가 따라와요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 262,
+    "title": "울릉도 관음도,삼선암",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "경북 울릉",
+    "duration": "6시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 92,
+    "votesUp": 40,
+    "votesDown": 6,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "관음도 보행연도교",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "삼선암",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "봉래폭포",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      },
+      {
+        "spot": "약수공원",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "울릉도는 사진보다 실물이 낫습니다. 사람이 적어 조용히 걷기 좋아요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 263,
+    "title": "장사도 해상공원 까멜리아",
+    "season": "winter",
+    "seasonName": "겨울 추천",
+    "location": "경남 통영",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 89,
+    "votesUp": 53,
+    "votesDown": 7,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "장사도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "해상공원 산책로",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "동백 군락지",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "장사도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 264,
+    "title": "우도 우도8경 나들이",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "제주 제주시",
+    "duration": "5시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 96,
+    "votesUp": 66,
+    "votesDown": 2,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "우도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "우도8경 순환길",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해변 쉼터",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "우도에서 한나절 보냈습니다. 매점이 적으니 물과 간식은 챙겨 가세요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 265,
+    "title": "덕적도 서포리 해수욕장",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "인천 옹진",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 93,
+    "votesUp": 79,
+    "votesDown": 3,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "덕적도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "서포리 해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "11:00"
+      },
+      {
+        "spot": "비조봉",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "12:30"
+      },
+      {
+        "spot": "때뿌루 해변",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "덕적도는 성수기보다 평일이 좋습니다. 배편 예매를 서두르는 편이 안전해요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 266,
+    "title": "호도 해수욕장 바다전망대",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "충남 보령",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 90,
+    "votesUp": 92,
+    "votesDown": 4,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "호도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "호도 해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "11:00"
+      },
+      {
+        "spot": "바다 전망대",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "12:30"
+      },
+      {
+        "spot": "청파초교 호도분교",
+        "desc": "섬의 이야기가 남은 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "호도 바람이 잦은 곳이라 겉옷 하나 챙기면 걷기 딱 좋습니다.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 267,
+    "title": "장자도 대장봉 전망길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전북 군산",
+    "duration": "3시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 97,
+    "votesUp": 105,
+    "votesDown": 5,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "장자도 진입로",
+        "desc": "연륙교·진입로로 걸어서 입도, 나들이 시작.",
+        "time": "09:30"
+      },
+      {
+        "spot": "대장봉",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "11:00"
+      },
+      {
+        "spot": "고군산군도 전망점",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "12:30"
+      },
+      {
+        "spot": "유람선 선착장",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "장자도 배 시간만 잘 맞추면 반나절로 충분합니다. 걷는 내내 바다가 따라와요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 268,
+    "title": "애도(쑥섬) 별정원",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "전남 고흥",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 94,
+    "votesUp": 118,
+    "votesDown": 6,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "애도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "별정원·꽃정원",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "돌담길",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      },
+      {
+        "spot": "갈매기 카페",
+        "desc": "바다를 보며 커피 한 잔 쉼.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "애도는 사진보다 실물이 낫습니다. 사람이 적어 조용히 걷기 좋아요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 269,
+    "title": "생일도 금곡해수욕장",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전남 완도",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 91,
+    "votesUp": 39,
+    "votesDown": 7,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "생일도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "금곡해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "11:00"
+      },
+      {
+        "spot": "너덜겅 쉼터",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "생일도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 270,
+    "title": "비진도 산호빛 해변",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "경남 통영",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 88,
+    "votesUp": 52,
+    "votesDown": 2,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "비진도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "백사장·해송길",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "11:00"
+      },
+      {
+        "spot": "선유대",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      },
+      {
+        "spot": "등산로 전망대",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "비진도에서 한나절 보냈습니다. 매점이 적으니 물과 간식은 챙겨 가세요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 271,
+    "title": "연대도,만지도 출렁다리",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경남 통영",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 95,
+    "votesUp": 65,
+    "votesDown": 3,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "연대도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "출렁다리",
+        "desc": "바다 위를 걷는 명물 구간.",
+        "time": "11:00"
+      },
+      {
+        "spot": "만지도 몽돌해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      },
+      {
+        "spot": "해안데크",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "연대도는 성수기보다 평일이 좋습니다. 배편 예매를 서두르는 편이 안전해요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 272,
+    "title": "추자도 등대전망대길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "제주 제주시",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 92,
+    "votesUp": 78,
+    "votesDown": 4,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "상추자항 포토존",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "등대 전망대",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해안 산책로",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "추자도 바람이 잦은 곳이라 겉옷 하나 챙기면 걷기 딱 좋습니다.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 273,
+    "title": "교동도 대룡시장",
+    "season": "winter",
+    "seasonName": "겨울 추천",
+    "location": "인천 강화",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 89,
+    "votesUp": 91,
+    "votesDown": 5,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "교동대교",
+        "desc": "연륙교·진입로로 걸어서 입도, 나들이 시작.",
+        "time": "09:30"
+      },
+      {
+        "spot": "대룡시장",
+        "desc": "섬의 이야기가 남은 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "교동향교",
+        "desc": "섬의 이야기가 남은 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "교동도 배 시간만 잘 맞추면 반나절로 충분합니다. 걷는 내내 바다가 따라와요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 274,
+    "title": "가사도 전설 둘레길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "전남 진도",
+    "duration": "4시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 96,
+    "votesUp": 104,
+    "votesDown": 6,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "가사도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "가사5도 조망점",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "11:00"
+      },
+      {
+        "spot": "섬 둘레길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "가사도는 사진보다 실물이 낫습니다. 사람이 적어 조용히 걷기 좋아요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 275,
+    "title": "고대도 귀츨라프 기념길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "충남 보령",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 93,
+    "votesUp": 117,
+    "votesDown": 7,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "고대도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "고대도 교회",
+        "desc": "섬의 이야기가 남은 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해안 산책로",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "고대도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 276,
+    "title": "연화도 연화사,보덕암",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경남 통영",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 90,
+    "votesUp": 38,
+    "votesDown": 2,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "연화도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "연화사",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "보덕암",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      },
+      {
+        "spot": "출렁다리·보도교",
+        "desc": "바다 위를 걷는 명물 구간.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "연화도에서 한나절 보냈습니다. 매점이 적으니 물과 간식은 챙겨 가세요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 277,
+    "title": "지심도 동백섬 산책로",
+    "season": "winter",
+    "seasonName": "겨울 추천",
+    "location": "경남 거제",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 97,
+    "votesUp": 51,
+    "votesDown": 3,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "지심도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "동백숲 산책로",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "옛 포대 터",
+        "desc": "섬의 이야기가 남은 명소 관람.",
+        "time": "12:30"
+      },
+      {
+        "spot": "적산가옥",
+        "desc": "섬의 이야기가 남은 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "지심도는 성수기보다 평일이 좋습니다. 배편 예매를 서두르는 편이 안전해요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 278,
+    "title": "국화도 바닷길 갯벌체험",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "경기 화성",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 94,
+    "votesUp": 64,
+    "votesDown": 4,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "국화도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "간조 바닷길",
+        "desc": "바다 위를 걷는 명물 구간.",
+        "time": "11:00"
+      },
+      {
+        "spot": "갯벌체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "12:30"
+      },
+      {
+        "spot": "해넘이 조망점",
+        "desc": "탁 트인 바다 조망점.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "국화도 바람이 잦은 곳이라 겉옷 하나 챙기면 걷기 딱 좋습니다.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 279,
+    "title": "소도 부교 둘레길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "충남 보령",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 91,
+    "votesUp": 77,
+    "votesDown": 5,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "부교 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "소도 둘레길",
+        "desc": "섬을 끼고 걷는 메인 코스.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해안 쉼터",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "소도 배 시간만 잘 맞추면 반나절로 충분합니다. 걷는 내내 바다가 따라와요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 280,
+    "title": "사도 공룡화석지 바닷길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전남 여수",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 88,
+    "votesUp": 90,
+    "votesDown": 6,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "사도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "공룡화석지",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "바닷길",
+        "desc": "바다 위를 걷는 명물 구간.",
+        "time": "12:30"
+      },
+      {
+        "spot": "양면해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "사도는 사진보다 실물이 낫습니다. 사람이 적어 조용히 걷기 좋아요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 281,
+    "title": "금당도 금당8경",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전남 완도",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 95,
+    "votesUp": 103,
+    "votesDown": 7,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "금당도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "교암청풍",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "코끼리바위",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "12:30"
+      },
+      {
+        "spot": "부채바위",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "금당도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 282,
+    "title": "우이도 돌담길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전남 신안",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 92,
+    "votesUp": 116,
+    "votesDown": 2,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "우이도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "돌담길",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해변바위",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      },
+      {
+        "spot": "염소방목 풍경길",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "우이도에서 한나절 보냈습니다. 매점이 적으니 물과 간식은 챙겨 가세요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 283,
+    "title": "선유도 해수욕장 산책",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전북 군산",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 89,
+    "votesUp": 129,
+    "votesDown": 3,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "선유도 진입로",
+        "desc": "연륙교·진입로로 걸어서 입도, 나들이 시작.",
+        "time": "09:30"
+      },
+      {
+        "spot": "선유도 해수욕장",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해변 산책로",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "선유도는 성수기보다 평일이 좋습니다. 배편 예매를 서두르는 편이 안전해요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 284,
+    "title": "가우도 출렁다리,짚트랙",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전남 강진",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 96,
+    "votesUp": 50,
+    "votesDown": 4,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "가우도 출렁다리",
+        "desc": "연륙교·진입로로 걸어서 입도, 나들이 시작.",
+        "time": "09:30"
+      },
+      {
+        "spot": "생태탐방로",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해상 짚트랙",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "12:30"
+      },
+      {
+        "spot": "후박·편백 군락지",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "가우도 바람이 잦은 곳이라 겉옷 하나 챙기면 걷기 딱 좋습니다.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 285,
+    "title": "석모도 온천,갯벌체험",
+    "season": "winter",
+    "seasonName": "겨울 추천",
+    "location": "인천 강화",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 93,
+    "votesUp": 63,
+    "votesDown": 5,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "석모대교",
+        "desc": "연륙교·진입로로 걸어서 입도, 나들이 시작.",
+        "time": "09:30"
+      },
+      {
+        "spot": "미네랄 온천",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "11:00"
+      },
+      {
+        "spot": "갯벌체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "12:30"
+      },
+      {
+        "spot": "목공체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "석모도 배 시간만 잘 맞추면 반나절로 충분합니다. 걷는 내내 바다가 따라와요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 286,
+    "title": "임자도 튤립축제,승마체험",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "전남 신안",
+    "duration": "5시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 90,
+    "votesUp": 76,
+    "votesDown": 6,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "임자대교",
+        "desc": "연륙교·진입로로 걸어서 입도, 나들이 시작.",
+        "time": "09:30"
+      },
+      {
+        "spot": "튤립축제장",
+        "desc": "섬의 대표 명소 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "승마체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "12:30"
+      },
+      {
+        "spot": "카약체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "임자도는 사진보다 실물이 낫습니다. 사람이 적어 조용히 걷기 좋아요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 287,
+    "title": "증도 갯벌체험 슬로길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "전남 신안",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 97,
+    "votesUp": 89,
+    "votesDown": 7,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "증도대교",
+        "desc": "연륙교·진입로로 걸어서 입도, 나들이 시작.",
+        "time": "09:30"
+      },
+      {
+        "spot": "갯벌체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해변 산책로",
+        "desc": "해변 산책과 물멍 쉼.",
+        "time": "12:30"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "증도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 288,
+    "title": "소쿠리섬 캠핑,바다체험",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "경남 창원",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 94,
+    "votesUp": 102,
+    "votesDown": 2,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "소쿠리섬 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "짚트랙",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "11:00"
+      },
+      {
+        "spot": "캠핑장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "12:30"
+      },
+      {
+        "spot": "바다체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "소쿠리섬에서 한나절 보냈습니다. 매점이 적으니 물과 간식은 챙겨 가세요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 289,
+    "title": "욕지도 출렁다리,해상낚시",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "경남 통영",
+    "duration": "5시간",
+    "difficulty": "보통",
+    "type": "섬 나들이",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 91,
+    "votesUp": 115,
+    "votesDown": 3,
+    "photoKey": "sea",
+    "timeline": [
+      {
+        "spot": "욕지도 선착장",
+        "desc": "배편으로 입도, 나들이 시작. 운항 시간·물때 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "출렁다리",
+        "desc": "바다 위를 걷는 명물 구간.",
+        "time": "11:00"
+      },
+      {
+        "spot": "해상낚시체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "12:30"
+      },
+      {
+        "spot": "다이빙체험장",
+        "desc": "섬에서만 가능한 체험 거리.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "욕지도는 성수기보다 평일이 좋습니다. 배편 예매를 서두르는 편이 안전해요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": []
+  },
+  {
+    "id": 290,
+    "title": "고려산 진달래길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "인천 강화",
+    "duration": "4시간",
+    "difficulty": "보통",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 88,
+    "votesUp": 128,
+    "votesDown": 4,
+    "photoKey": "spring",
+    "timeline": [
+      {
+        "spot": "고려산 진달래길",
+        "desc": "봄 진달래 군락과 정상 조망. 개화기 주차 통제 사전 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "전등사",
+        "desc": "창건 381년 전승의 천년 사찰 경내 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "강화자연휴양림",
+        "desc": "숲 산책과 산림휴양 쉼.",
+        "time": "12:30"
+      },
+      {
+        "spot": "조양방직 (카페)",
+        "desc": "대형 문화카페에서 마무리 휴식.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "고려산 걷고 사찰과 수목원까지 하루에 묶기 좋은 동선입니다. 이동이 짧아요.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "조양방직"
+    ]
+  },
+  {
+    "id": 291,
+    "title": "강천섬 둘레길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "경기 여주",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 95,
+    "votesUp": 49,
+    "votesDown": 5,
+    "photoKey": "river",
+    "timeline": [
+      {
+        "spot": "강천섬 둘레길",
+        "desc": "남한강변 억새와 느티나무 길. 강수 후 보행로 상태 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "신륵사",
+        "desc": "남한강가 천년 사찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "황학산수목원",
+        "desc": "시립 수목원 테마정원 산책.",
+        "time": "12:30"
+      },
+      {
+        "spot": "천서리막국수 (식사)",
+        "desc": "여주권 대표 막국수로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "강천섬는 계절 맞춰 가면 만족도가 큽니다. 마무리 맛집도 검증된 곳이에요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "천서리막국수"
+    ]
+  },
+  {
+    "id": 292,
+    "title": "금광호수 수변길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경기 안성",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 92,
+    "votesUp": 62,
+    "votesDown": 6,
+    "photoKey": "lake",
+    "timeline": [
+      {
+        "spot": "금광호수 수변길",
+        "desc": "호수 조망 산책과 하늘전망대.",
+        "time": "09:30"
+      },
+      {
+        "spot": "칠장사",
+        "desc": "창건 636년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "안성팜랜드",
+        "desc": "가축 체험과 계절꽃 나들이. 운영시간 확인.",
+        "time": "12:30"
+      },
+      {
+        "spot": "안성국밥 (식사)",
+        "desc": "안성권 로컬 한식으로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "금광호수 코스 자체는 평탄해서 가족 나들이로 무난합니다. 주차만 미리 확인하세요.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "안성국밥"
+    ]
+  },
+  {
+    "id": 293,
+    "title": "경포호수 산책로",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "강원 강릉",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 89,
+    "votesUp": 75,
+    "votesDown": 7,
+    "photoKey": "lake",
+    "timeline": [
+      {
+        "spot": "경포호수 산책로",
+        "desc": "호수·해변 연계 산책과 철새 관찰.",
+        "time": "09:30"
+      },
+      {
+        "spot": "등명낙가사",
+        "desc": "바다를 앞에 둔 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "강릉솔향수목원",
+        "desc": "산림형 수목원 숲길 쉼. 휴관일 확인.",
+        "time": "12:30"
+      },
+      {
+        "spot": "벌집 (식사)",
+        "desc": "강릉 장칼국수로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "경포호수 다녀온 뒤 근처 사찰까지 돌았는데 반나절이면 넉넉했습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "벌집"
+    ]
+  },
+  {
+    "id": 294,
+    "title": "상당산성 성곽길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "충북 청주",
+    "duration": "4시간",
+    "difficulty": "보통",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 96,
+    "votesUp": 88,
+    "votesDown": 2,
+    "photoKey": "mountain",
+    "timeline": [
+      {
+        "spot": "상당산성 성곽길",
+        "desc": "성곽 따라 숲길과 도심 조망. 주차 혼잡 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "안심사",
+        "desc": "창건 775년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "미동산수목원·청주동물원",
+        "desc": "수목·동물 복합 나들이. 휴관일 확인.",
+        "time": "12:30"
+      },
+      {
+        "spot": "원조오성손만두 (식사)",
+        "desc": "청주권 만두로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "상당산성는 오전에 걷고 오후에 수목원 쉼이 좋은 조합이었습니다.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "원조오성손만두"
+    ]
+  },
+  {
+    "id": 295,
+    "title": "전월산 산책길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "세종",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 93,
+    "votesUp": 101,
+    "votesDown": 3,
+    "photoKey": "mountain",
+    "timeline": [
+      {
+        "spot": "전월산 산책길",
+        "desc": "도심 숲길과 금강권 조망.",
+        "time": "09:30"
+      },
+      {
+        "spot": "비암사",
+        "desc": "창건 647년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "베어트리파크",
+        "desc": "수목원·동물 관람 나들이. 입장마감 확인.",
+        "time": "12:30"
+      },
+      {
+        "spot": "이도커피 세종 (카페)",
+        "desc": "정원형 카페에서 휴식.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "전월산 걷고 사찰과 수목원까지 하루에 묶기 좋은 동선입니다. 이동이 짧아요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "이도커피 세종"
+    ]
+  },
+  {
+    "id": 296,
+    "title": "기린봉,치명자산 산책길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전북 전주",
+    "duration": "4시간",
+    "difficulty": "보통",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 90,
+    "votesUp": 114,
+    "votesDown": 4,
+    "photoKey": "mountain",
+    "timeline": [
+      {
+        "spot": "기린봉,치명자산 산책길",
+        "desc": "한옥마을 조망 도심 능선길.",
+        "time": "09:30"
+      },
+      {
+        "spot": "남고사",
+        "desc": "창건 685년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "전주수목원·전주동물원",
+        "desc": "수목·동물 가족 나들이.",
+        "time": "12:30"
+      },
+      {
+        "spot": "베테랑 칼국수 (식사)",
+        "desc": "전주 한옥마을 칼국수로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "기린봉는 계절 맞춰 가면 만족도가 큽니다. 마무리 맛집도 검증된 곳이에요.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "베테랑 칼국수"
+    ]
+  },
+  {
+    "id": 297,
+    "title": "순천만습지 갈대길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "전남 순천",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 97,
+    "votesUp": 127,
+    "votesDown": 5,
+    "photoKey": "lake",
+    "timeline": [
+      {
+        "spot": "순천만습지 갈대길",
+        "desc": "갯벌·갈대와 철새 관찰. 일몰 전 회귀 동선 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "금둔사",
+        "desc": "창건 627년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "순천만국가정원",
+        "desc": "정원과 계절꽃 나들이.",
+        "time": "12:30"
+      },
+      {
+        "spot": "건봉국밥 (식사)",
+        "desc": "순천권 국밥으로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "순천만습지 코스 자체는 평탄해서 가족 나들이로 무난합니다. 주차만 미리 확인하세요.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "건봉국밥"
+    ]
+  },
+  {
+    "id": 298,
+    "title": "반곡지 수변길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경북 경산",
+    "duration": "2시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 94,
+    "votesUp": 48,
+    "votesDown": 6,
+    "photoKey": "lake",
+    "timeline": [
+      {
+        "spot": "반곡지 수변길",
+        "desc": "왕버들과 저수지 반영 풍경. 농경지 인접 구간 예절 준수.",
+        "time": "09:30"
+      },
+      {
+        "spot": "환성사",
+        "desc": "창건 835년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "대구수목원",
+        "desc": "경산권 연계 수목 나들이.",
+        "time": "12:30"
+      },
+      {
+        "spot": "소호족발 (식사)",
+        "desc": "경산권 족발로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "반곡지 다녀온 뒤 근처 사찰까지 돌았는데 반나절이면 넉넉했습니다.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "소호족발"
+    ]
+  },
+  {
+    "id": 299,
+    "title": "우포늪 생태탐방로",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "경남 창녕",
+    "duration": "4시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 91,
+    "votesUp": 61,
+    "votesDown": 7,
+    "photoKey": "lake",
+    "timeline": [
+      {
+        "spot": "우포늪 생태탐방로",
+        "desc": "국내 최대 내륙습지의 새·수생식물 관찰. 계절 통제구간 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "관룡사",
+        "desc": "창건 583년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "산토끼노래동산",
+        "desc": "동물테마 가족 나들이.",
+        "time": "12:30"
+      },
+      {
+        "spot": "창녕 수구레국밥 (식사)",
+        "desc": "전통 로컬식으로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "바닷바람",
+        "text": "우포늪는 오전에 걷고 오후에 수목원 쉼이 좋은 조합이었습니다.",
+        "date": "2026-06-27",
+        "ratings": {
+          "scenery": 5,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "창녕 수구레국밥"
+    ]
+  },
+  {
+    "id": 300,
+    "title": "아홉산숲 숲길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "부산 기장",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 88,
+    "votesUp": 74,
+    "votesDown": 2,
+    "photoKey": "forest",
+    "timeline": [
+      {
+        "spot": "아홉산숲 숲길",
+        "desc": "맹종죽·편백 사유림 탐방. 예약·입장시간 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "장안사",
+        "desc": "창건 673년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "정관생태공원",
+        "desc": "하천·야생화 가족 산책.",
+        "time": "12:30"
+      },
+      {
+        "spot": "기장끝집 (식사)",
+        "desc": "해산물·한식으로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "섬나들이",
+        "text": "아홉산숲 걷고 사찰과 수목원까지 하루에 묶기 좋은 동선입니다. 이동이 짧아요.",
+        "date": "2026-04-18",
+        "ratings": {
+          "scenery": 4,
+          "path": 3,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "기장끝집"
+    ]
+  },
+  {
+    "id": 301,
+    "title": "태화강국가정원 산책로",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "울산",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern3",
+    "satisfaction": 95,
+    "votesUp": 87,
+    "votesDown": 3,
+    "photoKey": "river",
+    "timeline": [
+      {
+        "spot": "태화강국가정원 산책로",
+        "desc": "십리대숲과 수변 야간 산책. 행사 일정 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "석남사",
+        "desc": "창건 824년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "울산대공원",
+        "desc": "장미원·어린이동물원 나들이.",
+        "time": "12:30"
+      },
+      {
+        "spot": "언양기와집불고기 (식사)",
+        "desc": "언양불고기로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "느린여행",
+        "text": "태화강국가정원는 계절 맞춰 가면 만족도가 큽니다. 마무리 맛집도 검증된 곳이에요.",
+        "date": "2026-05-02",
+        "ratings": {
+          "scenery": 5,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "언양기와집불고기"
+    ]
+  },
+  {
+    "id": 302,
+    "title": "수성못 둘레길",
+    "season": "summer",
+    "seasonName": "여름 추천",
+    "location": "대구",
+    "duration": "2시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern4",
+    "satisfaction": 92,
+    "votesUp": 100,
+    "votesDown": 4,
+    "photoKey": "lake",
+    "timeline": [
+      {
+        "spot": "수성못 둘레길",
+        "desc": "호수 따라 도심 야간 산책. 주말 주차 혼잡 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "동화사",
+        "desc": "창건 493년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "대구수목원",
+        "desc": "계절식물·온실 산책.",
+        "time": "12:30"
+      },
+      {
+        "spot": "국일따로국밥 (식사)",
+        "desc": "대구식 따로국밥으로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "걷는사람",
+        "text": "수성못 코스 자체는 평탄해서 가족 나들이로 무난합니다. 주차만 미리 확인하세요.",
+        "date": "2026-05-16",
+        "ratings": {
+          "scenery": 4,
+          "path": 5,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "국일따로국밥"
+    ]
+  },
+  {
+    "id": 303,
+    "title": "광주호 호수생태원 둘레길",
+    "season": "autumn",
+    "seasonName": "가을 추천",
+    "location": "광주 북구",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern1",
+    "satisfaction": 89,
+    "votesUp": 113,
+    "votesDown": 5,
+    "photoKey": "lake",
+    "timeline": [
+      {
+        "spot": "광주호 호수생태원 둘레길",
+        "desc": "수변·숲과 철새 관찰. 일몰 전 회귀.",
+        "time": "09:30"
+      },
+      {
+        "spot": "증심사",
+        "desc": "창건 866년 전승의 고찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "우치공원 동물원",
+        "desc": "동물 관람 가족 나들이. 휴관 확인.",
+        "time": "12:30"
+      },
+      {
+        "spot": "영미오리탕 (식사)",
+        "desc": "광주 오리탕으로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "주말산책",
+        "text": "광주호 다녀온 뒤 근처 사찰까지 돌았는데 반나절이면 넉넉했습니다.",
+        "date": "2026-05-30",
+        "ratings": {
+          "scenery": 5,
+          "path": 3,
+          "parking": 4
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "영미오리탕"
+    ]
+  },
+  {
+    "id": 304,
+    "title": "탑정호 수변데크길",
+    "season": "spring",
+    "seasonName": "봄 추천",
+    "location": "충남 논산",
+    "duration": "3시간",
+    "difficulty": "쉬움",
+    "type": "나들이 코스",
+    "patternClass": "bg-pattern2",
+    "satisfaction": 96,
+    "votesUp": 126,
+    "votesDown": 6,
+    "photoKey": "lake",
+    "timeline": [
+      {
+        "spot": "탑정호 수변데크길",
+        "desc": "호수 데크길과 출렁다리 연계. 강풍 시 통제 확인.",
+        "time": "09:30"
+      },
+      {
+        "spot": "개태사",
+        "desc": "창건 936년의 고려 개국 사찰 관람.",
+        "time": "11:00"
+      },
+      {
+        "spot": "양촌자연휴양림",
+        "desc": "숲 치유형 나들이.",
+        "time": "12:30"
+      },
+      {
+        "spot": "강경젓갈시장 식당가 (식사)",
+        "desc": "로컬 젓갈·한식으로 식사.",
+        "time": "14:00"
+      }
+    ],
+    "comments": [
+      {
+        "user": "나들이수첩",
+        "text": "탑정호는 오전에 걷고 오후에 수목원 쉼이 좋은 조합이었습니다.",
+        "date": "2026-06-13",
+        "ratings": {
+          "scenery": 4,
+          "path": 4,
+          "parking": 3
+        }
+      }
+    ],
+    "photos": [],
+    "foods": [
+      "강경젓갈시장 식당가"
+    ]
+  }
 ];
 
 
@@ -17611,6 +20695,7 @@ const PHOTO_KW = {
 };
 // 코스 정체성(제목 우선)에 맞는 사진 키워드. 지형이 사찰보다 우선.
 function photoKeyForCourse(c) {
+  if (c.photoKey) return c.photoKey; // 데이터에 지형키가 명시된 코스는 그대로(섬=sea 등, §4 이미지 컨텍스트)
   const t = c.title || "";
   if (/섬|해수욕|해변|바닷|바다|해안|포구|항구|등대|해상|갯벌|방파제/.test(t)) return "sea";
   if (/호수|저수지|댐|호반/.test(t)) return "lake";
@@ -17925,6 +21010,7 @@ const SEASONS = [
 ];
 const THEMES = [
   { k: "easy", n: "쉬운산책" }, { k: "food", n: "맛집연계" },
+  { k: "island", n: "섬·바다" },
   { k: "temple", n: "사찰탐방" }, { k: "long", n: "장거리" }
 ];
 
@@ -17967,6 +21053,7 @@ function getFilteredCourses() {
     let th = true;
     if (currentThemeFilter === "easy") th = isEasy(c) || parseHours(c.duration) <= 2;
     else if (currentThemeFilter === "food") th = hasFood(c);
+    else if (currentThemeFilter === "island") th = photoKeyForCourse(c) === "sea";
     else if (currentThemeFilter === "temple") th = hasTemple(c);
     else if (currentThemeFilter === "long") th = parseHours(c.duration) >= 3 || !isEasy(c);
     return s && r && se && th;
