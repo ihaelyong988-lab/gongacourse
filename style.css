@@ -364,13 +364,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .s-v { display: block; font-size: calc(17px * var(--fs)); font-weight: 800; }
 .s-v.hl { color: var(--primary); }
 
-.map-btn {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  background: #fee500; color: #3a2e00; border-radius: 12px; padding: 13px;
-  font-weight: 800; font-size: calc(14px * var(--fs)); margin-bottom: 12px;
-}
-.map-btn:active { filter: brightness(0.95); }
-
 .d-card {
   background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius);
   padding: 15px; margin-bottom: 12px; box-shadow: var(--shadow);
@@ -406,7 +399,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .food-info { flex: 1; min-width: 0; }
 .food-info h4 { font-size: calc(14px * var(--fs)); font-weight: 800; }
 .food-info span { font-size: calc(11.5px * var(--fs)); color: var(--text-faint); }
-.food-map { color: var(--amber); font-size: calc(16px * var(--fs)); }
 
 /* 투표 */
 .vote-card .d-card-title { text-align: center; }
@@ -888,3 +880,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .dp-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 14px; border: none; border-radius: 22px; background: var(--primary); color: #fff; font-size: calc(12.5px * var(--fs)); font-weight: 800; cursor: pointer; }
 .dp-btn.ghost { background: rgba(255,255,255,0.92); color: var(--text); border: 1px solid var(--border); }
 .dp-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* 컬렉션 상세 + 홈 칩 1줄 가드 (2026-07-04) */
+.sit-chip span { white-space: nowrap; } /* 칩 라벨 2줄 꺾임(옥에 티) 재발 방지 — 세로 규격 일관 */
+.ci-desc { font-size: calc(14px * var(--fs)); line-height: 1.65; color: var(--text); margin: 0; }
