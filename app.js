@@ -21094,7 +21094,12 @@ function gotoExploreTheme(key) {
 // -----------------------------------------------------------------------------
 let currentThemeHubKey = null;
 
-function coursePop(c) { return itemPopularity({ courseId: c.id }); }
+// 인기도는 렌더당 1회만 전체 계산(정렬 비교자 안에서 courses.find 재계산 금지 — 리뷰 지적)
+let popCache = null;
+function coursePop(c) {
+  if (!popCache) popCache = new Map(courses.map(x => [x.id, itemPopularity({ courseId: x.id })]));
+  return popCache.get(c.id) || 0;
+}
 function firstTempleSpot(c) {
   const t = c.timeline.find(x => spotIsTemple(x.spot));
   return t ? t.spot : c.title;
@@ -21174,6 +21179,7 @@ function renderThemeHub(key) {
   currentThemeHubKey = key;
   const root = document.getElementById("themehub-body");
   if (!root) return;
+  popCache = null; // 렌더당 1회 재계산(후기·검색 신선도 유지)
 
   const list = (hub.filter ? courses.filter(hub.filter) : courses.slice()).sort(hub.sort);
 
@@ -21210,8 +21216,9 @@ function renderThemeHub(key) {
     ${rows}
     ${moreHtml}`;
 
-  // 날씨 미로드 시 1회 조회 후 재렌더(위치 거부/오프라인이면 계절만으로 유지) — 홈과 동일 패턴
-  if (!weatherInfo && !weatherFetching) {
+  // 날씨 미로드 시 세션당 1회만 조회 후 재렌더 — 위치 거부 시 "오류→재렌더→재시도" 루프 차단(리뷰 지적, §4 폴백=계절만)
+  if (!weatherInfo && !weatherFetching && !renderThemeHub.weatherTried) {
+    renderThemeHub.weatherTried = true;
     loadWeather(() => { if (currentScreen === "themehub") renderThemeHub(currentThemeHubKey); });
   }
 }
