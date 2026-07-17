@@ -20566,6 +20566,7 @@ function showScreen(id, state) {
   else if (id === "mypage") renderMypage();
   else if (id === "collection") renderCollection((state && state.id) || currentCollection);
   else if (id === "collitem") renderCollItem((state && state.id) || currentCollItemRef);
+  else if (id === "themehub") renderThemeHub((state && state.id) || currentThemeHubKey);
 
   updateTabbar();
   const isRoot = ROOTS.includes(id);
@@ -21075,12 +21076,144 @@ function resetHomeShortcutOrder() {
 
 function gotoSituation(key) {
   if (key.indexOf("coll:") === 0) { openCollection(key.slice(5)); return; }
+  navigate("themehub", { id: key });
+}
+
+// 기존 "탐색+취향칩" 라우팅 보존 — 테마 허브 하단 '탐색에서 조건 바꿔 더 보기'가 호출
+function gotoExploreTheme(key) {
   searchKeyword = "";
   currentRegionFilter = "all";
   currentSeasonFilter = "all";
-  currentThemeFilters = [];
-  if (key === "easy" || key === "food" || key === "temple" || key === "long") currentThemeFilters = [key];
+  currentThemeFilters = (key === "easy" || key === "food" || key === "temple" || key === "long") ? [key] : [];
   navigate("explore");
+}
+
+// -----------------------------------------------------------------------------
+// 테마 허브 — 홈 「지금 뭘 찾으세요」 6종 전용 화면 (2026-07-17)
+// 테마별 고유 필터·정렬·메타 리스트 + 오늘의 테마 추천 1개(§4: 현재 계절 풀 한정)
+// -----------------------------------------------------------------------------
+let currentThemeHubKey = null;
+
+function coursePop(c) { return itemPopularity({ courseId: c.id }); }
+function firstTempleSpot(c) {
+  const t = c.timeline.find(x => spotIsTemple(x.spot));
+  return t ? t.spot : c.title;
+}
+
+const THEME_HUBS = {
+  easy: {
+    title: "가볍게 산책", icon: "fa-person-walking",
+    crit: "난이도 쉬움 · 3시간 이내 · 짧은 순",
+    filter: c => isEasy(c) && parseHours(c.duration) <= 3,
+    sort: (a, b) => parseHours(a.duration) - parseHours(b.duration),
+    meta: c => `${c.duration} · 쉬움 · ${c.location}`
+  },
+  food: {
+    title: "맛집 코스", icon: "fa-utensils",
+    crit: "동선에 맛집 2곳 이상 · 맛집 많은 순",
+    filter: c => (c.foods || []).length >= 2,
+    sort: (a, b) => (b.foods || []).length - (a.foods || []).length,
+    meta: c => `맛집 ${(c.foods || []).length}곳 · ${(c.foods || [])[0] || ""}`
+  },
+  temple: {
+    title: "사찰 탐방", icon: "fa-torii-gate",
+    crit: "동선에 사찰이 포함된 코스",
+    filter: c => hasTemple(c), // spotIsTemple 경유(§4 — 단독 '사/절/암' 매칭 금지)
+    sort: (a, b) => coursePop(b) - coursePop(a),
+    meta: c => `${firstTempleSpot(c)} · ${c.location}`
+  },
+  long: {
+    title: "먼길 트레킹", icon: "fa-route",
+    crit: "4시간 이상 긴 걸음 · 긴 순",
+    filter: c => parseHours(c.duration) >= 4,
+    sort: (a, b) => parseHours(b.duration) - parseHours(a.duration),
+    meta: c => `${c.duration} · ${c.location}`
+  },
+  today: {
+    title: "오늘 인기", icon: "fa-star",
+    crit: "추천·후기·검색을 반영한 인기순",
+    filter: null,
+    sort: (a, b) => coursePop(b) - coursePop(a),
+    meta: c => `추천 ${c.votesUp} · 후기 ${(c.comments || []).length}`
+  },
+  new: {
+    title: "새로 등록", icon: "fa-seedling",
+    crit: "최근 추가된 코스부터",
+    filter: null,
+    sort: (a, b) => b.id - a.id,
+    meta: c => `${c.location} · ${c.type}`,
+    badge: c => c.id > 242 ? '<span class="th-new">NEW</span>' : ""
+  }
+};
+
+// 오늘의 테마 추천 — §4: 반드시 현재 계절 풀 교집합에서만 선정(계절 무관 노출 금지),
+// weatherInfo 있으면 pickTodayCourse와 동일한 보정. 풀이 비면 null(카드 미노출).
+function themeHubReco(list) {
+  const season = getCurrentSeason();
+  let pool = list.filter(c => c.season === season);
+  if (!pool.length) return null;
+  let biasNote = "";
+  if (weatherInfo) {
+    let biased = pool;
+    if (weatherInfo.kind === "wet") { biased = pool.filter(c => parseHours(c.duration) <= 2.5 && isEasy(c)); biasNote = "짧고 쉬운 동선"; }
+    else if (weatherInfo.kind === "hot") { biased = pool.filter(c => /숲|계곡|폭포|호수|강|해변|바다|물/.test(c.title + c.timeline.map(t => t.spot).join(""))); biasNote = "숲·물가 그늘 동선"; }
+    else if (weatherInfo.kind === "cold") { biased = pool.filter(c => parseHours(c.duration) <= 2); biasNote = "짧은 동선"; }
+    if (biased.length) pool = biased; else biasNote = "";
+  }
+  let best = pool[0];
+  for (const c of pool) if (coursePop(c) > coursePop(best)) best = c;
+  const why = biasNote
+    ? `${SEASON_KO[season]} · ${biasNote}`
+    : `${SEASON_KO[season]} · ${best.duration} · ${best.difficulty}`;
+  return { c: best, why };
+}
+
+function renderThemeHub(key) {
+  const hub = THEME_HUBS[key];
+  if (!hub) return;
+  currentThemeHubKey = key;
+  const root = document.getElementById("themehub-body");
+  if (!root) return;
+
+  const list = (hub.filter ? courses.filter(hub.filter) : courses.slice()).sort(hub.sort);
+
+  const reco = themeHubReco(list);
+  const recoHtml = reco ? `
+    <div class="th-reco" onclick="openCourse(${reco.c.id})">
+      <div class="th-reco-visual sv-${reco.c.season}">
+        <img class="th-reco-photo" src="${coursePhoto(reco.c, 200)}" alt="" loading="lazy" onerror="this.classList.add('img-failed')">
+      </div>
+      <div class="th-reco-main">
+        <div class="th-reco-label">오늘의 추천 <span>${seasonWeatherContext()}</span></div>
+        <h3 class="th-reco-title">${reco.c.title}</h3>
+        <div class="th-reco-why">${reco.why}</div>
+      </div>
+    </div>` : "";
+
+  const rows = list.map((c, i) => `
+    <div class="coll-row tappable" onclick="openCourse(${c.id})">
+      <span class="coll-rank">${i + 1}</span>
+      <div class="coll-mid">
+        <div class="coll-name">${c.title}</div>
+        <div class="coll-sub">${hub.badge ? hub.badge(c) : ""}${hub.meta(c)}</div>
+      </div>
+      <i class="fa-solid fa-chevron-right coll-go"></i>
+    </div>`).join("") || '<p class="muted-note">조건에 맞는 코스가 없어요.</p>';
+
+  const moreHtml = (key === "easy" || key === "food" || key === "temple" || key === "long")
+    ? `<button type="button" class="th-more" onclick="gotoExploreTheme('${key}')">탐색에서 조건 바꿔 더 보기</button>` : "";
+
+  root.innerHTML = `
+    ${sectionLabel(`<i class="fa-solid ${hub.icon}"></i> ${hub.title}`, `<span class="coll-total">${list.length}곳</span>`)}
+    <p class="coll-desc">${hub.crit}</p>
+    ${recoHtml}
+    ${rows}
+    ${moreHtml}`;
+
+  // 날씨 미로드 시 1회 조회 후 재렌더(위치 거부/오프라인이면 계절만으로 유지) — 홈과 동일 패턴
+  if (!weatherInfo && !weatherFetching) {
+    loadWeather(() => { if (currentScreen === "themehub") renderThemeHub(currentThemeHubKey); });
+  }
 }
 
 // 섹션 헤더: 제목 + 수평 라인(밴딩) + (선택)우측 요소 — 박스 단조로움 탈출용
@@ -22930,6 +23063,7 @@ function handleCoursePhoto(e, id) {
       }
       if (currentScreen === "detail") renderDetail(id);
       else if (currentScreen === "collitem") renderCollItem(id);
+      else if (currentScreen === "themehub") renderThemeHub(currentThemeHubKey);
     };
     img.src = ev.target.result;
   };
@@ -22940,6 +23074,7 @@ function resetCoursePhoto(id) {
   savePhotoOverrides();
   if (currentScreen === "detail") renderDetail(id);
   else if (currentScreen === "collitem") renderCollItem(id);
+  else if (currentScreen === "themehub") renderThemeHub(currentThemeHubKey);
 }
 
 // -----------------------------------------------------------------------------
