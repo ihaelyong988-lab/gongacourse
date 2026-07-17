@@ -22769,9 +22769,27 @@ const COLL_FALLBACK_IK = { wtrail: "hiking,trail,mountain", golf: "golf,course,g
 function collItemPhoto(key, gi, ii, it) {
   const ref = key + ":" + gi + ":" + ii;
   if (photoOverrides[ref]) return photoOverrides[ref];
-  const kw = it.ik || COLL_FALLBACK_IK[key] || "landscape,nature";
+  if (it.photo) return it.photo; // 웹리서치 확정 실사 — 그 장소의 실제 사진(추천 계절 우선, 2026-07-17)
+  return collItemFallbackPhoto(key, gi, ii, it);
+}
+function collItemFallbackPhoto(key, gi, ii, it) {
+  // loremflickr는 한글 키워드를 못 읽고 기본 대체 이미지로 떨어짐 → 영문 토큰만 사용
+  const ascii = (it.ik || "").split(",").map(s => s.trim()).filter(s => /^[a-z0-9 -]+$/i.test(s)).join(",");
+  const kw = ascii || COLL_FALLBACK_IK[key] || "landscape,nature";
   const lock = 500 + gi * 200 + ii; // 항목별 고정 실사(§4)
   return "https://loremflickr.com/480/480/" + encodeURIComponent(kw) + "/all?lock=" + lock;
+}
+function collPhotoError(img) {
+  // 실사 URL 실패 → 키워드 실사로 1회 폴백(출처 표기는 함께 제거), 그마저 실패 → 스트립 숨김
+  const credit = document.getElementById("dp-credit");
+  const fb = img.dataset.fb;
+  if (fb && img.src !== fb) {
+    if (credit) credit.remove();
+    img.src = fb;
+    return;
+  }
+  if (credit) credit.remove();
+  img.closest(".d-photo-strip").classList.add("img-failed");
 }
 
 function waterfallDetailHtml(it) {
@@ -22836,13 +22854,15 @@ function renderCollItem(ref) {
 
     <div class="d-photo-strip">
       <img class="dp-img" src="${collItemPhoto(key, gi, ii, it)}" alt="${it.n} 사진" loading="lazy"
-        onclick="openPhotoZoom(this)" onerror="this.closest('.d-photo-strip').classList.add('img-failed')">
+        data-fb="${collItemFallbackPhoto(key, gi, ii, it)}"
+        onclick="openPhotoZoom(this)" onerror="collPhotoError(this)">
       ${visitorSettings.admin ? `
       <div class="dp-admin">
         <button class="dp-btn" onclick="triggerCoursePhoto(${refArg})"><i class="fa-solid fa-camera"></i> 사진 교체</button>
         ${photoOverrides[ref] ? `<button class="dp-btn ghost" onclick="resetCoursePhoto(${refArg})"><i class="fa-solid fa-rotate-left"></i> 기본 복원</button>` : ""}
       </div>` : ""}
     </div>
+    ${it.photo && it.pc && !photoOverrides[ref] ? `<p class="dp-credit" id="dp-credit">사진 <a href="${it.psrc || it.photo}" target="_blank" rel="noopener noreferrer">${it.pc}</a></p>` : ""}
 
     ${stats.length ? `<div class="stat-row">${stats.map(s =>
       `<div class="stat"><span class="s-l">${s.l}</span><span class="s-v">${s.v}</span></div>`).join("")}</div>` : ""}

@@ -924,6 +924,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .dp-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 14px; border: none; border-radius: 22px; background: var(--primary); color: #fff; font-size: calc(12.5px * var(--fs)); font-weight: 800; cursor: pointer; }
 .dp-btn.ghost { background: rgba(255,255,255,0.92); color: var(--text); border: 1px solid var(--border); }
 .dp-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.dp-credit { margin: -4px 0 10px; color: var(--text-mut); font-size: calc(11px * var(--fs)); line-height: 1.5; }
+.dp-credit a { color: var(--text-mut); text-decoration: underline; text-underline-offset: 2px; }
+.dp-credit a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
 /* 컬렉션 상세 + 홈 칩 1줄 가드 (2026-07-04) */
 .sit-chip span { white-space: nowrap; } /* 칩 라벨 2줄 꺾임(옥에 티) 재발 방지 — 세로 규격 일관 */
