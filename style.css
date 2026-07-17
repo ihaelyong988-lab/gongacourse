@@ -221,6 +221,50 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .sit-purple i { color: var(--purple); } .sit-blue i { color: var(--blue); }
 .sit-pink i { color: var(--pink); } .sit-teal i { color: var(--teal); }
 
+/* 지금 뭘 찾으세요 — 순서 설정(이 컴포넌트에만 범위 한정) */
+.shortcut-edit-btn {
+  display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 8px 10px;
+  border: none; border-radius: 10px; background: transparent; color: var(--primary);
+  font-size: calc(11.5px * var(--fs)); font-weight: 800; cursor: pointer;
+}
+.shortcut-edit-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.sit-chip:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.hs-overlay {
+  position: fixed; inset: 0; z-index: 96; display: none; align-items: flex-end;
+  background: rgba(13, 31, 22, 0.54); padding: 12px;
+}
+.hs-overlay.on { display: flex; }
+.hs-dialog {
+  width: 100%; max-width: 430px; max-height: calc(100vh - 24px); margin: 0 auto;
+  display: flex; flex-direction: column; background: var(--surface); border-radius: 20px;
+  box-shadow: 0 18px 55px rgba(0,0,0,0.28); overflow: hidden;
+}
+.hs-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 16px 12px; border-bottom: 1px solid var(--hair); }
+.hs-head > div { display: flex; flex-direction: column; gap: 3px; }
+.hs-head b { font-size: calc(16px * var(--fs)); color: var(--text); }
+.hs-head span { font-size: calc(11.5px * var(--fs)); color: var(--text-mut); }
+.hs-close { width: 44px; height: 44px; flex-shrink: 0; border: none; border-radius: 50%; background: var(--bg); color: var(--text-mut); cursor: pointer; }
+.hs-list { overflow-y: auto; padding: 4px 14px; scrollbar-width: none; overscroll-behavior: contain; }
+.hs-list::-webkit-scrollbar { display: none; }
+.hs-row { min-height: 58px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--hair); }
+.hs-row:last-child { border-bottom: none; }
+.hs-row.first { background: linear-gradient(90deg, var(--primary-soft), transparent 72%); }
+.hs-name { min-width: 0; flex: 1; display: flex; align-items: center; gap: 8px; font-size: calc(13px * var(--fs)); font-weight: 800; color: var(--text); }
+.hs-name > i { width: 20px; text-align: center; color: var(--primary); }
+.hs-name > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hs-name > b { flex-shrink: 0; padding: 2px 7px; border-radius: 10px; background: var(--primary); color: #fff; font-size: calc(9.5px * var(--fs)); }
+.hs-actions { display: flex; gap: 8px; }
+.hs-actions button { width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 11px; background: var(--surface); color: var(--primary); cursor: pointer; }
+.hs-actions button:disabled { color: var(--text-faint); background: var(--bg); cursor: default; opacity: 0.5; }
+.hs-actions button:focus-visible, .hs-close:focus-visible, .hs-foot button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.hs-live { min-height: 18px; margin: 0; padding: 4px 16px; color: var(--primary-dark); font-size: calc(11px * var(--fs)); font-weight: 700; }
+.hs-foot { display: flex; gap: 8px; padding: 10px 14px 14px; border-top: 1px solid var(--hair); }
+.hs-foot button { min-height: 44px; border-radius: 12px; font-size: calc(13px * var(--fs)); font-weight: 800; cursor: pointer; }
+.hs-reset { flex: 1; border: 1px solid var(--border); background: var(--surface); color: var(--text-mut); }
+.hs-done { flex: 1.4; border: none; background: var(--primary); color: #fff; }
+@media (prefers-reduced-motion: reduce) { .hs-overlay, .hs-dialog { transition: none; } }
+
 /* 홈 후기 피드 — 박스 대신 hairline 행 */
 .feed-item {
   display: flex; gap: 10px; align-items: center; background: none;
@@ -884,3 +928,16 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 /* 컬렉션 상세 + 홈 칩 1줄 가드 (2026-07-04) */
 .sit-chip span { white-space: nowrap; } /* 칩 라벨 2줄 꺾임(옥에 티) 재발 방지 — 세로 규격 일관 */
 .ci-desc { font-size: calc(14px * var(--fs)); line-height: 1.65; color: var(--text); margin: 0; }
+
+/* 국내 폭포 탭 상세 — 다른 컬렉션에는 적용되지 않음 */
+.wf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.wf-fact { min-width: 0; padding: 9px 10px; border-radius: 10px; background: var(--bg); display: flex; flex-direction: column; gap: 3px; }
+.wf-fact span { font-size: calc(10.5px * var(--fs)); color: var(--text-faint); font-weight: 700; }
+.wf-fact b { font-size: calc(12.5px * var(--fs)); line-height: 1.35; color: var(--text); }
+.wf-note { margin: 10px 0 0; padding-top: 9px; border-top: 1px solid var(--hair); color: var(--text-mut); font-size: calc(12px * var(--fs)); line-height: 1.55; }
+.wf-note i { color: var(--primary); margin-right: 5px; }
+.wf-evidence { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.wf-evidence span { padding: 4px 9px; border-radius: 14px; background: var(--primary-soft); color: var(--primary-dark); font-size: calc(10.5px * var(--fs)); font-weight: 800; }
+.wf-source { min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 11px; border-radius: 10px; background: var(--primary-soft); color: var(--primary-dark); font-size: calc(12.5px * var(--fs)); font-weight: 800; }
+.wf-source:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.wf-checked { margin: 8px 0 0; color: var(--text-faint); font-size: calc(10.5px * var(--fs)); line-height: 1.5; }
