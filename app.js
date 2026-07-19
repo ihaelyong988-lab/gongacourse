@@ -22913,6 +22913,9 @@ function collItemPhoto(key, gi, ii, it) {
   return collItemFallbackPhoto(key, gi, ii, it);
 }
 function collItemFallbackPhoto(key, gi, ii, it) {
+  // 국내 폭포는 다른 폭포·범용 스톡을 실제 장소 사진처럼 대체하지 않는다.
+  // 승인된 로컬 실제 사진 또는 명시된 AI 재현 이미지만 노출한다(2026-07-19).
+  if (key === "wfall") return "";
   // loremflickr는 한글 키워드를 못 읽고 기본 대체 이미지로 떨어짐 → 영문 토큰만 사용
   const ascii = (it.ik || "").split(",").map(s => s.trim()).filter(s => /^[a-z0-9 -]+$/i.test(s)).join(",");
   const kw = ascii || COLL_FALLBACK_IK[key] || "landscape,nature";
@@ -22993,7 +22996,7 @@ function renderCollItem(ref) {
     </div>
 
     <div class="d-photo-strip">
-      <img class="dp-img" src="${collItemPhoto(key, gi, ii, it)}" alt="${it.n} 사진" loading="lazy"
+      <img class="dp-img" src="${collItemPhoto(key, gi, ii, it)}" alt="${key === "wfall" ? (it.photoType === "ai" ? `${it.n} AI 생성 재현 이미지, 실제 촬영 사진 아님` : `${it.n} 실제 사진`) : `${it.n} 사진`}" loading="lazy"
         data-fb="${collItemFallbackPhoto(key, gi, ii, it)}"
         onclick="openPhotoZoom(this)" onerror="collPhotoError(this)">
       ${visitorSettings.admin ? `
@@ -23002,7 +23005,11 @@ function renderCollItem(ref) {
         ${photoOverrides[ref] ? `<button class="dp-btn ghost" onclick="resetCoursePhoto(${refArg})"><i class="fa-solid fa-rotate-left"></i> 기본 복원</button>` : ""}
       </div>` : ""}
     </div>
-    ${it.photo && it.pc && !photoOverrides[ref] ? `<p class="dp-credit" id="dp-credit">사진 <a href="${it.psrc || it.photo}" target="_blank" rel="noopener noreferrer">${it.pc}</a></p>` : ""}
+    ${key === "wfall" && it.photoType === "ai" && !photoOverrides[ref]
+      ? `<p class="dp-credit" id="dp-credit"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> AI 생성 재현 이미지 · 실제 촬영 사진 아님${it.photoBasis ? ` · <a href="${it.photoBasis}" target="_blank" rel="noopener noreferrer">근거 자료</a>` : ""}</p>`
+      : it.photo && it.pc && !photoOverrides[ref]
+        ? `<p class="dp-credit" id="dp-credit">사진 <a href="${it.psrc || it.photo}" target="_blank" rel="noopener noreferrer">${it.pc}</a></p>`
+        : ""}
 
     ${stats.length ? `<div class="stat-row">${stats.map(s =>
       `<div class="stat"><span class="s-l">${s.l}</span><span class="s-v">${s.v}</span></div>`).join("")}</div>` : ""}
