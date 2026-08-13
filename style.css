@@ -79,9 +79,12 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
   padding: 0 12px; height: 36px;
 }
 .appbar-search i { color: var(--text-faint); font-size: calc(13px * var(--fs)); }
+/* iOS는 글자 16px 미만인 입력창에 포커스하면 화면을 강제로 확대한다(뷰포트에서 user-scalable=no를
+   걷어낸 뒤부터 발동). 확대는 허용하되 입력할 때 화면이 튀지는 않도록, 이 파일의 텍스트 입력
+   4곳(.appbar-search input · .composer-input · .review-form textarea · .coll-search)은 하한만 16px로 잡는다. */
 .appbar-search input {
   flex: 1; min-width: 0; border: none; background: none; outline: none;
-  font-family: inherit; font-size: calc(13.5px * var(--fs)); color: var(--text);
+  font-family: inherit; font-size: max(16px, calc(13.5px * var(--fs))); color: var(--text);
 }
 /* 앱바 우측 프로필 (내정보 전용) — 아이콘 최우측 */
 .appbar-profile { display: flex; align-items: center; gap: 9px; margin-left: auto; }
@@ -476,7 +479,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .star.on { color: #f5b301; }
 .review-form textarea {
   width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 11px;
-  font-family: inherit; font-size: calc(13.5px * var(--fs)); resize: vertical; outline: none;
+  font-family: inherit; font-size: max(16px, calc(13.5px * var(--fs))); resize: vertical; outline: none;
 }
 .review-form textarea:focus { border-color: var(--primary); }
 .rf-actions { display: flex; gap: 8px; margin-top: 8px; }
@@ -509,7 +512,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 }
 .composer-input {
   width: 100%; border: none; border-radius: 22px; background: var(--bg);
-  padding: 13px 17px; font-family: inherit; font-size: calc(14px * var(--fs)); color: var(--text); outline: none;
+  padding: 13px 17px; font-family: inherit; font-size: max(16px, calc(14px * var(--fs))); color: var(--text); outline: none;
   transition: box-shadow 0.2s, background 0.2s;
 }
 .composer-input::placeholder { color: var(--text-faint); }
@@ -519,7 +522,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .composer-photo-x { position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; background: #333; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .composer-actions { display: flex; align-items: center; gap: 4px; margin-top: 12px; }
 .composer-link {
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px;   /* 글자 크기는 그대로, 눌리는 높이만 44px */
   border: none; border-radius: 20px; padding: 8px 12px;
   background: transparent; color: var(--text-mut); font-weight: 700; font-size: calc(13px * var(--fs));
 }
@@ -603,7 +606,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .set-title i { color: var(--primary); margin-right: 6px; }
 .seg { display: flex; gap: 6px; flex-wrap: wrap; }
 .seg.small { gap: 6px; }
-.seg-btn { flex: 1; min-width: 0; white-space: nowrap; font-size: calc(12.5px * var(--fs)); font-weight: 700; padding: 9px 8px; border-radius: 10px; background: var(--bg); border: 1px solid var(--border); color: var(--text-mut); }
+.seg-btn { flex: 1; min-width: 0; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; font-size: calc(12.5px * var(--fs)); font-weight: 700; padding: 9px 8px; border-radius: 10px; background: var(--bg); border: 1px solid var(--border); color: var(--text-mut); }
 .seg-btn.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 .set-result { margin-top: 12px; background: var(--primary-soft); color: var(--primary-dark); border-radius: 10px; padding: 10px 12px; font-size: calc(12.5px * var(--fs)); font-weight: 700; }
 .set-result i { margin-right: 5px; }
@@ -654,7 +657,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .ped-sub { font-size: calc(11.5px * var(--fs)); font-weight: 800; color: var(--text-faint); margin: 14px 0 8px; }
 .ped-sub:first-of-type { margin-top: 4px; }
 .goal-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.goal-chip { padding: 7px 2px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text-mut); font-weight: 800; font-size: calc(11px * var(--fs)); }
+.goal-chip { padding: 7px 2px; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text-mut); font-weight: 800; font-size: calc(11px * var(--fs)); }
 .goal-chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 
 .ped-week { display: flex; align-items: flex-end; gap: 6px; height: 70px; margin-top: 0; }
@@ -666,7 +669,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .wk-l.on { color: var(--primary); }
 
 .ped-quick { display: flex; gap: 6px; margin-top: 0; }
-.q-chip { flex: 1; padding: 8px 4px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--primary); font-weight: 800; font-size: calc(11.5px * var(--fs)); }
+.q-chip { flex: 1; padding: 8px 4px; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--primary); font-weight: 800; font-size: calc(11.5px * var(--fs)); }
 .q-chip.reset { color: var(--text-faint); }
 .q-chip:active { background: var(--primary-soft); }
 .ped-note { font-size: calc(10.5px * var(--fs)); color: var(--text-faint); line-height: 1.5; margin: 11px 0 0; }
@@ -710,7 +713,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .hh-bar span { display: block; height: 100%; background: #fff; border-radius: 5px; transition: width 0.5s ease; }
 /* 일/주/월 세그먼트 컨트롤 (흰 알약 on 그린) */
 .hh-seg { display: flex; gap: 2px; background: rgba(255,255,255,0.18); border-radius: 11px; padding: 3px; margin-bottom: 13px; }
-.hh-seg-btn { flex: 1; border: none; background: transparent; color: rgba(255,255,255,0.85); font-size: calc(13px * var(--fs)); font-weight: 800; padding: 9px 0; min-height: 38px; border-radius: 8px; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.hh-seg-btn { flex: 1; border: none; background: transparent; color: rgba(255,255,255,0.85); font-size: calc(13px * var(--fs)); font-weight: 800; padding: 9px 0; min-height: 44px; border-radius: 8px; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
 .hh-seg-btn.on { background: #fff; color: var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,0.14); }
 .hh-seg-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
@@ -754,7 +757,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .ped2.measuring { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(46,125,50,0.18), 0 10px 30px rgba(20,40,25,0.1); }
 .ped2-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
 .p2-seg { flex: 1; display: flex; gap: 2px; background: var(--surface-2,#eef3ee); border-radius: 12px; padding: 3px; }
-.p2-seg-btn { flex: 1; border: none; background: transparent; color: var(--text-mut); font-size: calc(13px * var(--fs)); font-weight: 800; padding: 8px 0; min-height: 36px; border-radius: 9px; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.p2-seg-btn { flex: 1; border: none; background: transparent; color: var(--text-mut); font-size: calc(13px * var(--fs)); font-weight: 800; padding: 8px 0; min-height: 44px; border-radius: 9px; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
 .p2-seg-btn.on { background: var(--primary); color: #fff; box-shadow: 0 2px 6px rgba(46,125,50,0.3); }
 .p2-menu { width: 38px; height: 38px; border-radius: 11px; border: 1px solid var(--hair); background: var(--surface); color: var(--text-mut); font-size: 16px; flex-shrink: 0; cursor: pointer; }
 .p2-menu:active { background: var(--surface-2,#eef3ee); }
@@ -903,7 +906,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 /* 모음집 목록 — 박스 대신 hairline 행(박스나라 탈출 규칙) */
 .coll-total { font-size: calc(12px * var(--fs)); font-weight: 800; color: var(--primary-dark); background: var(--primary-soft); padding: 3px 10px; border-radius: 14px; }
 .coll-desc { color: var(--text-mut); font-size: calc(12.5px * var(--fs)); margin: 4px 2px 10px; }
-.coll-search { width: 100%; min-height: 44px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 22px; background: var(--surface); font-size: calc(14px * var(--fs)); font-family: inherit; color: var(--text); margin-bottom: 6px; }
+.coll-search { width: 100%; min-height: 44px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 22px; background: var(--surface); font-size: max(16px, calc(14px * var(--fs))); font-family: inherit; color: var(--text); margin-bottom: 6px; }
 .coll-search:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 1px; border-color: var(--primary); }
 .coll-group { font-size: calc(12.5px * var(--fs)); font-weight: 800; color: var(--primary-dark); background: var(--primary-soft); display: inline-block; padding: 4px 12px; border-radius: 14px; margin: 14px 0 4px; }
 .coll-row { display: flex; align-items: center; gap: 10px; padding: 10px 4px; border-bottom: 1px solid var(--hair); min-height: 48px; }
@@ -982,6 +985,14 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .appbar-search input { min-height: 44px; }
 .sec a, .sec .more, a.more { min-height: 44px; display: inline-flex; align-items: center; padding: 0 6px; }
 
+/* 아이콘 단독 버튼(28~38px 실측: 내 글 삭제·날짜 화살표·만보기 메뉴·모달 닫기)은 보이는 크기를 키우면
+   피드 행 높이와 모달 헤더가 같이 밀린다. 그래서 투명한 확장면을 버튼 위에 겹쳐 손가락만 44px로 받는다. */
+.fc-del, .p2-nav, .p2-menu, .pm-x { position: relative; }
+.fc-del::after, .p2-nav::after, .p2-menu::after, .pm-x::after {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  width: 44px; height: 44px; transform: translate(-50%, -50%);
+}
+
 /* 저장 불가 고지 — 시크릿 모드·용량 초과 기기에서 기록이 남지 않는다는 사실을 방문자에게 알린다.
    role="alert" 로 스크린리더에도 전달되며, 탭바를 가리지 않도록 그 위에 띄운다. */
 .storage-warn {
@@ -994,3 +1005,19 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
   .storage-warn { animation: storage-warn-in 180ms ease-out; }
   @keyframes storage-warn-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 }
+
+/* 부팅 폴백·JS 비활성 안내 (index.html #boot-fallback · noscript) — 화면 본문을 전부 JS가 채우므로
+   스크립트가 늦거나 실패하면 방문자에게 남는 건 흰 화면뿐이다. 그 자리를 대신 채우는 정적 안내다.
+   렌더가 성공하면 renderHome이 #home-body를 통째로 덮어써 자동으로 사라진다. */
+.boot-fallback, .nojs-note {
+  background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius);
+  padding: 18px 16px; margin: 0 0 12px; text-align: center;
+  font-size: calc(14px * var(--fs)); line-height: 1.6; color: var(--text-mut);
+}
+.boot-fallback p { margin: 0 0 12px; }
+.boot-fallback.failed { border-color: var(--primary); color: var(--text); }
+.boot-fallback button {
+  min-height: 44px; padding: 0 22px; border-radius: 22px;
+  background: var(--primary); color: #fff; font-size: calc(13.5px * var(--fs)); font-weight: 800;
+}
+.boot-fallback button:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 2px; }

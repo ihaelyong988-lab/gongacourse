@@ -2,7 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- 확대 차단(maximum-scale·user-scalable)을 걷어냈다 — 부모님과 함께 보는 앱에서 핀치 줌을 막으면
+       작은 글씨를 읽을 방법이 사라진다(앱 내 글자 크기 설정은 만보기 탭 시트 안에 숨어 있다). -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2e7d32">
   <title>꽁아코스 - 경험자와 소통하는 나들이 가이드</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,9 +28,15 @@
 
   <main class="app-main">
 
-    <!-- 1. 홈 -->
+    <!-- 1. 홈 (본문은 renderHome이 채운다. 아래 안내는 스크립트가 붙기 전·실패했을 때만 보이는 폴백이다.) -->
     <section class="screen active" id="screen-home">
-      <div class="screen-pad" id="home-body"></div>
+      <div class="screen-pad" id="home-body">
+        <noscript><p class="nojs-note">이 앱은 자바스크립트로 코스를 불러옵니다. 브라우저 설정에서 자바스크립트를 켠 뒤 새로고침해 주세요.</p></noscript>
+        <div class="boot-fallback" id="boot-fallback" role="status">
+          <p>코스를 불러오는 중입니다. 30초 이상 멈추면 새로고침해 주세요.</p>
+          <button type="button" onclick="location.reload()">새로고침</button>
+        </div>
+      </div>
     </section>
 
     <!-- 2. 코스탐색 -->
@@ -82,12 +90,26 @@
     <button class="tab" data-tab="mypage" onclick="goTab('mypage')"><i class="fa-solid fa-shoe-prints"></i><span>만보기</span></button>
   </nav>
 
-  <script src="data/waterfalls-part1.js"></script>
-  <script src="data/waterfalls-part2.js"></script>
-  <script src="data/waterfalls-part3.js"></script>
-  <script src="data/waterfalls-part4.js"></script>
-  <script src="data/waterfalls-part5.js"></script>
-  <script src="data/waterfalls.js"></script>
-  <script src="app.js"></script>
+  <!-- 부팅 실패 폴백 — 이동 중 회선이 끊겨 app.js(약 1MB) 내려받기가 중단되거나 스크립트가 터지면
+       모든 화면 본문이 빈 채로 남아 방문자는 흰 화면만 본다. 폴백 문구가 아직 살아 있을 때(=렌더 전)만
+       실패 안내로 바꾼다 — 렌더 성공 뒤의 사소한 예외로 화면을 지워버리지 않기 위해서다. -->
+  <script>
+    function bootFail() {
+      var el = document.getElementById('boot-fallback');
+      if (!el) return;                      // renderHome이 이미 덮어썼다 = 부팅 성공
+      el.setAttribute('role', 'alert');
+      el.className = 'boot-fallback failed';
+      el.innerHTML = '<p>코스를 불러오지 못했습니다. 통신 상태를 확인한 뒤 다시 시도해 주세요.</p>'
+        + '<button type="button" onclick="location.reload()">다시 시도</button>';
+    }
+    window.addEventListener('error', bootFail);   // 구문 오류·초기화 중 예외 (리소스 오류는 캡처 단계라 안 걸린다)
+  </script>
+  <script src="data/waterfalls-part1.js" onerror="bootFail()"></script>
+  <script src="data/waterfalls-part2.js" onerror="bootFail()"></script>
+  <script src="data/waterfalls-part3.js" onerror="bootFail()"></script>
+  <script src="data/waterfalls-part4.js" onerror="bootFail()"></script>
+  <script src="data/waterfalls-part5.js" onerror="bootFail()"></script>
+  <script src="data/waterfalls.js" onerror="bootFail()"></script>
+  <script src="app.js" onerror="bootFail()"></script>
 </body>
 </html>

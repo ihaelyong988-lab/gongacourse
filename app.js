@@ -20488,6 +20488,10 @@ let commPhotoBase64 = null;
 // 검색어 빈도(많이 검색된 키워드 순 정렬용)
 let searchCounts = {};
 let searchBumpTimer = null;
+/* 검색어 집계(searchBumpTimer)와 별개로 "목록을 다시 그리는" 타이머.
+   한글 IME는 자모마다 input을 쏘아 '북한산' 한 단어 입력이 9회 전량 재렌더가 된다
+   (실측 1회 217ms) — 마지막 입력 뒤 한 번만 그린다. */
+let searchRenderTimer = null;
 
 // 방문자 맞춤 설정
 let visitorSettings = {
@@ -20503,6 +20507,32 @@ let visitorSettings = {
 
 const DEFAULT_NICK = "나들이 대장님";
 let NICK = DEFAULT_NICK; // 필명(간편등록 시 visitorSettings.nick으로 갱신)
+
+/* 작성자 신원 = 기기 고유 id. 필명 문자열로 소유를 판정하면 두 가지가 동시에 깨진다 —
+   ① 시드 작성자 이름('산책매니아')을 필명에 넣으면 그 사람 후기 217건이 내 지표로 집계되고
+   ② 내 필명을 바꾸면 내가 쓴 글의 삭제 버튼이 사라진다(되돌릴 수단 없음).
+   표시 이름은 바뀌어도 이 id는 바뀌지 않는다. */
+let UID = "";
+function newUid() {
+  // randomUUID는 비보안 오리진·구형 웹뷰에 없다 — 없으면 시각+난수로 충분히 갈라진다.
+  try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+  return "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+function loadUid() {
+  let v = lsGet("gongacourse_uid");
+  if (typeof v !== "string" || !v) { v = newUid(); lsSet("gongacourse_uid", v); }
+  UID = v;
+}
+/* 집계용 판정(등급·내 후기 수·아바타) — uid가 박힌 글만 내 글로 센다.
+   uid 없는 옛 글까지 필명으로 세면 남의 이름을 넣는 것만으로 지표가 부풀어 오른다. */
+function isMine(o) { return !!(o && o.uid && o.uid === UID); }
+/* 삭제 권한 판정 — uid 우선, uid가 없던 옛 글은 필명 일치도 인정한다(기존 데이터 호환).
+   집계와 달리 여기서 옛 글을 빼면 이미 올린 글을 지울 수단 자체가 사라진다. */
+function canDelete(o) {
+  if (!o) return false;
+  if (o.uid) return o.uid === UID;
+  return o.user === NICK;
+}
 
 // -----------------------------------------------------------------------------
 // 영속화
@@ -20530,6 +20560,27 @@ function noticeStorageBroken() {
   bar.textContent = "이 브라우저에 저장할 수 없어 기록이 남지 않아요. 시크릿 모드이거나 저장 공간이 가득 찼는지 확인해 주세요.";
   document.body.appendChild(bar);
   setTimeout(() => bar.remove(), 6000);
+}
+/* 저장본 신선도 표식. 개수만 비교하면(242개 그대로) 코스 제목·동선·맛집·소요시간을 고쳐 배포해도
+   재방문자에게는 낡은 localStorage 사본이 영원히 우선한다. 코스 데이터를 손보면 이 값을 올린다. */
+const DATA_VERSION = "2026-08-13";
+/* 재적재는 코스 '본문'만 갈아 끼운다. 후기·사진·투표는 코스와 같은 배열에 얹혀 있어
+   그냥 덮어쓰면 방문자 기록이 통째로 소멸한다 — id로 짝지어 되살린 뒤에 저장한다.
+   (병합 없는 리셋 = 데이터 파괴. 이 함수 없이 버전 키만 넣으면 안 된다.) */
+function mergeVisitorRecords(fresh, old) {
+  if (!Array.isArray(old) || !old.length) return;
+  const byId = new Map();
+  old.forEach(c => { if (c && c.id != null) byId.set(c.id, c); });
+  fresh.forEach(c => {
+    const o = byId.get(c.id);
+    if (!o) return;
+    if (Array.isArray(o.comments)) c.comments = o.comments.slice();
+    if (Array.isArray(o.photos)) c.photos = o.photos.slice();
+    /* 투표수는 시드값과 방문자가 누른 몫이 한 숫자에 섞여 있어 델타를 분리할 수 없다.
+       저장본을 그대로 남긴다 — 새 시드 투표수를 못 받는 대신 방문자 투표를 잃지 않는다. */
+    if (typeof o.votesUp === "number") c.votesUp = o.votesUp;
+    if (typeof o.votesDown === "number") c.votesDown = o.votesDown;
+  });
 }
 function saveToLocalStorage() {
   return lsSet("gongacourse_data", JSON.stringify(courses));
@@ -20574,13 +20625,35 @@ function topKeywords(n) {
 // 화면 스택 라우터 (뒤로가기 정상화의 핵심)
 // -----------------------------------------------------------------------------
 const ROOTS = ["home", "explore", "community", "saved", "mypage"];
+// 해시로 복원 진입을 허용하는 화면(그 외 id는 홈으로 떨어뜨린다)
+const HASH_SCREENS = ROOTS.concat(["detail", "collection", "collitem", "themehub"]);
 
-function showScreen(id, state) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+/* 화면별 마지막 스크롤 위치. 뒤로가기 복귀 때만 되돌린다.
+   복원 여부를 history.state에 실으면 그 값이 그 항목에 영구 저장돼, 나중에 같은 항목으로 돌아올 때도
+   최상단으로 튄다 — 그래서 state가 아니라 showScreen의 인자(navigating)로만 전달한다. */
+const scrollMem = {};
+// 브라우저 자동 복원과 우리 복원이 겹치면 위치가 두 번 튄다. 복원 주체를 앱으로 일원화한다.
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+function showScreen(id, state, navigating) {
+  /* 대상 화면 검증이 먼저다. active를 먼저 벗기면 모르는 id(구버전 히스토리 항목)일 때
+     모든 .screen이 숨은 채 복구되지 않아 앱바·탭바만 남은 백지가 된다. */
   const el = document.getElementById("screen-" + id);
-  if (el) el.classList.add("active");
+  if (!el) {
+    if (id !== "home") showScreen("home", null, navigating);
+    return;
+  }
+  // 떠나는 화면의 스크롤 위치를 적립(긴 탐색 목록에서 읽던 자리를 되찾기 위함)
+  scrollMem[currentScreen] = window.scrollY;
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  el.classList.add("active");
   currentScreen = id;
   if (ROOTS.includes(id)) currentRoot = id;
+
+  /* 측정 세션 타이머는 마이페이지의 시간·속도 표시(#ped2-time)만 갱신한다. 화면을 떠난 뒤에도
+     매초 돌면 없는 DOM을 조회하며 배터리만 쓴다 — 떠날 때 끊고, 돌아오면 renderMypage가 다시 건다
+     (측정 자체는 devicemotion 리스너가 계속하므로 걸음 수는 끊기지 않는다). */
+  if (id !== "mypage" && pedSession.timer) { clearInterval(pedSession.timer); pedSession.timer = null; }
 
   if (id === "home") renderHome();
   else if (id === "explore") renderExplore();
@@ -20609,13 +20682,29 @@ function showScreen(id, state) {
     profEl.style.display = showProf ? "flex" : "none";
     if (showProf) renderAppbarProfile();
   }
-  window.scrollTo(0, 0);
-  if (el) el.scrollTop = 0;
+  /* 전진(navigate)은 최상단, 뒤로가기 복귀는 저장해 둔 자리로. 목록 242카드를 처음부터 다시
+     스크롤하게 만들지 않는다. 복귀 직후에는 이미지·목록 높이가 덜 잡혀 scrollTo가 잘리므로
+     레이아웃이 확정되는 다음 프레임에 한 번 더 맞춘다. */
+  const top = navigating ? 0 : (scrollMem[id] || 0);
+  el.scrollTop = 0;
+  window.scrollTo(0, top);
+  if (top > 0) requestAnimationFrame(() => window.scrollTo(0, top));
+}
+
+/* 검색어는 상태(searchKeyword)와 앱바 입력창 DOM 두 곳에 산다. 한쪽만 지우면 화면에 보이는
+   검색어와 실제 결과가 어긋나고, 방문자가 한 글자만 고치는 순간 잊고 있던 옛 검색어가
+   통째로 되살아나 결과가 급변한다. 검색어를 바꾸는 경로는 전부 여기를 지난다.
+   keepInput=true는 그 입력창에 직접 타이핑하는 중일 때만 — 한글 조합 중 값을 되쓰면 글자가 깨진다. */
+function setSearchKeyword(v, keepInput) {
+  searchKeyword = (v || "").trim();
+  if (keepInput) return;
+  const gs = document.getElementById("global-search");
+  if (gs && gs.value !== searchKeyword) gs.value = searchKeyword;
 }
 
 // 앱바 글로벌 검색 → 탐색 화면으로 라우팅 + 필터
 function onGlobalSearch(v) {
-  searchKeyword = v.trim();
+  setSearchKeyword(v, true);
   if (searchBumpTimer) clearTimeout(searchBumpTimer);
   if (searchKeyword) searchBumpTimer = setTimeout(() => bumpSearch(searchKeyword), 900);
   if (currentScreen !== "explore") {
@@ -20623,23 +20712,59 @@ function onGlobalSearch(v) {
     const gs = document.getElementById("global-search");
     if (gs) { gs.value = v; gs.focus(); }
   } else {
-    renderExploreList();
+    if (searchRenderTimer) clearTimeout(searchRenderTimer);
+    searchRenderTimer = setTimeout(() => { searchRenderTimer = null; renderExploreList(); }, 260);
   }
+}
+
+// 화면 id·상세 id를 주소 해시로 (#detail/17). 서버 설정 없이 공유·새로고침 복원이 된다.
+function screenHash(id, subId) {
+  return "#" + id + (subId != null && subId !== "" ? "/" + encodeURIComponent(subId) : "");
 }
 
 // 새 화면으로 전진 (히스토리 push → 하드웨어 뒤로가기로 복귀 가능)
 function navigate(id, opt) {
   opt = opt || {};
   const state = { screen: id, id: opt.id };
-  if (opt.replace) history.replaceState(state, "");
-  else history.pushState(state, "");
-  showScreen(id, state);
+  // 주소를 함께 갱신한다 — 안 그러면 어떤 화면에 있어도 주소창이 앱 루트라 코스 링크를 보낼 수 없다.
+  const url = screenHash(id, opt.id);
+  if (opt.replace) history.replaceState(state, "", url);
+  else history.pushState(state, "", url);
+  showScreen(id, state, true);
+}
+
+/* 주소 해시 → 부팅 화면. 없는 코스·모음집 id로 들어오면 본문이 비어 백지가 되므로,
+   대상이 실제로 조회될 때만 그 화면으로 부팅하고 그 외에는 홈으로 떨어뜨린다. */
+function bootTargetFromHash() {
+  const parts = (location.hash || "").replace(/^#/, "").split("/");
+  const screen = parts[0];
+  if (!HASH_SCREENS.includes(screen) || !document.getElementById("screen-" + screen)) return { screen: "home" };
+  let id = parts[1] != null ? decodeURIComponent(parts[1]) : null;
+  if (screen === "detail") {
+    id = Number(id);
+    if (!courses.some(c => c.id === id)) return { screen: "home" };
+  } else if (screen === "collection") {
+    if (!collectionByKey(id)) return { screen: "home" };
+  } else if (screen === "collitem") {
+    const p = String(id || "").split(":");
+    const col = collectionByKey(p[0]);
+    const group = col && col.groups[+p[1]];
+    if (!(group && group.items[+p[2]])) return { screen: "home" };
+  } else if (screen === "themehub") {
+    if (!THEME_HUBS[id]) return { screen: "home" };
+  } else {
+    id = null; // 루트 탭은 하위 id를 갖지 않는다
+  }
+  return { screen: screen, id: id };
 }
 
 // 탭바 클릭
 function goTab(id) {
   if (id === currentScreen && ROOTS.includes(id)) return;
-  navigate(id);
+  /* 루트 탭끼리의 이동은 스택을 쌓지 않는다(탭 네 곳을 둘러본 뒤 나가려고 뒤로가기를 네 번 누르는 함정 제거).
+     대신 홈 복귀 경로는 popstate의 센티널 분기가 책임진다 — 탭에서 뒤로 1회 = 홈, 홈에서 1회 = 종료 확인.
+     하위 화면(상세 등)에서 탭을 누를 때는 push해 상세로 되돌아갈 길을 남긴다. */
+  navigate(id, { replace: ROOTS.includes(currentScreen) });
 }
 
 // 상세/하위 화면 진입
@@ -20651,6 +20776,34 @@ function openCourse(courseId) {
 // 상단 뒤로가기 버튼
 function goBack() {
   history.back();
+}
+
+/* 열려 있는 오버레이(프로필 모달·순서 설정·사진 확대)를 전부 닫는다. 히스토리는 건드리지 않는다 —
+   뒤로가기로 들어왔을 때는 그 항목이 이미 소비된 뒤이기 때문. X·완료 버튼 경로는 각 close 함수가
+   history.back()으로 항목을 걷어낸다. 닫은 게 있으면 true. */
+function closeAllOverlays() {
+  let closed = false;
+  const pm = document.querySelector(".prof-modal.on");
+  if (pm) {
+    pm.classList.remove("on");
+    document.removeEventListener("keydown", profModalEsc);
+    closed = true;
+  }
+  const hs = document.querySelector(".hs-overlay.on");
+  if (hs) {
+    hs.classList.remove("on");
+    document.removeEventListener("keydown", onHomeShortcutSettingsKeydown);
+    closed = true;
+  }
+  const pz = document.querySelector(".photo-zoom.on");
+  if (pz) { pz.classList.remove("on"); closed = true; }
+  return closed;
+}
+
+// 오버레이용 히스토리 항목을 1개만 올린다(중복 push 방지 — 두 번 쌓이면 뒤로가기가 헛돈다).
+function pushOverlayState(name) {
+  if (history.state && history.state.overlay === name) return;
+  history.pushState({ screen: currentScreen, overlay: name }, "");
 }
 
 function updateTabbar() {
@@ -20815,11 +20968,19 @@ function openPhotoZoom(el) {
     ov = document.createElement("div");
     ov.id = "photo-zoom";
     ov.className = "photo-zoom";
-    ov.addEventListener("click", () => ov.classList.remove("on"));
+    ov.addEventListener("click", closePhotoZoom);
     document.body.appendChild(ov);
   }
   ov.innerHTML = `<span class="pz-close" aria-label="닫기"><i class="fa-solid fa-xmark"></i></span><img src="${src}" alt="확대 사진">`;
   ov.classList.add("on");
+  // 뒤로가기가 앱이 아니라 이 라이트박스를 닫도록 히스토리에 항목을 하나 올린다.
+  pushOverlayState("photo");
+}
+function closePhotoZoom() {
+  const ov = document.getElementById("photo-zoom");
+  if (ov) ov.classList.remove("on");
+  // 라이트박스용 히스토리 항목이 남아 있으면 걷어낸다 — 안 그러면 뒤로가기가 한 번 헛돈다.
+  if (history.state && history.state.overlay === "photo") history.back();
 }
 
 // -----------------------------------------------------------------------------
@@ -20842,8 +21003,18 @@ function coursePrefTags(c) {
   return out;
 }
 
+/* 표시용 만족도 — 투표 결과를 코스 객체(c.satisfaction)에 되쓰지 않는다.
+   렌더 함수가 데이터를 바꾸면 "상세를 한 번 열었더니 목록 숫자까지 93%→96%로 변한다".
+   계산은 이 한 곳에서만 하고, 목록·상세·허브가 같은 값을 읽는다.
+   투표가 한 건도 없는 코스는 시드 만족도를 그대로 쓴다. */
+function satisfactionOf(c) {
+  const t = (c.votesUp || 0) + (c.votesDown || 0);
+  return t > 0 ? Math.round((c.votesUp / t) * 100) : (c.satisfaction || 100);
+}
+
 function courseCardHtml(course) {
-  const ratioClass = course.satisfaction >= 95 ? "high" : "";
+  const satisfaction = satisfactionOf(course);
+  const ratioClass = satisfaction >= 95 ? "high" : "";
   // 취향 뱃지는 상단 위치줄(우측)에 인라인 — 별도 줄 금지(카드 세로 규격 통일, 2026-07-04 캡쳐 지시)
   const prefs = coursePrefTags(course);
   const prefTag = prefs.length
@@ -20880,7 +21051,7 @@ function courseCardHtml(course) {
         <div class="cc-foot">
           <span class="cc-stat"><i class="fa-solid fa-mountain"></i> ${course.difficulty}</span>
           <span class="cc-stat"><i class="fa-regular fa-clock"></i> ${course.duration}</span>
-          <span class="cc-ratio ${ratioClass}"><i class="fa-solid fa-thumbs-up"></i> ${course.satisfaction}%</span>
+          <span class="cc-ratio ${ratioClass}"><i class="fa-solid fa-thumbs-up"></i> ${satisfaction}%</span>
         </div>
       </div>
     </div>`;
@@ -20892,10 +21063,23 @@ function toggleSave(id) {
   else savedCourses.unshift(id);
   saveBookmarks();
   // 현재 화면 갱신
-  if (currentScreen === "detail") renderDetail(id);
+  if (currentScreen === "detail") {
+    // 상세는 저장 버튼만 고쳐 쓴다 — 다시 그리면 작성 중이던 후기 초안이 날아간다.
+    if (currentCourse && currentCourse.id === id) updateSaveUI(id);
+    else renderDetail(id);
+  }
   else if (currentScreen === "explore") renderExplore();
   else if (currentScreen === "saved") renderSaved();
   else if (currentScreen === "home") renderHome();
+}
+
+// 상세 헤더의 저장 버튼 표시만 갱신
+function updateSaveUI(id) {
+  const b = document.querySelector(".dh-save");
+  if (!b) return;
+  const on = isSaved(id);
+  b.classList.toggle("on", on);
+  b.innerHTML = `<i class="fa-${on ? "solid" : "regular"} fa-bookmark"></i> ${on ? "저장됨" : "저장"}`;
 }
 
 // -----------------------------------------------------------------------------
@@ -20964,18 +21148,26 @@ function loadWeather(cb) {
   }, () => { weatherFetching = false; done(); }, { timeout: 8000, maximumAge: 3600000 });
 }
 
-function pickTodayCourse() {
+/* 「오늘의 추천」 선정기 — 홈과 테마 허브가 같은 이름표를 달고 서로 다른 규칙
+   (홈: 만족도 95↑ + 날짜 회전 / 허브: 인기 최댓값)으로 뽑던 것을 한 함수로 합친다.
+   순서: ①계절 풀(§4 절대규칙) ②날씨 보정 ③동행 보정 ④만족도 상위 ⑤인기 상위권을 날짜로 회전.
+   반환 { c, why } · 계절 풀이 비면 null. */
+function pickBestCourse(list) {
   const season = getCurrentSeason();
-  let pool = courses.filter(c => c.season === season);
-  if (!pool.length) pool = courses.slice();
+  let pool = (list || []).filter(c => c.season === season);
+  if (!pool.length) return null;
+  /* 인기도는 이 시점에 한 번 새로 잰다. 홈과 허브가 서로 다른 시점의 캐시를 보면
+     같은 목록에서도 다른 코스를 뽑아 "같은 이름표 다른 추천"이 그대로 되살아난다. */
+  popCache = null;
 
-  // 날씨 보정 (계절 풀 내에서)
+  // 날씨 보정 — 홈·허브에 두 벌로 복사돼 한쪽만 고치면 갈라지던 블록을 여기로 흡수했다.
+  let biasNote = "";
   if (weatherInfo) {
     let biased = pool;
-    if (weatherInfo.kind === "wet") biased = pool.filter(c => parseHours(c.duration) <= 2.5 && isEasy(c));
-    else if (weatherInfo.kind === "hot") biased = pool.filter(c => /숲|계곡|폭포|호수|강|해변|바다|물/.test(c.title + c.timeline.map(t => t.spot).join("")));
-    else if (weatherInfo.kind === "cold") biased = pool.filter(c => parseHours(c.duration) <= 2);
-    if (biased.length) pool = biased;
+    if (weatherInfo.kind === "wet") { biased = pool.filter(c => parseHours(c.duration) <= 2.5 && isEasy(c)); biasNote = "짧고 쉬운 동선"; }
+    else if (weatherInfo.kind === "hot") { biased = pool.filter(c => /숲|계곡|폭포|호수|강|해변|바다|물/.test(c.title + c.timeline.map(t => t.spot).join(""))); biasNote = "숲·물가 그늘 동선"; }
+    else if (weatherInfo.kind === "cold") { biased = pool.filter(c => parseHours(c.duration) <= 2); biasNote = "짧은 동선"; }
+    if (biased.length) pool = biased; else biasNote = "";
   }
 
   /* 동행 보정 (계절 풀 내에서 — §4 절대규칙: 계절 밖으로 나가지 않는다).
@@ -20990,10 +21182,24 @@ function pickTodayCourse() {
     if (fit.length) pool = fit;
   }
 
-  const top = pool.filter(c => c.satisfaction >= 95);
+  /* 만족도 상위 → 그 안에서 인기 상위권 → 날짜로 회전.
+     인기 1위만 보면(옛 허브) 후기 한 건에 추천이 뒤집히고, 날짜만 보면(옛 홈) 자정까지 굳는다. */
+  const top = pool.filter(c => satisfactionOf(c) >= 95);
   const base = top.length ? top : pool;
-  const day = new Date().getDate();
-  return base[day % base.length];
+  const ranked = base.slice().sort((a, b) => coursePop(b) - coursePop(a)).slice(0, 10);
+  const best = ranked[new Date().getDate() % ranked.length];
+  const why = biasNote
+    ? `${SEASON_KO[season]} · ${biasNote}`
+    : `${SEASON_KO[season]} · ${best.duration} · ${best.difficulty}`;
+  return { c: best, why };
+}
+
+function pickTodayCourse() {
+  const r = pickBestCourse(courses);
+  if (r) return r.c;
+  /* 계절 풀이 비는 경우는 코스 데이터 자체가 없을 때뿐이다. 홈은 이 카드가 없으면 화면이 깨지므로
+     그때만 계절 밖에서 집는다 — 풀이 하나라도 있으면 §4 계절 규칙이 항상 이긴다. */
+  return courses.length ? courses[new Date().getDate() % courses.length] : null;
 }
 
 // 홈 계절/날씨 컨텍스트 문자열
@@ -21086,6 +21292,8 @@ function openHomeShortcutSettings() {
   const overlay = renderHomeShortcutSettings();
   overlay.classList.add("on");
   document.addEventListener("keydown", onHomeShortcutSettingsKeydown);
+  // 뒤로가기가 앱이 아니라 이 다이얼로그를 닫도록 히스토리에 항목을 하나 올린다(바꾼 순서 보존).
+  pushOverlayState("hs");
   setTimeout(() => { const close = overlay.querySelector(".hs-close"); if (close) close.focus(); }, 0);
 }
 
@@ -21093,6 +21301,8 @@ function closeHomeShortcutSettings() {
   const overlay = document.getElementById("home-shortcut-settings");
   if (overlay) overlay.classList.remove("on");
   document.removeEventListener("keydown", onHomeShortcutSettingsKeydown);
+  // 다이얼로그용 히스토리 항목이 남아 있으면 걷어낸다 — 안 그러면 뒤로가기가 한 번 헛돈다.
+  if (history.state && history.state.overlay === "hs") history.back();
 }
 
 function onHomeShortcutSettingsKeydown(e) {
@@ -21134,7 +21344,9 @@ function gotoSituation(key) {
 
 // 기존 "탐색+취향칩" 라우팅 보존 — 테마 허브 하단 '탐색에서 조건 바꿔 더 보기'가 호출
 function gotoExploreTheme(key) {
-  searchKeyword = "";
+  // 초기화 경로가 clearFilters와 갈라지면 안 된다 — 검색창 DOM·서랍까지 같은 상태로 맞춘다.
+  setSearchKeyword("");
+  openDrawer = null;
   currentRegionFilter = "all";
   currentSeasonFilter = "all";
   currentThemeFilters = (key === "easy" || key === "food" || key === "temple" || key === "long") ? [key] : [];
@@ -21146,6 +21358,12 @@ function gotoExploreTheme(key) {
 // 테마별 고유 필터·정렬·메타 리스트 + 오늘의 테마 추천 1개(§4: 현재 계절 풀 한정)
 // -----------------------------------------------------------------------------
 let currentThemeHubKey = null;
+
+/* 허브 목록 노출 상한 — today·new 허브는 filter가 null이라 242행이 통째로 대상이 된다.
+   30행 + '더 보기'로 끊어 낸다. 상한은 허브가 바뀔 때만 초기화하므로, 날씨 도착·사진 교체로
+   같은 허브가 다시 그려져도 방문자가 펼쳐 둔 만큼은 그대로 남는다. */
+const THEME_HUB_PAGE = 30;
+let themeHubLimit = THEME_HUB_PAGE;
 
 // 인기도는 렌더당 1회만 전체 계산(정렬 비교자 안에서 courses.find 재계산 금지 — 리뷰 지적)
 let popCache = null;
@@ -21204,31 +21422,16 @@ const THEME_HUBS = {
   }
 };
 
-// 오늘의 테마 추천 — §4: 반드시 현재 계절 풀 교집합에서만 선정(계절 무관 노출 금지),
-// weatherInfo 있으면 pickTodayCourse와 동일한 보정. 풀이 비면 null(카드 미노출).
+// 오늘의 테마 추천 — 홈과 같은 선정기(pickBestCourse)를 허브 목록에만 적용한다.
+// 같은 이름의 추천이 화면마다 다른 규칙으로 뽑히지 않게 한다(계절·날씨·동행 보정은 선정기가 지킨다).
 function themeHubReco(list) {
-  const season = getCurrentSeason();
-  let pool = list.filter(c => c.season === season);
-  if (!pool.length) return null;
-  let biasNote = "";
-  if (weatherInfo) {
-    let biased = pool;
-    if (weatherInfo.kind === "wet") { biased = pool.filter(c => parseHours(c.duration) <= 2.5 && isEasy(c)); biasNote = "짧고 쉬운 동선"; }
-    else if (weatherInfo.kind === "hot") { biased = pool.filter(c => /숲|계곡|폭포|호수|강|해변|바다|물/.test(c.title + c.timeline.map(t => t.spot).join(""))); biasNote = "숲·물가 그늘 동선"; }
-    else if (weatherInfo.kind === "cold") { biased = pool.filter(c => parseHours(c.duration) <= 2); biasNote = "짧은 동선"; }
-    if (biased.length) pool = biased; else biasNote = "";
-  }
-  let best = pool[0];
-  for (const c of pool) if (coursePop(c) > coursePop(best)) best = c;
-  const why = biasNote
-    ? `${SEASON_KO[season]} · ${biasNote}`
-    : `${SEASON_KO[season]} · ${best.duration} · ${best.difficulty}`;
-  return { c: best, why };
+  return pickBestCourse(list);
 }
 
 function renderThemeHub(key) {
   const hub = THEME_HUBS[key];
   if (!hub) return;
+  if (currentThemeHubKey !== key) themeHubLimit = THEME_HUB_PAGE; // 다른 테마의 펼침 깊이를 물려받지 않게
   currentThemeHubKey = key;
   const root = document.getElementById("themehub-body");
   if (!root) return;
@@ -21249,7 +21452,8 @@ function renderThemeHub(key) {
       </div>
     </div>` : "";
 
-  const rows = list.map((c, i) => `
+  const shown = list.slice(0, themeHubLimit);
+  const rows = shown.map((c, i) => `
     <div class="coll-row tappable" onclick="openCourse(${c.id})">
       <span class="coll-rank">${i + 1}</span>
       <div class="coll-mid">
@@ -21259,6 +21463,11 @@ function renderThemeHub(key) {
       <i class="fa-solid fa-chevron-right coll-go"></i>
     </div>`).join("") || '<p class="muted-note">조건에 맞는 코스가 없어요.</p>';
 
+  // 남은 개수만 버튼에 적는다(총 개수는 위 sectionLabel의 'N곳'이 이미 보여준다)
+  const restCount = list.length - shown.length;
+  const growHtml = restCount > 0
+    ? `<button type="button" class="th-more" onclick="showMoreThemeHub()">코스 ${restCount}개 더 보기</button>` : "";
+
   const moreHtml = (key === "easy" || key === "food" || key === "temple" || key === "long")
     ? `<button type="button" class="th-more" onclick="gotoExploreTheme('${key}')">탐색에서 조건 바꿔 더 보기</button>` : "";
 
@@ -21267,6 +21476,7 @@ function renderThemeHub(key) {
     <p class="coll-desc">${hub.crit}</p>
     ${recoHtml}
     ${rows}
+    ${growHtml}
     ${moreHtml}`;
 
   // 날씨 미로드 시 세션당 1회만 조회 후 재렌더 — 위치 거부 시 "오류→재렌더→재시도" 루프 차단(리뷰 지적, §4 폴백=계절만)
@@ -21274,6 +21484,12 @@ function renderThemeHub(key) {
     renderThemeHub.weatherTried = true;
     loadWeather(() => { if (currentScreen === "themehub") renderThemeHub(currentThemeHubKey); });
   }
+}
+
+// 허브 '더 보기' — 같은 key로 다시 그리므로 상한 초기화 분기를 타지 않는다
+function showMoreThemeHub() {
+  themeHubLimit += THEME_HUB_PAGE;
+  renderThemeHub(currentThemeHubKey);
 }
 
 // 섹션 헤더: 제목 + 수평 라인(밴딩) + (선택)우측 요소 — 박스 단조로움 탈출용
@@ -21288,8 +21504,8 @@ function companionResult() {
   if (c === "parent") { count = courses.filter(isEasy).length; label = "효도코스(완만)"; }
   else if (c === "pet") { count = courses.filter(isPetFriendly).length; label = "반려견 동반 가능"; }
   else if (c === "child") { count = courses.filter(c2 => parseHours(c2.duration) <= 2.0).length; label = "유아 동반(2시간 이내)"; }
-  const map = { parent: "부모님 동반", pet: "반려동물 동반", child: "어린아이 동반" };
-  return { text: `${map[c]} 설정 적용`, sub: `${label} <b>${count}개</b> 우선 정렬 중`, key: c };
+  // 반환 계약은 실제 사용처(홈 배너의 sub 한 줄)와 같게 둔다 — 쓰이지 않는 text·key는 두지 않는다.
+  return { sub: `${label} <b>${count}개</b> 우선 정렬 중` };
 }
 
 function renderHome() {
@@ -21323,7 +21539,7 @@ function renderHome() {
 
   root.innerHTML = `
     ${sectionLabel("☀️ 오늘의 추천", `<span class="hl-ctx">${seasonWeatherContext()}</span>`)}
-    <div class="today-card accent-${t.season}" onclick="openCourse(${t.id})">
+    <div class="today-card accent-${t.season}" role="button" tabindex="0" onclick="openCourse(${t.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCourse(${t.id});}">
       <div class="tc-row">
         <div class="tc-visual sv-${t.season}">
           <img class="tc-photo" src="${coursePhoto(t, 320)}" alt="" loading="lazy" onerror="this.classList.add('img-failed')">
@@ -21339,7 +21555,7 @@ function renderHome() {
           <div class="tc-meta">
             <i class="fa-solid fa-location-dot"></i> ${t.location}<br>
             <i class="fa-regular fa-clock"></i> ${t.duration} ·
-            <i class="fa-solid fa-thumbs-up"></i> ${t.satisfaction}%${foodChip}
+            <i class="fa-solid fa-thumbs-up"></i> ${satisfactionOf(t)}%${foodChip}
           </div>
         </div>
       </div>
@@ -21431,10 +21647,9 @@ function setTheme(t) {
 }
 function toggleDrawer(g) { openDrawer = (openDrawer === g ? null : g); renderExploreFilters(); }
 function clearFilters() {
-  searchKeyword = ""; currentRegionFilter = "all"; currentSeasonFilter = "all"; currentThemeFilters = [];
+  setSearchKeyword(""); // 상태와 입력창을 한 번에 — 두 벌로 적어 두면 한쪽만 고쳐져 어긋난다.
+  currentRegionFilter = "all"; currentSeasonFilter = "all"; currentThemeFilters = [];
   openDrawer = null;
-  const gs = document.getElementById("global-search");
-  if (gs) gs.value = "";
   renderExploreFilters(); renderExploreList();
 }
 
@@ -21555,10 +21770,26 @@ function renderExploreFilters() {
   `;
 }
 
+/* 탐색 목록 노출 상한 — 필터를 풀면 242개 카드(+같은 수의 <img>)가 한 번에 생겨
+   저사양 폰에서 첫 표시가 밀리고 스크롤이 끊긴다. 화면당 20장씩 '더 보기'로 나눠 낸다.
+   무한 스크롤을 쓰지 않는 이유: 뒤로가기 복귀 때 scrollMem 복원 위치와 목록 높이가 어긋난다. */
+const EXPLORE_PAGE = 20;
+let exploreLimit = EXPLORE_PAGE;
+/* 상한을 되돌릴 기준 — '무엇을 보고 있는가'가 바뀔 때만 처음 20장으로 돌아간다.
+   렌더할 때마다 되돌리면, 상세를 보고 뒤로 돌아왔을 때 목록이 20장으로 줄어 scrollMem이
+   복원하려던 자리가 사라진다(펼쳐 둔 만큼 다시 눌러야 한다). */
+let exploreLimitKey = null;
+function exploreFilterKey() {
+  return [searchKeyword, currentRegionFilter, currentSeasonFilter,
+    currentThemeFilters.join("+"), visitorSettings.companion].join("|");
+}
+
 function renderExploreList() {
   const list = document.getElementById("explore-list");
   const countEl = document.getElementById("explore-count");
   if (!list) return;
+  const fkey = exploreFilterKey();
+  if (fkey !== exploreLimitKey) { exploreLimitKey = fkey; exploreLimit = EXPLORE_PAGE; }
   const filtered = applyPersonalSort(getFilteredCourses());
   if (countEl) countEl.textContent = `총 ${filtered.length}개 코스`;
   if (filtered.length === 0) {
@@ -21581,7 +21812,17 @@ function renderExploreList() {
     list.innerHTML = `<div class="empty"><i class="fa-solid fa-filter-circle-xmark"></i><p>조건에 맞는 코스가 없어요</p><span>필터를 바꾸거나 초기화해 보세요</span>${relax}</div>`;
     return;
   }
-  list.innerHTML = filtered.map(courseCardHtml).join("");
+  const shown = filtered.slice(0, exploreLimit);
+  const rest = filtered.length - shown.length;
+  // 남은 개수는 버튼에만 적는다(총 개수는 위 result-meta가 이미 보여준다 — 같은 수치 중복 금지)
+  list.innerHTML = shown.map(courseCardHtml).join("")
+    + (rest > 0 ? `<button type="button" class="th-more" onclick="growExploreList()">코스 ${rest}개 더 보기</button>` : "");
+}
+
+// '더 보기' — 상한만 늘려 이어 그린다(필터가 그대로라 앞부분 순서·스크롤 위치가 유지된다)
+function growExploreList() {
+  exploreLimit += EXPLORE_PAGE;
+  renderExploreList();
 }
 
 // -----------------------------------------------------------------------------
@@ -21620,16 +21861,37 @@ function chipList(arr, cls) {
   return arr.map(x => `<span class="pc-chip ${cls}">${x}</span>`).join("");
 }
 
+/* 상세 화면에 지금 그려져 있는 코스 id. currentCourse는 openCourse가 화면보다 먼저 바꾸므로,
+   "같은 코스를 다시 그리는가"는 화면 기준으로 따로 기억해야 정확하다. */
+let detailRenderedId = null;
+
+/* 상세를 다시 그리면 innerHTML이 통째로 갈려 작성 중이던 후기 글·별점이 말없이 사라진다.
+   그리기 직전 초안을 떠 두었다가 같은 코스를 다시 그린 뒤 되돌린다. */
+function captureReviewDraft() {
+  const ta = document.getElementById("comment-text");
+  return { text: ta ? ta.value : "", ratings: { ...activeRatings } };
+}
+function restoreReviewDraft(d) {
+  if (!d) return;
+  const ta = document.getElementById("comment-text");
+  if (ta && d.text) ta.value = d.text;
+  Object.keys(d.ratings).forEach(m => { if (d.ratings[m]) setRating(m, d.ratings[m]); });
+}
+
 function renderDetail(courseId) {
   const c = courses.find(x => x.id === courseId);
   if (!c) return;
+  // 같은 코스를 다시 그릴 때만 초안을 되돌린다(다른 코스의 초안을 옮겨 붙이면 안 된다).
+  const draft = (detailRenderedId === courseId) ? captureReviewDraft() : null;
+  /* 다른 코스로 넘어가면 앞 코스에서 고른 사진은 이 후기의 것이 아니다 —
+     큐에 남겨 두면 다음 후기에 엉뚱한 사진이 붙는다. */
+  if (!draft) uploadedPhotoBase64 = null;
   currentCourse = c;
   const root = document.getElementById("detail-body");
   if (!root) return;
 
-  const total = c.votesUp + c.votesDown;
-  const ratio = total > 0 ? Math.round((c.votesUp / total) * 100) : 100;
-  c.satisfaction = ratio;
+  // 표시용 계산만 한다 — 여기서 c.satisfaction에 되쓰면 목록 카드 숫자까지 함께 변한다.
+  const ratio = satisfactionOf(c);
 
   const timeline = c.timeline.map((n, i) => `
     <div class="tl-node">
@@ -21652,11 +21914,16 @@ function renderDetail(courseId) {
 
   // 회원이 올린 코스 사진. 라벨로 정체를 명확히 하고, 깨진 이미지는 자동 제거해
   // 빈 회색 사각형이 남지 않게 한다(사진 0장이면 영역 자체를 숨김).
+  // 사진첩은 이 기기에서 올린 것뿐이라, 잘못 올린 사진을 지울 수단을 장마다 붙인다(되돌리기 불가 → confirm).
   const gallery = (c.photos && c.photos.length)
     ? `<div class="member-gallery" id="member-gallery">
          <div class="mg-head"><i class="fa-solid fa-camera-retro"></i> 회원 사진</div>
-         <div class="photo-gallery">${c.photos.map(p =>
-           `<img class="gphoto" src="${p}" alt="회원이 올린 코스 사진" loading="lazy" onclick="openPhotoZoom(this)" onerror="this.remove(); var g=document.getElementById('member-gallery'); if(g&&!g.querySelector('.gphoto'))g.remove();">`).join("")}</div>
+         <div class="photo-gallery">${c.photos.map((p, i) =>
+           `<div class="gphoto-wrap" style="position:relative;flex-shrink:0">
+              <img class="gphoto" src="${p}" alt="회원이 올린 코스 사진" loading="lazy" onclick="openPhotoZoom(this)" onerror="this.closest('.gphoto-wrap').remove(); var g=document.getElementById('member-gallery'); if(g&&!g.querySelector('.gphoto'))g.remove();">
+              <button class="fc-del" onclick="event.stopPropagation();deleteCoursePhoto(${c.id},${i})" aria-label="이 사진 삭제"
+                style="position:absolute;top:3px;right:3px;margin:0;background:rgba(0,0,0,.55);color:#fff;border-radius:50%"><i class="fa-solid fa-xmark"></i></button>
+            </div>`).join("")}</div>
        </div>`
     : "";
 
@@ -21729,15 +21996,17 @@ function renderDetail(courseId) {
       ${gallery}
       <div class="review-form">
         <div class="rate-rows">
+          <p class="muted-note" style="text-align:left;padding:0 0 2px;margin:0">별점은 선택 · 매길 때는 세 항목을 함께</p>
           ${rateRow("scenery", "⛰️ 경치")}
           ${rateRow("path", "🥾 편의")}
           ${rateRow("parking", "🚗 주차")}
         </div>
-        <div class="upload-preview" id="upload-preview" style="display:none;">
+        <div class="upload-preview" id="upload-preview" style="display:${uploadedPhotoBase64 ? "block" : "none"};">
           <span class="up-x" onclick="clearSelectedPhoto()">&times;</span>
-          <img id="upload-img" src="" alt="">
+          <img id="upload-img" src="${uploadedPhotoBase64 || ""}" alt="">
         </div>
         <textarea id="comment-text" rows="3" placeholder="코스 상태, 주차 팁, 맛집 후기를 남겨주세요"></textarea>
+        <p class="muted-note" id="review-note" role="alert" style="display:none;text-align:left;padding:6px 0 0;margin:0"></p>
         <div class="rf-actions">
           <button class="btn-ghost" onclick="triggerPhotoUpload()"><i class="fa-solid fa-camera"></i> 사진</button>
           <button class="btn-primary" onclick="submitComment()">후기 등록</button>
@@ -21749,6 +22018,8 @@ function renderDetail(courseId) {
   `;
   resetRatingStars();
   renderComments();
+  restoreReviewDraft(draft);
+  detailRenderedId = courseId;
 }
 
 function rateRow(metric, label) {
@@ -21776,18 +22047,56 @@ function renderComments() {
     cont.innerHTML = `<p class="muted-note">아직 후기가 없어요. 첫 후기를 남겨보세요!</p>`;
     return;
   }
-  cont.innerHTML = currentCourse.comments.map(cm => {
+  cont.innerHTML = currentCourse.comments.map((cm, idx) => {
     let rb = "";
     if (cm.ratings) rb = `<div class="cm-rates"><span>⛰️${cm.ratings.scenery}</span><span>🥾${cm.ratings.path}</span><span>🚗${cm.ratings.parking}</span></div>`;
+    // 첨부 사진을 후기 옆에 함께 보여야 어느 글의 사진인지 이어진다(사진첩에만 들어가면 연결이 끊긴다).
+    const ph = cm.photo
+      ? `<img class="gphoto" src="${cm.photo}" alt="후기에 첨부한 사진" loading="lazy" style="margin-top:6px" onclick="openPhotoZoom(this)" onerror="this.remove()">` : "";
+    // 내가 쓴 글만 지울 수 있게 한다 — 오타·잘못 적은 개인정보를 되돌릴 유일한 수단.
+    const del = canDelete(cm)
+      ? `<button class="fc-del" onclick="deleteMyReview(${currentCourse.id},${idx})" aria-label="내 후기 삭제"><i class="fa-solid fa-trash-can"></i></button>` : "";
     return `<div class="comment">
-      ${avatarHtml(cm.user, "cm-av")}
+      ${avatarHtml(cm, "cm-av")}
       <div class="cm-body">
-        <div class="cm-user">${escHtml(cm.user)}</div>${rb}
+        <div class="cm-user" style="display:flex;align-items:center;justify-content:space-between">${escHtml(cm.user)}${del}</div>${rb}
         <div class="cm-text">${escHtml(cm.text)}</div>
+        ${ph}
         <div class="cm-date">${cm.date}</div>
       </div>
     </div>`;
   }).join("");
+}
+
+/* 후기·사진 삭제 — 되돌릴 수 없으므로 반드시 한 번 확인받는다.
+   실제 제거만 하고 화면 갱신은 호출부가 맡는다(상세는 사진첩까지, 피드는 목록만 다시 그린다). */
+function deleteComment(courseId, idx) {
+  const c = courses.find(x => x.id === courseId);
+  if (!c || !c.comments || !c.comments[idx]) return false;
+  const cm = c.comments[idx];
+  if (!canDelete(cm)) return false; // 판정은 화면(삭제 버튼 노출)과 같은 규칙으로.
+  if (!confirm("이 후기를 삭제할까요? 되돌릴 수 없어요.")) return false;
+  c.comments.splice(idx, 1);
+  // 후기에 붙여 올린 사진은 코스 사진첩에도 들어간다 — 같이 지워야 흔적이 남지 않는다.
+  if (cm.photo && c.photos) {
+    const pi = c.photos.indexOf(cm.photo);
+    if (pi >= 0) c.photos.splice(pi, 1);
+  }
+  if (!saveToLocalStorage()) alert("저장 공간 문제로 삭제가 기기에 남지 않았어요.");
+  return true;
+}
+function deleteMyReview(courseId, idx) {
+  if (deleteComment(courseId, idx)) renderDetail(courseId);
+}
+function deleteCoursePhoto(courseId, idx) {
+  const c = courses.find(x => x.id === courseId);
+  if (!c || !c.photos || !c.photos[idx]) return;
+  if (!confirm("이 사진을 삭제할까요? 되돌릴 수 없어요.")) return;
+  const [gone] = c.photos.splice(idx, 1);
+  // 같은 사진을 물고 있는 내 후기가 있으면 그 연결도 끊는다(빈 썸네일이 남지 않게).
+  (c.comments || []).forEach(cm => { if (cm.photo === gone) cm.photo = null; });
+  if (!saveToLocalStorage()) alert("저장 공간 문제로 삭제가 기기에 남지 않았어요.");
+  renderDetail(courseId);
 }
 
 function castVote(type) {
@@ -21810,7 +22119,27 @@ function castVote(type) {
   }
   // 저장이 막히면 화면 숫자만 오르고 기록은 남지 않는다 — 조용히 지나가지 않고 즉시 알린다.
   if (!saveToLocalStorage()) alert("저장 공간이 부족해 평가를 기록하지 못했어요.");
-  renderDetail(currentCourse.id);
+  /* 상세를 통째로 다시 그리면 작성 중이던 후기 글·별점이 함께 날아간다.
+     투표로 바뀌는 것은 표 수·버튼 활성·만족도뿐이니 그 자리만 고쳐 쓴다. */
+  updateVoteUI();
+}
+
+// 투표 결과만 갱신(재렌더 없음)
+function updateVoteUI() {
+  const c = currentCourse;
+  if (!c) return;
+  const up = document.getElementById("v-up");
+  const down = document.getElementById("v-down");
+  if (up) up.textContent = c.votesUp;
+  if (down) down.textContent = c.votesDown;
+  const voted = lsGet(`voted_course_${c.id}`);
+  const bu = document.querySelector(".vote.up");
+  const bd = document.querySelector(".vote.down");
+  if (bu) bu.classList.toggle("on", voted === "up");
+  if (bd) bd.classList.toggle("on", voted === "down");
+  const sat = document.querySelector(".stat-row .s-v.hl");
+  // 투표수는 이미 확정돼 저장까지 끝났으므로, 만족도는 그 수에서 다시 계산해 표시만 한다.
+  if (sat) sat.textContent = `${satisfactionOf(c)}%`;
 }
 
 // 사진 업로드 (Canvas 리사이즈)
@@ -21818,12 +22147,32 @@ function triggerPhotoUpload() {
   const i = document.getElementById("photo-input");
   if (i) i.click();
 }
+/* 폼 안 인라인 안내 — alert은 화면을 덮고 닫으면 흔적이 없어, 무엇이 잘못됐는지 다시 볼 수 없다.
+   진행·실패는 폼 안에 남기고 role="alert"로 스크린리더에도 전달한다. */
+function setFormNotice(id, msg, isError) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg || "";
+  el.style.display = msg ? "block" : "none";
+  el.style.color = isError ? "#c0392b" : "";
+}
+// 아이폰 HEIC·손상 파일은 브라우저가 디코딩하지 못해 onload가 영영 오지 않는다.
+const PHOTO_FAIL_MSG = "이 사진 형식은 읽을 수 없어요. 다른 사진을 골라 주세요.";
+const PHOTO_BUSY_MSG = "사진을 불러오는 중이에요…";
+
 function handlePhotoSelected(e) {
-  const file = e.target.files[0];
+  const input = e.target;
+  const file = input.files[0];
   if (!file) return;
+  const fail = () => { setFormNotice("review-note", PHOTO_FAIL_MSG, true); input.value = ""; };
+  // 이미지가 아닌 파일은 읽어 보기 전에 되돌린다(무반응으로 기다리게 하지 않는다).
+  if (file.type && !/^image\//.test(file.type)) { fail(); return; }
+  setFormNotice("review-note", PHOTO_BUSY_MSG);
   const reader = new FileReader();
+  reader.onerror = fail;
   reader.onload = ev => {
     const img = new Image();
+    img.onerror = fail;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       const MAX = 600;
@@ -21832,10 +22181,13 @@ function handlePhotoSelected(e) {
       else if (h > MAX) { w *= MAX / h; h = MAX; }
       canvas.width = w; canvas.height = h;
       canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-      uploadedPhotoBase64 = canvas.toDataURL("image/jpeg", 0.75);
+      try {
+        uploadedPhotoBase64 = canvas.toDataURL("image/jpeg", 0.75);
+      } catch (err) { fail(); return; }
       const box = document.getElementById("upload-preview");
       const pim = document.getElementById("upload-img");
       if (box && pim) { pim.src = uploadedPhotoBase64; box.style.display = "block"; }
+      setFormNotice("review-note", "");
     };
     img.src = ev.target.result;
   };
@@ -21847,17 +22199,31 @@ function clearSelectedPhoto() {
   if (box) box.style.display = "none";
   const fi = document.getElementById("photo-input");
   if (fi) fi.value = "";
+  setFormNotice("review-note", "");
 }
 
 function submitComment() {
   const ta = document.getElementById("comment-text");
   if (!ta) return;
   const text = ta.value.trim();
-  if (!text) { alert("후기 내용을 입력하세요."); return; }
-  if (!activeRatings.scenery || !activeRatings.path || !activeRatings.parking) {
-    alert("경치 · 편의 · 주차 별점을 모두 평가해 주세요!"); return;
+  if (!text) { setFormNotice("review-note", "후기 내용을 입력해 주세요.", true); return; }
+  /* 별점을 강제하면 '주차장 공사 중' 같은 짧은 팁 하나를 남기려 해도 가보지 않은 항목까지
+     아무 점수나 찍게 되고, 그 값이 코스 평점 평균에 그대로 섞인다. 별점은 선택으로 두되
+     평균이 왜곡되지 않도록 매길 때는 세 항목을 함께 받는다. */
+  const rated = [activeRatings.scenery, activeRatings.path, activeRatings.parking].filter(v => v > 0).length;
+  if (rated > 0 && rated < 3) {
+    setFormNotice("review-note", "별점은 경치 · 편의 · 주차를 함께 매겨 주세요. 비워 두고 글만 남겨도 돼요.", true);
+    return;
   }
-  const nc = { user: NICK, text, date: new Date().toISOString().split("T")[0], ratings: { ...activeRatings } };
+  const nc = {
+    // 표시 이름(user)과 별개로 소유 판정용 기기 id를 함께 남긴다 — 필명을 바꿔도 내 글은 내 글.
+    user: NICK, uid: UID, text,
+    date: new Date().toISOString().split("T")[0],
+    // 날짜만 남기면 같은 날 쓴 글끼리 순서가 코스 번호순으로 굳는다 — 정렬용 시각을 함께 남긴다.
+    ts: Date.now(),
+    photo: uploadedPhotoBase64 || null
+  };
+  if (rated === 3) nc.ratings = { ...activeRatings };
   if (!currentCourse.comments) currentCourse.comments = [];
   currentCourse.comments.unshift(nc);
   if (uploadedPhotoBase64) {
@@ -21868,6 +22234,9 @@ function submitComment() {
      화면 갱신은 그대로 하되(작성 내용은 보이게) 저장 여부를 사실대로 알린다. */
   const saved = saveToLocalStorage();
   clearSelectedPhoto();
+  // 등록된 글은 초안이 아니다 — 비워 두지 않으면 재렌더가 초안 복원으로 되살린다.
+  ta.value = "";
+  resetRatingStars();
   renderDetail(currentCourse.id);
   alert(saved
     ? "소중한 후기가 등록되었어요!"
@@ -21877,12 +22246,18 @@ function submitComment() {
 // -----------------------------------------------------------------------------
 // 4) 소통 — 후기 피드 + 인증샷
 // -----------------------------------------------------------------------------
+/* 정렬용 시각. 날짜 문자열만 비교하면 같은 날 글끼리 동률이 되고, 안정 정렬 때문에 원래 순서
+   (코스 번호순)가 그대로 남아 방금 쓴 글이 아래로 밀린다. 옛 글은 ts가 없으니 날짜로 폴백한다. */
+function feedTs(x) {
+  return x.ts || Date.parse(x.date || "") || 0;
+}
+
 function allReviews() {
   const arr = [];
   courses.forEach(c => {
     (c.comments || []).forEach(cm => arr.push({ ...cm, courseId: c.id, courseTitle: c.title, location: c.location }));
   });
-  arr.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  arr.sort((a, b) => feedTs(b) - feedTs(a));
   return arr;
 }
 
@@ -21892,7 +22267,7 @@ function renderRecentReviews(targetId, limit) {
   const rv = allReviews().slice(0, limit);
   if (!rv.length) { el.innerHTML = `<p class="muted-note">아직 후기가 없어요.</p>`; return; }
   el.innerHTML = rv.map(r => `
-    <div class="feed-item" onclick="openCourse(${r.courseId})">
+    <div class="feed-item" role="button" tabindex="0" onclick="openCourse(${r.courseId})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCourse(${r.courseId});}">
       <div class="fi-av"><i class="fa-solid fa-comment-dots"></i></div>
       <div class="fi-body">
         <div class="fi-text">"${escHtml(r.text)}"</div>
@@ -21911,17 +22286,21 @@ function allPhotos() {
 function communityFeed() {
   const items = [];
   communityPosts.forEach((p, i) => items.push({
-    user: p.user || NICK, text: p.text || "", date: p.date || "", photo: p.photo || null,
+    // uid를 실어 보내야 피드에서도 소유 판정(삭제 버튼·아바타)이 필명에 기대지 않는다.
+    user: p.user || NICK, uid: p.uid || null, text: p.text || "", date: p.date || "", photo: p.photo || null,
+    ts: feedTs(p),
     rating: (typeof p.rating === "number" && p.rating > 0) ? p.rating : null,
     courseTitle: p.courseName || null, courseId: p.courseId || null,
     kind: "post", postIndex: i
   }));
-  courses.forEach(c => (c.comments || []).forEach(cm => {
+  courses.forEach(c => (c.comments || []).forEach((cm, ci) => {
     let rating = null;
     if (cm.ratings) rating = Math.round(((cm.ratings.scenery + cm.ratings.path + cm.ratings.parking) / 3) * 10) / 10;
     items.push({
-      user: cm.user, text: cm.text, date: cm.date, photo: null, rating: rating,
-      courseTitle: c.title, courseId: c.id, kind: "review", ratings: cm.ratings
+      // 후기에 붙인 사진을 버리면 피드에는 글만 떠서 업로드가 실패한 것처럼 보인다.
+      user: cm.user, uid: cm.uid || null, text: cm.text, date: cm.date, photo: cm.photo || null, rating: rating,
+      ts: feedTs(cm),
+      courseTitle: c.title, courseId: c.id, kind: "review", ratings: cm.ratings, cmIndex: ci
     });
   }));
   return items;
@@ -21936,9 +22315,21 @@ function searchHits(text) {
   }
   return hits;
 }
+/* id → 코스 조회표. itemPopularity가 피드 698건마다 courses.find로 242건을 선형 탐색하면
+   정렬 한 번에 수만 번의 스캔이 된다. courses는 부팅 복원 때 통째로 교체되고 관리자 편집으로
+   개수가 바뀔 수 있으므로, 배열 자체가 바뀌거나 길이가 달라지면 표를 다시 만든다. */
+let courseIndex = null;
+let courseIndexSrc = null;
+function courseById(id) {
+  if (!courseIndex || courseIndexSrc !== courses || courseIndex.size !== courses.length) {
+    courseIndex = new Map(courses.map(c => [c.id, c]));
+    courseIndexSrc = courses;
+  }
+  return courseIndex.get(id);
+}
 function itemPopularity(it) {
   if (it.courseId) {
-    const c = courses.find(x => x.id === it.courseId);
+    const c = courseById(it.courseId);
     if (c) {
       const base = (c.votesUp || 0) + (c.comments ? c.comments.length * 3 : 0) + (c.satisfaction || 0);
       return base + searchHits(c.title + c.location) * 20;
@@ -21955,11 +22346,15 @@ function getCommFeed() {
       list = list.filter(it =>
         ((it.text || "") + (it.courseTitle || "")).toLowerCase().replace(/\s+/g, "").includes(q));
     }
-    list.sort((a, b) => itemPopularity(b) - itemPopularity(a) || (b.date || "").localeCompare(a.date || ""));
+    /* 인기도를 비교자 안에서 계산하면 비교 횟수만큼(실측 11,126회) 다시 계산된다 —
+       항목당 1회만 미리 재고 비교는 조회만 한다(인기순 195.7ms → 최신순 수준). */
+    const score = new Map(list.map(it => [it, itemPopularity(it)]));
+    // 동점일 때의 기준도 날짜가 아니라 시각이어야 방금 올린 글이 같은 날 글 위에 선다.
+    list.sort((a, b) => score.get(b) - score.get(a) || feedTs(b) - feedTs(a));
   } else if (commSort === "rating") {
-    list.sort((a, b) => (b.rating || 0) - (a.rating || 0) || (b.date || "").localeCompare(a.date || ""));
+    list.sort((a, b) => (b.rating || 0) - (a.rating || 0) || feedTs(b) - feedTs(a));
   } else {
-    list.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+    list.sort((a, b) => feedTs(b) - feedTs(a));
   }
   return list;
 }
@@ -21976,12 +22371,16 @@ function feedItemHtml(it) {
   const ratingBadge = it.rating ? `<span class="fc-rate">${commStars(it.rating)} ${it.rating.toFixed(1)}</span>` : "";
   const courseTag = it.courseTitle
     ? `<span class="fc-course"><i class="fa-solid fa-location-dot"></i> ${it.courseTitle}</span>` : "";
-  const mineDel = (it.kind === "post" && it.user === NICK)
-    ? `<button class="fc-del" onclick="event.stopPropagation();deleteCommunityPost(${it.postIndex})" aria-label="삭제"><i class="fa-solid fa-trash-can"></i></button>` : "";
+  /* 자유 게시물만 지울 수 있으면, 같은 피드에 뜬 내 코스 후기는 손댈 방법이 없다.
+     후기는 코스 배열에 있으므로 deleteComment 쪽으로 보낸다. */
+  const mineDel = canDelete(it)
+    ? `<button class="fc-del" onclick="event.stopPropagation();${it.kind === "post"
+        ? `deleteCommunityPost(${it.postIndex})`
+        : `deleteReviewFromFeed(${it.courseId},${it.cmIndex})`}" aria-label="삭제"><i class="fa-solid fa-trash-can"></i></button>` : "";
   return `
     <div class="feed-card" ${onClick}>
       <div class="fc-head">
-        ${avatarHtml(it.user, "fc-av")}
+        ${avatarHtml(it, "fc-av")}
         <div class="fc-who"><span class="fc-user">${it.user}</span><span class="fc-date">${it.date}</span></div>
         ${ratingBadge}${mineDel}
       </div>
@@ -22008,6 +22407,7 @@ function renderCommunity() {
         <img id="composer-photo-img" src="" alt="">
         <span class="composer-photo-x" onclick="clearCommPhoto()">&times;</span>
       </div>
+      <p class="muted-note" id="comm-note" role="alert" style="display:none;text-align:left;padding:6px 0 0;margin:0"></p>
       <div class="composer-actions">
         <button class="composer-link" onclick="triggerCommPhoto('camera')"><i class="fa-solid fa-camera"></i> 사진</button>
         <button class="composer-link" onclick="triggerCommPhoto('gallery')"><i class="fa-solid fa-images"></i> 갤러리</button>
@@ -22040,15 +22440,34 @@ function filterByKeyword(k) {
   renderCommFeed();
 }
 
+/* 소통 피드 노출 상한 — 자유글 + 242코스의 후기를 합치면 698장이 한 화면에 쌓인다(실측
+   본문 103,180자·렌더 76.8ms). 20장씩 '더 보기'로 끊는다. */
+const COMM_PAGE = 20;
+let commLimit = COMM_PAGE;
+/* 탐색과 같은 이유로, 상한은 피드의 내용이 바뀔 때만 되돌린다(정렬 전환·키워드 칩·글 등록·삭제).
+   상세를 열었다 돌아온 것뿐이면 펼쳐 둔 만큼 그대로 둔다. */
+let commLimitKey = null;
+
 function renderCommFeed() {
   const el = document.getElementById("comm-feed");
   if (!el) return;
+  const fkey = [commSort, commKeyword, communityPosts.length].join("|");
+  if (fkey !== commLimitKey) { commLimitKey = fkey; commLimit = COMM_PAGE; }
   const list = getCommFeed();
   if (!list.length) {
     el.innerHTML = `<p class="muted-note">아직 후기가 없어요. 첫 의견을 남겨보세요!</p>`;
     return;
   }
-  el.innerHTML = list.map(feedItemHtml).join("");
+  const shown = list.slice(0, commLimit);
+  const rest = list.length - shown.length;
+  el.innerHTML = shown.map(feedItemHtml).join("")
+    + (rest > 0 ? `<button type="button" class="th-more" onclick="growCommFeed()">후기 ${rest}건 더 보기</button>` : "");
+}
+
+// '더 보기' — 상한만 늘려 이어 그린다(정렬이 같아 앞부분 순서가 유지된다)
+function growCommFeed() {
+  commLimit += COMM_PAGE;
+  renderCommFeed();
 }
 
 function setCommSort(k) {
@@ -22071,11 +22490,18 @@ function triggerCommPhoto(mode) {
   i.click();
 }
 function handleCommPhoto(e) {
-  const file = e.target.files[0];
+  const input = e.target;
+  const file = input.files[0];
   if (!file) return;
+  // 후기 폼과 같은 이유(HEIC·손상 파일)로 여기서도 실패·진행을 컴포저 안에 보인다.
+  const fail = () => { setFormNotice("comm-note", PHOTO_FAIL_MSG, true); input.value = ""; };
+  if (file.type && !/^image\//.test(file.type)) { fail(); return; }
+  setFormNotice("comm-note", PHOTO_BUSY_MSG);
   const reader = new FileReader();
+  reader.onerror = fail;
   reader.onload = ev => {
     const img = new Image();
+    img.onerror = fail;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       const MAX = 800;
@@ -22084,10 +22510,13 @@ function handleCommPhoto(e) {
       else if (h > MAX) { w *= MAX / h; h = MAX; }
       canvas.width = w; canvas.height = h;
       canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-      commPhotoBase64 = canvas.toDataURL("image/jpeg", 0.75);
+      try {
+        commPhotoBase64 = canvas.toDataURL("image/jpeg", 0.75);
+      } catch (err) { fail(); return; }
       const box = document.getElementById("composer-photo");
       const pim = document.getElementById("composer-photo-img");
       if (box && pim) { pim.src = commPhotoBase64; box.style.display = "block"; }
+      setFormNotice("comm-note", "");
     };
     img.src = ev.target.result;
   };
@@ -22099,6 +22528,7 @@ function clearCommPhoto() {
   if (box) box.style.display = "none";
   const fi = document.getElementById("comm-photo-input");
   if (fi) fi.value = "";
+  setFormNotice("comm-note", "");
 }
 
 function submitCommunityPost() {
@@ -22110,11 +22540,14 @@ function submitCommunityPost() {
   }
   communityPosts.unshift({
     user: NICK,
+    uid: UID, // 소유 판정은 필명이 아니라 이 id로 한다(필명 변경·동명이인에 흔들리지 않게).
     text: text,
     courseName: null,
     photo: commPhotoBase64 || null,
     rating: null,
-    date: new Date().toISOString().split("T")[0]
+    date: new Date().toISOString().split("T")[0],
+    // 같은 날 글끼리 순서를 가르려면 날짜만으로는 부족하다(G3-13).
+    ts: Date.now()
   });
   saveCommunityPosts();
   commPhotoBase64 = null;
@@ -22130,6 +22563,11 @@ function deleteCommunityPost(idx) {
   communityPosts.splice(idx, 1);
   saveCommunityPosts();
   renderCommunity();
+}
+
+// 소통 피드에서 지운 내 코스 후기 — 상세가 아니라 피드를 다시 그린다.
+function deleteReviewFromFeed(courseId, idx) {
+  if (deleteComment(courseId, idx)) renderCommFeed();
 }
 
 // -----------------------------------------------------------------------------
@@ -22177,7 +22615,8 @@ function renderSaved() {
   const planKm = (planHours * 2.8).toFixed(1);          // 평균 보행 2.8km/h
   const planKcal = Math.round(planHours * 2.8 * 55);     // ~55kcal/km
   let myReviews = 0;
-  courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myReviews++; }));
+  // 집계는 기기 id로만 — 필명 문자열로 세면 남의 이름을 넣는 순간 남의 후기가 내 지표가 된다.
+  courses.forEach(c => (c.comments || []).forEach(cm => { if (isMine(cm)) myReviews++; }));
 
   const missions = healthMissions(steps, goal);
   const missionHtml = missions.map(m =>
@@ -22280,7 +22719,8 @@ function renderMypage() {
   const root = document.getElementById("mypage-body");
   if (!root) return;
   let myCount = 0;
-  courses.forEach(c => (c.comments || []).forEach(cm => { if (cm.user === NICK) myCount++; }));
+  // 등급 산정도 기기 id 기준(필명 일치 집계는 '산책매니아' 입력만으로 217건·명인이 됐다).
+  courses.forEach(c => (c.comments || []).forEach(cm => { if (isMine(cm)) myCount++; }));
   let grade = myCount >= 5 ? "산책 명인" : myCount >= 2 ? "나들이 매니아" : "초보 걷기꾼";
 
   const goal = stepData.goal;
@@ -22488,7 +22928,7 @@ function openProfileEdit() {
   ov.classList.add("on");
   ov.onclick = ev => { if (ev.target === ov) closeProfileEdit(); };
   // 뒤로가기가 앱이 아니라 이 모달을 닫도록 히스토리에 항목을 하나 올린다(입력값 보존).
-  history.pushState({ screen: currentScreen, overlay: "prof" }, "");
+  pushOverlayState("prof");
   // 배경 탭·ESC·뒤로가기 — 닫는 방법 셋이 모두 통하게 한다. ESC만 빠져 있으면 키보드 사용자가 갇힌다.
   document.addEventListener("keydown", profModalEsc);
   setTimeout(() => { const n = document.getElementById("pm-nick"); if (n) n.focus(); }, 50);
@@ -22502,12 +22942,31 @@ function closeProfileEdit() {
   if (history.state && history.state.overlay === "prof") history.back();
 }
 function saveProfile() {
-  const nick = (document.getElementById("pm-nick").value || "").trim();
-  const phone = (document.getElementById("pm-phone").value || "").trim();
+  // 저장 길이를 loadVisitorSettings의 정규화(32자)와 맞춘다 — 안 그러면 다시 열 때 이름이 잘려 보인다.
+  const nick = (document.getElementById("pm-nick").value || "").trim().slice(0, 32);
+  const phone = (document.getElementById("pm-phone").value || "").trim().slice(0, 32);
+  const prevNick = NICK; // 옛 글(uid 없는 글)의 소유 단서는 필명 문자열뿐이라 바뀌기 전 값을 잡아 둔다.
   visitorSettings.nick = nick;
   visitorSettings.phone = phone;
   NICK = nick || DEFAULT_NICK;
   lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  /* 필명을 바꿔도 내가 쓴 글은 내 글이다. 새 글은 uid로 판정하지만 이 기기에서
+     예전에 쓴 글에는 uid가 없어, 그대로 두면 삭제 버튼이 사라져 영영 못 지운다.
+     자유 게시물은 전부 이 기기에서 쓴 글이므로 표시 이름을 옮기고 uid도 박아 둔다. */
+  if (prevNick !== NICK) {
+    let touched = false;
+    communityPosts.forEach(p => {
+      if (!p.uid && p.user === prevNick) { p.user = NICK; p.uid = UID; touched = true; }
+    });
+    if (touched) saveCommunityPosts();
+    /* 코스 후기는 시드 데이터와 한 배열에 섞여 있다 — 필명만 보고 옮기면 남의 후기까지 가져온다.
+       이 기기에서 쓴 후기만 갖는 표식(ts)이 있는 것에 한해 옮긴다(시드 후기에는 ts가 없다). */
+    let cTouched = false;
+    courses.forEach(c => (c.comments || []).forEach(cm => {
+      if (!cm.uid && cm.ts && cm.user === prevNick) { cm.user = NICK; cm.uid = UID; cTouched = true; }
+    }));
+    if (cTouched) saveToLocalStorage();
+  }
   closeProfileEdit();
   renderAppbarProfile();
   if (currentScreen === "mypage") renderMypage();
@@ -22515,10 +22974,11 @@ function saveProfile() {
   else if (currentScreen === "saved") renderSaved();
 }
 
-// 작성자 아바타(본인=내 사진, 그 외=기본 아이콘)
-function avatarHtml(user, cls) {
+/* 작성자 아바타(본인=내 사진, 그 외=기본 아이콘). 인자는 글 객체다 —
+   필명 문자열로 판정하면 남의 후기 217장에 내 프로필 사진이 통째로 박힌다(DOM 폭증). */
+function avatarHtml(item, cls) {
   const av = visitorSettings.avatar || "";
-  if (user === NICK && av) return `<div class="${cls} has" style="background-image:url('${av}')"></div>`;
+  if (av && isMine(item)) return `<div class="${cls} has" style="background-image:url('${av}')"></div>`;
   return `<div class="${cls}"><i class="fa-solid fa-user"></i></div>`;
 }
 
@@ -22527,12 +22987,30 @@ function triggerAvatar() {
   const i = document.getElementById("avatar-input");
   if (i) i.click();
 }
+/* 프로필 사진 상태 안내 — 모달 안 힌트 줄을 그대로 쓴다(안내를 두 군데 두지 않는다).
+   실패해도 아무 표시가 없으면 방문자는 사진 등록이 안 되는 앱이라고 판단하고 포기한다. */
+function avatarNotice(msg, isError) {
+  const el = document.querySelector("#prof-modal .pm-avhint");
+  if (!el) return;
+  el.textContent = msg || "사진 선택 (선택)";
+  el.style.color = isError ? "#c0392b" : "";
+}
+const AVATAR_MAX_BYTES = 15 * 1024 * 1024;
+
 function handleAvatar(e) {
-  const file = e.target.files[0];
+  const input = e.target;
+  const file = input.files[0];
   if (!file) return;
+  const fail = msg => { avatarNotice(msg || PHOTO_FAIL_MSG, true); input.value = ""; };
+  if (file.type && !/^image\//.test(file.type)) { fail(); return; }
+  // 초대형 파일은 디코딩 도중 탭이 멎는다 — 읽기 전에 돌려보낸다.
+  if (file.size > AVATAR_MAX_BYTES) { fail("사진이 너무 커요(15MB 이하). 다른 사진을 골라 주세요."); return; }
+  avatarNotice(PHOTO_BUSY_MSG);
   const reader = new FileReader();
+  reader.onerror = () => fail();
   reader.onload = ev => {
     const img = new Image();
+    img.onerror = () => fail();
     img.onload = () => {
       const canvas = document.createElement("canvas");
       const SIZE = 200;
@@ -22541,13 +23019,24 @@ function handleAvatar(e) {
       const side = Math.min(img.width, img.height);
       const sx = (img.width - side) / 2, sy = (img.height - side) / 2;
       canvas.getContext("2d").drawImage(img, sx, sy, side, side, 0, 0, SIZE, SIZE);
-      visitorSettings.avatar = canvas.toDataURL("image/jpeg", 0.8);
-      lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+      /* 저장까지 성공해야 등록이다. 실패하면 이전 사진으로 되돌려, 화면만 바뀌고
+         새로고침하면 사라지는 상태를 만들지 않는다(코스 사진 교체 경로와 같은 처리). */
+      const prev = visitorSettings.avatar;
+      let data;
+      try {
+        data = canvas.toDataURL("image/jpeg", 0.8);
+      } catch (err) { fail(); return; }
+      visitorSettings.avatar = data;
+      if (!lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings))) {
+        visitorSettings.avatar = prev;
+        fail("저장 공간이 부족해 사진을 등록하지 못했어요.");
+        return;
+      }
+      avatarNotice("");
       renderAppbarProfile();
       // 프로필 모달이 열려 있으면 미리보기 갱신(입력값은 보존)
       const pmav = document.querySelector("#prof-modal .pm-av");
       if (pmav) { pmav.classList.add("has"); pmav.style.backgroundImage = `url('${visitorSettings.avatar}')`; pmav.innerHTML = `<span class="pm-cam"><i class="fa-solid fa-camera"></i></span>`; }
-      if (currentScreen === "mypage") { const a = document.querySelector(".my-prof .mp-av"); if (a) { a.classList.add("has"); a.style.backgroundImage = `url('${visitorSettings.avatar}')`; a.innerHTML = ""; } }
     };
     img.src = ev.target.result;
   };
@@ -22577,10 +23066,36 @@ function toggleContrast() {
   document.body.classList.toggle("contrast-high", visitorSettings.highContrast);
   renderMypage();
 }
+/* 저장값 정규화 — localStorage는 확장 프로그램·옛 버전·수동 조작으로 무엇이든 들어 있을 수 있다.
+   검사 없이 통째로 병합하면 nick이 객체면 앱바 이름이 [object Object]로 굳고, avatar 문자열은
+   style="background-image:url('...')"에 그대로 박혀 속성을 이탈하며, companion이 모르는 값이면
+   홈 맞춤 문구가 "  0개 우선 정렬 중"으로 깨진다. 아는 값만, 아는 형태로 받는다. */
+const COMPANION_VALUES = ["none", "parent", "pet", "child"];
+const FONTSIZE_VALUES = ["medium", "large", "xlarge"];
+const TRANSPORT_VALUES = ["car", "public"];
+function sanitizeVisitorSettings(raw) {
+  const src = (raw && typeof raw === "object") ? raw : {};
+  const str = (v, max) => (typeof v === "string" ? v.slice(0, max) : "");
+  const pick = (v, list, def) => (list.indexOf(v) >= 0 ? v : def);
+  return {
+    companion: pick(src.companion, COMPANION_VALUES, "none"),
+    transport: pick(src.transport, TRANSPORT_VALUES, "car"),
+    fontSize: pick(src.fontSize, FONTSIZE_VALUES, "medium"),
+    highContrast: !!src.highContrast,
+    admin: !!src.admin,
+    // 홈 바로가기 순서는 키 문자열 배열 — 배열이 아니면 기본 순서로 되돌린다.
+    homeShortcutOrder: Array.isArray(src.homeShortcutOrder)
+      ? src.homeShortcutOrder.filter(k => typeof k === "string").slice(0, 20) : [],
+    nick: str(src.nick, 32),
+    phone: str(src.phone, 32),
+    // 사진은 이 기기에서 만든 dataURL만 받는다 — 임의 문자열이면 버린다(속성 이탈 차단).
+    avatar: (typeof src.avatar === "string" && /^data:image\//.test(src.avatar)) ? src.avatar : ""
+  };
+}
 function loadVisitorSettings() {
   try {
     const s = lsGet("gongacourse_visitor_settings");
-    if (s) visitorSettings = Object.assign(visitorSettings, JSON.parse(s));
+    if (s) visitorSettings = sanitizeVisitorSettings(Object.assign({}, visitorSettings, JSON.parse(s)));
   } catch (e) {}
   if (visitorSettings.nick) NICK = visitorSettings.nick;
   applyFontSize();
@@ -22948,10 +23463,16 @@ function renderCollection(key) {
     <div id="coll-list">${collListHtml(key)}</div>`;
 }
 
+// 명산100은 100행이라 자모 하나마다 목록 전체를 다시 만들면 입력이 밀린다 — 마지막 입력 뒤 한 번만 그린다
+let collFilterTimer = null;
 function onCollFilter(v) {
   collFilter = (v || "").trim();
-  const el = document.getElementById("coll-list");
-  if (el && currentCollection) el.innerHTML = collListHtml(currentCollection);
+  if (collFilterTimer) clearTimeout(collFilterTimer);
+  collFilterTimer = setTimeout(() => {
+    collFilterTimer = null;
+    const el = document.getElementById("coll-list");
+    if (el && currentCollection) el.innerHTML = collListHtml(currentCollection);
+  }, 260);
 }
 
 // 목록 행 탭 — 국내 자료는 등록 코스와 연결(섬=상세 직행, 명산=탐색 정확 검색),
@@ -22966,11 +23487,9 @@ function collTap(key, gi, ii) {
     if (m) { navigate("detail", { id: m.id }); return; }
   }
   if (!col.tap) { navigate("collitem", { id: key + ":" + gi + ":" + ii }); return; }
-  searchKeyword = it.n;
+  setSearchKeyword(it.n); // 상태·입력창 동기화는 한 함수로만 한다.
   currentRegionFilter = "all"; currentSeasonFilter = "all"; currentThemeFilters = [];
   navigate("explore");
-  const gs = document.getElementById("global-search");
-  if (gs) gs.value = it.n;
 }
 
 // ----- 컬렉션 상세 페이지 (코스 상세와 같은 시각 템플릿) -----
@@ -23170,15 +23689,26 @@ document.addEventListener("DOMContentLoaded", () => {
      전부 건너뛰어져 방문자에게는 앱바와 탭바만 있는 흰 화면이 남는다(저장소 차단 기기).
      복구 불가한 상황이라도 홈 렌더까지는 반드시 도달시킨다. */
   try {
+  loadUid(); // 작성자 판정(uid)이 후기·게시물 적재보다 먼저 서 있어야 한다.
   const saved = lsGet("gongacourse_data");
   let needReset = false;
   if (saved) {
     try {
       courses = JSON.parse(saved);
-      if (courses.length !== defaultCourses.length) needReset = true;
+      if (!Array.isArray(courses) || courses.length !== defaultCourses.length) needReset = true;
+      // 개수는 같아도 내용이 바뀐 배포가 있다 — 버전 표식이 다르면 본문을 새로 깐다.
+      else if (lsGet("gongacourse_data_ver") !== DATA_VERSION) needReset = true;
     } catch (e) { needReset = true; }
   } else needReset = true;
-  if (needReset) { courses = [...defaultCourses]; saveToLocalStorage(); }
+  if (needReset) {
+    const prev = Array.isArray(courses) ? courses : [];
+    /* 코스 객체를 하나씩 복사한다. [...defaultCourses]는 객체를 공유해 투표·후기가
+       원본 데이터(defaultCourses)까지 물들인다 — 원본은 읽기 전용으로 둔다. */
+    courses = defaultCourses.map(c => Object.assign({}, c));
+    mergeVisitorRecords(courses, prev); // 후기·사진·투표 복원이 리셋과 한 덩어리다.
+    // 저장이 막힌 기기에서 버전만 최신으로 남으면 다음 부팅이 낡은 사본을 최신으로 오인한다.
+    if (saveToLocalStorage()) lsSet("gongacourse_data_ver", DATA_VERSION);
+  }
 
   loadPhotoOverrides();
   loadBookmarks();
@@ -23191,8 +23721,10 @@ document.addEventListener("DOMContentLoaded", () => {
      남지 않아, popstate의 "종료 확인" 분기가 영영 실행되지 않는다(2026-08-13 실측: 홈에서 뒤로 1회 →
      확인 없이 문서 이탈). 센티널 항목을 하나 깔고 그 위에 홈을 올려야 확인 팝업이 살아난다. */
   history.replaceState({ screen: "__exit" }, "");
-  history.pushState({ screen: "home" }, "");
-  showScreen("home");
+  // 공유 링크·새로고침 복원: 주소 해시(#detail/17)가 가리키는 화면으로 부팅한다(없거나 깨졌으면 홈).
+  const boot = bootTargetFromHash();
+  history.pushState(boot, "", screenHash(boot.screen, boot.id));
+  showScreen(boot.screen, boot, true);
 
   // 측정 ON 상태로 종료했다면 앱 재시작 시 자동 재개(매번 시작 버튼 누를 필요 없음)
   resumeTrackingIfWanted();
@@ -23204,18 +23736,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const s = e.state && e.state.screen;
     /* 열려 있는 오버레이가 있으면 뒤로가기는 앱이 아니라 그 오버레이를 닫는다(입력값 보존).
        오버레이 항목은 이미 이 back으로 소비됐으므로 여기서 다시 push하지 않는다. */
-    const ov = document.querySelector(".prof-modal.on");
-    if (ov) {
-      ov.classList.remove("on");
-      document.removeEventListener("keydown", profModalEsc);
-      return;
-    }
+    if (closeAllOverlays()) return;
     if (s && s !== "__exit") {
+      // 세 번째 인자를 주지 않는다 = 복귀 = 읽던 스크롤 위치로 복원. 모르는 id는 showScreen이 홈으로 되살린다.
       showScreen(s, e.state);
+    } else if (!e.state && location.hash) {
+      /* state가 없는 항목 = 주소창에서 해시를 직접 바꾼 이동(우리가 만든 항목이 아니다). 그 해시가 가리키는
+         화면으로 보낸다. 센티널은 state를 갖고 있으므로 이 분기로 오지 않는다 — 종료 확인 경로는 그대로다. */
+      const target = bootTargetFromHash();
+      history.replaceState(target, "", screenHash(target.screen, target.id));
+      showScreen(target.screen, target, true);
+    } else if (currentScreen !== "home") {
+      /* 센티널 도달인데 홈이 아니다 = 루트 탭에서 뒤로가기(탭은 스택을 쌓지 않는다) 또는 공유 링크로 바로 진입.
+         종료 전에 홈 복귀를 한 번 준다 — "탭에서 뒤로 = 홈, 홈에서 뒤로 = 종료 확인"으로 결과가 예측 가능해진다. */
+      const homeState = { screen: "home" };
+      history.pushState(homeState, "", screenHash("home"));
+      showScreen("home", homeState, true);
+    } else if (confirm("꽁아코스를 나갈까요?")) {
+      // 센티널(또는 state 없음) + 홈 = 홈에서 한 번 더 뒤로 = 종료 의사.
+      history.back();
     } else {
-      // 센티널(또는 state 없음)에 도달 = 홈에서 한 번 더 뒤로 = 종료 의사.
-      if (confirm("꽁아코스를 나갈까요?")) history.back();
-      else history.pushState({ screen: currentScreen }, "");
+      // 종료를 취소했으면 센티널 위에 홈을 다시 올려 스택을 부팅 직후 상태로 되돌린다.
+      history.pushState({ screen: "home" }, "", screenHash("home"));
     }
   });
 
