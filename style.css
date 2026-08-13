@@ -18,8 +18,10 @@
   --teal: #1d9e75;
   --teal-soft: #e1f5ee;
   --text: #1c2620;
-  --text-mut: #6b7a72;
-  --text-faint: #9aa8a0;
+  /* 본문 대비는 4.5:1 이상이어야 한다. 이전 값(#6b7a72 = 4.16 · #9aa8a0 = 2.28)은
+     흰 배경에서 기준 미달이라 후기 메타·보조 문구가 사실상 안 읽혔다(2026-08-13 실측). */
+  --text-mut: #55645c;   /* on #fff = 6.4:1 */
+  --text-faint: #5f6e66; /* on 페이지배경 #f4f6f4 = 4.9:1 (흰 배경 기준만 맞추면 카드 밖에서 미달) */
   --bg: #f4f6f4;
   --surface: #ffffff;
   --border: #e6eae7;
@@ -86,7 +88,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .ap-meta { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.15; min-width: 0; }
 .ap-name { font-size: calc(13px * var(--fs)); font-weight: 800; color: var(--text); white-space: nowrap; }
 .ap-grade { font-size: calc(10px * var(--fs)); font-weight: 700; color: var(--primary); white-space: nowrap; }
-.ap-avatar { position: relative; width: 38px; height: 38px; border-radius: 50%; background: var(--primary-soft) center/cover no-repeat; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; border: none; padding: 0; cursor: pointer; }
+.ap-avatar { position: relative; width: 44px; height: 44px; border-radius: 50%; background: var(--primary-soft) center/cover no-repeat; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; border: none; padding: 0; cursor: pointer; }
 .ap-cam { position: absolute; right: -2px; bottom: -2px; width: 16px; height: 16px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 7px; border: 1.5px solid var(--surface); }
 
 /* ---------- 화면 스택 ---------- */
@@ -136,10 +138,12 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .empty span { font-size: calc(13px * var(--fs)); color: var(--text-faint); }
 
 /* 계절 액센트 컬러 */
-.accent-spring { --acc: var(--pink); --acc-soft: var(--pink-soft); }
-.accent-summer { --acc: var(--teal); --acc-soft: var(--teal-soft); }
-.accent-autumn { --acc: var(--amber); --acc-soft: var(--amber-soft); }
-.accent-winter { --acc: var(--blue); --acc-soft: var(--blue-soft); }
+/* --acc 는 아이콘·테두리용 색이다. 흰 글씨를 얹는 배지에는 --acc-deep 을 쓴다 —
+   원래 색 위의 흰 글씨는 3.39:1 로 기준(4.5:1) 미달이었다(2026-08-13 실측). */
+.accent-spring { --acc: var(--pink); --acc-soft: var(--pink-soft); --acc-deep: #a8305c; }
+.accent-summer { --acc: var(--teal); --acc-soft: var(--teal-soft); --acc-deep: #10684c; }
+.accent-autumn { --acc: var(--amber); --acc-soft: var(--amber-soft); --acc-deep: #8a5606; }
+.accent-winter { --acc: var(--blue); --acc-soft: var(--blue-soft); --acc-deep: #1c5e99; }
 .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; }
 .dot.spring { background: var(--pink); } .dot.summer { background: var(--teal); }
 .dot.autumn { background: var(--amber); } .dot.winter { background: var(--blue); }
@@ -178,7 +182,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .tc-photo.img-failed { display: none; }
 .tc-ribbon {
   position: absolute; top: 7px; left: 7px; z-index: 2;
-  background: var(--acc, var(--primary)); color: #fff; font-size: 10px; font-weight: 800;
+  background: var(--acc-deep, var(--primary-dark)); color: #fff; font-size: 10px; font-weight: 800;
   padding: 3px 9px; border-radius: 20px;
 }
 .tc-content { flex: 1; min-width: 0; position: relative; padding-right: 18px; }
@@ -187,7 +191,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .tc-season, .tc-diff {
   font-size: calc(10.5px * var(--fs)); font-weight: 800; padding: 2px 9px; border-radius: 20px;
 }
-.tc-season { background: var(--acc, var(--primary)); color: #fff; }
+.tc-season { background: var(--acc-deep, var(--primary-dark)); color: #fff; }  /* 흰 글씨 배지는 deep 톤 — 원색 위 3.39:1 미달 교정 */
 .tc-diff { background: var(--bg); color: var(--text-mut); border: 1px solid var(--border); }
 .tc-title { font-size: calc(17px * var(--fs)); font-weight: 900; letter-spacing: -0.5px; line-height: 1.25; }
 .tc-meta { color: var(--text-mut); font-size: calc(12px * var(--fs)); font-weight: 700; margin-top: 6px; line-height: 1.5; }
@@ -673,7 +677,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .mc-head { font-size: calc(12.5px * var(--fs)); font-weight: 800; margin-bottom: 9px; }
 .mc-head i { color: var(--primary); margin-right: 6px; }
 .mc-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-.comp-chip { font-size: calc(12px * var(--fs)); font-weight: 700; padding: 7px 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--text-mut); }
+.comp-chip { font-size: calc(12px * var(--fs)); font-weight: 700; padding: 12px 14px; min-height: 44px; display: inline-flex; align-items: center; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--text-mut); }
 .comp-chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
 .mc-result { margin-top: 10px; background: var(--primary-soft); color: var(--primary-dark); border-radius: 10px; padding: 9px 11px; font-size: calc(12px * var(--fs)); font-weight: 700; }
 .mc-result i { margin-right: 5px; }
@@ -733,7 +737,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .hhp-grade { font-size: calc(11px * var(--fs)); font-weight: 700; color: var(--primary); }
 
 /* ===== 앱바 프로필(필명 버튼) ===== */
-.ap-name-btn { background: none; border: none; padding: 0; font-size: calc(13px * var(--fs)); font-weight: 800; color: var(--text); white-space: nowrap; cursor: pointer; }
+.ap-name-btn { background: none; border: none; padding: 12px 4px; min-height: 44px; font-size: calc(13px * var(--fs)); font-weight: 800; color: var(--text); white-space: nowrap; cursor: pointer; }
 
 /* ===== 만보기 프로필 스트립 ===== */
 .my-prof { display: flex; align-items: center; gap: 11px; padding: 4px 2px 12px; }
@@ -971,3 +975,22 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 }
 .th-more:active { background: var(--primary-dark); }
 .th-more:focus-visible { outline: 2px solid var(--primary-dark); outline-offset: 2px; }
+
+/* 터치 타깃 최소 44px (2026-08-13 실측: 홈 31개 중 9개가 미달이라 손가락이 빗나갔다).
+   시각 크기는 그대로 두고 눌리는 영역만 넓힌다 — 레이아웃을 흔들지 않기 위해서다. */
+.appbar-logo { min-height: 44px; display: inline-flex; align-items: center; }
+.appbar-search input { min-height: 44px; }
+.sec a, .sec .more, a.more { min-height: 44px; display: inline-flex; align-items: center; padding: 0 6px; }
+
+/* 저장 불가 고지 — 시크릿 모드·용량 초과 기기에서 기록이 남지 않는다는 사실을 방문자에게 알린다.
+   role="alert" 로 스크린리더에도 전달되며, 탭바를 가리지 않도록 그 위에 띄운다. */
+.storage-warn {
+  position: fixed; left: 12px; right: 12px; bottom: calc(var(--tabbar-h) + 12px); z-index: 200;
+  background: var(--text); color: #fff; border-radius: 10px;
+  padding: 12px 14px; font-size: calc(13px * var(--fs)); line-height: 1.5;
+  box-shadow: 0 6px 20px rgba(20, 40, 30, 0.25);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .storage-warn { animation: storage-warn-in 180ms ease-out; }
+  @keyframes storage-warn-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}

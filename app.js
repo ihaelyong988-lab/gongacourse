@@ -20507,30 +20507,54 @@ let NICK = DEFAULT_NICK; // 필명(간편등록 시 visitorSettings.nick으로 �
 // -----------------------------------------------------------------------------
 // 영속화
 // -----------------------------------------------------------------------------
+/* 저장소 안전 래퍼 — 사파리 시크릿·쿠키 차단·용량 초과 기기에서 localStorage는 던진다.
+   래퍼 없이 부르면 그 예외가 호출부(부팅·후기 등록·설정 변경)를 통째로 중단시켜
+   방문자에게는 "아무 반응이 없는" 화면이 된다. 저장 실패는 앱 중단이 아니라 1회 고지로 처리한다. */
+let storageBroken = false;
+function lsGet(key) {
+  try { return localStorage.getItem(key); }
+  catch (e) { storageBroken = true; return null; }
+}
+function lsSet(key, value) {
+  try { localStorage.setItem(key, value); return true; }
+  catch (e) { storageBroken = true; noticeStorageBroken(); return false; }
+}
+// 저장 불가 고지는 세션당 1회만. 매 저장 실패마다 띄우면 그 자체가 방문자를 가둔다.
+let storageNoticed = false;
+function noticeStorageBroken() {
+  if (storageNoticed) return;
+  storageNoticed = true;
+  const bar = document.createElement("div");
+  bar.className = "storage-warn";
+  bar.setAttribute("role", "alert");
+  bar.textContent = "이 브라우저에 저장할 수 없어 기록이 남지 않아요. 시크릿 모드이거나 저장 공간이 가득 찼는지 확인해 주세요.";
+  document.body.appendChild(bar);
+  setTimeout(() => bar.remove(), 6000);
+}
 function saveToLocalStorage() {
-  localStorage.setItem("gongacourse_data", JSON.stringify(courses));
+  return lsSet("gongacourse_data", JSON.stringify(courses));
 }
 function saveBookmarks() {
-  localStorage.setItem("gongacourse_saved", JSON.stringify(savedCourses));
+  lsSet("gongacourse_saved", JSON.stringify(savedCourses));
 }
 function loadBookmarks() {
   try {
-    const s = localStorage.getItem("gongacourse_saved");
+    const s = lsGet("gongacourse_saved");
     if (s) savedCourses = JSON.parse(s);
   } catch (e) { savedCourses = []; }
 }
 function saveCommunityPosts() {
-  localStorage.setItem("gongacourse_posts", JSON.stringify(communityPosts));
+  lsSet("gongacourse_posts", JSON.stringify(communityPosts));
 }
 function loadCommunityPosts() {
   try {
-    const s = localStorage.getItem("gongacourse_posts");
+    const s = lsGet("gongacourse_posts");
     if (s) communityPosts = JSON.parse(s);
   } catch (e) { communityPosts = []; }
 }
 function loadSearchCounts() {
   try {
-    const s = localStorage.getItem("gongacourse_searchcounts");
+    const s = lsGet("gongacourse_searchcounts");
     if (s) searchCounts = JSON.parse(s);
   } catch (e) { searchCounts = {}; }
 }
@@ -20538,7 +20562,7 @@ function bumpSearch(kw) {
   kw = (kw || "").trim().toLowerCase();
   if (kw.length < 2) return;
   searchCounts[kw] = (searchCounts[kw] || 0) + 1;
-  localStorage.setItem("gongacourse_searchcounts", JSON.stringify(searchCounts));
+  lsSet("gongacourse_searchcounts", JSON.stringify(searchCounts));
 }
 function topKeywords(n) {
   return Object.keys(searchCounts)
@@ -20579,7 +20603,9 @@ function showScreen(id, state) {
   // 프로필(필명+사진)은 상단 우측 앱바에만 노출(본문 중복 스트립 없음, 등급줄 없음).
   const profEl = document.getElementById("appbar-profile");
   if (profEl) {
-    const showProf = (id === "mypage" || id === "community" || id === "saved");
+    // 상세·모음집상세는 콘텐츠 몰입 화면이라 제외하고, 그 외 전 화면에 노출한다.
+    // 홈·탐색에서 숨기면 첫 방문자에게 신원 등록 진입점이 0개가 된다(2026-08-13 실측).
+    const showProf = (id !== "detail" && id !== "collitem");
     profEl.style.display = showProf ? "flex" : "none";
     if (showProf) renderAppbarProfile();
   }
@@ -20637,6 +20663,16 @@ function updateTabbar() {
 // -----------------------------------------------------------------------------
 // 공통 유틸
 // -----------------------------------------------------------------------------
+
+/* 사용자 입력을 innerHTML 템플릿에 넣기 전 반드시 통과시킨다.
+   필명·후기 본문·게시글은 전부 방문자가 친 값이라, 이스케이프 없이 넣으면 태그가 실제 요소로 살아난다
+   (2026-08-13 실측: 필명 `<b id=inj>x</b>` 가 앱바에서 진짜 <b> 요소가 됨). */
+function escHtml(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, ch => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[ch]));
+}
+
 function parseHours(d) {
   const h = parseFloat(d);
   return isNaN(h) ? 2.0 : h;
@@ -20879,6 +20915,8 @@ function getCurrentSeason() {
 // 실시간 날씨 연동 (Open-Meteo · 무료/키 불필요, 위치 거부 시 계절만으로 폴백)
 let weatherInfo = null;
 let weatherFetching = false;
+// 세션당 1회 시도 표식 — 거부·오프라인일 때 렌더러가 재조회를 반복해 화면을 무한 재생성하는 것을 막는다.
+let weatherTried = false;
 
 function describeWeather(code, temp) {
   let label = "맑음", emoji = "☀️", kind = "normal";
@@ -20901,11 +20939,14 @@ function describeWeather(code, temp) {
 }
 
 function loadWeather(cb) {
+  /* cb는 항상 비동기로 부른다. 동기로 부르면 미지원 브라우저(비보안 오리진)에서
+     loadWeather→cb→renderHome→loadWeather 가 한 스택에 쌓여 즉시 스택오버플로가 난다. */
+  const done = () => { weatherTried = true; if (cb) setTimeout(cb, 0); };
   try {
-    const c = JSON.parse(localStorage.getItem("gongacourse_weather"));
-    if (c && (Date.now() - c.ts) < 3600000) { weatherInfo = c.data; if (cb) cb(); return; }
+    const c = JSON.parse(lsGet("gongacourse_weather"));
+    if (c && (Date.now() - c.ts) < 3600000) { weatherInfo = c.data; done(); return; }
   } catch (e) {}
-  if (!navigator.geolocation || weatherFetching) { if (cb) cb(); return; }
+  if (!navigator.geolocation || weatherFetching) { done(); return; }
   weatherFetching = true;
   navigator.geolocation.getCurrentPosition(pos => {
     const { latitude, longitude } = pos.coords;
@@ -20915,12 +20956,12 @@ function loadWeather(cb) {
         const temp = Math.round(d.current.temperature_2m);
         const info = Object.assign({ temp }, describeWeather(d.current.weather_code, temp));
         weatherInfo = info;
-        localStorage.setItem("gongacourse_weather", JSON.stringify({ ts: Date.now(), data: info }));
+        lsSet("gongacourse_weather", JSON.stringify({ ts: Date.now(), data: info }));
         weatherFetching = false;
-        if (cb) cb();
+        done();
       })
-      .catch(() => { weatherFetching = false; if (cb) cb(); });
-  }, () => { weatherFetching = false; if (cb) cb(); }, { timeout: 8000, maximumAge: 3600000 });
+      .catch(() => { weatherFetching = false; done(); });
+  }, () => { weatherFetching = false; done(); }, { timeout: 8000, maximumAge: 3600000 });
 }
 
 function pickTodayCourse() {
@@ -20935,6 +20976,18 @@ function pickTodayCourse() {
     else if (weatherInfo.kind === "hot") biased = pool.filter(c => /숲|계곡|폭포|호수|강|해변|바다|물/.test(c.title + c.timeline.map(t => t.spot).join("")));
     else if (weatherInfo.kind === "cold") biased = pool.filter(c => parseHours(c.duration) <= 2);
     if (biased.length) pool = biased;
+  }
+
+  /* 동행 보정 (계절 풀 내에서 — §4 절대규칙: 계절 밖으로 나가지 않는다).
+     이 보정이 없으면 방문자가 동행을 무엇으로 바꾸든 오늘의 추천이 한 글자도 안 바뀌어
+     "맞춤설정"이 화면에 아무 흔적을 남기지 않는다(2026-08-13 실측). */
+  const comp = visitorSettings.companion;
+  if (comp && comp !== "none") {
+    let fit = pool;
+    if (comp === "parent") fit = pool.filter(c => isEasy(c));
+    else if (comp === "pet") fit = pool.filter(c => isPetFriendly(c));
+    else if (comp === "child") fit = pool.filter(c => parseHours(c.duration) <= 2.0);
+    if (fit.length) pool = fit;
   }
 
   const top = pool.filter(c => c.satisfaction >= 95);
@@ -20985,7 +21038,7 @@ function orderedHomeShortcuts() {
 
 function saveHomeShortcutOrder(order) {
   visitorSettings.homeShortcutOrder = normalizedHomeShortcutOrder(order);
-  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
 }
 
 function homeShortcutSettingsRows() {
@@ -21304,8 +21357,10 @@ function renderHome() {
 
   renderRecentReviews("home-reviews", 3);
 
-  // 날씨 미로드 시 1회 조회 후 홈 갱신 (위치 거부/오프라인이면 계절만으로 유지)
-  if (!weatherInfo && !weatherFetching) {
+  /* 날씨 미로드 시 세션당 1회만 조회 후 홈 갱신 (위치 거부/오프라인이면 계절만으로 유지).
+     weatherTried 가드가 없으면 거부·오프라인일 때 콜백이 다시 renderHome을 불러 조건이 그대로 재성립,
+     홈이 초당 수십 회 재생성된다(2026-08-13 실측: 2초에 38회). renderThemeHub는 이미 같은 가드를 쓴다. */
+  if (!weatherInfo && !weatherFetching && !weatherTried) {
     loadWeather(() => { if (currentScreen === "home") renderHome(); });
   }
 }
@@ -21605,7 +21660,7 @@ function renderDetail(courseId) {
        </div>`
     : "";
 
-  const voted = localStorage.getItem(`voted_course_${c.id}`);
+  const voted = lsGet(`voted_course_${c.id}`);
 
   root.innerHTML = `
     <div class="detail-hero accent-${c.season}">
@@ -21727,8 +21782,8 @@ function renderComments() {
     return `<div class="comment">
       ${avatarHtml(cm.user, "cm-av")}
       <div class="cm-body">
-        <div class="cm-user">${cm.user}</div>${rb}
-        <div class="cm-text">${cm.text}</div>
+        <div class="cm-user">${escHtml(cm.user)}</div>${rb}
+        <div class="cm-text">${escHtml(cm.text)}</div>
         <div class="cm-date">${cm.date}</div>
       </div>
     </div>`;
@@ -21738,7 +21793,7 @@ function renderComments() {
 function castVote(type) {
   if (!currentCourse) return;
   const key = `voted_course_${currentCourse.id}`;
-  const prev = localStorage.getItem(key);
+  const prev = lsGet(key);
   if (prev) {
     if (prev === type) {
       if (type === "up") currentCourse.votesUp = Math.max(0, currentCourse.votesUp - 1);
@@ -21747,13 +21802,14 @@ function castVote(type) {
     } else {
       if (type === "up") { currentCourse.votesUp++; currentCourse.votesDown = Math.max(0, currentCourse.votesDown - 1); }
       else { currentCourse.votesDown++; currentCourse.votesUp = Math.max(0, currentCourse.votesUp - 1); }
-      localStorage.setItem(key, type);
+      lsSet(key, type);
     }
   } else {
     if (type === "up") currentCourse.votesUp++; else currentCourse.votesDown++;
-    localStorage.setItem(key, type);
+    lsSet(key, type);
   }
-  saveToLocalStorage();
+  // 저장이 막히면 화면 숫자만 오르고 기록은 남지 않는다 — 조용히 지나가지 않고 즉시 알린다.
+  if (!saveToLocalStorage()) alert("저장 공간이 부족해 평가를 기록하지 못했어요.");
   renderDetail(currentCourse.id);
 }
 
@@ -21808,10 +21864,14 @@ function submitComment() {
     if (!currentCourse.photos) currentCourse.photos = [];
     currentCourse.photos.unshift(uploadedPhotoBase64);
   }
-  saveToLocalStorage();
+  /* 저장 실패를 삼키면 방문자는 등록 버튼을 눌러도 아무 일이 없고, 새로고침하면 후기가 사라진다.
+     화면 갱신은 그대로 하되(작성 내용은 보이게) 저장 여부를 사실대로 알린다. */
+  const saved = saveToLocalStorage();
   clearSelectedPhoto();
   renderDetail(currentCourse.id);
-  alert("소중한 후기가 등록되었어요!");
+  alert(saved
+    ? "소중한 후기가 등록되었어요!"
+    : "저장 공간이 부족해 후기를 기기에 남기지 못했어요. 사진을 빼고 다시 시도해 주세요.");
 }
 
 // -----------------------------------------------------------------------------
@@ -21835,8 +21895,8 @@ function renderRecentReviews(targetId, limit) {
     <div class="feed-item" onclick="openCourse(${r.courseId})">
       <div class="fi-av"><i class="fa-solid fa-comment-dots"></i></div>
       <div class="fi-body">
-        <div class="fi-text">"${r.text}"</div>
-        <div class="fi-meta">${r.user} · ${r.courseTitle}${r.ratings ? ` · ⛰️${r.ratings.scenery} 🥾${r.ratings.path} 🚗${r.ratings.parking}` : ""}</div>
+        <div class="fi-text">"${escHtml(r.text)}"</div>
+        <div class="fi-meta">${escHtml(r.user)} · ${escHtml(r.courseTitle)}${r.ratings ? ` · ⛰️${r.ratings.scenery} 🥾${r.ratings.path} 🚗${r.ratings.parking}` : ""}</div>
       </div>
     </div>`).join("");
 }
@@ -22207,8 +22267,8 @@ function renderSaved() {
          <button class="btn-primary" style="margin-top:12px" onclick="goTab('explore')">코스 둘러보기</button></div>`}
   `;
 
-  // 예방건강 팁 정확도용 날씨 1회 로드(미로드 시)
-  if (!weatherInfo && !weatherFetching) {
+  // 예방건강 팁 정확도용 날씨 세션당 1회 로드 (weatherTried — 홈과 같은 재렌더 루프 차단)
+  if (!weatherInfo && !weatherFetching && !weatherTried) {
     loadWeather(() => { if (currentScreen === "saved") renderSaved(); });
   }
 }
@@ -22350,7 +22410,7 @@ function fontBtn(val, label) {
 
 function setSetting(group, val) {
   visitorSettings[group] = val;
-  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   renderMypage();
 }
 // 앱바 우측 프로필(필명 + 사진) — 보조 등급줄 제거(간결), 탭 시 간편등록 모달
@@ -22359,7 +22419,7 @@ function renderAppbarProfile() {
   if (!el) return;
   const avatar = visitorSettings.avatar || "";
   el.innerHTML = `
-    <button class="ap-name-btn" onclick="openProfileEdit()">${NICK}</button>
+    <button class="ap-name-btn" onclick="openProfileEdit()">${escHtml(NICK)}</button>
     <button class="ap-avatar ${avatar ? "has" : ""}" onclick="openProfileEdit()" aria-label="프로필 등록"
       style="${avatar ? `background-image:url('${avatar}')` : ""}">
       ${avatar ? "" : `<i class="fa-solid fa-user-astronaut"></i>`}
@@ -22406,7 +22466,7 @@ function openProfileEdit() {
   const avatar = visitorSettings.avatar || "";
   const esc = s => (s || "").replace(/"/g, "&quot;");
   ov.innerHTML = `
-    <div class="pm-card" role="dialog" aria-label="프로필 등록">
+    <div class="pm-card" role="dialog" aria-modal="true" aria-label="프로필 등록">
       <div class="pm-head"><b>프로필 등록</b><button class="pm-x" onclick="closeProfileEdit()" aria-label="닫기"><i class="fa-solid fa-xmark"></i></button></div>
       <div class="pm-avwrap">
         <button class="pm-av ${avatar ? "has" : ""}" onclick="triggerAvatar()" aria-label="프로필 사진 선택"
@@ -22427,16 +22487,27 @@ function openProfileEdit() {
     </div>`;
   ov.classList.add("on");
   ov.onclick = ev => { if (ev.target === ov) closeProfileEdit(); };
+  // 뒤로가기가 앱이 아니라 이 모달을 닫도록 히스토리에 항목을 하나 올린다(입력값 보존).
+  history.pushState({ screen: currentScreen, overlay: "prof" }, "");
+  // 배경 탭·ESC·뒤로가기 — 닫는 방법 셋이 모두 통하게 한다. ESC만 빠져 있으면 키보드 사용자가 갇힌다.
+  document.addEventListener("keydown", profModalEsc);
   setTimeout(() => { const n = document.getElementById("pm-nick"); if (n) n.focus(); }, 50);
 }
-function closeProfileEdit() { const ov = document.getElementById("prof-modal"); if (ov) ov.classList.remove("on"); }
+function profModalEsc(e) { if (e.key === "Escape") closeProfileEdit(); }
+function closeProfileEdit() {
+  const ov = document.getElementById("prof-modal");
+  if (ov) ov.classList.remove("on");
+  document.removeEventListener("keydown", profModalEsc);
+  // 모달용 히스토리 항목이 남아 있으면 걷어낸다 — 안 그러면 뒤로가기가 한 번 헛돈다.
+  if (history.state && history.state.overlay === "prof") history.back();
+}
 function saveProfile() {
   const nick = (document.getElementById("pm-nick").value || "").trim();
   const phone = (document.getElementById("pm-phone").value || "").trim();
   visitorSettings.nick = nick;
   visitorSettings.phone = phone;
   NICK = nick || DEFAULT_NICK;
-  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   closeProfileEdit();
   renderAppbarProfile();
   if (currentScreen === "mypage") renderMypage();
@@ -22471,7 +22542,7 @@ function handleAvatar(e) {
       const sx = (img.width - side) / 2, sy = (img.height - side) / 2;
       canvas.getContext("2d").drawImage(img, sx, sy, side, side, 0, 0, SIZE, SIZE);
       visitorSettings.avatar = canvas.toDataURL("image/jpeg", 0.8);
-      localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+      lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
       renderAppbarProfile();
       // 프로필 모달이 열려 있으면 미리보기 갱신(입력값은 보존)
       const pmav = document.querySelector("#prof-modal .pm-av");
@@ -22486,12 +22557,12 @@ function handleAvatar(e) {
 // 홈 배너에서 동반자 선택 (맞춤 결과 즉시 반영)
 function setCompanionHome(val) {
   visitorSettings.companion = val;
-  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   renderHome();
 }
 function setFontSize(size) {
   visitorSettings.fontSize = size;
-  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   applyFontSize();
   renderMypage();
 }
@@ -22502,13 +22573,13 @@ function applyFontSize() {
 }
 function toggleContrast() {
   visitorSettings.highContrast = !visitorSettings.highContrast;
-  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   document.body.classList.toggle("contrast-high", visitorSettings.highContrast);
   renderMypage();
 }
 function loadVisitorSettings() {
   try {
-    const s = localStorage.getItem("gongacourse_visitor_settings");
+    const s = lsGet("gongacourse_visitor_settings");
     if (s) visitorSettings = Object.assign(visitorSettings, JSON.parse(s));
   } catch (e) {}
   if (visitorSettings.nick) NICK = visitorSettings.nick;
@@ -22523,7 +22594,7 @@ function loadVisitorSettings() {
 let stepData = { goal: 8000, days: {}, hours: {}, tracking: false };
 function loadSteps() {
   try {
-    const s = localStorage.getItem("gongacourse_steps");
+    const s = lsGet("gongacourse_steps");
     if (s) stepData = Object.assign({ goal: 8000, days: {}, hours: {}, tracking: false }, JSON.parse(s));
   } catch (e) { stepData = { goal: 8000, days: {}, hours: {}, tracking: false }; }
   if (!stepData.hours) stepData.hours = {};
@@ -22560,7 +22631,7 @@ function sessionSpeedKmh() {
   if (hrs <= 0) return 0;
   return (sessionStepDelta() * 0.0007) / hrs;
 }
-function saveSteps() { localStorage.setItem("gongacourse_steps", JSON.stringify(stepData)); }
+function saveSteps() { lsSet("gongacourse_steps", JSON.stringify(stepData)); }
 function dayKey(d) {
   const x = d || new Date();
   return x.getFullYear() + "-" + String(x.getMonth() + 1).padStart(2, "0") + "-" + String(x.getDate()).padStart(2, "0");
@@ -23033,15 +23104,15 @@ function renderCollItem(ref) {
 // -----------------------------------------------------------------------------
 let photoOverrides = {};
 function loadPhotoOverrides() {
-  try { photoOverrides = JSON.parse(localStorage.getItem("gongacourse_photo_overrides") || "{}"); }
+  try { photoOverrides = JSON.parse(lsGet("gongacourse_photo_overrides") || "{}"); }
   catch (e) { photoOverrides = {}; }
 }
 function savePhotoOverrides() {
-  localStorage.setItem("gongacourse_photo_overrides", JSON.stringify(photoOverrides));
+  lsSet("gongacourse_photo_overrides", JSON.stringify(photoOverrides));
 }
 function toggleAdmin() {
   visitorSettings.admin = !visitorSettings.admin;
-  localStorage.setItem("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
+  lsSet("gongacourse_visitor_settings", JSON.stringify(visitorSettings));
   renderMypage();
 }
 function triggerCoursePhoto(id) {
@@ -23095,7 +23166,11 @@ function resetCoursePhoto(id) {
 // 부팅
 // -----------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  const saved = localStorage.getItem("gongacourse_data");
+  /* 부팅 본문은 통째로 방어한다. 여기서 예외가 나면 아래 showScreen("home")·popstate 등록이
+     전부 건너뛰어져 방문자에게는 앱바와 탭바만 있는 흰 화면이 남는다(저장소 차단 기기).
+     복구 불가한 상황이라도 홈 렌더까지는 반드시 도달시킨다. */
+  try {
+  const saved = lsGet("gongacourse_data");
   let needReset = false;
   if (saved) {
     try {
@@ -23112,7 +23187,11 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSteps();
   loadVisitorSettings();
 
-  history.replaceState({ screen: "home" }, "");
+  /* 종료 트랩 2단 센티널. 최초 항목에 곧바로 {screen:"home"}을 박으면 그 앞에 state 없는 항목이
+     남지 않아, popstate의 "종료 확인" 분기가 영영 실행되지 않는다(2026-08-13 실측: 홈에서 뒤로 1회 →
+     확인 없이 문서 이탈). 센티널 항목을 하나 깔고 그 위에 홈을 올려야 확인 팝업이 살아난다. */
+  history.replaceState({ screen: "__exit" }, "");
+  history.pushState({ screen: "home" }, "");
   showScreen("home");
 
   // 측정 ON 상태로 종료했다면 앱 재시작 시 자동 재개(매번 시작 버튼 누를 필요 없음)
@@ -23123,9 +23202,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("popstate", (e) => {
     const s = e.state && e.state.screen;
-    if (s) {
+    /* 열려 있는 오버레이가 있으면 뒤로가기는 앱이 아니라 그 오버레이를 닫는다(입력값 보존).
+       오버레이 항목은 이미 이 back으로 소비됐으므로 여기서 다시 push하지 않는다. */
+    const ov = document.querySelector(".prof-modal.on");
+    if (ov) {
+      ov.classList.remove("on");
+      document.removeEventListener("keydown", profModalEsc);
+      return;
+    }
+    if (s && s !== "__exit") {
       showScreen(s, e.state);
     } else {
+      // 센티널(또는 state 없음)에 도달 = 홈에서 한 번 더 뒤로 = 종료 의사.
       if (confirm("꽁아코스를 나갈까요?")) history.back();
       else history.pushState({ screen: currentScreen }, "");
     }
@@ -23141,4 +23229,10 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (!motionActive) resumeTrackingIfWanted();
   });
   window.addEventListener("pagehide", saveSteps);
+  } catch (e) {
+    // 부팅이 어디서 깨졌든 홈은 띄운다. 흰 화면으로 방문자를 돌려보내지 않는다.
+    console.error("[부팅] 초기화 중 오류 — 홈 렌더로 복구:", e);
+    try { courses = courses && courses.length ? courses : [...defaultCourses]; renderHome(); showScreen("home"); } catch (e2) {}
+    noticeStorageBroken();
+  }
 });
