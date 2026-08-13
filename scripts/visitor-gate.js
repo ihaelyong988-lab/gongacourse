@@ -138,6 +138,54 @@ async function __visitorGate() {
   add("S1", "탭 5종 모두 내용 렌더", screens.every((s) => s.children > 0), screens.map((s) => `${s.tab}:${s.children}`).join(" "), "전부 >0");
   tab("home").click(); await sleep(200);
 
+  // ── S1 페이지네이션: 한 화면에 전량을 쏟지 않는가 ─────
+  tab("explore").click(); await sleep(400);
+  const exploreCards = document.querySelectorAll("#explore-body .cc, #explore-body .course-card, #explore-body [onclick^='openCourse']").length;
+  add("S1", "탐색 초기 카드 ≤ 60장", exploreCards > 0 && exploreCards <= 60, exploreCards, "≤60");
+  tab("community").click(); await sleep(400);
+  const commChars = (document.getElementById("community-body") || {}).textContent;
+  add("S1", "소통 초기 본문 ≤ 40,000자", (commChars || "").length <= 40000, (commChars || "").length, "≤40000");
+
+  // ── Q2 키보드 접근: 눌리는 것은 버튼이어야 한다 ────────
+  tab("home").click(); await sleep(300);
+  const divClickables = [...document.querySelectorAll("#home-body [onclick]")]
+    .filter((e) => !/^(BUTTON|A|INPUT|SELECT|TEXTAREA)$/.test(e.tagName) && e.tabIndex < 0 && !e.getAttribute("role"));
+  add("Q2", "홈에 키보드 불가 클릭요소 0", divClickables.length === 0,
+      `${divClickables.length} (${divClickables.slice(0, 3).map((e) => e.className || e.tagName).join(", ")})`, 0);
+
+  // ── J1 확대 차단 해제 ──────────────────────────────────
+  const vp = (document.querySelector('meta[name="viewport"]') || {}).content || "";
+  add("J1", "확대 차단 없음(user-scalable/maximum-scale)", !/user-scalable\s*=\s*no|maximum-scale/.test(vp), vp.slice(0, 70), "제한 없음");
+
+  // ── J5 스크롤 위치 복원 ────────────────────────────────
+  tab("explore").click(); await sleep(400);
+  window.scrollTo(0, 600); await sleep(200);
+  const before = Math.round(window.scrollY);
+  const card = document.querySelector("#explore-body [onclick^='openCourse']");
+  if (card && before > 200) {
+    card.click(); await sleep(500);
+    history.back(); await sleep(800);
+    const after = Math.round(window.scrollY);
+    add("J5", "뒤로가기 시 읽던 위치 복원", Math.abs(after - before) < 120, `${before} → ${after}`, "±120px");
+  } else {
+    add("J5", "뒤로가기 시 읽던 위치 복원", false, "측정 불가(카드 없음/스크롤 부족)", "측정 성공");
+  }
+
+  // ── J4 상세를 열어도 목록 수치가 변하지 않는다 ─────────
+  tab("explore").click(); await sleep(400);
+  const readSat = () => { const e = document.querySelector("#explore-body [onclick^='openCourse']"); return e ? (e.textContent.match(/(\d+)%/) || [])[1] : null; };
+  const sat1 = readSat();
+  const c2 = document.querySelector("#explore-body [onclick^='openCourse']");
+  if (c2 && sat1) {
+    c2.click(); await sleep(500);
+    history.back(); await sleep(700);
+    const sat2 = readSat();
+    add("J4", "상세 열어도 목록 만족도 불변", sat1 === sat2, `${sat1}% → ${sat2}%`, "동일");
+  } else {
+    add("J4", "상세 열어도 목록 만족도 불변", false, "측정 불가", "측정 성공");
+  }
+  tab("home").click(); await sleep(250);
+
   const failed = G.filter((g) => !g.pass);
   return { verdict: failed.length === 0 ? "PASS" : "FAIL", failedCount: failed.length, total: G.length, gates: G, screens };
 }
