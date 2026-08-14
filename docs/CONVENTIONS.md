@@ -3,7 +3,7 @@
 > 누적 실전 규칙. 새 교훈은 여기 또는 `AGENTS.md` §4/§9에 1줄 추가(= 같은 설명 반복 방지). **확정 스펙·상세는 AGENTS.md §4/§9가 정본**, 본 문서는 요약.
 
 ## 구조/형식
-- 빌드리스 정적 SPA: `index.html`(화면 6개+앱바+탭바) · `style.css` · `app.js`(1~17373줄 `defaultCourses` 데이터 보존, 이후 로직).
+- 빌드리스 정적 SPA: `index.html`(화면 6개+앱바+탭바) · `style.css` · `app.js`(5~20456줄 `defaultCourses` 304건 보존, 이후 로직).
 - 화면 전환은 history 기반 스택 라우터(`navigate`/`showScreen`). 종료 confirm은 홈 최상단에서만.
 
 ## 스타일/품질
