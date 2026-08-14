@@ -183,11 +183,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .tc-visual { position: relative; width: 108px; border-radius: 12px; align-self: stretch; min-height: 110px; overflow: hidden; flex-shrink: 0; }
 .tc-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .tc-photo.img-failed { display: none; }
-.tc-ribbon {
-  position: absolute; top: 7px; left: 7px; z-index: 2;
-  background: var(--acc-deep, var(--primary-dark)); color: #fff; font-size: 10px; font-weight: 800;
-  padding: 3px 9px; border-radius: 20px;
-}
 .tc-content { flex: 1; min-width: 0; position: relative; padding-right: 18px; }
 .tc-arrow { position: absolute; right: 0; top: 2px; color: var(--acc, var(--primary)); font-size: calc(15px * var(--fs)); }
 .tc-tags { display: flex; gap: 6px; margin-bottom: 6px; }
@@ -277,7 +272,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
   display: flex; gap: 10px; align-items: center; background: none;
   border: none; border-bottom: 1px solid var(--hair); border-radius: 0; padding: 11px 2px;
 }
-#home-reviews .feed-item:last-child { border-bottom: none; }
+#home-reviews .feed-item:last-child, #home-match .feed-item:last-child { border-bottom: none; }
+/* 별점이 radiogroup 이 되면서 키보드로 옮겨 다닌다 — 지금 어디에 있는지 보이게 한다. */
+.star:focus-visible { outline: 2px solid var(--acc, #2456A6); outline-offset: 2px; border-radius: 8px; }
 .feed-item:active { background: var(--surface); }
 .fi-av {
   width: 38px; height: 38px; border-radius: 10px; background: var(--primary-soft);
@@ -759,11 +756,12 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .p2-seg { flex: 1; display: flex; gap: 2px; background: var(--surface-2,#eef3ee); border-radius: 12px; padding: 3px; }
 .p2-seg-btn { flex: 1; border: none; background: transparent; color: var(--text-mut); font-size: calc(13px * var(--fs)); font-weight: 800; padding: 8px 0; min-height: 44px; border-radius: 9px; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
 .p2-seg-btn.on { background: var(--primary); color: #fff; box-shadow: 0 2px 6px rgba(46,125,50,0.3); }
-.p2-menu { width: 38px; height: 38px; border-radius: 11px; border: 1px solid var(--hair); background: var(--surface); color: var(--text-mut); font-size: 16px; flex-shrink: 0; cursor: pointer; }
+/* 만보기 조작 버튼은 44px 미만이었다 — 게이트가 홈만 재서 초록으로 지나갔다(2026-08-14 실측). */
+.p2-menu { width: 44px; height: 44px; border-radius: 11px; border: 1px solid var(--hair); background: var(--surface); color: var(--text-mut); font-size: 16px; flex-shrink: 0; cursor: pointer; }
 .p2-menu:active { background: var(--surface-2,#eef3ee); }
 
 .p2-date { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 2px; }
-.p2-nav { width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--hair); background: var(--surface); color: var(--text-mut); font-size: 13px; cursor: pointer; }
+.p2-nav { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--hair); background: var(--surface); color: var(--text-mut); font-size: 13px; cursor: pointer; }
 .p2-nav.dim { opacity: 0.35; }
 .p2-dtxt { font-size: calc(13.5px * var(--fs)); font-weight: 800; min-width: 140px; text-align: center; color: var(--text); }
 
@@ -818,7 +816,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .p2-sheet-sec:last-of-type { border-bottom: none; }
 .p2-sheet-t { font-size: calc(12.5px * var(--fs)); font-weight: 800; color: var(--text); margin-bottom: 8px; }
 .p2-sheet-t i { color: var(--primary); margin-right: 5px; }
-.p2-share { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: #fff; border: none; border-radius: 11px; padding: 11px; font-weight: 800; font-size: calc(13px * var(--fs)); cursor: pointer; }
+.p2-share { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: #fff; border: none; border-radius: 11px; padding: 11px; font-weight: 800; font-size: calc(13px * var(--fs)); cursor: pointer; }
 .p2-note { font-size: calc(10.5px * var(--fs)); color: var(--text-faint); line-height: 1.5; margin-top: 10px; }
 .p2-note i { color: var(--primary); margin-right: 4px; }
 
@@ -847,7 +845,8 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; }
 .fc-av.has, .cm-av.has { background-size: cover; background-position: center; }
 .fc-av.has i, .cm-av.has i { display: none; }
 
-.trek-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+/* 3칸이다. '내 후기' 카드는 §4(등급·후기수 표기 금지)로 2026-08-14 에 걷었다. */
+.trek-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 /* 아이콘 제거 + 세로폭 축소(콤팩트) */
 .trek-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 10px; padding: 8px 4px 7px; text-align: center; }
 .trek-card b { display: block; font-size: calc(16px * var(--fs)); font-weight: 900; color: var(--text); line-height: 1.1; }

@@ -3,7 +3,7 @@
 
 ## (a) 작업 절차 지침 — 표준 루프 (상세는 AGENTS.md)
 1. **착수 전**: harness-context 훅이 규칙 자동 주입. UI 작업은 ui-ux-pro-max 선호출 + 시안 먼저.
-2. **불변 규칙**: `defaultCourses` 242건 삭제 금지(§4) · 3-탭 아코디언 드로어 패턴 유지(§9 확정) · 빌드리스 바닐라 JS 유지(프레임워크 도입 금지).
+2. **불변 규칙**: `defaultCourses` 304건 삭제 금지(§4) · 3-탭 아코디언 드로어 패턴 유지(§9 확정) · 빌드리스 바닐라 JS 유지(프레임워크 도입 금지).
 3. **검증**: `node --check app.js` + Claude Preview 375px(python http.server 8765) 실화면 확인.
 4. **마감**: 브랜치 커밋 → PR → GitHub Pages 배포(HTTPS — 만보기 센서 요건).
 5. **성장 게이트(2026-07-02 신설)**: Stop 훅 `scripts/growth-gate.mjs` — 오늘 커밋이 있는데 AGENTS §9/CONVENTIONS 기록이 없으면 **마감 차단**.
@@ -16,7 +16,7 @@
 
 [현황] app.js 테마 필터 4종(쉬운산책·맛집연계·사찰탐방·장거리)이 이미 있고, hasFood()/
 hasTemple()(오탐 방지 TEMPLE_BAD 포함) 감지 패턴·FOOD_SYN 동의어 확장·REGION_MATCH LUT가
-구현돼 있음(app.js 17559~17985). 코스 242건의 timeline 텍스트가 태깅 원천.
+구현돼 있음(줄 번호는 탐색 힌트일 뿐 근거가 아니다 — 함수명으로 찾는다). 코스 304건의 timeline 텍스트가 태깅 원천.
 
 [구현 — 기존 패턴 복제·확장, 데이터 수작업 0]
 1. 감지 함수 추가(hasTemple 패턴 복제): hasWaterfall(폭포·瀑·소(沼)) · hasValley(계곡·협곡) ·

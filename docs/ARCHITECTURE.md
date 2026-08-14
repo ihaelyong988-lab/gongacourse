@@ -8,7 +8,7 @@
 |---|---|---|
 | `index.html` | 앱바 + 6 screen + 하단 5탭바 셸 | git |
 | `style.css` | 모바일 네이티브 스타일(토큰·앱바·탭바·칩·게이지) | git |
-| `app.js` | 1~17373줄=`defaultCourses`(242코스), 이후=로직 | git |
+| `app.js` | 5~20456줄=`defaultCourses`(304코스), 이후=로직 | git |
 | `.claude/` | settings.json(훅 3종) · launch.json(preview) | git |
 | `scripts/` | harness-context.mjs(규칙주입) · validate.mjs | git |
 | `docs/` | 본 문서들 | git |

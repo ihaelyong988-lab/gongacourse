@@ -186,6 +186,95 @@ async function __visitorGate() {
   }
   tab("home").click(); await sleep(250);
 
+  // ── J5 재방문 보존: 저장이 방문자 기록을 담는가 ────────
+  /* 저장은 시드 대비 델타만 쓴다(2026-08-14). 델타가 후기·투표를 빠뜨리면 재방문에 소멸한다.
+     리로드는 이 컨텍스트를 죽이므로 화면이 아니라 저장 계약을 본다. */
+  try {
+    const pc = courses[0];
+    const beforeUp = pc.votesUp || 0;
+    const beforeLen = (pc.comments || []).length;
+    const stamp = "__gate_" + Date.now();
+    pc.comments = pc.comments || [];
+    pc.comments.push({ user: "게이트", text: stamp, date: "2026-08-14", ratings: { scenery: 5, path: 5, parking: 5 } });
+    pc.votesUp = beforeUp + 1;
+    const ok = saveToLocalStorage();
+    const raw = localStorage.getItem("gongacourse_data") || "";
+    add("J5", "저장이 후기·투표를 담는다", ok && raw.includes(stamp), ok ? ("후기 포함 " + raw.includes(stamp)) : "저장 실패", "포함");
+    // 델타 저장이면 전량 덤프(수십만 B)가 아니어야 한다 — 되돌아가면 저장 실패가 잦아진다.
+    add("J5", "저장 payload 델타 유지", raw.length < 60000, raw.length + "B", "<60,000B");
+    pc.comments.length = beforeLen;
+    pc.votesUp = beforeUp;
+    saveToLocalStorage();
+  } catch (e) {
+    add("J5", "저장이 후기·투표를 담는다", false, "측정 실패: " + e.message, "측정 성공");
+  }
+
+  // ── S1 모음집 잘못된 항목 진입 시 안내 ─────────────────
+  try {
+    navigate("collection", { id: "__gate_nope__" });
+    await sleep(450);
+    const scr = [...document.querySelectorAll(".screen")].find((s) => s.classList.contains("active"));
+    const body = (scr ? scr.textContent : "").trim();
+    add("S1", "잘못된 모음집 진입 시 안내 존재", body.length > 0, body.length + "자", ">0자");
+    history.back(); await sleep(450);
+  } catch (e) {
+    add("S1", "잘못된 모음집 진입 시 안내 존재", false, "측정 실패: " + e.message, "측정 성공");
+  }
+  tab("home").click(); await sleep(250);
+
+  // ── Q2 별점 키보드 조작 ────────────────────────────────
+  /* 별점은 후기 등록의 필수 조건이라, 키보드로 못 고르면 그 사람은 후기를 아예 못 쓴다. */
+  try {
+    tab("explore").click(); await sleep(400);
+    const card = document.querySelector("#explore-body [onclick^='openCourse']");
+    if (card) {
+      card.click(); await sleep(700);
+      const group = document.querySelector('[role="radiogroup"]');
+      const radios = group ? [...group.querySelectorAll('[role="radio"]')] : [];
+      add("Q2", "별점이 radiogroup", Boolean(group) && radios.length > 0,
+          group ? ("radio " + radios.length + "개") : "없음", "radiogroup + radio");
+      if (group && radios.length) {
+        const stops = radios.filter((r) => r.tabIndex >= 0).length;
+        add("Q2", "별점 탭 정지 1개(roving)", stops === 1, stops, 1);
+        const first = radios.find((r) => r.tabIndex >= 0) || radios[0];
+        first.focus();
+        const before = group.querySelector('[aria-checked="true"]');
+        first.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+        await sleep(200);
+        const after = group.querySelector('[aria-checked="true"]');
+        add("Q2", "화살표 키로 별점 변경", Boolean(after) && after !== before,
+            after ? "변경됨" : "변경 없음", "변경됨");
+      }
+      history.back(); await sleep(450);
+    } else {
+      add("Q2", "별점이 radiogroup", false, "측정 불가(코스 카드 없음)", "측정 성공");
+    }
+  } catch (e) {
+    add("Q2", "별점이 radiogroup", false, "측정 실패: " + e.message, "측정 성공");
+  }
+  tab("home").click(); await sleep(250);
+
+  // ── Q1 사용자 입력 이스케이프 ──────────────────────────
+  /* 태그가 실제 요소로 살아나는지만 본다. 글자로 보이면 통과, 요소가 생기면 실패다. */
+  try {
+    const beforeNick = visitorSettings.nick;
+    const beforeNICK = NICK;
+    /* 화면에 뜨는 이름은 NICK 이고 visitorSettings.nick 은 저장용이다. nick 만 바꾸면
+       렌더가 옛 값을 그려 이 게이트가 아무것도 재지 못한 채 통과한다 — 2026-08-14 뮤테이션이 잡았다. */
+    visitorSettings.nick = '<b id="xsschk">x</b>';
+    NICK = visitorSettings.nick;
+    tab("mypage").click(); await sleep(400);
+    renderAppbarProfile(); await sleep(200);
+    const injected = document.getElementById("xsschk");
+    add("Q1", "필명 이스케이프", !injected, injected ? "요소로 살아남" : "글자로 표시", "글자로 표시");
+    visitorSettings.nick = beforeNick;
+    NICK = beforeNICK;
+    renderAppbarProfile();
+    tab("home").click(); await sleep(250);
+  } catch (e) {
+    add("Q1", "필명 이스케이프", false, "측정 실패: " + e.message, "측정 성공");
+  }
+
   const failed = G.filter((g) => !g.pass);
   return { verdict: failed.length === 0 ? "PASS" : "FAIL", failedCount: failed.length, total: G.length, gates: G, screens };
 }
