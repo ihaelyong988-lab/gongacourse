@@ -12,7 +12,6 @@
 | `.claude/` | settings.json(훅 3종) · launch.json(preview) | git |
 | `scripts/` | harness-context.mjs(규칙주입) · validate.mjs | git |
 | `docs/` | 본 문서들 | git |
-| `excel_data.json`, `*.xlsx`, `convert_*.py` | 데이터 원본/변환 | git |
 
 ## 내부 지도 (app.js)
 | 영역 | 위치/식별자 | 비고 |
