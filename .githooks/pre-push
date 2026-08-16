@@ -1,0 +1,27 @@
+#!/bin/sh
+# 기본 브랜치 직접 푸시 차단 — AGENTS.md §8-5 "❌ 기본 브랜치 직접 푸시 금지".
+#
+# 왜 있는가: 2026-08-16, 그 조문이 문서에만 있고 채점하는 것이 없어서 실제로 어겼다
+# (커밋 132352f 를 브랜치 머지 후 master 로 직접 푸시). 규칙만 있고 게이트가 없으면 반복된다.
+# 이 훅이 그 자리를 막는다.
+#
+# 설치(클론마다 1회):  git config core.hooksPath .githooks
+# 의도적 우회:         git push --no-verify   (근거를 커밋 메시지나 PR 에 남길 것)
+
+PROTECTED="master"
+
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+  case "$remote_ref" in
+    "refs/heads/$PROTECTED")
+      echo "" >&2
+      echo "  차단: $PROTECTED 직접 푸시는 금지다 (AGENTS.md §8-5)." >&2
+      echo "  브랜치로 올리고 PR 로 머지한다:" >&2
+      echo "    git switch -c fix/<주제> && git push -u origin fix/<주제>" >&2
+      echo "    gh pr create --fill && gh pr merge --squash" >&2
+      echo "" >&2
+      exit 1
+      ;;
+  esac
+done
+
+exit 0
