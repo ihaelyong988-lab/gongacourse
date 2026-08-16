@@ -72,6 +72,8 @@
 3. **md 일치 점검**: AGENTS/CLAUDE/GEMINI/docs에 `<placeholder>` 잔존 0, §9에 이번 작업이 기록됐는지 확인.
 4. **커밋**: 작업 브랜치에 의미단위 커밋(메시지 끝 `Co-Authored-By: Claude ...`). ❌ 기본 브랜치 직접 커밋 금지.
 5. **푸시 + PR**: 브랜치 push → master PR 생성/갱신(`gh pr create` / `gh pr edit`). ❌ 기본 브랜치 직접 푸시 금지.
+   - **기계 강제(2026-08-16 신설)**: `.githooks/pre-push` 가 `master` 로의 푸시를 exit 1 로 막는다. **클론마다 1회** `git config core.hooksPath .githooks` 를 실행해야 걸린다(git 은 훅을 버전관리로 배포하지 않는다). 의도적 우회는 `--no-verify` 이고 근거를 남긴다.
+   - 신설 이유: 이 조문이 문서에만 있어 **2026-08-16 실제로 어겼다**(`132352f` 를 master 로 직접 푸시). 규칙만 있고 채점하는 것이 없으면 반복된다 — 같은 날 ZEROS `prod-probe` 가 `--strict` 없이 FAIL 을 exit 0 으로 흘리던 것, CanaryLab 게이트가 빌드 앞에서 옛 배포본을 재던 것과 같은 부류다.
 6. **배포(해당 시)**: 정적 웹앱이면 GitHub Pages 빌드 트리거(`gh api -X POST repos/OWNER/REPO/pages/builds`) → 라이브 URL을 curl로 검증(title/마커). HTTPS 필수. (현 배포: https://ihaelyong988-lab.github.io/gongacourse/)
 7. **정리**: 임시 미리보기 서버 종료 등 뒷정리.
 8. **순번 결과 보고**: 한 일을 ①②③… **순번으로 간결히** + 라이브 URL·PR 링크·남은 1클릭(머지)을 명시.
