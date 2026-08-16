@@ -21645,7 +21645,7 @@ function renderHome() {
     ${sectionLabel("🧭 지금 뭘 찾으세요?", '<button type="button" class="shortcut-edit-btn" onclick="openHomeShortcutSettings()"><i class="fa-solid fa-sliders" aria-hidden="true"></i> 순서 설정</button>')}
     <div class="sit-scroll" id="home-shortcuts">${sitHtml}</div>
 
-    ${sectionLabel("💬 방금 올라온 후기", `<a onclick="goTab('community')">더보기</a>`)}
+    ${sectionLabel(hasUserReviews() ? "💬 방금 올라온 후기" : "💬 코스 한 줄 소개", `<a onclick="goTab('community')">더보기</a>`)}
     <div id="home-reviews"></div>
   `;
 
@@ -22172,13 +22172,17 @@ function renderComments() {
     // 내가 쓴 글만 지울 수 있게 한다 — 오타·잘못 적은 개인정보를 되돌릴 유일한 수단.
     const del = canDelete(cm)
       ? `<button class="fc-del" onclick="deleteMyReview(${currentCourse.id},${idx})" aria-label="내 후기 삭제"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>` : "";
+    /* 시드는 사람 표기를 달지 않는다 — 필명·날짜·별점은 실제 작성자가 있을 때만(2026-08-16 라벨 정직화).
+       내용은 그대로 두고 정체만 '코스 소개'로 밝힌다. */
+    const seeded = !isUserWritten(cm);
+    const who = seeded ? "코스 소개" : cm.user;
     return `<div class="comment">
-      ${avatarHtml(cm, "cm-av")}
+      ${avatarHtml({ ...cm, user: who }, "cm-av")}
       <div class="cm-body">
-        <div class="cm-user" style="display:flex;align-items:center;justify-content:space-between">${escHtml(cm.user)}${del}</div>${rb}
+        <div class="cm-user" style="display:flex;align-items:center;justify-content:space-between">${escHtml(who)}${del}</div>${seeded ? "" : rb}
         <div class="cm-text">${escHtml(cm.text)}</div>
         ${ph}
-        <div class="cm-date">${escHtml(cm.date)}</div>
+        ${seeded ? "" : `<div class="cm-date">${escHtml(cm.date)}</div>`}
       </div>
     </div>`;
   }).join("");
@@ -22368,6 +22372,32 @@ function feedTs(x) {
   return x.ts || Date.parse(x.date || "") || 0;
 }
 
+/* 실제 방문자가 쓴 글인가.
+   사용자 후기·자유글은 등록할 때 ts(작성 시각)와 uid(기기 id)를 남긴다. 초기 시드 콘텐츠에는
+   둘 다 없다 — 700건이 필명 10개(상위 3명이 611건)로 되어 있고 가장 최근 날짜가 2026-06-27이다.
+   이 구분이 없으면 시드가 "방금 올라온 후기"라는 이름으로, 필명·날짜·별점을 달고 사람이 쓴 글처럼
+   노출된다. 2026-08-16 라이브 실측에서 홈 3장이 지명만 바뀐 같은 문장이었던 것이 그 증상이다. */
+function isUserWritten(x) {
+  return !!(x && (x.ts || x.uid));
+}
+
+/* 시드 문장은 앞 지명 토큰만 다른 템플릿이 많다(같은 문장 30건·정규화 후 중복 81건).
+   소개로 보여줄 때는 같은 문장을 두 번 싣지 않는다. */
+function dedupeByPhrase(list) {
+  const seen = new Set();
+  return list.filter(r => {
+    const key = (r.text || "").replace(/^\S+\s/, "").trim();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+/* 홈 섹션 제목을 내용에 맞춘다 — 사람이 쓴 후기가 하나도 없는데 "방금 올라온 후기"라고 쓰지 않는다. */
+function hasUserReviews() {
+  return courses.some(c => (c.comments || []).some(isUserWritten));
+}
+
 function allReviews() {
   const arr = [];
   courses.forEach(c => {
@@ -22393,14 +22423,19 @@ function ratingIcons(rt) {
 function renderRecentReviews(targetId, limit) {
   const el = document.getElementById(targetId);
   if (!el) return;
-  const rv = allReviews().slice(0, limit);
+  const all = allReviews();
+  const real = all.filter(isUserWritten);
+  /* 사람이 쓴 후기가 있으면 그것만 후기로 싣는다. 없으면 시드를 '코스 소개'로 — 필명·별점을 떼고
+     문장 중복을 걷어낸다. 시드에 사람 표기를 붙이는 순간 그건 라벨이 아니라 거짓이 된다. */
+  const useReal = real.length > 0;
+  const rv = (useReal ? real : dedupeByPhrase(all.filter(r => !isUserWritten(r)))).slice(0, limit);
   if (!rv.length) { el.innerHTML = `<p class="muted-note">아직 후기가 없어요.</p>`; return; }
   el.innerHTML = rv.map(r => `
     <div class="feed-item" role="button" tabindex="0" onclick="openCourse(${r.courseId})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCourse(${r.courseId});}">
       <div class="fi-av"><i class="fa-solid fa-comment-dots" aria-hidden="true"></i></div>
       <div class="fi-body">
         <div class="fi-text">"${escHtml(r.text)}"</div>
-        <div class="fi-meta">${escHtml(r.user)} · ${escHtml(r.courseTitle)}${r.ratings ? ` · ${ratingIcons(r.ratings)}` : ""}</div>
+        <div class="fi-meta">${useReal ? `${escHtml(r.user)} · ` : ""}${escHtml(r.courseTitle)}${useReal && r.ratings ? ` · ${ratingIcons(r.ratings)}` : ""}</div>
       </div>
     </div>`).join("");
 }
@@ -22419,11 +22454,20 @@ function communityFeed() {
   courses.forEach(c => (c.comments || []).forEach((cm, ci) => {
     let rating = null;
     if (cm.ratings) rating = Math.round(((cm.ratings.scenery + cm.ratings.path + cm.ratings.parking) / 3) * 10) / 10;
+    /* 시드는 사람 표기를 달지 않는다 — 필명·날짜·별점은 실제 작성자가 있을 때만 붙인다.
+       내용은 그대로 보여주되 정체를 '코스 소개'로 정직하게 밝힌다(2026-08-16 라벨 정직화). */
+    const seeded = !isUserWritten(cm);
     items.push({
       // 후기에 붙인 사진을 버리면 피드에는 글만 떠서 업로드가 실패한 것처럼 보인다.
-      user: cm.user, uid: cm.uid || null, text: cm.text, date: cm.date, photo: cm.photo || null, rating: rating,
+      user: seeded ? "코스 소개" : cm.user,
+      uid: cm.uid || null,
+      text: cm.text,
+      date: seeded ? "" : cm.date,
+      photo: cm.photo || null,
+      rating: seeded ? null : rating,
       ts: feedTs(cm),
-      courseTitle: c.title, courseId: c.id, kind: "review", ratings: cm.ratings, cmIndex: ci
+      courseTitle: c.title, courseId: c.id, kind: "review", ratings: seeded ? null : cm.ratings, cmIndex: ci,
+      seeded
     });
   }));
   return items;

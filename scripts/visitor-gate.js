@@ -275,6 +275,54 @@ async function __visitorGate() {
     add("Q1", "필명 이스케이프", false, "측정 실패: " + e.message, "측정 성공");
   }
 
+  // ── J1 후기 진정성 (2026-08-16 신설) ─────────────────────────────────
+  // 왜 있는가: 홈 "방금 올라온 후기" 3장이 지명만 바뀐 동일 문장이었다 —
+  // "청산도/방축도/송이도 다녀왔는데 길이 잘 정비되어 있어 부모님 모시고 가도 무리 없었습니다."
+  // 원인은 시드 후기 700건에 ts(작성 시각)가 없어 feedTs 가 날짜로 폴백(app.js:22368) →
+  // 최신 날짜 2026-06-27 보유 10건이 동률 → 안정 정렬로 코스 번호순이 그대로 남는 것.
+  // 사람 눈에는 "후기가 3장 있다"로 보여서 지금까지 어떤 게이트도 잡지 않았다.
+  // 후기 700건의 고유 필명은 10개, 최신 글은 50일 전이다. 이 사이트의 정체성이 "경험자와 소통"이다.
+  try {
+    tab("home").click(); await sleep(300);
+    const host = document.getElementById("home-reviews");
+    const texts = host
+      ? [...host.querySelectorAll("*")]
+          .filter((e) => !e.children.length && (e.textContent || "").trim().length > 20)
+          .map((e) => e.textContent.trim())
+      : [];
+    // 앞 토큰(지명)을 떼고 나머지 문장이 서로 다른지 본다 — 지명만 바꾼 템플릿을 잡는 핵심이다.
+    const norm = texts.map((t) => t.replace(/^["'\s]*\S+\s/, "").trim());
+    const uniq = new Set(norm).size;
+    add("J1", "홈 후기 문장 서로 다름", texts.length > 0 && uniq === texts.length,
+        `${texts.length}장 중 고유 ${uniq}`, `${texts.length}장 전부 고유`);
+
+    /* 라벨 정직성 — 제목이 '후기'라고 말하면 그 카드는 실제 방문자가 쓴 글이어야 한다.
+       시드 콘텐츠(ts·uid 없음)는 '코스 소개'로만 실을 수 있고 필명·날짜·별점을 달 수 없다.
+       2026-08-16 이전 상태: 시드 700건(필명 10개·최신 50일 전)이 "방금 올라온 후기"라는 이름으로
+       필명을 달고 사람 글처럼 노출됐다. 이 룰이 그 자리를 막는다. */
+    // 섹션 제목 마크업은 sectionLabel() = <div class="sec"><span class="sec-t">…
+    // 선택자가 어긋나면 heading 이 빈 문자열이 되어 룰이 조용히 통과한다(2026-08-16 실측으로 잡음).
+    const headings = [...document.querySelectorAll(".sec-t")].map((e) => (e.textContent || "").trim());
+    const heading = headings.find((t) => /후기|코스 한 줄 소개/.test(t)) || "";
+    // 제목을 못 찾은 것은 통과가 아니라 측정 실패다.
+    add("J1", "홈 후기 섹션 제목 측정", heading !== "", heading || `못 찾음(sec-t ${headings.length}개)`, "제목 문자열");
+    const claimsReview = /후기/.test(heading);
+    const realCount = (typeof courses !== "undefined" ? courses : [])
+      .reduce((n, c) => n + ((c.comments || []).filter((cm) => cm && (cm.ts || cm.uid)).length), 0);
+    add("J1", "홈 제목이 내용과 일치", !claimsReview || realCount > 0,
+        `제목 "${heading}" · 실제 사용자 후기 ${realCount}건`,
+        "'후기'라고 쓰면 실제 사용자 글이 1건 이상");
+
+    // 시드 카드에 사람 표기(필명·날짜)가 붙지 않았는가 — 홈 메타 줄에 코스명 외 인물 표기 금지.
+    const metas = host ? [...host.querySelectorAll(".fi-meta")].map((e) => e.textContent.trim()) : [];
+    const seedHasPerson = realCount === 0 && metas.some((m) => m.includes("·"));
+    add("J1", "시드에 사람 표기 없음", !seedHasPerson,
+        realCount === 0 ? `메타 ${metas.length}줄 중 인물 표기 ${metas.filter((m) => m.includes("·")).length}` : "실제 후기 있음(해당 없음)",
+        "코스명만 표시");
+  } catch (e) {
+    add("J1", "홈 후기 문장 서로 다름", false, "측정 실패: " + e.message, "측정 성공");
+  }
+
   const failed = G.filter((g) => !g.pass);
   return { verdict: failed.length === 0 ? "PASS" : "FAIL", failedCount: failed.length, total: G.length, gates: G, screens };
 }
