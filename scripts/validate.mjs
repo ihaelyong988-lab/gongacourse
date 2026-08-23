@@ -18,6 +18,9 @@ const CONFIG = {
   DEP_ALLOWLIST: [                    // 허용 외부 의존성(이 외 감지 시 경고)
     /fonts\.googleapis\.com/i, /fonts\.gstatic\.com/i,
     /cdnjs\.cloudflare\.com\/ajax\/libs\/font-awesome/i, // 아이콘 고정 스택(AGENTS §2) — 2026-07-02 allowlist 누락 교정
+    // 자기 자신의 배포 주소는 의존성이 아니다 — canonical·og:url 은 절대 URL 이어야 해서 여기 뜬다.
+    // 2026-08-23: 검색등록 메타를 넣고 이 게이트를 돌리지 않아 위반 상태로 머지됐다(원장 참조).
+    /ihaelyong988-lab\.github\.io\/gongacourse/i,
   ],
   FORBID_NETWORK: false,             // fetch/XHR 금지(정적·localStorage 전용 프로젝트면 true)
 };
